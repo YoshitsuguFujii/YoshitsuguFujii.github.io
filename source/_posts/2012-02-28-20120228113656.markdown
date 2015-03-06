@@ -1,0 +1,97 @@
+---
+layout: post
+title: ある特定のオブジェクトにメソッドを追加する
+date: 2012-02-28 11:36
+comments: true
+categories: [ruby]
+published: true
+---
+
+
+
+前に書いた[オープンクラス](http://d.hatena.ne.jp/gogo_sakura/20120207)では、クラスを再オープンしてメソッドを追加した場合に。  
+同じクラスから生成されたオブジェクト全てにメソッドが追加されました。  
+もう一回やってみましょう。  
+
+``` ruby
+class Hoge
+  def aaa
+    p 'aaa'
+  end
+end
+
+hoge1 = Hoge.new
+hoge2 = Hoge.new
+
+
+hoge1.methods.grep(/aaa|bbb/) # => [:aaa]
+hoge2.methods.grep(/aaa|bbb/) # => [:aaa]
+
+class Hoge
+  def bbb
+    p 'bbb'
+  end
+end
+
+hoge1.methods.grep(/aaa|bbb/) # => [:aaa, :bbb]
+hoge2.methods.grep(/aaa|bbb/) # => [:aaa, :bbb]
+```
+
+  
+生成されたオブジェクトがメソッドを呼ぶとき。  
+オブジェクトはクラスにメソッドを探しにいき、クラスに定義したメソッドがあった場合にそれを実行します。  
+つまりクラスのメソッドに対する変更はそのクラスから生成された全オブジェクトに影響があるということです。  
+  
+でも実際には特定のオブジェクトにのみ処理を追加したい場合があります。  
+特異なんとかを使います。  
+
+``` ruby
+class Hoge
+  def aaa
+    p 'aaa'
+  end
+end
+
+hoge1 = Hoge.new
+hoge2 = Hoge.new
+
+hoge1.methods.grep(/aaa|bbb/) # => [:aaa]
+hoge2.methods.grep(/aaa|bbb/) # => [:aaa]
+
+def hoge1.bbb
+  p "bbb"
+end
+
+hoge1.methods.grep(/aaa|bbb/) # => [:bbb,:aaa]
+hoge2.methods.grep(/aaa|bbb/) # => [:aaa]
+```
+
+  
+hoge1のみにメソッドbbbが追加されました。  
+他にinstance  _evalも使えます。
+
+``` ruby
+  hoge1.instance_eval {  def ccc; p "ccc";end}
+  hoge1.methods.grep(/aaa|bbb|ccc/) # => [:bbb, :ccc, :aaa]
+  hoge2.methods.grep(/aaa|bbb|ccc/) # => [:aaa]
+```
+
+  
+  
+蛇足ですが。class  _eval
+
+``` ruby
+  Hoge.class_eval {  def ddd; p "ddd";end}
+  hoge1.methods.grep(/aaa|bbb|ccc|ddd/) # => [:bbb, :ccc, :aaa, :ddd]
+  hoge2.methods.grep(/aaa|bbb|ccc|ddd/) # => [:aaa, :ddd]
+```
+
+  
+class  _evalはclassのメソッドなのでHoge.class  _evalで呼びます。  
+全オブジェクトに影響しています。  
+  
+  
+class  _eval(classのメソッド)はクラスのコンテキスト内で評価されるので、クラスメソッドとして追加されます。  
+これはオープンクラスで追加したのと処理と同じような動きです。
+
+

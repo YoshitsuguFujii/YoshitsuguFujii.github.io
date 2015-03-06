@@ -1,0 +1,87 @@
+---
+layout: post
+title: jQueryのappendが重かったので対応したこと
+date: 2014-03-24 14:36
+comments: true
+categories: [jquery, javascript]
+published: true
+---
+
+
+
+railsでチェックボックスで会社を選択して、ajax通信で返すjsの内容がこんな感じだった。  
+
+``` ruby
+  <% @company.each do |company| %>
+    <% company.member.each do |customer| %>
+        $("#customer_area").append("<%= escape_javascript(render("make_customer_area", cid: customer.id)) %>");
+    <% end %>
+  <% end %>
+```
+
+  
+重い。console.time仕込んで計測したらappendがめちゃめちゃ重い。  
+一回のappendで1秒ぐらいかかってた。  
+  
+毎回appendじゃなくて、一回でappendしてみる  
+
+``` ruby
+  var html = []
+  var customer_area = $("#customer_area")
+  <% @company.each do |company| %>
+    <% company.member.each do |customer| %>
+        html.push("<%= escape_javascript(render("make_customer_area", cid: customer.id)) %>");
+    <% end %>
+  <% end %>
+
+  if ( html.length > 0 ){
+    customer_area.append(html.join(''))
+  }
+```
+
+  
+  
+あんまり変わらないなぁ。  
+というかappendやめよ。もうやめよ。  
+
+``` ruby
+  var html = []
+  var customer_area = document.getElementById("customer_area");
+  <% @company.each do |company| %>
+    <% company.member.each do |customer| %>
+        html.push("<%= escape_javascript(render("make_customer_area", cid: customer.id)) %>");
+    <% end %>
+  <% end %>
+
+  if ( html.length > 0 ){
+    customer_area.innerHTML = customer_area.innerHTML + html.join('')
+  }
+```
+
+  
+  
+約0.5秒ぐらい早くなった。いいね。  
+でもinnnerHTML使ってるから、何回か会社をクリックするとinnerHTMLにテキストが溜まりすぎてだんだん重くなる。  
+innnerHTML参照せずにappendChildで追加しよう。  
+
+``` ruby
+  var html = []
+  var customer_area = document.getElementById("customer_area");
+  <% @company.each do |company| %>
+    <% company.member.each do |customer| %>
+        html.push("<%= escape_javascript(render("make_customer_area", cid: customer.id)) %>");
+    <% end %>
+  <% end %>
+
+  if ( html.length > 0 ){
+    var element = document.createElement('div');
+    element.innerHTML = html.join('');
+    customer_area.appendChild(element);
+  
+  }
+```
+
+  
+これで当初の半分ぐらいまでは処理時間が軽減されました。
+
+

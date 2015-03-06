@@ -1,0 +1,36 @@
+---
+layout: post
+title: simple_formで必須に設定した時に、必須のマークを右に出す
+date: 2013-02-27 12:04
+comments: true
+categories: [rails]
+published: true
+---
+
+
+
+{RAILS  _ROOT}/config/initializers/simple  _form.rbの
+
+``` ruby
+# config.label_text = lambda { |label, required| "#{required} #{label}" }
+```
+
+のコメントアウトを外して、左右を入れ替える。
+
+``` ruby
+config.label_text = lambda { |label, required| "#{label} #{required}" }
+```
+
+  
+文言はlocaleで設定する。  
+
+``` ruby
+ja:
+  simple_form:
+    "yes": 'Yes'
+    "no": 'No'
+    required:
+      html: '<abbr title="required">[必須]</abbr>'
+```
+
+

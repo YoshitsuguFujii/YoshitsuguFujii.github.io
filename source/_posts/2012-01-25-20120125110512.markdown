@@ -1,0 +1,203 @@
+---
+layout: post
+title: pusherの助けを借りたWebSocketを使ったチャットシステム
+date: 2012-01-25 11:05
+comments: true
+categories: [pusher, ruby on rails]
+published: true
+---
+
+
+
+リアルタイムなchatを作りたい。  
+そんな欲求誰にでもあるものです。  
+  
+時間のない主婦の方にも手軽にパパっとチャットシステムを作る方法を紹介しようと思います。  
+  
+材料は  
+rails  
+pusher  
+  
+作る料理は  
+チャットシステム(現在の参加者表示機能付き)  
+  
+の二つです。  
+  
+変なテンションな書き方はここまで。  
+  
+今日の記事は全面的にここを参考にさせていだきました。  
+[Yuno](http://yuno.heroku.com/blog/2011-06-23-Rails%E3%81%A6%E3%82%99WebSocket%E3%82%92%E6%89%8B%E8%BB%BD%E3%81%AB%E4%BD%BF%E3%81%86.md)  
+  
+pusherはWebSocketsを利用したAPIです。  
+  
+[Leader in realtime technologies| Pusher](http://pusher.com/)  
+  
+わかりやすい図はっときます。  
+  
+[![f:id:gogo  _sakura:20120124124957p:image](http://cdn-ak.f.st-hatena.com/images/fotolife/g/gogo_sakura/20120124/20120124124957.png "f:id:gogo_sakura:20120124124957p:image")](http://f.hatena.ne.jp/gogo_sakura/20120124124957)  
+  
+例えばブラウザがpostリクエスト投げると、それを受け取ったサーバからpusherにそのデータを加工してパス。  
+するとブラウザにpushしてくれるというイメージ。  
+  
+pusher利用にはユーザ登録で得られるAPI Credentialsが必要です。  
+まずはpusherのサイトでユーザ登録して、  
+  
+app  _id  
+key  
+secret  
+  
+をゲットしてください。  
+  
+今日の記事は実際に作ったものからコピペで書いていますが。  
+view部分はhamlで書いてるので、見ずらくてすいません。  
+erbメインの方は脳内で変換かけてください。  
+  
+とりあえずGemfileに記述
+
+``` ruby
+gem 'pusher'
+```
+
+  
+bundle install後、config/initializers内にpusher.rb作成
+
+``` ruby
+  Pusher.app_id = ユーザ登録でゲットしたapp_id
+  Pusher.key = ユーザ登録でゲットしたkey 
+  Pusher.secret = ユーザ登録でゲットしたsecret
+```
+
+  
+config/route.rbにauthアクションへのルーティング追加  
+
+``` ruby
+resources :chats , :only => [:index , :create , :destroy] do
+  post :auth , :on => :collection
+end
+```
+
+  
+現在の参加者を取得するためには、pusherの[Presence
+Channels](http://pusher.com/docs/client_api_guide/client_channels#presence-channels)を使用しなければなりません。  
+Presence
+Channelsを使用するためには、認証を受けること・channel名のprefixにpresence-つけないといけません。  
+  
+view
+
+``` ruby
+= javascript_include_tag "http://js.pusher.com/1.11/pusher.min.js"
+
+:javascript
+  $(function(){
+    Pusher.channel_auth_endpoint = '/chats/auth';
+    var pusher  = new Pusher("#{ユーザ登録でゲットしたkey }");
+    var channel = pusher.subscribe("presence-chat");
+    channel.bind("chatevent", function(html) {
+      $("#chat_body").val('');
+      $("ul").prepend(html);
+    });
+
+    channel.bind('pusher:subscription_succeeded', function(members){
+      members.each(add_member);
+    });
+
+    channel.bind('pusher:member_added', function(member){
+      add_member(member);
+    })
+
+    channel.bind('pusher:member_removed', function(member){
+      remove_member(member);
+    })
+  });
+
+  function add_member(member) {
+    var container = $("<span>", {
+      "class": "member",
+      id: "presence_" + member.id
+    });
+
+    $('.members').append(container.html(member.info.name + " "))
+  }
+
+  function remove_member(member) {
+    $('#presence_' + member.id).remove();
+  }
+
+= render "form"
+
+%div
+  現在の参加者
+  %span.members
+
+%ul#chat_list
+  = render partial: "list", locals: { :chats => @chats }
+```
+
+  
+フォームとリストの部分テンプレートは割愛。  
+  
+認証は
+
+``` ruby
+Pusher.channel_auth_endpoint = '/chats/auth';
+```
+
+  
+で指定したエンドポイントにコールバックされます。  
+  
+controller
+
+``` ruby
+class ChatsController < ApplicationController
+  protect_from_forgery :except => :auth
+
+  def create
+    @new_post = Chat.new(params[:chat])
+    @new_post.user = @current_user
+
+    if @new_post.save
+      Pusher["presence-chat"].trigger!(
+        "chatevent",
+        render_to_string(
+          file:   "chats/_list.html.haml",
+          layout: false,
+          locals: { :chats => Array.wrap(@new_post) }
+        )
+      )
+    end
+
+    render 'index'
+  end
+
+  def auth
+    if current_user
+      auth = Pusher["presence-chat"].authenticate(params[:socket_id],{
+          :user_id => @current_user.id,
+          :user_info => {
+            :name => @current_user.name
+          }
+        }
+      )
+      render :json => auth
+    else
+      render :text => "Not authorized", :status => '403'
+    end
+  end
+
+end
+```
+
+  
+endpointで設定したauthアクションでは、コールバックされた際に渡されるsocket  _idを引数authenticateを実行しています。  
+ちなみに自分はこの認証ではまりました。  
+
+``` ruby
+protect_from_forgery :except => :auth
+```
+
+  
+でコールバックで呼び出された際に、CSRFを無効にしてあげる必要があったんですねぇ。  
+  
+以上で多分動くはずです。
+
+

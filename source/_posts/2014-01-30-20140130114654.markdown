@@ -1,0 +1,60 @@
+---
+layout: post
+title: 半角カナが入力されているファイルを抽出
+date: 2014-01-30 11:46
+comments: true
+categories: [ruby]
+published: true
+---
+
+
+
+お客様から、半角カナを全角カナにしておくれと依頼がきていたので、railsのrootから半角カナを含むファイルを抜き出したくてスクリプト書きました。  
+
+``` ruby
+#!/usr/bin/env ruby
+
+require 'find'
+
+except_ext = %w(.log .yml .jpg .JPG .jpeg .png .pid .ttf .woff .md .json .ico .eot .gif)                                                    # 除外するファイル拡張子を設定
+except_pattern = %w(.git test .DS_Store migrate hankaku_kana_checker RackMultipart sprockets letter_opener underscore cache)                # 除外するパスに含まれる文字列を指定
+
+# チェックする半角カナの配列
+han_kana =  %w{ｱ ｲ ｳ ｴ ｵ ｶ ｷ ｸ ｹ ｺ ｻ ｼ ｽ ｾ ｿ ﾀ ﾁ ﾂ ﾃ ﾄ ﾅ ﾆ ﾇ ﾈ ﾉ ﾊ ﾋ ﾌ ﾍ ﾎ ﾏ ﾐ ﾑ ﾒ ﾓ ﾔ ﾕ ﾖ ﾗ ﾘ ﾙ ﾚ ﾛ ﾜ ｦ ﾝ ｧ ｨ ｩ ｪ ｫ ｬ ｭ ｮ ｯ ﾞ ﾟ ､ ｡ ｰ ｢ ｣}
+
+Find.find(File.expand_path('./')) do |path|
+  next if File.directory?(path)
+  next if except_ext.include?(File.extname(path)) # 調査しない拡張子
+  next if path.match(Regexp.new(except_pattern.join("|")))
+
+  begin
+    File.readlines(path).each.with_index(1) do |line, idx|
+      @idx, @line = idx, line
+      # CP932のファイルが混在してたのでダメならCP932で変換
+      include_han_kana = begin
+                           line.match(Regexp.new(han_kana.join("|")))
+                         rescue
+                           line.encode("UTF-8", "CP932").match(Regexp.new(han_kana.join("|")))
+                         end
+
+      if include_han_kana
+        p [idx, path, line].join(": ")
+      end
+    end
+  rescue => ex
+    p "####################################################################################################"
+    p [@idx, @line].join(": ")
+    p [ path, ex.message ].join(":")
+    p ex.backtrace.first
+    p "####################################################################################################"
+  end
+end
+```
+
+  
+再帰的にディレクトリをくだって、探します。  
+含めたくないファイル名やディレクトリ名。拡張子を指定できます。  
+  
+良かったら使ってみてください。
+
+

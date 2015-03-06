@@ -1,0 +1,51 @@
+---
+layout: post
+title: 言語毎に異なるデバッグ文を挿入
+date: 2013-11-29 12:54
+comments: true
+categories: [vim]
+published: true
+---
+
+
+
+デバッグ文を仕込む場合に、私の環境ではインサートモードでCTRL+bするとデバッグ文を仕込むようにしています。  
+その際に言語毎(ファイルタイプ毎)に異なるデバッグ文を打ち込めるようにしたら便利すぎて辛いです。  
+
+``` ruby
+function! InsertDebugger()
+    if &filetype == 'coffee' || &filetype == 'javascript'
+      let debugger = "debugger"
+    elseif &filetype == 'ruby'
+      let debugger = "binding.pry"
+    elseif &filetype == 'eruby'
+      let debugger = "<% binding.pry %>"
+    elseif &filetype == 'haml'
+      let debugger = "- binding.pry"
+    else
+      let debugger = "binding.pry"
+    endif
+
+    return debugger
+endfunction
+
+inoremap <expr> <C-b> InsertDebugger()
+```
+
+  
+編集中のファイルが  
+coffeescrptかjabascriptの場合はdebuggerを(chrome使ってるので)  
+rubyの場合はbinding.pryを  
+erbの場合は  <% binding.pry %  >を  
+hamlの場合は- binding.pryを打ち込みます。  
+  
+ちなみに今編集中のファイルのファイル・タイプを知りたいばあいは該当のファイルを開いて  
+
+``` ruby
+:echo &filetpye
+```
+
+  
+ってうつと表示されます
+
+

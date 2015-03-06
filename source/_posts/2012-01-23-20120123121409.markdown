@@ -1,0 +1,45 @@
+---
+layout: post
+title: jQuery Mobile 勝手に不正なページへ遷移してしまう時の対応
+date: 2012-01-23 12:14
+comments: true
+categories: [jquery mobile]
+published: true
+---
+
+
+
+去年スマフォサイト作りました。  
+  
+railsつかってます。  
+jQuery Mobileも使ってます。  
+  
+mobileinitイベント内で
+
+``` ruby
+$.mobile.ajaxEnabled = false;
+```
+
+  
+でAjaxオフにしてます。  
+  
+でもたまにページロード完了後に、  
+勝手にローディング画像が出てきて、全然自分が見たいページとは違うページに飛ばされることがあります。  
+  
+調べた結果Android端末の沢山とiPhone4以外(というか3GS？)で起きる現状でした。  
+  
+上記現象が起こる操作は  
+  
+Aページ-  >[Bページへのリンクをクリック]-  >Bページ-  >[端末のブラウザバック]-  >Aページ-  >[Cページをクリック]-  >Cページ読み込み完了後にBページに飛ばされる。  
+  
+  
+対策としては
+
+``` ruby
+$.mobile.pushStateEnabled = false;
+```
+
+  
+でpushStateオフにしたら直りましたっていうお話。
+
+

@@ -1,0 +1,32 @@
+---
+layout: post
+title: 配列の配列をループするときとか
+date: 2012-04-24 12:44
+comments: true
+categories: [ruby]
+published: true
+---
+
+
+
+個数分受けとればいい。  
+勝手に展開してくれる。  
+
+``` ruby
+array = [["1a","1b"],["2a","2b"]]
+array.map{|a1,a2| a1 + a2} # => ["1a1b", "2a2b"]
+```
+
+  
+injectとかと併用する場合は括弧で囲う。  
+以下は連想配列に変換する例  
+
+``` ruby
+array = [["1a","1b"],["2a","2b"]]
+array.inject(Hash.new){|hash,(param1,param2)| hash[(param1)] = param2; hash } # => {"1a"=>"1b", "2a"=>"2b"}
+```
+
+  
+いいですね。Happyになりますね。
+
+

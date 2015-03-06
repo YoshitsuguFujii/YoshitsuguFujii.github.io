@@ -1,0 +1,75 @@
+---
+layout: post
+title: railsで任意のタイミングで処理を開始
+date: 2014-11-18 11:08
+comments: true
+categories: [ruby, rails, activesupport]
+published: true
+---
+
+
+
+おかあさんといっしょを娘が見るので、毎朝のテレビチャンネルはEテレです。  
+  
+さてrailsでapp/model/concerns以下のモジュールを勝手にapp/modelにincludeしたいと考えました。  
+命名規則でファイルを拾って、includeすることにします。  
+例えば以下のファイル名をつけた場合に  
+  
+app/model/user.rb  
+app/model/user  _auto  _load  _concern.rb  
+  
+userクラスに自動でuser  _auto  _load  _concern.rbの内容がincludeされる感じです。  
+  
+config/initializerに置きます。  
+
+``` ruby
+  %w(models).each do |elem|
+    Pathname.glob(Rails.root.join("app", elem, "concerns", "*")).each do |file|
+      if file.file?
+        file.basename.to_s.scan(/(.*)(_auto_load_concern.rb)$/) do |class_name|
+          if class_name.present?
+            model = class_name[0].classify.constantize
+            model.class_eval {  include file.basename(".rb").to_s.classify.constantize }
+          end
+        end
+      end
+    end
+  end
+```
+
+  
+でもこのプロジェクトにはmodelクラスを拡張するプログラムがlib下にあります。  
+それを読み込まない限りはmodelを参照するとエラーになるようになっています(上記class  _name[0].classify.constantizeでエラーとなる)  
+  
+そこでlib以下のそのプログラム群を読み込んだ後に読み込むようにしたいと思います。  
+  
+まず先ほどのコードを以下のようにActiveSupport.on  _loadで囲みます。  
+
+``` ruby
+ActiveSupport.on_load(:hoge) do
+  %w(models).each do |elem|
+    Pathname.glob(Rails.root.join("app", elem, "concerns", "*")).each do |file|
+      if file.file?
+        file.basename.to_s.scan(/(.*)(_auto_load_concern.rb)$/) do |class_name|
+          if class_name.present?
+            model = class_name[0].classify.constantize
+            model.class_eval {  include file.basename(".rb").to_s.classify.constantize }
+          end
+        end
+      end
+    end
+  end
+end
+```
+
+  
+lib下のプログラム群で処理が終わった後に以下を差し込みます。  
+
+``` ruby
+  ActiveSupport.run_load_hooks :hoge
+```
+
+  
+そうするとrun  _load  _hooksが呼ばれたタイミングでhogeがついていてるActiveSupport.on  _loadのブロック処理が開始されます。
+
+

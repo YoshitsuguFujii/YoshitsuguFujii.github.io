@@ -1,0 +1,21 @@
+---
+layout: post
+title: jpmobileでredirect_toした時にflashが取得できない
+date: 2012-06-12 17:29
+comments: true
+categories: [rails, jpmobile]
+published: true
+---
+
+
+
+軽くはまった。  
+  
+rails 3.0.5  
+jpmobile 1.0.0  
+  
+最初にアクセスしたコントローラで、flashを設定しつつredirect  _toしたらflashから値が取り出せなかった。  
+  
+flashはsession使っているから、初回のみsession作ってあげる必要があったみたい。
+
+

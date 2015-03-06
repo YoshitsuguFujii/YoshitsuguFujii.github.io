@@ -1,0 +1,30 @@
+---
+layout: post
+title: godでThe server is not available (or you do not have
+date: 2014-05-09 00:00
+comments: true
+categories: [ruby, god]
+published: true
+---
+
+
+
+色々と設定をいじっていて、godのプロセスが立ち上がらなくなった。  
+
+``` ruby
+rbenv exec bundle exec god terminate
+# => The server is not available (or you do not have permissions to access it)
+```
+
+  
+多分rootとかで色々やった時に出きたpidファイルとかが悪さしてるんだろうなー。  
+って思ったけどどこにあるのか？  
+  
+とりあえずRAILS  _ROOTのtmpを見てみるけど。ない  
+  
+軽くはまりつつも、/tmpにありました。  
+/tmp/god.12223.sock  
+  
+コレを消して無事解決！
+
+

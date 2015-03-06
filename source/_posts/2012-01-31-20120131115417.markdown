@@ -1,0 +1,56 @@
+---
+layout: post
+title: watchコマンド~ログとかファイル監視する時とかは何も考えずにtail -f ファイル名としちゃう人へ
+date: 2012-01-31 11:54
+comments: true
+categories: [linux]
+published: true
+---
+
+
+
+ログとかファイル監視する時とかは何も考えずに  
+
+    tail -f debugger.txt
+
+  
+とかってしちゃう人いると思うんですが。  
+  
+表示する内容が少ない場合なら、watchってのがある。  
+
+    watch cat debugger.txt
+
+でデフォルトの２秒起きにcat
+debugger.txtが実行されます(表示は画面に収まるまで)  
+  
+秒数変えたければ(下記例は60秒)
+
+    watch -n 60 cat debugger.txt
+
+  
+コマンドに-dをつければ変更箇所を毎回ハイライトしてくれる。
+
+    watch -d cat debugger.txt
+
+  
+cumulativeを指定すれば、watchし始めてからの変更をハイライトしてくれる。
+
+    watch -d=cumulative cat test.txt
+
+  
+もちろんコマンドも可能
+
+    watch -d ls -la
+
+  
+ロックファイルとか、ファイルが作成されたことの確認したい時とかに便利かもしれません。  
+  
+開発中にログファイルに特定の文言が出たか知りたい場合とかにも便利。  
+例えば「error」と「fatal」がログに出た場合に、watch使えばすぐ気づける。  
+
+    watch grep -n -e error -e fatal app.log
+
+  
+ってやると行番号付きでerrorかfatalが発生したことがわかる。
+
+

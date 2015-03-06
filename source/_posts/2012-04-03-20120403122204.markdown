@@ -1,0 +1,26 @@
+---
+layout: post
+title: rails console
+date: 2012-04-03 12:22
+comments: true
+categories: [ruby on rails]
+published: true
+---
+
+
+
+rails consoleで  
+
+``` ruby
+ActiveRecord::Base.logger = Logger.new(STDOUT)
+```
+
+  
+って書くとSQLが吐かれるようになります。  
+
+``` ruby
+User.first
+User Load (0.1ms)  SELECT `users`.* FROM `users` WHERE (users.deleted_at IS NULL) LIMIT 1
+```
+
+

@@ -1,0 +1,20 @@
+---
+layout: post
+title: 特定のキーを除いたhashを返す
+date: 2014-12-09 15:09
+comments: true
+categories: [rails, rails]
+published: true
+---
+
+
+
+今までdeleteでチクチク消したり、rejectで該当キーをひっかけてhash作り直しリしてました。  
+  
+exceptなんてあったんですね。  
+
+``` ruby
+{name: "藤井", age: 34, job: "developer"}.except(:age) # => { :name => "藤井", :job => "developer" }
+```
+
+

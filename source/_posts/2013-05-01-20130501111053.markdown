@@ -1,0 +1,28 @@
+---
+layout: post
+title: TODOの一覧を出力したい
+date: 2013-05-01 11:10
+comments: true
+categories: [ruby on rails]
+published: true
+---
+
+
+
+コード中で  
+  
+  # TODO ほにゃらら  
+  
+って書いておけば、rake notesでTODO一覧を出力できる。  
+
+``` ruby
+rake notes
+
+app/controllers/news_controller.rb:
+  * [  9] [TODO] お知らせ一覧データの有効期限の実装を行う
+
+app/controllers/users_controller.rb:
+  * [174] [TODO] デバッグ用、後で消す。
+```
+
+

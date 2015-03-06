@@ -1,0 +1,76 @@
+---
+layout: post
+title: フラットスコープ
+date: 2012-02-22 11:23
+comments: true
+categories: [ruby]
+published: true
+---
+
+
+
+rubyにはスコープゲートがある。  
+スコープゲートを越えて変数は参照できない。  
+  
+スコープゲートには  
+  
+class  
+module  
+def  
+  
+があり、それぞれのブロックの中ではスコープが切り替わる。  
+
+``` ruby
+class Foo
+  str = "foo"
+  
+  def print
+    str
+  end
+end
+
+foo = Foo.new
+foo.print # => NameError: undefined local variable or method `str'が発生する
+```
+
+  
+def printでスコープが変わるので、外側のstrが参照できない。  
+  
+  
+解決するには例えばフラットスコープ  
+
+``` ruby
+class Bar
+  str = "bar"
+  
+  define_method :print do
+    str
+  end
+end
+
+bar = Bar.new
+bar.print
+```
+
+  
+スコープゲート(class/module/def)を使わなければいいという話。  
+今回はdefをdefine  _methodに変更した  
+  
+classはClass.new  
+moduleはModule.new  
+  
+でブロック内部に中身を記述する。  
+一応クラスの場合の例。  
+
+``` ruby
+str = "bar"
+Bar = Class.new do
+  define_method :print do
+    str
+  end
+end
+
+Bar.new.print
+```
+
+

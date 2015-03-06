@@ -1,0 +1,139 @@
+---
+layout: post
+title: rubyはブロックを引数に取れる
+date: 2012-01-19 10:57
+comments: true
+categories: [ruby, ruby on rails]
+published: true
+---
+
+
+
+わかりやすく書けるだろうか。  
+  
+railsのviewでログの出力を出し分けする以下のメソッドがあります。  
+  
+user  _profile  _log  
+use  _favorite  _log  
+
+``` ruby
+def genarate_link_path(log_type,log)
+  case log_type
+  when :warm
+    "http://" + config[:host] + "/info/" + "warm"
+  when :error
+    "http://" + config[:host] + "/info/" + "error"
+  end
+end
+
+def user_profile_log(log)
+  disp_path = genarate_link_path(:warn,log)
+
+  case log.operation_type
+  when "insert"
+    change_value = log.inspect + "ログを新規登録しました。"
+  when "update"
+    change_value = log.inspect + "ログを更新しました。"
+  else
+    "解析に失敗しました"
+  end
+
+  return link_to( change_value , disp_path )
+end
+
+def use_favorite_log(log)
+  disp_path = genarate_link_path(:warn,log)
+
+  case log.operation_type
+  when "insert"
+    change_value = log.name + "をお気に入りに追加しました。"
+  when "update"
+    change_value = log.name + "を更新しました。"
+  else
+    "解析に失敗しました"
+  end
+
+  return link_to( change_value , disp_path )
+end
+```
+
+  
+  
+DRYじゃないですよね。  
+それぞれのメソッドでは  
+disp  _path = genarate  _link  _path(:warn,log)  
+return link  _to( change  _value , disp  _path )  
+が二つのメソッドでかぶっております。  
+  
+これをブロックで書き直します。  
+  
+まずはブロックを引数に取るメソッド
+
+``` ruby
+def output(log,log_type,&block)
+  disp_path = genarate_link_path(log_type,log)
+  change_value = block_given? ? block.call : "ブロックもらえてないんで表示できません"
+  link_to( change_value , disp_path )
+end
+```
+
+  
+&blockでブロックを引数に取れます。  
+受け取ったブロックはblock.callで実行できます。  
+ブロックがもらえたかどうかはblock  _given?で判定できます。  
+  
+んでブロックを引数にouput呼び出す方も修正。  
+
+``` ruby
+def user_profile_log(log)
+
+  output(log,:warm) do
+    case log.operation_type
+    when "insert"
+      change_value = log.inspect + "ログを新規登録しました。"
+    when "update"
+      change_value = log.inspect + "ログを更新しました。"
+    else
+      "解析に失敗しました"
+    end
+  end
+
+end
+
+def use_favorite_log(log)
+
+  output(log,:error) do
+    case log.operation_type
+    when "insert"
+      change_value = log.name + "をお気に入りに追加しました。"
+    when "update"
+      change_value = log.name + "を更新しました。"
+    else
+      "解析に失敗しました"
+    end
+  end
+end
+```
+
+  
+  
+っていう。  
+  
+説明できたか以前にソース汚いという。  
+あと思ったより再利用性の高いコードが書けなかったという。  
+  
+ちなみに&blockしなくてもブロックは受け取れてその場合は
+
+``` ruby
+def output(log,log_type)
+  disp_path = genarate_link_path(log_type,log)
+  change_value = yield
+  link_to( change_value , disp_path )
+end
+```
+
+  
+となります。  
+ブロックが渡されることが確実に保証されているならばこっちの方がいいのかな
+
+

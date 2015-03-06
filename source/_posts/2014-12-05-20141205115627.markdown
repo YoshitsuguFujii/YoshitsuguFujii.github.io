@@ -1,0 +1,51 @@
+---
+layout: post
+title: Nokogiriを使って部分的にhtmlを編集する
+date: 2014-12-05 11:56
+comments: true
+categories: [nokogiri, ruby]
+published: true
+---
+
+
+
+Nokogiriを使ってhelperメソッドで特定のinputに属性(クラス名)を追加したくなったのでやってみました。  
+
+``` ruby
+html = <<HTML
+<div>
+  <input id="hoge" class="field">
+
+HTML
+
+doc = Nokogiri::HTML.parse(html)
+
+doc.css("input#hoge").each do |input|
+  input['class'] += " has_error"
+end
+
+doc.to_html # => "<!DOCTYPE html PUBLIC   "-//W3C//DTD HTML 4.0 Transitional//EN  "   "http://www.w3.org/TR/REC-html40/loose.dtd  ">  n<html><body>  n<div>  n  <input class=  "field  ">  n  n</body></html>  n"
+```
+
+Nokogiri::HTML.parseだとDOCTYPEとか  <html  >とか余計なものがついてくる。  
+
+``` ruby
+html = <<HTML
+<div>
+  <input id="hoge" class="field">
+
+HTML
+
+doc = Nokogiri::HTML::DocumentFragment.parse(html)
+
+doc.css("input#hoge").each do |input|
+  input['class'] += " has_error"
+end
+
+doc.to_html # => "<div>  n  <input id=  "hoge  " class=  "field has_error  ">  n  n"
+```
+
+  
+そういう場合はDocumentFragmentを使うと部分的にhtmlを使える。
+
+

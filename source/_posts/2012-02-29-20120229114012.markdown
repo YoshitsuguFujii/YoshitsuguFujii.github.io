@@ -1,0 +1,38 @@
+---
+layout: post
+title: before_filterのメソッドを引数付きで呼びだしたいよね
+date: 2012-02-29 11:40
+comments: true
+categories: [rails]
+published: true
+---
+
+
+
+そんなあなたに。  
+  
+ruby 1.9.2  
+rails 3.0.5  
+  
+で確認しました。  
+  
+[ここ](http://www.ruby-forum.com/topic/102047)を参考にしました。  
+
+``` ruby
+before_filter :display_list, :only => ['top'] do |controller|
+  controller.display_list('index')
+end
+
+def display_list(list)
+ p list #=> 'index'
+end
+```
+
+  
+ちなみにこれでも動きました。でもなんかこの書き方怖い。
+
+``` ruby
+  before_filter "display_list('index')".to_sym
+```
+
+

@@ -1,0 +1,95 @@
+---
+layout: post
+title: 動的ディスパッチと動的メソッド
+date: 2012-02-21 12:15
+comments: true
+categories: [ruby]
+published: true
+---
+
+
+
+<span class="deco" style="font-weight:bold;">動的ディスパッチ</span>  
+メソッド実行時にメソッドを動的に呼び出す。  
+  
+日づけごとに天気を返すメソッドがあって、それを動的ディスパッチでメソッドを呼んでみます。  
+
+``` ruby
+class Weather
+  def weather_of_day(day)
+    send("weather_of_day_#{day}")
+  end
+
+  def weather_of_day_1
+    "快晴"
+  end
+
+  def weather_of_day_2
+    "多分雪"
+  end
+
+  def weather_of_day_3
+    "ほどよく寒い曇り空"
+  end
+
+  def weather_of_day_4
+    "寒いよ。雨"
+  end
+
+  def weather_of_day_5
+    "晴れ時々曇り"
+  end
+
+  def method_missing(method_id,*args)
+    return "#{$1}日は指定できません" if method_id =~ /^weather_of_day_(.*)/
+    super
+  end
+end
+
+Weather.new.weather_of_day(1) #=> "快晴"
+Weather.new.weather_of_day(3) #=> "ほどよく寒い曇り空"
+```
+
+  
+<span class="deco" style="font-weight:bold;">動的メソッド</span>  
+動的にメソッドを作成する  
+  
+instance  _variable  _getでインスタンス変数の値は簡単にとれますが、それがない体で。  
+
+``` ruby
+class Me
+  def initialize
+    @first_name = "gogo"
+    @last_name = "sakura"
+  end
+
+  def self.generate_name_accessor(prefix)
+    prefix = prefix.to_s
+    define_method "#{prefix}_name" do
+      prefix != "full" ? instance_eval("@#{prefix}_name") : [@first_name,@last_name].join("_")
+    end
+  end
+
+  generate_name_accessor :full
+  generate_name_accessor :first
+  generate_name_accessor :last
+end
+
+Me.new.first_name #=> "gogo"
+Me.new.last_name  #=> "saura"
+Me.new.full_name  #=> "gogo_sakura"
+```
+
+  
+<span class="deco" style="font-weight:bold;">まとめ</span>  
+  
+メソッド名に一定のルールがあり、それを引数等に応じてメソッド名を決定し動的に呼ぶ場合  
+→動的ディスパッチ  
+  
+重複している箇所がある場合にメソッドの内容が似通っているなら  
+→動的メソッド  
+  
+  
+辺りを使い分けてリファクタリングすると幸せになれるかも？
+
+

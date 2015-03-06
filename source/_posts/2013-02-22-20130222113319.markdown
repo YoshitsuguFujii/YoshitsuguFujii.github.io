@@ -1,0 +1,58 @@
+---
+layout: post
+title: ruby-1.9.3-p385入れたら、libyaml入れてと言われてしまった。
+date: 2013-02-22 11:33
+comments: true
+categories: [ruby]
+published: true
+---
+
+
+
+ruby-1.9.3-p385入れた。  
+なんかしたら以下のwarningが出た。  
+
+``` ruby
+/Users/user_name/.rvm/rubies/ruby-1.9.3-p385/lib/ruby/1.9.1/yaml.rb:56:in `<top (required)>':
+It seems your ruby installation is missing psych (for YAML output).
+To eliminate this warning, please install libyaml and reinstall your ruby.
+```
+
+  
+むむむ。  
+素直に入れる  
+
+``` ruby
+rvm pkg install libyaml
+
+Fetching yaml-0.1.4.tar.gz to /Users/user_name/.rvm/archives
+Extracting yaml to /Users/user_name/.rvm/src/yaml-0.1.4
+Configuring yaml in /Users/user_name/.rvm/src/yaml-0.1.4.
+Compiling yaml in /Users/user_name/.rvm/src/yaml-0.1.4.
+Installing yaml to /Users/user_name/.rvm/usr
+
+Please note that it's required to reinstall all rubies:
+  rvm reinstall all --force
+```
+
+  
+む？  
+個別指定できそうだけど、時間あったので言われた通りにやる
+
+``` ruby
+rvm reinstall all --force
+```
+
+  
+結構な時間がかかる。  
+個別にやった方が良さそう。  
+ちなみに調べたらこれで行ける。
+
+``` ruby
+rvm reinstall ruby-1.9.3-p385
+```
+
+  
+以上で、メッセージ消えました。
+
+

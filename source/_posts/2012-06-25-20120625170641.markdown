@@ -1,0 +1,25 @@
+---
+layout: post
+title: メソッドに引数。yieldにも引数
+date: 2012-06-25 17:06
+comments: true
+categories: [ruby]
+published: true
+---
+
+
+
+yieldするメソッドの引数とblockに引数とかあると混乱するのでメモっとく。  
+
+``` ruby
+def hoge(hoge)
+  p hoge
+  yield("bar")
+end
+
+hoge("hoge"){|bar| p bar}
+# "hoge"
+# "bar"
+```
+
+

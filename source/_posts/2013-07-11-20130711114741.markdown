@@ -1,0 +1,52 @@
+---
+layout: post
+title: N回injectしたいとき(数値型からinject)
+date: 2013-07-11 11:47
+comments: true
+categories: [ruby]
+published: true
+---
+
+
+
+[2012-04-24 -
+なんとなく日々徒然と](http://d.hatena.ne.jp/gogo_sakura/20120424)の日記からの焼きまわし感半端ない  
+
+``` ruby
+10.times.inject(0) {|sum, (i, j)| sum + i } # => 0から9までを足して、結果は45
+```
+
+  
+上記を1から10足して55にしたい場合(つまり１始まりにしたい)  
+  
+とりあえずこうしてみる
+
+``` ruby
+10.times.with_index(1).inject(0) {|sum, i| p i }
+
+# =>
+[0, 1]
+[1, 2]
+[2, 3]
+[3, 4]
+[4, 5]
+[5, 6]
+[6, 7]
+[7, 8]
+[8, 9]
+[9, 10]
+[
+    [0] 9,
+    [1] 10
+]
+```
+
+  
+ふむ。  
+展開させます  
+
+``` ruby
+10.times.with_index(1).inject(0) {|sum, (times_count, index_count)| sum + index_count } # => 55
+```
+
+

@@ -1,0 +1,44 @@
+---
+layout: post
+title: コマンドの繋ぎ方
+date: 2012-01-30 12:10
+comments: true
+categories: [linux]
+published: true
+---
+
+
+
+コマンドの繋ぎ方は  
+  
+パイプ(|)とかファイルに書き込むリダイレクション(  > もしくは   >  >
+もしくは   <)が有名ですが。  
+
+    ps aux | grep postfix
+
+  
+他にもあるんですね。  
+  
+下の例のコマンド自体は意味のないコマンドですが。
+
+    1 cd /var/www/app/log/ ; scp app.log 192.168.X.XX:/home/user
+    2 cd /var/www/app/log/ && scp app.log 192.168.X.XX:/home/user
+    3 cd /var/www/app/log/ || scp app.log 192.168.X.XX:/home/user
+
+  
+1がコマンドを実行した後に次のコマンドを実行する方法。  
+2が移動に成功した場合のみ次のコマンドを実行する方法。  
+3が移動に失敗した場合のみ次のコマンドを実行する方法。  
+  
+  
+cronで指定するコマンドや、postfixのエイリアスで標準入力にメールの内容渡してプログラムを起動する際に使ったり。  
+  
+例えばrailsのスクリプトランナー使いたい場合に。  
+
+    cd rails appのルートディレクトリ ; rails runner "Calender.generated" RAILS_ENV=production
+
+  
+ルートに移動してからスクリプトランナー起動。  
+とか。
+
+

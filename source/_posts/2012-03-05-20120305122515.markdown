@@ -1,0 +1,48 @@
+---
+layout: post
+title: radio_button_tagとradio_button
+date: 2012-03-05 12:25
+comments: true
+categories: 
+published: true
+---
+
+
+
+なんかよくわからん。  
+  
+環境は引き続き  
+ruby 1.9.2  
+rails 3.0.5  
+  
+  
+まずはradio  _button  _tag  
+
+``` ruby
+<%= radio_button_tag :foo,1,true %>
+<%= radio_button_tag :foo,0,false  %>
+```
+
+  
+checkedのon offは第３引数にbooleanを渡す。  
+第３引数はデフォルトでfalse  
+  
+  
+んで、radio  _button
+
+``` ruby
+<%= f.radio_button :web_nomination_system_disp, 1, :checked => true %>
+<%= f.radio_button :web_nomination_system_disp, 1, :checked => nil %>
+<%= f.radio_button :web_nomination_system_disp, 1, :checked => "" %>
+<%= f.radio_button :web_nomination_system_disp, 1, :checked => false %>
+```
+
+  
+radio  _buttonは非チェックはnilと""とfalseでもいけた。  
+詳しくはこれ以上調べない!(｀・∀・´)  
+  
+  
+間違っていたので一部修正しました。  
+すいません
+
+

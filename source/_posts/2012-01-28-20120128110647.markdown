@@ -1,0 +1,25 @@
+---
+layout: post
+title: Ubuntu11.10にアップグレードしたらwi-fiが遅い件
+date: 2012-01-28 11:06
+comments: true
+categories: [ubuntu]
+published: true
+---
+
+
+
+珍しく休日にPCを起動した。  
+何年ぶりだろう。  
+  
+自宅PCはWindows7とUbuntuのデュアルブートにしているのだけど、Ubuntuを11.04から11.10にしたら無線が遅い。  
+ネットには接続されるし、IPもふられてるんだけど通信速度が異常に出ない。  
+なんじゃこりゃ。  
+  
+このフォーラム[Wireless Internet Connection so slow after upgrade to
+11.10](http://askubuntu.com/questions/73523/wireless-internet-connection-so-slow-after-upgrade-to-11-10)のとおりにコマンド打ったら、解決した。  
+
+    sudo rmmod iwlagn
+    sudo modprobe iwlagn 11n_disable=1
+
+

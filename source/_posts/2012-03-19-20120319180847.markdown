@@ -1,0 +1,25 @@
+---
+layout: post
+title: アクセス中のURL取得とホスト取得
+date: 2012-03-19 18:08
+comments: true
+categories: [ruby on rails]
+published: true
+---
+
+
+
+アクセス中のURL取得
+
+``` ruby
+request.url #=> "http://localhost:3000/users/index"
+```
+
+  
+アクセス中のホスト
+
+``` ruby
+request.host #=> "localhost"
+```
+
+

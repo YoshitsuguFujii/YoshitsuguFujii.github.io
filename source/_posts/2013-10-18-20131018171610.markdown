@@ -1,0 +1,26 @@
+---
+layout: post
+title: find_byのようなダイナミックファインダで例外
+date: 2013-10-18 17:16
+comments: true
+categories: [ruby on rails]
+published: true
+---
+
+
+
+find  _byのようなダイナミックファインダで例外  
+びっくりまーくつければいいみたいです。  
+
+``` ruby
+Prefecture.find_by_name!("存在しない件" ) # => ActiveRecord::RecordNotFound
+```
+
+  
+rails4ではこうかな  
+
+``` ruby
+Prefecture.find_by!(name: "存在しない件") 
+```
+
+

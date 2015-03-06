@@ -1,0 +1,17 @@
+---
+layout: post
+title: sqlの実行。
+date: 2012-02-24 11:10
+comments: true
+categories: [rails]
+published: true
+---
+
+
+
+``` ruby
+ActiveRecord::Base.connection.execute("drop table foo")
+Model.connection..execute("drop table foo")
+```
+
+

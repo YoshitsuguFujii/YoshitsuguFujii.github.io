@@ -1,0 +1,33 @@
+---
+layout: post
+title: knexで外部キー制約のマイグレーション
+date: 2014-03-14 19:59
+comments: true
+categories: [node.js, bookshelf, knex]
+published: true
+---
+
+
+
+[Node.js向けORM
+Bookshelfの紹介](http://tajimajunpei-blog.blogspot.jp/2013/12/nodejsorm-bookshelf.html)を参照させていただきながら、Bookshelf触ってみている。  
+  
+ページではsqlite3だけど、自分はmysqlで使っている。  
+  
+外部キー制約の部分。  
+
+``` ruby
+ t.integer('post_id').notNull().references('id').inTable('posts');
+```
+
+  
+  
+がmysqlではCannot add foreign key constraintが出て動かなかった。  
+  
+これで動いた。  
+
+``` ruby
+t.integer('post_id').unsigned().notNullable().references('id').inTable('posts');
+```
+
+

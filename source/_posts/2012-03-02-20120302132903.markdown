@@ -1,0 +1,26 @@
+---
+layout: post
+title: nilガードとifを組み合わせてみた
+date: 2012-03-02 13:29
+comments: true
+categories: [ruby]
+published: true
+---
+
+
+
+こんな風にかける。  
+
+``` ruby
+foo = nil
+foo = foo || if (rand(2) + 1).odd?
+               "foo"
+             else
+               "fooooooooooooo"
+             end
+```
+
+  
+すごい。
+
+

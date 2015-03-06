@@ -1,0 +1,63 @@
+---
+layout: post
+title: tmuxはじめました
+date: 2013-02-28 21:12
+comments: true
+categories: [tmux]
+published: true
+---
+
+
+
+[![f:id:gogo  _sakura:20130228210855p:image](http://cdn-ak.f.st-hatena.com/images/fotolife/g/gogo_sakura/20130228/20130228210855.png "f:id:gogo_sakura:20130228210855p:image")](http://f.hatena.ne.jp/gogo_sakura/20130228210855)  
+  
+tmux-powerlineも入れました。  
+  
+[![f:id:gogo  _sakura:20130228210856p:image](http://cdn-ak.f.st-hatena.com/images/fotolife/g/gogo_sakura/20130228/20130228210856.png "f:id:gogo_sakura:20130228210856p:image")](http://f.hatena.ne.jp/gogo_sakura/20130228210856)  
+  
+左側には  
+IPとか色々でてます。  
+  
+右側には  
+地震速報  
+Gmailの受信件数  
+現在流れているItuneの曲名。  
+PC起動してからの経過時間。  
+メモリ使用率  
+東京の天気  
+日時  
+  
+が表示されてます。  
+  
+あらやだ、かっこいい。  
+  
+でもなんか表示変。  
+あとgitのブランチがうまく表示されない  
+  
+軽くデバッグしたら、パスの取得に失敗してるっぽい。  
+
+``` ruby
+PROMPT="$PROMPT"'$([ -n "$TMUX" ] && tmux setenv TMUXPWD_$(tmux display -p "#D" | tr -d %) "$PWD")'
+```
+
+  
+って.zshrcに書いてもダメ。  
+うーむ。  
+  
+そして今日はvim-powerline入れてみました。  
+  
+[![f:id:gogo  _sakura:20130228190240p:image](http://cdn-ak.f.st-hatena.com/images/fotolife/g/gogo_sakura/20130228/20130228190240.png "f:id:gogo_sakura:20130228190240p:image")](http://f.hatena.ne.jp/gogo_sakura/20130228190240)  
+  
+うん。かっこいい。  
+  
+ターミナル越しにうっすら透けている、うちの愛犬小梅さんにも使ってもらいました。  
+  
+[![f:id:gogo  _sakura:20130228183657j:image](http://cdn-ak.f.st-hatena.com/images/fotolife/g/gogo_sakura/20130228/20130228183657.jpg "f:id:gogo_sakura:20130228183657j:image")](http://f.hatena.ne.jp/gogo_sakura/20130228183657)  
+  
+  
+  
+・・・・・・。  
+  
+満足そうです(￣∇￣)
+
+

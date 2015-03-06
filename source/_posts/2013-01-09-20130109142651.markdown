@@ -1,0 +1,18 @@
+---
+layout: post
+title: 配列内部に同一値が存在するかどうか
+date: 2013-01-09 14:26
+comments: true
+categories: [ruby]
+published: true
+---
+
+
+
+``` ruby
+arr = [1,2,3,4,2,5]
+
+arr.uniq.length == arr.length
+```
+
+

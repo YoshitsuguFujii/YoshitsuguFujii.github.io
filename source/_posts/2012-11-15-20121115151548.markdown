@@ -1,0 +1,23 @@
+---
+layout: post
+title: dump format error
+date: 2012-11-15 15:15
+comments: true
+categories: [rails]
+published: true
+---
+
+
+
+自社サービスで二つのスマフォ用webアプリでsession共有して行き来している時にdump
+format errorとなって落ちることがあった。  
+一度発生すると、F5押してもずっとdump format error。  
+  
+原因はsessionにあることまでは色々なサイトを見ているうちにわかったんだけど、どこもブラウザのクッキー削除とかの解決方法しかなかった。  
+  
+原因を追っていたら、うちの場合はmemcache-clientでデータをマーシャルロードしている時に落ちていることがわかった。  
+んで、ロードする前のデータ見てたらflashの文字が見えたので、flashを使わなくしたらなんか解決したっぽい。  
+  
+なんか煮えきらない日記ですが、誰か困ってたらやってみるといいかもしれないです。
+
+

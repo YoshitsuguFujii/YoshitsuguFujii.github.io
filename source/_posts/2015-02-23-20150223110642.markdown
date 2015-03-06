@@ -1,0 +1,34 @@
+---
+layout: post
+title: Axlsxでウィンドウ枠の固定
+date: 2015-02-23 11:06
+comments: true
+categories: [ruby, axlsx]
+published: true
+---
+
+
+
+エクセルのウィンドウ枠の固定をAxlsxで行う方法
+
+``` ruby
+require 'axlsx'
+
+package = Axlsx::Package.new
+sheet = package.workbook.add_worksheet(name: 'lists')
+
+sheet.add_row(['品名', '単価', '数量', '計'] )
+sheet.add_row(['にんじん',    80, 1,      '=B2*C2'])
+
+sheet.sheet_view.pane do |pane|
+  pane.top_left_cell = "B2"
+  pane.state = :frozen_split
+  pane.y_split = 1
+  pane.x_split = 1
+  pane.active_pane = :bottom_right
+end
+
+package.serialize('test.xlsx')
+```
+
+

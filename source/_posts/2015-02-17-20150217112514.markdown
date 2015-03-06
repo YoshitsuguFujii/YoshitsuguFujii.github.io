@@ -1,0 +1,38 @@
+---
+layout: post
+title: trueとfalseにrefinmentsを使ってメソッド追加 
+date: 2015-02-17 11:25
+comments: true
+categories: [ruby]
+published: true
+---
+
+
+
+Rubyでモデルの値がtrueの場合は○。falseの場合は空文字を表示するメソッドが欲しかったのでrefimentsを使って実装したかったけどなかなかうまくいかない。  
+trueはインスタンスだと思うんだけど何か普通のインスタンスと違うのだろうか。  
+  
+試行錯誤は省いて結論としてはこうしたらできました.  
+
+``` ruby
+module BooleanEx
+  refine TrueClass do
+    def true.to_circle
+      "○"
+    end
+  end
+
+  refine FalseClass do
+    def false.to_circle
+      ""
+    end
+  end
+end
+
+using BooleanEx
+
+true.to_circle # => "○"
+false.to_circle # => ""
+```
+
+

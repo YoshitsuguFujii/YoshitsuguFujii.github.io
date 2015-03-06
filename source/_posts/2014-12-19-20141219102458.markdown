@@ -1,0 +1,32 @@
+---
+layout: post
+title: カリー化のお話
+date: 2014-12-19 10:24
+comments: true
+categories: [ruby]
+published: true
+---
+
+
+
+[Ruby のカリー化を日本語で説明してみる -
+Qiita](http://qiita.com/lnznt/items/0b20440cecd6f4e348b9)  
+という記事を見たので自分も食べられない方のカリーを使ったものをなんか書いてみました。  
+  
+irbで実行できます。  
+
+``` ruby
+meeting = Proc.new do |teacher, student|
+ p "#{teacher}は#{student}くんとカレーについて話す"
+end
+
+fujii_meeting = meeting.curry.("藤井先生")
+
+%w(田中 佐藤 斉藤 加藤).each(&fujii_meeting)
+# => "藤井先生は田中くんとカレーについて話す"
+# => "藤井先生は佐藤くんとカレーについて話す"
+# => "藤井先生は斉藤くんとカレーについて話す"
+# => "藤井先生は加藤くんとカレーについて話す"
+```
+
+

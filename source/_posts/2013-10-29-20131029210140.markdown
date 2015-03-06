@@ -1,0 +1,31 @@
+---
+layout: post
+title: arel_table使いながら、たくさんの条件を配列にいれつつ検索
+date: 2013-10-29 21:01
+comments: true
+categories: [ruby on rails]
+published: true
+---
+
+
+
+何を言っているんでしょう。  
+コード見たほうが早いですかね  
+
+``` ruby
+# andで条件組み立て
+def condition
+  cons = []
+  cons << User.arel_table[:name].matches("%hoge%") 
+  cons << User.arel_table[:nick_name].matches("%fuga%")
+  cons.inject(&:and)
+end
+
+user.where(condition)
+```
+
+  
+配列の結合で一瞬悩んだのでメモ。  
+andをorにすると、どれかに一致するという条件になります。
+
+

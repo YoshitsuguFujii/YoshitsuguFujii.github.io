@@ -1,0 +1,21 @@
+---
+layout: post
+title: 全モデルから特定の列を持つモデルを抽出
+date: 2013-10-17 20:09
+comments: true
+categories: [ruby on rails]
+published: true
+---
+
+
+
+全モデルから特定の列を持つモデルを抽出  
+  
+例えばzip  
+
+``` ruby
+ActiveRecord::Base.send(:subclasses).select{|m| m.column_names.include?("zip")}
+ActiveRecord::Base.send(:subclasses).select{|m| m.column_names.include?("zip")}.map(&:name)
+```
+
+

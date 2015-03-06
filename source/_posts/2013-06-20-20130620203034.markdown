@@ -1,0 +1,51 @@
+---
+layout: post
+title: ransackを使ったpolymorphic関連のモデルの検索処理
+date: 2013-06-20 20:30
+comments: true
+categories: [rails, ransack]
+published: true
+---
+
+
+
+polymorphic関連のモデルの検索処理をransack使って書いていて、どうやるんだ？  
+ってなった。答えはここにあった。  
+<http://stackoverflow.com/questions/13077954/does-ransack-support-the-same-polymorhpic-belongs-to-associations-in-its-searche>  
+  
+polymorphicに関してのわかりやすい説明はこちらのサイトで。  
+  
+<http://shirusu-ni-tarazu.hatenablog.jp/entry/2012/11/04/173742>  
+  
+説明にもここの情報を使わせていただきます。  
+
+``` ruby
+class Image < ActiveRecord::Base
+  belongs_to :imageable, :polymorphic => true
+end
+
+class Company < ActiveRecord::Base
+  has_many :images, :as => :imageable
+end
+
+class User < ActiveRecord::Base
+  has_many :images, :as => :imageable
+end
+```
+
+  
+  
+  #Imageからみた検索  
+  # companyの名前のlike検索  
+f.text  _field :imageable  _of  _Company  _type  _name  _cont  
+  
+  
+  #Imageからみた検索  
+  # userの名前のlike検索  
+f.text  _field :imageable  _of  _User  _type  _name  _cont  
+  
+  
+polymorphic名 of 検索したいクラス名 + type + 検索対象列 + 条件  
+で検索できるみたい。
+
+

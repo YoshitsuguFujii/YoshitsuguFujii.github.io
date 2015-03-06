@@ -1,0 +1,48 @@
+---
+layout: post
+title: ２つ以上のthrough
+date: 2013-10-10 19:09
+comments: true
+categories: [ruby on rails]
+published: true
+---
+
+
+
+モデルで以下のABCDというクラスがあって、それぞれに親子関係がある場合。  
+  
+A→B→C→D  
+  
+かなり適当に書くとこうやって取れる。
+
+``` ruby
+class User_1 < ActiveRecord::Base
+ has_many user_2
+ has_many user_3, through: user_2
+ has_many user_4, through: user_3
+end
+
+class User_2 < ActiveRecord::Base
+ belongs_to user_1
+ has_many user_3
+end
+
+class User_3 < ActiveRecord::Base
+ belongs_to user_2
+ has_many user_4
+end
+
+class User_4 < ActiveRecord::Base
+ belongs_to user_3
+end
+
+User_1.user_4.first.class # => User_4
+```
+
+  
+ちょっと感動したけど、普通にみんな使ってるのだろうか。  
+  
+しかし、言いたいことは伝わると思うのだが、  
+コード適当すぎかも(--;)
+
+

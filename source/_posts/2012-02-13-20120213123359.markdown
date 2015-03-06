@@ -1,0 +1,23 @@
+---
+layout: post
+title: vimのキーマップとleader
+date: 2012-02-13 12:33
+comments: true
+categories: 
+published: true
+---
+
+
+
+vimで  
+
+    :map
+
+  
+とすればキーマッピングの確認ができる  
+  
+  <leader  >を変更したい場合は、.vimrcにこう書くと変更できる。  
+
+    let mapleader = "任意のキー"
+
+

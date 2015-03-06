@@ -1,0 +1,24 @@
+---
+layout: post
+title: いっつも忘れるsanitizeメソッド
+date: 2012-07-24 15:04
+comments: true
+categories: [rails]
+published: true
+---
+
+
+
+完全備忘録  
+除去したくないタグを第２引数に指定  
+  
+rails c  
+  
+で起動した体で  
+
+``` ruby
+ApplicationController.helpers.sanitize "<div>4文字以上で入力ください<br />入力された文字は2文字です", :tags => %(br)
+# => "4文字以上で入力ください<br />入力された文字は2文字です" 
+```
+
+

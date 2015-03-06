@@ -1,0 +1,18 @@
+---
+layout: post
+title: Railsでアプリケーション名が取りたい場合
+date: 2012-07-25 14:07
+comments: true
+categories: [rails]
+published: true
+---
+
+
+
+こうすると取れる  
+
+``` ruby
+Rails.application.class.parent_name
+```
+
+

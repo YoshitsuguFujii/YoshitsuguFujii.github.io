@@ -1,0 +1,181 @@
+---
+layout: post
+title: s3からcliでファイルをまとめて落としたり、正規表現で落とせたりするツール
+date: 2014-05-27 11:11
+comments: true
+categories: [aws, s3, ruby]
+published: true
+---
+
+
+
+s3  _getter.rbとか名前つけて保存して  
+ruby s3  _getter.rbとかで起動すると  
+  
+最初にbucket選ぶ選択肢が出てきて選択すると、bucketのディレクトリかファイルか、ファイル全てダウンロードが選べ。  
+ディレクトリを選ぶと再帰的にまたディレクトリかファイルかファイル全てをダウンロードが選べます。  
+  
+ファイルもしくは全てダウンロードを選ぶと、ダウンロードと同時に解答するか選べ(すいません。現状gzの解凍のみ)  
+また抽出するファイル名を正規表現で絞り込めるかを選べます。  
+  
+動くの重視で片手間に作ったのでノー例外処理でございます。  
+gz圧縮以外にも対応したいとかあれば、ご自由に改変してお使いください。  
+  
+Gist  
+<https://gist.github.com/YoshitsuguFujii/349069b2e74c28153a17>  
+
+``` ruby
+# coding: utf-8
+ 
+require "aws-sdk"
+ 
+S3_SAVE_DIR = "s3/"
+ALL_FILE_DOWNLOAD = "全てのファイルを落とす"
+ 
+s3 = AWS::S3.new(
+  access_key_id: "YOUR AWS ACCESS KEY"
+  secret_access_key: "YOUR AWS SECRET"
+)
+ 
+def show_item_with_pointer(iterator, console_print = true)
+  rtn_hash = {}
+  iterator.each_with_index do |value, idx|
+    rtn_hash[idx.to_s] = value
+    if console_print
+      p "[" + (idx).to_s + "] " + value.inspect.to_s
+    end
+  end
+ 
+  rtn_hash
+end
+ 
+def ls(tree)
+  ls = []
+  directories = tree.children.select(&:branch?).collect(&:prefix)
+  files = tree.children.select(&:leaf?).collect(&:key)
+ 
+  #all_select = files.length > 1 ?  [ALL_FILE_DOWNLOAD] : []
+  all_select = [ALL_FILE_DOWNLOAD]
+  ls = all_select.concat(directories.concat(files))
+end
+ 
+def get_or_into_directory_recursive(tree)
+  file_and_directories = show_item_with_pointer(ls(tree))
+ 
+  idx = gets_from_stdin("fileまたはdirectoryを数値で選択")
+ 
+  file_or_directory = file_and_directories[idx]
+ 
+  # select dir
+  if file_or_directory.end_with?("/")
+    tree = @bucket.as_tree({prefix: file_or_directory})
+    objs = get_or_into_directory_recursive(tree)
+  else
+    objs = []
+    # select all
+    if file_or_directory == ALL_FILE_DOWNLOAD
+      objs = get_objects(file_and_directories)
+    # select file
+    else
+      objs << @bucket.objects[file_or_directory]
+    end
+  end
+ 
+  return objs
+end
+ 
+# http://qiita.com/riocampos/items/cf71862bf975e13bdb4a
+def progress_bar(i, max = 100)
+  i = i.to_f
+  max = max.to_f
+  i = max if i > max
+  percent = i / max * 100.0
+  rest_size = 1 + 5 + 1 # space + progress_num + %
+  bar_size = 79 - rest_size # (width - 1) - rest_size
+  bar_str = '%-*s' % [bar_size, ('#' * (percent * bar_size / 100).to_i)]
+  progress_num = '%3.1f' % percent
+  print "  r#{bar_str} #{'%5s' % progress_num}%"
+end
+ 
+ 
+def get_objects(file_and_directories)
+  objs = []
+  file_and_directories.each do |idx, path|
+    next if path == ALL_FILE_DOWNLOAD
+    if path.end_with?("/")
+      tree = @bucket.as_tree({prefix: path})
+      recursive_file_and_directories = show_item_with_pointer(ls(tree), false)
+      objs.concat(get_objects(recursive_file_and_directories))
+    else
+      objs << @bucket.objects[path]
+    end
+  end
+ 
+  objs
+end
+ 
+def gets_from_stdin(message = nil)
+  print message unless message.nil?
+  str = STDIN.gets.chomp
+end
+ 
+ 
+def get_y_or_n_from_stdin(message)
+  bol = ""
+  while !%w(Y N).include?(bol.upcase)
+    bol = gets_from_stdin("#{message}(y/n)")
+  end
+  bol.upcase == "Y"
+end
+ 
+all_buckets = show_item_with_pointer(s3.buckets)
+ 
+idx = gets_from_stdin("bucketを数値で選択")
+ 
+@bucket = all_buckets[idx]
+tree = @bucket.as_tree
+ 
+files = get_or_into_directory_recursive(tree)
+ 
+s3_dir = File.expand_path(S3_SAVE_DIR)
+ 
+# gz圧縮なら解凍するか問う
+extract_bol = if files.any?{|file| file.key.include?("gz")}
+                get_y_or_n_from_stdin("解凍を同時に行いますか？")
+              else
+                false
+              end
+ 
+# 正規表現抜き出しを行うか問う
+regexp = nil
+if get_y_or_n_from_stdin("正規表現によるファイル名絞り込みを行いますか？")
+  regexp = Regexp.new(gets_from_stdin("正規表現を入力してください"))
+ 
+  files = files.reject do |file|
+    file_path = [s3_dir,file.key].join("/")
+    File.basename(file_path).match(regexp).nil?
+  end
+ 
+end
+ 
+# 保存処理
+files.each.with_index(1) do |file, idx|
+  file_path = [s3_dir,file.key].join("/")
+  dir = File.dirname(file_path)
+  FileUtils.mkdir_p(dir)
+ 
+  File.open(file_path, 'wb') do |f|
+    file.read do |chunk|
+      f.write(chunk)
+    end
+  end
+ 
+  if extract_bol
+    `gunzip #{file_path}`
+  end
+ 
+  progress_bar((idx.to_f / files.length) * 100)
+end
+```
+
+

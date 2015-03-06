@@ -1,0 +1,147 @@
+---
+layout: post
+title: macをmarvericksにしたら、rails server動かなくなった
+date: 2013-10-28 13:53
+comments: true
+categories: [ruby, marvericks]
+published: true
+---
+
+
+
+色々と必要ないものとかもありそうだけど、やったこと全部書く  
+  
+なにはともかく  
+xcodeのcommand line toolの入れなおし
+
+``` ruby
+xcode-select --install
+```
+
+  
+んで、開発中のrailsディレクトリでrails serverしようとしたら動かない。  
+とりあえず再bundle installしなおしてみる。  
+  
+nokogiriのインストールでlibxmlがどうこうってエラーでたから
+
+``` ruby
+~/.rbenv/versions/2.0.0-p247/lib/ruby/gems/2.0.0/gems/nokogiri-1.6.0/ext/nokogiri/tmp/i686-apple-darwin11/ports/libxml2/2.8.0/libxml2-2.8.0
+sudo make clean
+sudo make
+```
+
+  
+したらbundle installが成功。  
+  
+でもrails serverしたら
+
+``` ruby
+Could not find libv8-3.11.8.17 in any of the sources
+```
+
+って出る。  
+  
+まず
+
+``` ruby
+brew update
+```
+
+  
+brew updateでこんなエラーが出た
+
+``` ruby
+Error: Failure while executing: git pull -q origin refs/heads/master:refs/remotes/origin/master
+```
+
+  
+pullできないみたいなので、ここを見つつ以下の様なことをやる。  
+<http://d.conma.me/entry/20120301/1330613125>  
+
+``` ruby
+cd `brew --prefix`
+git reset --hard origin/master #=> untrackファイルがあるからダメとか言われる
+git add .
+git checkout -f
+git reset --hard origin/master
+brew update
+```
+
+  
+brew update成功  
+  
+んでここを見つつ以下を実行  
+How to fix libv8 error from Gemfile on Mavericks?  
+<http://stackoverflow.com/questions/19568852/how-to-fix-libv8-error-from-gemfile-on-mavericks>  
+
+``` ruby
+gem uninstall libv8
+brew install v8
+gem install therubyracer
+```
+
+  
+  
+  
+brew install v8が通らない・・・
+
+``` ruby
+==> Downloading https://github.com/v8/v8/archive/3.19.18.4.tar.gz
+######################################################################## 100.0%
+==> make dependencies
+            --revision 1501
+dyld: Library not loaded: /usr/local/lib/libsqlite3.0.8.6.dylib
+  Referenced from: /usr/local/bin/svn
+  Reason: image not found
+make: *** [dependencies] Trace/BPT trap: 5
+```
+
+  
+また、エラー・・・  
+
+``` ruby
+brew rm svn
+brew install svn
+```
+
+  
+んで再度  
+
+``` ruby
+brew install v8
+```
+
+  
+通った...  
+
+``` ruby
+bundle install
+```
+
+  
+してから、  
+
+``` ruby
+rails server
+Could not find libv8-3.11.8.17 in any of the sources
+Run `bundle install` to install missing gems.
+```
+
+  
+あれ、ダメだ・・  
+
+``` ruby
+bundle exec rails server
+=> Booting WEBrick
+=> Rails 3.2.13 application starting in development on http://0.0.0.0:3000
+=> Call with -d to detach
+=> Ctrl-C to shutdown server
+[2013-10-28 13:47:46] INFO  WEBrick 1.3.1
+[2013-10-28 13:47:46] INFO  ruby 2.0.0 (2013-06-27) [x86_64-darwin12.5.0]
+[2013-10-28 13:47:46] INFO  WEBrick::HTTPServer#start: pid=16067 port=3000
+```
+
+  
+ま、まぁいいか。
+
+

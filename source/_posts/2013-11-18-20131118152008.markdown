@@ -1,0 +1,47 @@
+---
+layout: post
+title: ある月に指定日が含まれるんか判定したい(要ActiveSupport)
+date: 2013-11-18 15:20
+comments: true
+categories: [rails]
+published: true
+---
+
+
+
+ある月に指定日が含まれるんか判定したい  
+  
+月のRangeオブジェクトは  
+Time  #all  _monthで取れる(要ActiveSupport)  
+含まれるってことはbetween?かな  
+
+``` ruby
+Time.now.between?(Time.now.all_month)
+# ArgumentError: wrong number of arguments (1 for 2)
+# from (pry):8:in `between?'
+```
+
+  
+ありゃ。  
+あ、include?だったかな？  
+
+``` ruby
+Time.now.all_month.include?(Time.now)
+# TypeError: can't iterate from Time
+```
+
+  
+むむ。  
+じゃ、じゃあcovers  
+
+``` ruby
+Time.now.all_month.cover?(Time.now) 
+# -> true
+Time.now.all_month.cover?(Time.now.prev_month) 
+# ->false
+```
+
+  
+できたヽ(｀▽´)/
+
+

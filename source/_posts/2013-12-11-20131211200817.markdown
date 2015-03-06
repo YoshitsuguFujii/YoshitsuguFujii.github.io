@@ -1,0 +1,46 @@
+---
+layout: post
+title: 変数の初期化
+date: 2013-12-11 20:08
+comments: true
+categories: [ruby]
+published: true
+---
+
+
+
+clearなんてあったんや。  
+<http://ref.xaio.jp/ruby/classes/array/clear>  
+  
+今まで  
+
+``` ruby
+array = ["hoge", "fuga"]
+array = []
+```
+
+  
+ってやってたのが、
+
+``` ruby
+array = ["hoge", "fuga"]
+array.clear # => []
+```
+
+  
+って書ける。より直感的ですね。  
+  
+ちなみに文字列もHashもあるみたいです。
+
+``` ruby
+hash = {hoge: "fuga"}
+hash.clear # {}
+
+str = "fugafufa"
+str.clar # => ""
+```
+
+  
+へー。
+
+

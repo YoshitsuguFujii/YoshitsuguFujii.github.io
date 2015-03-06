@@ -1,0 +1,45 @@
+---
+layout: post
+title: handlerbarsで現在のループ回数を知る
+date: 2014-11-28 15:24
+comments: true
+categories: [handlebars]
+published: true
+---
+
+
+
+@indexで取れます。  
+
+``` ruby
+{{#each array}}
+  {{@index}}: {{this}}
+  isFirst?: {{@first}}
+  isLast?: {{@last}}
+{{/each}}
+```
+
+  
+その他に@firstには最初の一回目のループの時にはtrueが  
+@lastには最後のループの時にはtrueが入るようです。  
+@indexは入力欄  _1とかの1とか表示する時に使えそうですね。  
+  
+2次元配列とか多次元配列を回す時はこうですね。  
+
+``` ruby
+多次元配列の回し方
+{{! arraysは2次元配列 }}
+{{#each arrays }}
+  {{#each this}}
+    {{name}}
+    {{! 親要素へのアクセス }}
+    {{../id}}
+  {{/each}}
+{{/each}}
+```
+
+  
+ちなみに{{! }}でコメントです。  
+{{!-- --}}という書き方もできます。
+
+

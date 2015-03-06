@@ -1,0 +1,29 @@
+---
+layout: post
+title: Axlxsを使って新規ファイルを作って、RubyXLで読み出す話
+date: 2014-12-18 20:07
+comments: true
+categories: [ruby, gem, axlsx, excel]
+published: true
+---
+
+
+
+どんどんtipsがニッチになっていきますね。  
+  
+Axlxsで作ったファイルがRubyXLで読み取れませんでした。  
+一度エクセルで開いて保存すると読み取れるようになる。  
+  
+RubyXLでAxlxsで作成したファイルを読み込むと数値とかは辛うじて所々取れていたので文字コードかと思って色々やってみましたが、このページで解決  
+  
+[Strings outputted not seen by rubyXL ? Issue   #349 ? randym/axlsx ?
+GitHub](https://github.com/randym/axlsx/issues/349)  
+  
+pkg = Package.create  
+したら  
+pkg.use  _shared  _strings = true  
+する必要があるみたいでした。  
+  
+これで無事に読みだすことができました。
+
+

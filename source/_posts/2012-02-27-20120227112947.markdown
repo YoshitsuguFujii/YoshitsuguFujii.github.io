@@ -1,0 +1,28 @@
+---
+layout: post
+title: instance_evalを引数つけて実行
+date: 2012-02-27 11:29
+comments: true
+categories: [ruby]
+published: true
+---
+
+
+
+ruby1.9からです。  
+
+``` ruby
+class Foo
+  def initialize
+    @v = 2
+  end
+end
+
+foo = Foo.new
+foo.instance_exec(2) do |bar|
+  p @v * bar
+end
+# => 4
+```
+
+

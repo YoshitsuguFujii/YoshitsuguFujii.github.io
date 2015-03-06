@@ -1,0 +1,74 @@
+---
+layout: post
+title: csvからuserを検索して、データ更新サンプル
+date: 2014-02-03 14:57
+comments: true
+categories: [ruby on rails]
+published: true
+---
+
+
+
+例えば外部システムとユーザの情報を持ち合っている時。  
+外部システムのuser  _id(コード内ではuser  _external  _id)から、システム内のユーザIDを導き出して、そのデータにパッチを当てるスクリプト。  
+  
+active  _recordとかは単品で扱ってる(database.yml'読み込み)  
+  
+
+``` ruby
+#!/usr/bin/env ruby
+# coding: utf-8
+require 'csv'
+require 'optparse'
+require "active_record"
+
+params = ARGV.getopts('', 'csv:user.csv', 'ENV:development', 'RAILS_ROOT:./')
+p params
+
+config = YAML.load_file( params['RAILS_ROOT'] + 'config/database.yml' )
+raise ArgumentError, 'ENVが設定されていません'            if params['ENV'].nil?
+raise ArgumentError, 'RAILS_ROOTが指定されていません'     if params['RAILS_ROOT'].nil?
+raise ArgumentError, 'database.ymlを読み出せませんでした' if config[params['ENV']].nil?
+raise ArgumentError, 'csvファイルが存在しません'          unless File.exists?(params['csv'])
+
+ActiveRecord::Base.establish_connection(config[params['ENV']])
+class User < ActiveRecord::Base
+end
+
+column = %w(user_external_id  name birthday)
+CSV.foreach(params['csv']) do |row|
+  # 一行を全部hashに入れる
+  row_hash = {}
+  row.each_with_index do |r,idx|
+    row_hash[column[idx]] = r
+  end
+
+  user = User.find_by_external_id(row_hash['user_external_id'])
+  if !user.nil?
+    user.update_attribute(:name => row_hash['name'])
+  end
+end
+```
+
+  
+実行はターミナルで
+
+``` ruby
+ruby 上記コードのファイル --ENV production
+もしくは
+bundle exec ruby 上記コードのファイル --ENV production
+```
+
+  
+とかとか  
+  
+スクリプトのオプションは  
+ --ENVはdatabae.ymlの読み込みたい環境{development|production}  
+ --csv で読み込むファイルパス  
+ --RAILS  _ROOT でRailsのapp rootを指定。  
+  
+さらさらっと書いて本番のrails
+rootで動かしてパッチを実際に当てましたが。  
+仕事にかかわる記述は消したり直したり、ロクにテストしていないので動かなかったらごめんなさい。
+
+

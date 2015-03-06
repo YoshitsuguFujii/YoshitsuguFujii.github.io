@@ -1,0 +1,19 @@
+---
+layout: post
+title: 2012年4月2日追記。
+date: 2012-03-09 15:36
+comments: true
+categories: 
+published: true
+---
+
+
+
+whereつけると戻り値がrelationになるから、to  _sqlが使える。  
+scoped使うとrelation取れる。
+
+``` ruby
+User.unscoped.to_sql　#=>　"SELECT `users`.* FROM `users`"
+```
+
+

@@ -1,0 +1,45 @@
+---
+layout: post
+title: コンソールでローディングを表示
+date: 2014-11-06 20:24
+comments: true
+categories: [ruby]
+published: true
+---
+
+
+
+rubyXLで100以上シートのあるエクセルファイルを読み出すスクリプトを書いていて、  
+現在の処理中のシート/シートの総数でプログレスバーを表示することはしたけど、  
+ファイル読み込み中(5～7秒ぐらいかかる)はなんにもコンソールに表示されない状態が物足りなくて、  
+ファイルの読み込み中はローディングチックなのを出すようにした。  
+  
+読み込みと別でThread生成して、そのThread内で1秒毎に  >と  >  >と  >  >  >を出している。  
+読み込みが完了したらThreadをkillしてる。  
+
+``` ruby
+def display_with_arrow(&block)
+  loading_thread = Thread.start{
+                              arrow_progress = %w(> >> >>>).cycle
+                              loop{
+                                print "  r file reading #{sprintf("%-  s3s",arrow_progress.next)}"
+                                sleep 1
+                              }
+                            }
+
+  rtn = block.call
+  Thread.kill(loading_thread)
+  rtn
+end
+
+# 読み込み
+workbook = display_with_arrow do
+             RubyXL::Parser.parse("エクセルファイルへのパス")
+           end
+```
+
+  
+するとこうなる。  
+[![f:id:gogo  _sakura:20141106201955g:image](http://cdn-ak.f.st-hatena.com/images/fotolife/g/gogo_sakura/20141106/20141106201955.gif "f:id:gogo_sakura:20141106201955g:image")](http://f.hatena.ne.jp/gogo_sakura/20141106201955)
+
+

@@ -1,0 +1,34 @@
+---
+layout: post
+title: if文をずらずら書かないために
+date: 2012-02-01 12:16
+comments: true
+categories: [ruby]
+published: true
+---
+
+
+
+rubyだけじゃないんだけど。  
+変数の値を繰り替えしif文の条件にする場合  
+
+``` ruby
+if crud == 'insert' || crud == 'update' || crud == 'delete'
+  #do somtehing
+end
+```
+
+  
+  
+だったらこう書いた方がいいよね。
+
+``` ruby
+if ['insert','update','delete'].include?(crud)
+  #do somtehing
+end
+```
+
+  
+他に良い案ありますか？
+
+

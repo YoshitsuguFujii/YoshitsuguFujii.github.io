@@ -1,0 +1,46 @@
+---
+layout: post
+title: fields_forに渡すrelationを絞る
+date: 2013-11-19 14:50
+comments: true
+categories: [ruby on rails]
+published: true
+---
+
+
+
+contentモデルの下にcontent  _detailモデルがあって、
+accepts  _nested  _attributes  _forしていて、fields  _forを使う場合。
+
+``` ruby
+f.fields_for :content_details do |c|
+```
+
+  
+って書くと、contentに紐付く全部のcontent  _detailsがformとして表示されちゃう。  
+  
+第二引数にインスタンスを渡せばいいみたい。  
+
+``` ruby
+f.fields_for :content_details, @content.content_details.where(state = 1) do |c|
+```
+
+  
+ちなみに第二引数はnilがデフォルト引数なので
+
+``` ruby
+f.fields_for :content_details
+f.fields_for :content_details, nil
+```
+
+  
+は同じ意味になるので、インスタンス変数は値を入れなければnilなので
+
+``` ruby
+fields_for :content_details, @details
+```
+
+  
+ってやって、editの時だけ@detailsに値を入れるとうまく変更したいレコードのみ抽出できて、処理を切り分けられる気がします。
+
+

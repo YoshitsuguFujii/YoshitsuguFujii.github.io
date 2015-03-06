@@ -1,0 +1,112 @@
+---
+layout: post
+title: compassをこっそりと自社サービスで使ってみる
+date: 2013-01-11 12:39
+comments: true
+categories: [ruby on rails, sass]
+published: true
+---
+
+
+
+昨日のエントリの続きになります。  
+やっぱりcompassも使いたいということで、こっそりと入れてみました。  
+compassはsassのfunctionやmixinなどが便利につまったフレームワークですね。  
+  
+rails3.0.5のプロジェクトで使用します。  
+  #{RAILS  _ROOT}はrailsのアプリケーションルートに適宜読み替えてください。  
+  
+まずは  #{RAILS  _ROOT}/app/assets/stylesheets下に環境を作ってみたいと思います。  
+  
+まずはGemfileにgem 'compass'を追記して  `bundle install  `  
+compassはsassに依存しているので、昨日のGemfileに記述したsassの行を削除してもいいかもしれません。  
+  
+compassの環境を作ります。  
+
+``` ruby
+cd #{RAILS_ROOT}/app/assets/stylesheets
+compass create
+```
+
+  
+コンソールに色々ファイルが出来たと思います。  
+デフォルトのファイル達は使わないので消しちゃいます。  
+
+``` ruby
+rm -r sass
+rm -r stylesheets
+```
+
+  
+  
+config.rbを開いて修正します。
+
+``` ruby
+# Set this to the root of your project when deployed:
+http_path = "/"
+css_dir = "../../../public/stylesheets"
+sass_dir = "."
+images_dir = "../images"
+generated_images_dir = "../../../public/images"
+javascripts_dir = "../../../public/javascripts"
+```
+
+  
+sass  _dirがコンパイル対象のscssが置かれているパス。  
+css  _dirがコンパイル後のcssの出力先ですね。  
+  
+  
+変更を監視して自動で変換してくれるようにコンソール上でwatchスタートします。
+
+``` ruby
+cd #{RAILS_ROOT}/app/assets/stylesheets
+compass watch
+```
+
+  
+  
+  #{RAILS  _ROOT}/app/assets/stylesheets/test.scssを作成してみます。  
+
+``` ruby
+@import "compass/css3";
+
+.sample {
+  @include border-radius(25px);
+}
+```
+
+  
+  #{RAILS  _ROOT}/public/stylesheets/test.cssを開いてみます。  
+
+``` ruby
+/* line 3, ../../app/assets/stylesheets/test.scss */
+.sample {
+  -webkit-border-radius: 25px;
+  -moz-border-radius: 25px;
+  -ms-border-radius: 25px;
+  -o-border-radius: 25px;
+  border-radius: 25px;
+}
+```
+
+  
+できてます。  
+これでこっそりcompassが使えますね！  
+  
+compassのリファレンスは公式を参照です。  
+<http://compass-style.org/>  
+  
+※2013年1月23日追記  
+css
+spriteの機能が使えない指定だったので、config.rb以下二つを直しました。
+
+``` ruby
+images_dir = "../images"
+generated_images_dir = "../../../public/images"
+```
+
+  
+css spriteを使う場合には。  
+images  _dirはどこにimagesがあるかを相対パスで指定し、generated  _images  _dirはどこに結合した画像を吐き出すかの指定です。
+
+

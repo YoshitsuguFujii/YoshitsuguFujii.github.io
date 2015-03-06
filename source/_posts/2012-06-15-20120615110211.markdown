@@ -1,0 +1,63 @@
+---
+layout: post
+title: Array.wrapが便利な件
+date: 2012-06-15 11:02
+comments: true
+categories: [rails]
+published: true
+---
+
+
+
+好きです。Array.wrap  
+ActiveSupportでArrayクラスで定義されてます。  
+
+``` ruby
+Array.wrap("hoge") #=> ["hoge"]
+Array.wrap(["hoge"]) #=> ["hoge"]
+```
+
+  
+うんうん。いい。  
+  
+下のコードは適当に書いたので動かんかったらごめんなさい。  
+
+``` ruby
+class User < ActiveRecord::Base
+  has_one :lover
+  has_many :friends
+end
+```
+
+  
+ってモデルがあったら  
+
+``` ruby
+  def print_relations(lover_or_friends)
+　　if lover_or_friends.instance_of?(Lover)
+　　  p lover_or_friends
+    else
+      lover_or_friends.each do |lover_or_friend|
+        p lover_or_friend
+      end
+    end
+
+  end
+```
+
+  
+って、いちいち判定せずに。  
+  
+
+``` ruby
+  def print_relations(lover_or_friends)
+    Array.wrap(lover_or_friends).each do |lover_or_friend|
+      p lover_or_friend
+    end
+  end
+```
+
+  
+って、いっそArrayにしてしまって、回すとスッキリ
+
+

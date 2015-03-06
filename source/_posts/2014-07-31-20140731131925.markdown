@@ -1,0 +1,28 @@
+---
+layout: post
+title: Facebookとのアプリの連携を解除する
+date: 2014-07-31 13:19
+comments: true
+categories: [php, facebook]
+published: true
+---
+
+
+
+調べてみたら自分所のDBからFacebookの情報を消すだけのものが多くて、大元のFacebookのアプリ設定から削除するのがあんまり載ってなかったようなきがするので  
+  
+以下の感じで、連携解除ができます。  
+
+``` ruby
+$facebook = new Facebook(array(
+'appId' => アプリのapp_id,
+'secret' => アプリのapp_secret
+));
+
+$facebook->api("/me/permissions", "delete", array('access_token' => ユーザーのアクセストークン));
+```
+
+  
+珍しくPHPでした。
+
+

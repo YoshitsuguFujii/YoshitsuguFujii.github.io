@@ -1,0 +1,55 @@
+---
+layout: post
+title: bunlderのデフォルトオプション
+date: 2013-07-19 00:00
+comments: true
+categories: [bunlder]
+published: true
+---
+
+
+
+``` ruby
+bundle install --without production
+```
+
+  
+とか毎回オプション設定がめんどくさい。  
+gemrcみたいなのないのかなーと思って探してみたら答えはここにあった。  
+<http://bundler.io/bundle_config.html>  
+  
+bundle config --globalでglobalな設定を見れる。  
+bundle config --global キー　値で設定できる。  
+  
+よって
+
+``` ruby
+bundle config --global without production
+```
+
+  
+ってやったら、出来た。  
+  
+確認してみる
+
+``` ruby
+bundle config 
+Settings are listed in order of priority. The top value will be used.
+
+without
+Set for the current user (~/.bundle/config): "production"
+```
+
+  
+ファイルも見てみる  
+
+``` ruby
+vim ~/.bundle/config
+---
+BUNDLE_WITHOUT: production
+```
+
+  
+できましたー。
+
+

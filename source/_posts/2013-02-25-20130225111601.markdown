@@ -1,0 +1,28 @@
+---
+layout: post
+title: powとpowderを使おうとしたら、ずっと接続中で何も表示されなかった
+date: 2013-02-25 11:16
+comments: true
+categories: [ruby]
+published: true
+---
+
+
+
+という現象  
+  
+powのログを見てみる。  
+場所は  $HOME/Library/Logs/Pow/apps/your  _appname.log
+
+``` ruby
+[Wed Feb 20 2013 17:35:57 GMT+0900 (JST)] DEBUG nack worker 2833 spawned
+[Wed Feb 20 2013 17:35:57 GMT+0900 (JST)] WARNING Could not find i18n-0.6.1 in any of the sources
+[Wed Feb 20 2013 17:35:57 GMT+0900 (JST)] WARNING Try running `bundle install`.
+[Wed Feb 20 2013 17:35:57 GMT+0900 (JST)] DEBUG nack worker exited
+```
+
+  
+むむ？ないって言われてる。と思ってアプリのルートみたら、.rvmrcおいてなかった。  
+置いてみたら直りましたというひどいミス・・・
+
+

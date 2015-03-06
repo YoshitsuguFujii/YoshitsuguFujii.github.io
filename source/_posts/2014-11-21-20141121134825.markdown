@@ -1,0 +1,57 @@
+---
+layout: post
+title: slimbarsを使ったらUnknown line indicator
+date: 2014-11-21 13:48
+comments: true
+categories: [handlebars]
+published: true
+---
+
+
+
+勉強がてらRailsのプロジェクトでBackBone.jsでテンプレートにはhandlebarsを使って処理を書いてみました。  
+viewがslimなのでslimbarsで書いてます。  
+  
+変数を出力しようとしたら以下のエラー  
+Unknown line indicator  
+  
+viewファイルはこんな感じ
+
+``` ruby
+.hoge
+  .fuga
+    {{user}} 
+```
+
+  
+ただしくはこう
+
+``` ruby
+.hoge
+  .fuga
+    | {{user}} 
+```
+
+  
+hamlbarsではこう書けてしまうので、slimで書く場合は注意が必要だなと思いました。
+
+``` ruby
+.hoge
+  .fuga
+    {{user}} 
+```
+
+  
+小ネタも小ネタでした。  
+  
+しかしeachの中ではslimの記法使えないのかな？  
+こうやらないと出力されない・・・
+
+``` ruby
+select
+  | {{#each users }}
+    <option value="{{id}}">{{name}}</option>
+  | {{/each}}
+```
+
+

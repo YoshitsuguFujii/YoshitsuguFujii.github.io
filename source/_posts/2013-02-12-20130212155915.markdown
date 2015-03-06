@@ -1,0 +1,51 @@
+---
+layout: post
+title: httpリクエストを投げまくれるRuby製のCLIツール作ってみました
+date: 2013-02-12 15:59
+comments: true
+categories: [ruby]
+published: true
+---
+
+
+
+[Rubyでサブコマンド付きのコマンドを簡単に書けるThor](http://qiita.com/items/96f2c57111b1162f80f1)を見て勉強がてらに作ってみました。  
+  
+コマンドラインから指定したURLやPORTに任意のデータをつけてGET POST PUT
+DELETEを指定回数分投げることができるGemを作りました。  
+負荷をかけたい時とか、APIで同一のコンテンツを複数作成する時とかというニッチなユースケースに使うといいんではないでしょうか。  
+  
+rubyはthreadプログラムを書いても、ネイティブスレッドの実行は一つという状態になってしまうようなので。  
+いい感じに並列処理を実行してくれるparallelというGemを使っています。  
+  
+[Rubyで並列実行処理を簡単に書く](http://subtech.g.hatena.ne.jp/secondlife/20110927/1317123109)  
+  
+使い方です。  
+  
+インストール
+
+``` ruby
+gem install http_machinegun
+```
+
+  
+使ってみる
+
+``` ruby
+# 一回だけgetリクエスト発行
+http_machinegun fire -u http://localhost
+
+# 80番ポートにabcdeという文字列のpostリクエストを10回とばす
+http_machinegun fire -u http://localhost -p 80 -t 10  -d abcde
+```
+
+  
+特に実際に使う場面があって作ったわけではないので、抜けとか多いかもしれません。  
+改善ポイントとか教えてもらえると嬉しいです。  
+あと出力される内容に微妙に変な改行が入ってしまうのは何故だろうorz  
+  
+ソースはこちら  
+[YoshitsuguFujii/http  _machinegun ?
+GitHub](https://github.com/YoshitsuguFujii/http_machinegun)
+
+

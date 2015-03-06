@@ -1,0 +1,47 @@
+---
+layout: post
+title: 構造体を使う
+date: 2012-02-06 16:47
+comments: true
+categories: [ruby, ruby on rails]
+published: true
+---
+
+
+
+rubyで構造体を使いたい時  
+OpenStructが使える。  
+属性は動的に作ってくれる。  
+  
+
+``` ruby
+require 'ostruct'
+user1    = OpenStruct.new
+user2   = OpenStruct.new
+
+user1.id = 1
+user1.name = 'hoge'
+
+user2.id = 2
+user2.name = 'fuga'
+
+p user1.id #=> 1
+p user1.name #=> 'hoge'
+
+p user2.id #=> 2
+p user2.name #=> 'fuga'
+
+#Arrayにラップしちゃえば、options_from_collection_for_selectにも渡せる。
+require 'action_view'
+require 'active_support/all'
+
+include ActionView::Helpers::FormOptionsHelper
+
+users = [user1,user2]
+options_from_collection_for_select(users , "id" ,"name") #=> "<option value=  "1  ">hoge</option>  n<option value=  "2  ">fuga</option>" 
+```
+
+  
+すばらしい
+
+

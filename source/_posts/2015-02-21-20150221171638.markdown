@@ -1,0 +1,56 @@
+---
+layout: post
+title: Axlsxでエクセルファイル作成時に注意する点とかはまりどころとか
+date: 2015-02-21 17:16
+comments: true
+categories: [ruby, axlsx]
+published: true
+---
+
+
+
+最近Railsを使う会社が増えてきて、2年前にRailsを扱う会社をエージェントに探してもらった時はなかなか見つからなかったんですが、今は楽に見つかりそうですね。
+そもそも登録した転職サイトがダメだったのかもしれないと思いますが。
+千葉でRuby、Railsメインでやってる会社ないかな。
+
+さてさて、ここのところずっと触っているAxlsxです。
+
+<span class="deco" style="font-weight:bold;">数値型に気をつける</span>
+エクセルのセルが数値か文字列かで挙動が変わったりします。
+文字列型のカラムに"1000"とか入っていた場合、エクセルでは数値として認識されてしまってvloolupなどの関数が反応しないことがあります。
+その場合は明示的にtypeを指定しましょう。
+
+``` ruby
+sheet.add_row(
+  [
+    "1000",
+    1000,
+  ], types: [:string, :float])
+)
+
+# もしくは
+sheet.rows[0].cells[0].type = [:string]
+```
+
+
+typesに設定できるシンボル
+[Method: Axlsx::Cell  #type — Documentation for randym/axlsx
+(master)](http://www.rubydoc.info/github/randym/axlsx/master/Axlsx/Cell:type)
+[:date, :time, :float, :integer, :string, :boolean]
+
+
+<span class="deco"
+style="font-weight:bold;">エクセルの関数を設定してダウンロード</span>
+そのままアップロードすると関数による値の設定が行われません。
+おそらく数式はエクセルを開いた時にエクセル側で計算されるので、エクセルを一回も開かずにアップロードすると値が設定されていないことになるのかと思います
+fomula  _valueを設定しましょう
+
+``` ruby
+sheet.add_row [1, 2, '=A1+B1'], :formula_values => [nil, nil, 3]
+
+#_もしくは
+sheet.rows[0].cells[0].value         = "=A1+B1"
+sheet.rows[0].cells[0].formula_value = "3"
+```
+
+

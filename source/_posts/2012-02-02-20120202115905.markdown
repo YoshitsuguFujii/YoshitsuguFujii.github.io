@@ -1,0 +1,56 @@
+---
+layout: post
+title: tail -fをDBの特定のテーブルに対して行う方法
+date: 2012-02-02 11:59
+comments: true
+categories: [linux, sql]
+published: true
+---
+
+
+
+風です。tail -f風。  
+  
+前にwatchコマンドについて書いた。  
+  
+[watchコマンド  ~ログとかファイル監視する時とかは何も考えずにtail -f
+ファイル名としちゃう人へ](http://d.hatena.ne.jp/gogo_sakura/20120131/1327978457)  
+  
+の追記的なもの。  
+  
+開発中ってマスタ系のテーブルは空にしないけど、トランザクション系のテーブルはテスト前に空にすることが多い。  
+  
+んでデータ登録する作業する度に、なんていうのか知らんけど。SQLブラウザ?(common
+sqlとか SI Object Browserとか)っていうんでしょうか  
+で、select文書いておいて一々executeボタンを押す。  
+  
+このexecuteが対した手間じゃないけど、毎回押すとめんどいし、意外に時間もかかる。  
+  
+そこでこの間紹介したwatchで2秒起きにselectしちゃえばいいよねってお話。  
+しかも変更部分ハイライトすれば、追加したレコードも一目瞭然。  
+
+``` ruby
+watch -d=cumulative 'mysql -u root --password=  db_name -e "select * from XXX_table;"'
+```
+
+  
+で、どうでしょうか。  
+難点は差分ハイライト表示している時に、desc指定すると差分拾えないこと。  
+  
+だいたい自分は１０秒起きに、毎回差分拾ってます。
+
+``` ruby
+watch -d -n 10 'mysql -u root --password=  db_name -e "select * from XXX_table;"'
+```
+
+  
+ちなみに今モデル監視してログ作成する処理書いているんだけど。  
+登録作業していないのに、意図しないタイミングでレコードが増えていることがあって、そういう場合にも一定間隔でselect投げるようになるので  
+ウィンドウ並べて操作していれば、すぐに察知できる。  
+  
+ちなみにrailsでモデルのログ機能作るのであれば  
+[acts  _as  _audited](https://github.com/collectiveidea/acts_as_audited)  
+  
+つかうといいよ。
+
+

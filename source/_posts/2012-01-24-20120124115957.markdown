@@ -1,0 +1,77 @@
+---
+layout: post
+title: 同一の操作から呼ばれたかオブザーバで判定する方法
+date: 2012-01-24 11:59
+comments: true
+categories: [ruby, ruby on rails]
+published: true
+---
+
+
+
+railsのobserverでユーザ情報とプロフィール情報を監視していて、  
+例えば１つのフォームにユーザ情報とプロフィール情報の編集項目があった場合。  
+  
+after  _saveでフックした際には  
+after  _saveは２回。それぞれのモデルで呼ばれる。  
+  
+んでその二つ呼ばれたafter  _saveが同じ処理で呼ばれたのかってわかんないと思っていた。  
+  
+先日入れたuserstampの処理がどうなっているのだろうかと見たら、  
+ActionControllerのbefore  _filterでThread.currentにuserのIDを押し込んでいた。  
+  
+実際のソースは以下のとおり。
+
+``` ruby
+def stamper=(object)
+  object_stamper = if object.is_a?(ActiveRecord::Base)
+    object.send("#{object.class.primary_key}".to_sym)
+  else
+    object
+  end 
+  Thread.current["#{self.to_s.downcase}_#{self.object_id}_stamper"] = object_stamper
+end
+```
+
+  
+  
+キーにはobject  _id(デフォルトではUserのobject  _id)使ってる。  
+controller側で毎回Thread.currentに操作者のidを保存して、それをmodelで取り出している。  
+  
+  
+んでobserverで同一の処理で呼ばれたのか判定する方法は。  
+  
+同じようにThread.currentに設定してるキーと値を任意の値にすれば良さそう。  
+ActionControllerのbefore  _filterでキーはuserstampと同じようにobject  _idを使って、適当にkey  _とかprefixつけてみる。  
+んで値はユニークな値を設定する。  
+
+``` ruby
+def set_key
+  Thread.current["key_#{User.object_id}"] = Time.now.strftime("%Y%m%d%H%M%S") #ミリ秒まで含めた方がいいと思われ。
+end
+```
+
+  
+  
+observerでは  
+
+``` ruby
+observe :user,:user_profile
+
+def after_save(model)
+  case model
+  when User
+    p Thread.current["key_#{User.object_id}"]
+  when UserProfile
+    p Thread.current["key_#{User.object_id}"]
+  end
+end
+```
+
+  
+で同じ値が取得できた場合には同一の操作から呼ばれたものと考えられる。  
+  
+この方法は副作用とかどうなんだろう。  
+そしてもっとスマートな方法はあるのだろうか・・・
+
+

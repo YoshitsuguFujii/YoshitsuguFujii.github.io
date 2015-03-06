@@ -1,0 +1,70 @@
+---
+layout: post
+title: 自分のjquery力のなさに泣けてきた話
+date: 2013-11-12 00:00
+comments: true
+categories: [jquery]
+published: true
+---
+
+
+
+jQuery力のなさに泣けてきた。  
+  
+data-hogeにdataでアクセスできるの知らんかった  
+こんなのがある  
+
+``` ruby
+<a href="foo" id="bar" data-count="1" data-url="http://~.com"></a>
+```
+
+  
+いままではこうやって値を取得してた。
+
+``` ruby
+$('#bar').attr("data-count");
+```
+
+  
+dataってあったのね。  
+
+``` ruby
+$('#bar').data("count");
+```
+
+  
+しかも要素に設定されているdata-属性も一気に取得もできる -  >
+<http://stackoverflow.com/questions/4187032/get-list-of-data-attributes-using-javascript-jquery>
+
+``` ruby
+$('#bar').data();
+```
+
+  
+当然ajaxで一気に渡せる(※coffeescript)  
+以下の例はリンクを押したら、どっかから何か取ってきて何かを追加してる雰囲気のやつ。  
+
+``` ruby
+  $(document).on 'click', '#hoge', (event) ->
+
+    $.ajax
+      url: "どっかのURL"
+      type: "GET"
+      data: $(@).data()
+      success: (data) ->
+        $('#bar').append(data)
+       
+      error: (XMLHttpRequest, textStatus, errorThrown) ->
+        console.log("XMLHttpRequest : " + XMLHttpRequest.status)
+        console.log("textStatus : " + textStatus)
+        console.log("errorThrown : " + errorThrown.message)
+```
+
+  
+もっと早く出会いたかった・・・  
+  
+ちなみに今回はお手軽にタグのdata要素に情報もたしてそれを送信する例でしたが。  
+フォームの値を全部キーと値のペアとかで送りたければ、serializeArrayが超ベンリです。こっちは知ってた！  
+<http://jquery-master.net/ajax/serialize.php>
+
+

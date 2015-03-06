@@ -1,0 +1,50 @@
+---
+layout: post
+title: アソシエーション参照時のrailsで発行されるSQLを取得
+date: 2012-03-09 10:41
+comments: true
+categories: [ruby on rails]
+published: true
+---
+
+
+
+まぁ、ログ見りゃいいんだけど。デバッグで止めてちょっとずつ条件変えながらSQL見たい時とかデフォルトスコープを確認したいけどモデル見るの面倒な時とか。  
+  
+  
+環境は引き続き  
+ruby 1.9.2  
+rails 3.0.5  
+  
+  
+まず、ActiveRecordにto  _sqlってのがあります。  
+これ使うとSQL文を確認できる。  
+  
+ちなみにモデルにはact  _as  _paranoid使ってdestroyは全て論理削除状態。  
+デフォルトのスコープでdeleted  _at is nullの条件がつく状態。  
+
+``` ruby
+User.where("created_at > ?",Date.yesterday).to_sql　# => "SELECT `users`.* FROM `users` WHERE (users.deleted_at IS NULL) AND (created_at > '2012-03-08')"
+```
+
+  
+  
+whereの後に使えば、とりあえずは使えるみたい。  
+んでuserクラスにimagesがhas  _manyで宣言されている場合。  
+
+``` ruby
+user = User.find(1)
+user.images.to_sql　#=> NoMethodError: undefined method `to_sql'
+```
+
+  
+whereを付ければto  _sql使えたのでwhereつける。  
+
+``` ruby
+user.images.where("").to_sql　#=> "SELECT `user_images`.* FROM `user_images` WHERE (user_images.deleted_at IS NULL) AND (`user_images`.user_id = 1) ORDER BY position ASC, `sequence` ASC"
+```
+
+  
+とれた。
+
+

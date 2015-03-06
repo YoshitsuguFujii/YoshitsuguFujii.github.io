@@ -1,0 +1,25 @@
+---
+layout: post
+title: rubyの対応するdef endとかdo endを%で飛びたい
+date: 2012-02-14 12:57
+comments: true
+categories: [vim, ruby]
+published: true
+---
+
+
+
+以下を入れれば良いっぽい  
+  
+[ruby-matchit - ’Matchit’ for Ruby. : vim
+online](http://vim.sourceforge.net/scripts/script.php?script_id=290)  
+  
+ページ下部のClick on the package to
+download.からruby-matchit.vimをダウンロードして  
+  
+  ~/.vim/plugin/  
+  
+におきませう。  
+それだけで%で対応するdef endとか飛べちゃう。
+
+

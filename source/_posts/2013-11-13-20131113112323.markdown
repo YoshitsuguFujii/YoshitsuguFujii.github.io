@@ -1,0 +1,31 @@
+---
+layout: post
+title: Excelとか使う時はマウス使ってたんだけど。センタークリックでMission Controlを開きたい
+date: 2013-11-13 11:23
+comments: true
+categories: [mac]
+published: true
+---
+
+
+
+Mac Book Airで仕事しています。  
+普段はTrack pad使っているんだけど。  
+  
+Excelとか使う時はやっぱりマウス使いたいってことで。  
+その辺に転がっていたUSBマウスを接続して作業している。  
+  
+その際に他のワークスペース(デスクトップ？)に切り替えたい時はわざわざマウスから手を話して、トラックパッドの方で３本指スワイプしていた。  
+これが超絶面倒なので、マウスのセンタークリックでできないかとやってみたら出きた。  
+  
+システム環境設定   > Mission Control  
+  
+[![f:id:gogo  _sakura:20131113112104p:image](http://cdn-ak.f.st-hatena.com/images/fotolife/g/gogo_sakura/20131113/20131113112104.png "f:id:gogo_sakura:20131113112104p:image")](http://f.hatena.ne.jp/gogo_sakura/20131113112104)  
+  
+ただchrome使っててタブ消したい時はセンタークリックで消してたけど。  
+それが効かなくなるのが難点か・・・  
+欲張り過ぎかなぁ。  
+  
+※Magic Mouseはお金ないので買えない人なのです
+
+

@@ -1,0 +1,28 @@
+---
+layout: post
+title: 動的メソッドで呼び出すメソッドが引数ありと引数なしの場合の呼び出し方
+date: 2013-04-17 14:02
+comments: true
+categories: [ruby on rails]
+published: true
+---
+
+
+
+``` ruby
+class Hoge
+  def call_with_args(message)
+    p messge
+  end
+  
+  def call_without_args
+    p "引数なしのメソッド"
+  end
+end
+
+hoge = Hoge.new
+method = bol ? [:call_with_args, "引数あり" ] : [:call_without_args]
+hoge.send(*method)
+```
+
+

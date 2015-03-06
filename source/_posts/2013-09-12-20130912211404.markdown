@@ -1,0 +1,77 @@
+---
+layout: post
+title: meat_sauce
+date: 2013-09-12 21:14
+comments: true
+categories: [gem]
+published: true
+---
+
+
+
+thorとかanemoneとかselenium-driverとか使ってみたくて、ついでにgemにしてみました。  
+cliから一気に複数画面のスクリーンショット取ったり、リンク一覧取得したり、指定タグの中身を取得したりできるツールです(※要
+ruby)  
+  
+<https://github.com/YoshitsuguFujii/meat_sauce>  
+  
+なんか勝手にブラウザとか立ち上がりますが。びびらないでください。  
+あと環境によっては動かないかもしれないです。ごめんなさい。  
+僕の環境ではFirefoxとsafariなら動きました。  
+  
+<span class="deco" style="font-weight:bold;">インストール</span>
+
+``` ruby
+$ gem install meat_sauce
+```
+
+  
+使えるコマンドが見れます。
+
+``` ruby
+$ meat_sause
+```
+
+  
+<span class="deco"
+style="font-weight:bold;">ページの全てのリンクを取得します</span>
+
+``` ruby
+$ meat_sauce show_links --url http://www.yahoo.co.jp 
+```
+
+  
+　-d
+数字をオプション追加でさらにリンクを踏んだ先をどんどん表示します。どんどん。  
+  
+<span class="deco"
+style="font-weight:bold;">指定したタグの中身を抜き出します</span>
+
+``` ruby
+$ meat_sauce scraping --url http://www.yahoo.co.jp --tag h2
+```
+
+  
+<span class="deco" style="font-weight:bold;">ソースを表示します</span>
+
+``` ruby
+$ meat_sauce show_source --url http://www.yahoo.co.jp
+```
+
+  
+<span class="deco"
+style="font-weight:bold;">画面のスクリーンショットを撮ります</span>
+
+``` ruby
+$ meat_sauce capture --url http://www.yahoo.co.jp --file-path ~/yahoo.jpg
+```
+
+  
+　-d
+数字をオプション追加でリンクを踏んだ先も画像を撮ります。パシャパシャ。  
+  
+  
+個人的にはスクショとスクレイピングが便利だと思うのですが。どうでしょうか？  
+動けばですが・・・
+
+

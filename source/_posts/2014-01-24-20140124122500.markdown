@@ -1,0 +1,78 @@
+---
+layout: post
+title: Terminalでsshするときに、接続先に応じて背景色を変える方法
+date: 2014-01-24 12:25
+comments: true
+categories: [terminal]
+published: true
+---
+
+
+
+朝これを見た。  
+  
+iTermでsshするときに、接続先に応じて背景色を変える方法  
+<http://qiita.com/k_kinukawa/items/3e5665325a4954e33019>  
+  
+いいなと思った。  
+  
+でも普段僕はMacの標準のTerminalを使っている。  
+Terminalで同じこと出きないかなとぐぐったらすぐあった。  
+  
+<https://github.com/dlobraico/dotfiles/blob/master/bin/ssh-host-color>  
+  
+でも僕は透過率が75%にしていて透過率を設定したいのだけど。  
+osascriptで透過率の設定がよくわからない。  
+  
+というか普段ターミナルの色とかはProの設定を使っているのでProの使いたいなーって思ってググってprofileを切り替えられるようにした。  
+  
+  
+
+``` ruby
+#!/bin/bash
+#
+# ssh into a machine and automatically set the background
+# color of Mac OS X Terminal depending on the hostname.
+#
+# Installation:
+# 1. Save this script to /some/bin/ssh-host-color
+# 2. chmod 755 /some/bin/ssh-host-color
+# 3. alias ssh=/some/bin/ssh-host-color
+# 4. Configure your host colors below.
+
+set_term_bgcolor() {
+   local R=$1
+   local G=$2
+   local B=$3
+   /usr/bin/osascript <<EOF
+tell application "Terminal"
+   tell window 0
+      set the background color to {$(($R*65535/255)), $(($G*65535/255)), $(($B*65535/255)), 32767}
+   end tell
+end tell
+EOF
+}
+
+set_term_profile() {
+   local profile=$1
+   /usr/bin/osascript -e "tell application   "Terminal  " to  set current settings of first window to settings set   "$profile  ""
+}
+
+# Host-specific background colors.
+if [[ "$@" =~ production1.com ]]; then
+   set_term_profile "HomeBrew"
+elif [[ "$@" =~ production2.com ]]; then
+   set_term_bgcolor 0 40 0
+fi
+
+ssh $@
+
+# Default background color.
+set_term_profile "Pro"
+```
+
+  
+set  _term  _profileでプロファイルの名前を渡せばそれに切り替わる。  
+set  _bg  _colorも残してる。
+
+

@@ -1,0 +1,51 @@
+---
+layout: post
+title: こっそりと自社サービスでsassを使ってみる
+date: 2013-01-10 15:24
+comments: true
+categories: [rails, sass]
+published: true
+---
+
+
+
+hamlをGemfileに追加しました！と宣言し、実際にhamlを使ったら他のエンジニアに読めないヽ(ﾟ´Д｀)ﾉﾟと言われて数ヶ月がたちました。  
+  
+今日はRails3.0.5にこっそりとsassを導入しました。  
+  
+まずはGemfileに  `gem 'sass'  `を追記して  `bundle install  `  
+scssファイルの置き場所は将来のバージョンアップを見越して、  `app/assets/stylesheets/  `に作りました。  
+お気に入りのディレクトリに変えてもいいですね。  
+  
+変更を監視して自動で変換してくれるようにコンソール上で  `sass --style --watch
+app/assets/stylesheets/:public/stylesheets  `を実行。  
+これで自動的にapp/assetstylesheets以下のscssファイルがcssにコンパイルされてpublic/stylesheetsの下に作成されます。  
+  
+  `app/assets/stylesheets/test.scss  `を作成。  
+
+``` ruby
+$defaultFontSize: 10px;
+
+.test{
+  font-size: $defaultFontSize;
+}
+```
+
+  
+watchしているコンソールを見てみると動いたっぽいメッセージが表示されていると思います。  
+  
+public/stylesheets/test.cssの中身を見てみると。  
+
+``` ruby
+.test {
+  font-size: 10px;
+}
+```
+
+  
+と出来てます。  
+これでこっそりとsass書けますね！  
+  
+ここまできたら、compassも導入したいなぁ。
+
+

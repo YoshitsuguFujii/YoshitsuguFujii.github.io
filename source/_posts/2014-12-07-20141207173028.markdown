@@ -1,0 +1,99 @@
+---
+layout: post
+title: 論理削除指定のモデルをhas_manyで参照し、かつnested_attributes_forにallow_destroyを指定するも物理削除になる。
+date: 2014-12-07 17:30
+comments: true
+categories: [rails]
+published: true
+---
+
+
+
+環境はこちら  
+activerecord(4.1.6)  
+rails4  _acts  _as  _paranoid (0.1.4)  
+  
+has  _manyのリレーション先でacts  _as  _paranoid指定しているのですが、  
+nested  _attributes  _for リレーション先, allow  _destroy : true  
+で何故か物理削除になっていまったので調べてみました。  
+  
+  
+結論としては  
+  
+lib/active  _record/associations/has  _many  _association.rb  
+の112行目で  
+records.each(&:destroy!)  
+とdestroy!で消していて、acts  _as  _paranoidのdestroy!は物理削除になるためでした。  
+  
+何故destroyに!がついているのか
+上記が定義されているdelete  _recordsメソッドを遡ってみます。  
+delete  _recordsメソッドはlib/active  _record/associations/collection  _association.rb  
+のremove  _recordsの中で呼ばれています(ソースでは492行目)  
+
+``` ruby
+  # lib/active_record/associations/collection_association.rb
+  def remove_records(existing_records, records, method)
+    records.each { |record| callback(:before_remove, record) }
+
+    delete_records(existing_records, method) if existing_records.any?
+    records.each { |record| target.delete(record) }
+
+    records.each { |record| callback(:after_remove, record) }
+  end
+```
+
+  
+んでこれはどこで呼ばれるかというとここで呼ばれています(ソースでは485行目)  
+
+``` ruby
+  # lib/active_record/associations/collection_association.rb
+  def delete_or_destroy(records, method)
+    records = records.flatten
+    records.each { |record| raise_on_type_mismatch!(record) }
+    existing_records = records.reject { |r| r.new_record? }
+
+    if existing_records.empty?
+      remove_records(existing_records, records, method)
+    else
+      transaction { remove_records(existing_records, records, method) }
+    end
+  end
+```
+
+  
+transactionで囲まれています。  
+ということでdestroyに失敗した時にロールバックするために!をつけているようです。  
+  
+なのでparanoidのdestroy!をalias  _method  _chainで物理削除にしてしまうか。  
+上記のrecords.each(&:destroy!)をなんとか書き換えてあげると治りそうですね。  
+  
+今回はこうやって直しました。  
+
+``` ruby
+module ActiveRecord
+  module Associations
+    module HasManyAssociationPatch
+      def delete_records(records, method)
+        if method == :destroy
+          records.each do |record|
+            raise ActiveRecord::ActiveRecordError unless record.destroy
+          end
+          update_counter(-records.length) unless inverse_updates_counter_cache?
+        else
+          super
+        end
+      end
+    end
+  end
+end
+
+ActiveRecord::Associations::HasManyAssociation.send(:prepend, ActiveRecord::Associations::HasManyAssociationPatch)
+```
+
+  
+今回ソース読んでいて知ったんですけど、has  _manyって削除する時に  
+before  _remove  
+after  _remove  
+ってコールバックが発生するんですね。知らなかった。
+
+

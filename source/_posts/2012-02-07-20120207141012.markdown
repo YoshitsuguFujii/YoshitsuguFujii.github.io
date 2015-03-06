@@ -1,0 +1,55 @@
+---
+layout: post
+title: rubyのオープンクラス
+date: 2012-02-07 14:10
+comments: true
+categories: [ruby]
+published: true
+---
+
+
+
+rubyのオープンクラス  
+
+``` ruby
+class Hoge
+  def aaa
+    p "aaa"
+  end
+end
+
+
+hoge = Hoge.new
+
+hoge.methods.grep(/aaa/) # => [:aaa]
+
+
+class Hoge
+  def bbb
+    p "bbb"
+  end
+end
+
+hoge.methods.grep(/aaa|bbb/) # => [:aaa, :bbb]
+```
+
+  
+一度定義済みのクラスHogeに再度Hogeを定義している。  
+Hogeが定義されていると、二回目の呼び出しでは一回目の呼び出しのHogeが呼ばれ  
+そこにメソッドbbbが追加される。  
+  
+当然String等の既存クラスにも対応。
+
+``` ruby
+class String
+  def aaa
+    p "aaa"
+  end
+end
+
+str = "fuga"
+str.methods.grep(/aaa/) # => [:aaa]
+p str.aaa # => "aaa"
+```
+
+

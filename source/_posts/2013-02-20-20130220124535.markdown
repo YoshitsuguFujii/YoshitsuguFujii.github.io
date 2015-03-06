@@ -1,0 +1,19 @@
+---
+layout: post
+title: いろいろなgitignore
+date: 2013-02-20 12:45
+comments: true
+categories: [git]
+published: true
+---
+
+
+
+色々な言語やフレームワークのgitignoreのテンプレート  
+  
+とりあえず新規でプロジェクト作ったなら、適用してみると少しだけハッピーになれる気がしますね。  
+<https://github.com/github/gitignore>  
+  
+色々あるもんです。
+
+

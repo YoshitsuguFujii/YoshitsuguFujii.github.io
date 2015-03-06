@@ -1,0 +1,30 @@
+---
+layout: post
+title: applicatonControllerでイッテに例外を引き受ける
+date: 2013-04-02 18:18
+comments: true
+categories: [ruby on rails]
+published: true
+---
+
+
+
+とりあえずエラー起こっても、なんとなくぼんやりとどうにかして欲しい時がある。  
+たとえばAPIでなんらかのエラーがあったらとりあえずステータスコードに500を返すようにしたりとか。  
+
+``` ruby
+class ApiController < ActionController::Base
+  rescue_from Exception, with: :system_error 
+
+  def system_error(ex)
+    logger.error(ex.message)
+    logger.error(ex.backtrace)
+    render json: @data , :status => 500
+  end
+end
+```
+
+  
+Exceptionを指定して、なんでもかんでもエラーが起きたらsystem  _errorに投げちゃう。みたいな
+
+

@@ -1,0 +1,54 @@
+---
+layout: post
+title: 指定した要素で指定した数分、配列を埋める
+date: 2012-01-26 10:42
+comments: true
+categories: [ruby]
+published: true
+---
+
+
+
+初期値を指定して配列を作りたいならこうできる。  
+
+``` ruby
+  Array.new(3, nil) # => [nil, nil, nil]
+  Array.new(2, "foo") # => ["foo", "foo"]
+```
+
+  
+  
+んで、指定した値で要素数Nの配列を要素数Mにしたい場合。  
+  
+
+``` ruby
+  変数.fill(指定した値,変数.size..(N-1))
+```
+
+  
+で出来る。  
+  
+例）とりあえずMを５とする場合。  
+
+``` ruby
+  ary = [1]
+  ary.fill(nil,ary.size..4) #=> [1, nil, nil, nil, nil]
+
+  ary = [1,2]
+  ary.fill("empty",a.size..4) #=> [1, 2, "empty", "empty", "empty"]
+
+  ary = [1,2,3,4,5]
+  ary.fill(nil,a.size..4) # => [1, 2, 3, 4, 5] 
+```
+
+  
+  
+ちなみにfillは!ついてないけど破壊的メソッドなので、レシーバの値変わってしまうのがちょっと注意。
+
+``` ruby
+  ary = [1]
+  ary.fill(nil,ary.size..4) #=> [1, nil, nil, nil, nil]
+  p ary #=> [1, nil, nil, nil, nil]
+```
+
+

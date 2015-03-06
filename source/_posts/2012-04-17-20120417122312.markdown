@@ -1,0 +1,29 @@
+---
+layout: post
+title: each_with_indexの開始を任意の数値から
+date: 2012-04-17 12:23
+comments: true
+categories: [ruby]
+published: true
+---
+
+
+
+each  _with  _indexは0始まりでインデックスが使える。
+
+``` ruby
+["a","b"].each_with_index{|elem,i| puts i} #=> 0 1
+```
+
+  
+でも連番降ったりとか１始まりが欲しい場合がある。  
+そんな場合。
+
+``` ruby
+["a","b"].each.with_index(1){|elem,i| puts i} #=> 1 2
+```
+
+  
+もちろん数値変えればスタートの値も変わる。
+
+

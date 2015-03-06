@@ -1,0 +1,42 @@
+---
+layout: post
+title: jsでformの取り消す・やり直す
+date: 2013-12-12 12:48
+comments: true
+categories: [javascript]
+published: true
+---
+
+
+
+javascript力が弱くて、クラス使って何か書きたくて、しかも
+coffeescriptで書きたくて、  
+CTRL + Z
+というブラウザの標準の機能があるのに、jsで戻る、やり直しを行うことができるプラグインを作りました。  
+正直使い道がよくわかりません。どのあたりをターゲットにしているのかもちょっとわかりません。  
+  
+こんな感じでエレメントを指定してformを対象にして
+
+``` ruby
+form = new FormObserver('form');
+```
+
+  
+``` ruby
+// 一つ前の操作に戻す
+form.undo();
+// やり直し
+form.redo();
+```
+
+  
+って感じで、操作できます。  
+  
+IE10とchromeでは動きました。  
+よくテストはしてません。  
+バグがあったらすいませんすいません。  
+  
+使って見たい方はこちらからどうぞ  
+<https://github.com/YoshitsuguFujii/form-undo.js>
+
+

@@ -1,0 +1,27 @@
+---
+layout: post
+title: xxx_pathからurlを取りたい
+date: 2012-06-14 15:17
+comments: true
+categories: [rails]
+published: true
+---
+
+
+
+通常使ってたらあんまりないのかもしれないけど。  
+  
+libとかでxxx  _path(rake routesで一番左にでるやつ)のurlを取りたいとき。  
+
+``` ruby
+Rails.application.routes.url_helpers.xxx_path(@user)
+```
+
+  
+で取れる。  
+
+``` ruby
+Rails.application.routes.url_helpers.user_register_shop_staffs_path(shop) # => "/shops/1/staffs/user_register"
+```
+
+

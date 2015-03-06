@@ -1,0 +1,63 @@
+---
+layout: post
+title: とっとこhaml太郎
+date: 2013-02-26 10:59
+comments: true
+categories: [haml, rails]
+published: true
+---
+
+
+
+タイトルに意味はないです。  
+今日はerbをhamlに一気に変換したいと思います。  
+
+``` ruby
+#Gemfile
+gem "erb2haml", :group => :development
+```
+
+  
+``` ruby
+bundle install   
+rake haml:convert_erbs
+ 
+ERROR:  Could not find html2haml in your PATH. Aborting.
+```
+
+  
+あれ？  
+  
+追記
+
+``` ruby
+#Gemfile
+group :development do
+  gem 'html2haml'
+  gem 'erb2haml'
+end
+```
+
+  
+``` ruby
+rake haml:convert_erbs
+Looking for ERB files to convert to Haml...
+Converting: app/views/devise/confirmations/new.html.erb... Done!
+Converting: app/views/devise/mailer/confirmation_instructions.html.erb... Done!
+Converting: app/views/devise/mailer/reset_password_instructions.html.erb... Done!
+Converting: app/views/devise/mailer/unlock_instructions.html.erb... Done!
+Converting: app/views/devise/passwords/edit.html.erb... Done!
+Converting: app/views/devise/passwords/new.html.erb... Done!
+Converting: app/views/devise/registrations/edit.html.erb... Done!
+Converting: app/views/devise/registrations/new.html.erb... Done!
+Converting: app/views/devise/sessions/new.html.erb... Done!
+```
+
+  
+うんうん。  
+  
+追記  
+遅れましたが、Ruby2.0おめでとうございます。  
+とりあえずMacに入れてみました。それだけです。
+
+

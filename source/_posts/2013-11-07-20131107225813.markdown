@@ -1,0 +1,32 @@
+---
+layout: post
+title: js.erbファイルのデバッグ
+date: 2013-11-07 22:58
+comments: true
+categories: [rails]
+published: true
+---
+
+
+
+railsでajax使って処理していて、コントローラからjsファイルを読んでviewの内容を書き換えたり、追加したりすることがあると思う。  
+  
+  # hogehoge.js.erb
+
+``` ruby
+$("kokonitsuika").append("<%= escape_javascript(render "partial_view") %>"); 
+```
+
+  
+このくらいなら多分ないけど。結構複雑なjs.erbに成長しちゃってjsのデバッグをしたい時には、chromeでインスペクション開いたままdebuggerを差し込むと止まってくれるので幸せになれるかも？  
+
+``` ruby
+debugger
+$("kokonitsuika").append("<%= escape_javascript(render "partial_view") %>"); 
+```
+
+  
+  
+腰が痛いぞ。
+
+

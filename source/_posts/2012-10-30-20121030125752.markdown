@@ -1,0 +1,33 @@
+---
+layout: post
+title: someone call me
+date: 2012-10-30 12:57
+comments: true
+categories: [ruby]
+published: true
+---
+
+
+
+rubyで自分がどう呼び出されているかを調べる  
+  
+printstacktraceのようなもの。  
+callerと書けば、どこから呼ばれたのかがわかる。  
+  
+本番環境でなんか２件データが出来る時があって、どうしても原因がわからないのでどこから呼ばれてるのか仕込んでみた。  
+
+``` ruby
+require 'logger'
+logger = Logger.new('log/debug.log', 'daily')
+logger.level = Logger::DEBUG
+logger.info( "#####" + DateTime.now.strftime("%Y年%m月%d日 %H時%M分%S秒") + "#####")
+logger.info(self.inspect)
+logger.info(caller.join("  n"))
+logger.info( "############")
+```
+
+  
+ログは一日置きにローテートさせてみた。  
+もう一週間ぐらいたつけど、罠しかけた途端現象が起きなくなるという。
+
+

@@ -1,0 +1,25 @@
+---
+layout: post
+title: Signature expired
+date: 2013-09-24 20:01
+comments: true
+categories: [ruby, aws]
+published: true
+---
+
+
+
+踏み台サーバー上でcapistranoで  
+
+``` ruby
+`return_or_raise': Signature expired: 20130924T043045Z is now earlier than 20130924T043046Z (20130924T043546Z - 5 min.) (AWS::ELB::Errors::SignatureDoesNotMatch)
+```
+
+  
+って出て、デプロイ出来ない。  
+  
+結論。  
+サーバーの時刻が遅れてたからでした。  
+はまったので、みなさんも同じことにならないように。
+
+

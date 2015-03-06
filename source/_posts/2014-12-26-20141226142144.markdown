@@ -1,0 +1,36 @@
+---
+layout: post
+title: 関連を保存時に削除する
+date: 2014-12-26 14:21
+comments: true
+categories: [ruby on rails]
+published: true
+---
+
+
+
+saveした時に削除したいときは対象のレコードに対して
+
+``` ruby
+accepts_nested_attributes_for :対象のアソシエーション, allow_destroy: true
+```
+
+で宣言してから、  
+
+``` ruby
+parent.childs.first.mark_for_destruction # 削除したいレコードに削除のマークをつける
+parent.childs.save # => childsのfirstのものか削除される。
+```
+
+  
+で削除される。  
+ちなみにsave時にこれを削除してねってマークしたかは
+
+``` ruby
+parent.childs.first.marked_for_destruction? # => true
+```
+
+  
+で確認できる。
+
+

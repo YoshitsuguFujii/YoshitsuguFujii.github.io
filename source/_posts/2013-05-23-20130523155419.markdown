@@ -1,0 +1,22 @@
+---
+layout: post
+title: padrinoでコントローラ名とアクション名
+date: 2013-05-23 15:54
+comments: true
+categories: [padrino]
+published: true
+---
+
+
+
+sinatraもよくわからないのに、padrino触ってます。  
+  
+コントローラ名とアクション名はこうやったら取れんじゃないかと  
+  
+コントローラ名  
+request.controller.to  _s  
+  
+アクション名  
+request.action.to  _s
+
+
