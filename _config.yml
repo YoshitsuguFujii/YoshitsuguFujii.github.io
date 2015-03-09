@@ -7,7 +7,7 @@ title: なんとなく日々徒然と
 subtitle:
 author: Yoshitsugu Fujii
 simple_search: https://www.google.com/search
-description: ruby rails
+description: ruby rails French Bulldog surfing aqualist
 
 # Default date format is "ordinal" (resulting in "July 22nd 2007")
 # You can customize the format as defined in
@@ -51,7 +51,7 @@ titlecase: true       # Converts page and post titles to titlecase
 
 # list each of the sidebar modules you want to include, in the order you want them to appear.
 # To add custom asides, create files in /source/_includes/custom/asides/ and add them to the list like 'custom/asides/custom_aside_name.html'
-default_asides: [asides/recent_posts.html, asides/github.html, asides/delicious.html, asides/pinboard.html, asides/googleplus.html]
+default_asides: [asides/recent_posts.html, asides/github.html, asides/delicious.html, asides/pinboard.html, asides/googleplus.html, asides/twitter.html]
 
 # Each layout uses the default asides, but they can have their own asides instead. Simply uncomment the lines below
 # and add an array with the asides you want to use.
@@ -64,13 +64,13 @@ default_asides: [asides/recent_posts.html, asides/github.html, asides/delicious.
 # ----------------------- #
 
 # Github repositories
-github_user:
-github_repo_count: 0
+github_user: YoshitsuguFujii
+github_repo_count: 3
 github_show_profile_link: true
 github_skip_forks: true
 
 # Twitter
-twitter_user:
+twitter_user: YoshitsuguFujii
 twitter_tweet_button: true
 
 # Google +1
@@ -98,4 +98,41 @@ disqus_show_comment_count: false
 google_analytics_tracking_id:
 
 # Facebook Like
-facebook_like: false
+facebook_like: true
+
+# Oscailte Theme Settings
+oscailte:
+    hire: # The "Available for Hire" widget
+        visible:
+            footer: false
+            sidebar: false
+        footer-cols: 6 # Number of columns available for the footer component, max 12
+        available: false # Whether or not you're available for hire
+        vibrant: false # Makes the widget much more noticeable
+        message: "Available for new opportunities"
+    social:
+        visible: true
+        title: # Defaults to "Follow me!" if not present
+        adn: # App.net
+        coinbase:
+        dribbble:
+        facebook:
+            user: fujiiyoshitsugu
+            app_id: # For enabling Open Graph metadata
+        github:
+            user: YoshitsuguFujii
+            show_profile_link:
+        googleplus:
+        hackernews:
+        keybase:
+        linkedin:
+        pinterest:
+        reddit:
+        stackoverflow:
+        twitter:
+            user: YoshitsuguFujii
+            widget: # Shows the Recent Tweets widget in sidebar
+                is_shown: true
+                show_profile_link: true
+                widget_id: 574397323830132736
+        youtube:
