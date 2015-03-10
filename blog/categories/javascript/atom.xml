@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+    <title><![CDATA[Category: javascript | なんとなく日々徒然と]]></title>
+    <link href="http://yoshitsugufujii.github.io/blog/categories/javascript/atom.xml" rel="self"/>
+    <link href="http://yoshitsugufujii.github.io/"/>
+    <updated>2015-03-10T13:30:49+09:00</updated>
+    <id>http://yoshitsugufujii.github.io/</id>
+    <author>
+        <name><![CDATA[Yoshitsugu Fujii]]></name>
+        
+      </author>
+    <generator uri="http://octopress.org/">Octopress</generator>
+
+    
+    <entry>
+        <title type="html"><![CDATA[jQueryのappendが重かったので対応したこと]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2014/03/24/20140324143648/"/>
+        <updated>2014-03-24T14:36:00+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2014/03/24/20140324143648</id>
+        <content type="html"><![CDATA[<p>railsでチェックボックスで会社を選択して、ajax通信で返すjsの内容がこんな感じだった。</p>
+
+<pre><code class="ruby">  &lt;% @company.each do |company| %&gt;
+    &lt;% company.member.each do |customer| %&gt;
+        $("#customer_area").append("&lt;%= escape_javascript(render("make_customer_area", cid: customer.id)) %&gt;");
+    &lt;% end %&gt;
+  &lt;% end %&gt;
+</code></pre>
+
+<p>重い。console.time仕込んで計測したらappendがめちゃめちゃ重い。<br/>
+一回のappendで1秒ぐらいかかってた。</p>
+
+<p>毎回appendじゃなくて、一回でappendしてみる</p>
+
+<pre><code class="ruby">  var html = []
+  var customer_area = $("#customer_area")
+  &lt;% @company.each do |company| %&gt;
+    &lt;% company.member.each do |customer| %&gt;
+        html.push("&lt;%= escape_javascript(render("make_customer_area", cid: customer.id)) %&gt;");
+    &lt;% end %&gt;
+  &lt;% end %&gt;
+
+  if ( html.length &gt; 0 ){
+    customer_area.append(html.join(''))
+  }
+</code></pre>
+
+<p>あんまり変わらないなぁ。<br/>
+というかappendやめよ。もうやめよ。</p>
+
+<pre><code class="ruby">  var html = []
+  var customer_area = document.getElementById("customer_area");
+  &lt;% @company.each do |company| %&gt;
+    &lt;% company.member.each do |customer| %&gt;
+        html.push("&lt;%= escape_javascript(render("make_customer_area", cid: customer.id)) %&gt;");
+    &lt;% end %&gt;
+  &lt;% end %&gt;
+
+  if ( html.length &gt; 0 ){
+    customer_area.innerHTML = customer_area.innerHTML + html.join('')
+  }
+</code></pre>
+
+<p>約0.5秒ぐらい早くなった。いいね。<br/>
+でもinnnerHTML使ってるから、何回か会社をクリックするとinnerHTMLにテキストが溜まりすぎてだんだん重くなる。<br/>
+innnerHTML参照せずにappendChildで追加しよう。</p>
+
+<pre><code class="ruby">  var html = []
+  var customer_area = document.getElementById("customer_area");
+  &lt;% @company.each do |company| %&gt;
+    &lt;% company.member.each do |customer| %&gt;
+        html.push("&lt;%= escape_javascript(render("make_customer_area", cid: customer.id)) %&gt;");
+    &lt;% end %&gt;
+  &lt;% end %&gt;
+
+  if ( html.length &gt; 0 ){
+    var element = document.createElement('div');
+    element.innerHTML = html.join('');
+    customer_area.appendChild(element);
+
+  }
+</code></pre>
+
+<p>これで当初の半分ぐらいまでは処理時間が軽減されました。</p>
+]]></content>
+    </entry>
+    
+    <entry>
+        <title type="html"><![CDATA[jsでformの取り消す・やり直す]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2013/12/12/20131212124818/"/>
+        <updated>2013-12-12T12:48:00+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2013/12/12/20131212124818</id>
+        <content type="html"><![CDATA[<p>javascript力が弱くて、クラス使って何か書きたくて、しかも
+coffeescriptで書きたくて、<br/>
+CTRL + Z
+というブラウザの標準の機能があるのに、jsで戻る、やり直しを行うことができるプラグインを作りました。<br/>
+正直使い道がよくわかりません。どのあたりをターゲットにしているのかもちょっとわかりません。</p>
+
+<p>こんな感じでエレメントを指定してformを対象にして</p>
+
+<pre><code class="ruby">form = new FormObserver('form');
+</code></pre>
+
+<pre><code class="ruby">// 一つ前の操作に戻す
+form.undo();
+// やり直し
+form.redo();
+</code></pre>
+
+<p>って感じで、操作できます。</p>
+
+<p>IE10とchromeでは動きました。<br/>
+よくテストはしてません。<br/>
+バグがあったらすいませんすいません。</p>
+
+<p>使って見たい方はこちらからどうぞ<br/>
+<a href="https://github.com/YoshitsuguFujii/form-undo.js">https://github.com/YoshitsuguFujii/form-undo.js</a></p>
+]]></content>
+    </entry>
+    
+    <entry>
+        <title type="html"><![CDATA[同じ内容のselectボックスを複数置いた場合に、選択項目を他のプルダウンから消す]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2012/12/20/20121220180607/"/>
+        <updated>2012-12-20T18:06:00+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2012/12/20/20121220180607</id>
+        <content type="html"><![CDATA[<p>htmlでまったく同じselectボックスを複数並べ、選択したら他のプルダウンからその要素を消すカスタムイベントを登録可能なjquery
+pluginを書きました。</p>
+
+<p>動作確認用のexample.htmlを含めgithubに公開しているので、よかったらどうぞ。</p>
+]]></content>
+    </entry>
+    
+</feed>

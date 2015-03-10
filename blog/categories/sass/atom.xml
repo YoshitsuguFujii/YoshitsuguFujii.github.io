@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+    <title><![CDATA[Category: sass | なんとなく日々徒然と]]></title>
+    <link href="http://yoshitsugufujii.github.io/blog/categories/sass/atom.xml" rel="self"/>
+    <link href="http://yoshitsugufujii.github.io/"/>
+    <updated>2015-03-10T13:30:49+09:00</updated>
+    <id>http://yoshitsugufujii.github.io/</id>
+    <author>
+        <name><![CDATA[Yoshitsugu Fujii]]></name>
+        
+      </author>
+    <generator uri="http://octopress.org/">Octopress</generator>
+
+    
+    <entry>
+        <title type="html"><![CDATA[compassをこっそりと自社サービスで使ってみる]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2013/01/11/20130111123918/"/>
+        <updated>2013-01-11T12:39:00+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2013/01/11/20130111123918</id>
+        <content type="html"><![CDATA[<p>昨日のエントリの続きになります。<br/>
+やっぱりcompassも使いたいということで、こっそりと入れてみました。<br/>
+compassはsassのfunctionやmixinなどが便利につまったフレームワークですね。</p>
+
+<p>rails3.0.5のプロジェクトで使用します。<br/>
+  #{RAILS  _ROOT}はrailsのアプリケーションルートに適宜読み替えてください。</p>
+
+<p>まずは  #{RAILS  _ROOT}/app/assets/stylesheets下に環境を作ってみたいと思います。</p>
+
+<p>まずはGemfileにgem &lsquo;compass&#8217;を追記して  <code>bundle install </code><br/>
+compassはsassに依存しているので、昨日のGemfileに記述したsassの行を削除してもいいかもしれません。</p>
+
+<p>compassの環境を作ります。</p>
+
+<pre><code class="ruby">cd #{RAILS_ROOT}/app/assets/stylesheets
+compass create
+</code></pre>
+
+<p>コンソールに色々ファイルが出来たと思います。<br/>
+デフォルトのファイル達は使わないので消しちゃいます。</p>
+
+<pre><code class="ruby">rm -r sass
+rm -r stylesheets
+</code></pre>
+
+<p>config.rbを開いて修正します。</p>
+
+<pre><code class="ruby"># Set this to the root of your project when deployed:
+http_path = "/"
+css_dir = "../../../public/stylesheets"
+sass_dir = "."
+images_dir = "../images"
+generated_images_dir = "../../../public/images"
+javascripts_dir = "../../../public/javascripts"
+</code></pre>
+
+<p>sass  <em>dirがコンパイル対象のscssが置かれているパス。<br/>
+css  </em>dirがコンパイル後のcssの出力先ですね。</p>
+
+<p>変更を監視して自動で変換してくれるようにコンソール上でwatchスタートします。</p>
+
+<pre><code class="ruby">cd #{RAILS_ROOT}/app/assets/stylesheets
+compass watch
+</code></pre>
+
+<p>  #{RAILS  _ROOT}/app/assets/stylesheets/test.scssを作成してみます。</p>
+
+<pre><code class="ruby">@import "compass/css3";
+
+.sample {
+  @include border-radius(25px);
+}
+</code></pre>
+
+<p>  #{RAILS  _ROOT}/public/stylesheets/test.cssを開いてみます。</p>
+
+<pre><code class="ruby">/* line 3, ../../app/assets/stylesheets/test.scss */
+.sample {
+  -webkit-border-radius: 25px;
+  -moz-border-radius: 25px;
+  -ms-border-radius: 25px;
+  -o-border-radius: 25px;
+  border-radius: 25px;
+}
+</code></pre>
+
+<p>できてます。<br/>
+これでこっそりcompassが使えますね！</p>
+
+<p>compassのリファレンスは公式を参照です。<br/>
+<a href="http://compass-style.org/">http://compass-style.org/</a></p>
+
+<p>※2013年1月23日追記<br/>
+css
+spriteの機能が使えない指定だったので、config.rb以下二つを直しました。</p>
+
+<pre><code class="ruby">images_dir = "../images"
+generated_images_dir = "../../../public/images"
+</code></pre>
+
+<p>css spriteを使う場合には。<br/>
+images  <em>dirはどこにimagesがあるかを相対パスで指定し、generated  </em>images  _dirはどこに結合した画像を吐き出すかの指定です。</p>
+]]></content>
+    </entry>
+    
+    <entry>
+        <title type="html"><![CDATA[こっそりと自社サービスでsassを使ってみる]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2013/01/10/20130110152413/"/>
+        <updated>2013-01-10T15:24:00+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2013/01/10/20130110152413</id>
+        <content type="html"><![CDATA[<p>hamlをGemfileに追加しました！と宣言し、実際にhamlを使ったら他のエンジニアに読めないヽ(ﾟ´Д｀)ﾉﾟと言われて数ヶ月がたちました。</p>
+
+<p>今日はRails3.0.5にこっそりとsassを導入しました。</p>
+
+<p>まずはGemfileに  <code>gem 'sass' </code>を追記して  <code>bundle install </code><br/>
+scssファイルの置き場所は将来のバージョンアップを見越して、  <code>app/assets/stylesheets/ </code>に作りました。<br/>
+お気に入りのディレクトリに変えてもいいですね。</p>
+
+<p>変更を監視して自動で変換してくれるようにコンソール上で  <code>sass --style --watch
+app/assets/stylesheets/:public/stylesheets </code>を実行。<br/>
+これで自動的にapp/assetstylesheets以下のscssファイルがcssにコンパイルされてpublic/stylesheetsの下に作成されます。</p>
+
+<p>  <code>app/assets/stylesheets/test.scss </code>を作成。</p>
+
+<pre><code class="ruby">$defaultFontSize: 10px;
+
+.test{
+  font-size: $defaultFontSize;
+}
+</code></pre>
+
+<p>watchしているコンソールを見てみると動いたっぽいメッセージが表示されていると思います。</p>
+
+<p>public/stylesheets/test.cssの中身を見てみると。</p>
+
+<pre><code class="ruby">.test {
+  font-size: 10px;
+}
+</code></pre>
+
+<p>と出来てます。<br/>
+これでこっそりとsass書けますね！</p>
+
+<p>ここまできたら、compassも導入したいなぁ。</p>
+]]></content>
+    </entry>
+    
+</feed>

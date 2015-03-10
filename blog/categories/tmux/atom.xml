@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+    <title><![CDATA[Category: tmux | なんとなく日々徒然と]]></title>
+    <link href="http://yoshitsugufujii.github.io/blog/categories/tmux/atom.xml" rel="self"/>
+    <link href="http://yoshitsugufujii.github.io/"/>
+    <updated>2015-03-10T13:30:49+09:00</updated>
+    <id>http://yoshitsugufujii.github.io/</id>
+    <author>
+        <name><![CDATA[Yoshitsugu Fujii]]></name>
+        
+      </author>
+    <generator uri="http://octopress.org/">Octopress</generator>
+
+    
+    <entry>
+        <title type="html"><![CDATA[tmuxはじめました]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2013/02/28/20130228211220/"/>
+        <updated>2013-02-28T21:12:00+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2013/02/28/20130228211220</id>
+        <content type="html"><![CDATA[<p><a href="http://f.hatena.ne.jp/gogo_sakura/20130228210855"><img src="http://cdn-ak.f.st-hatena.com/images/fotolife/g/gogo_sakura/20130228/20130228210855.png" title="f:id:gogo_sakura:20130228210855p:image" alt="f:id:gogo  _sakura:20130228210855p:image" /></a></p>
+
+<p>tmux-powerlineも入れました。</p>
+
+<p><a href="http://f.hatena.ne.jp/gogo_sakura/20130228210856"><img src="http://cdn-ak.f.st-hatena.com/images/fotolife/g/gogo_sakura/20130228/20130228210856.png" title="f:id:gogo_sakura:20130228210856p:image" alt="f:id:gogo  _sakura:20130228210856p:image" /></a></p>
+
+<p>左側には<br/>
+IPとか色々でてます。</p>
+
+<p>右側には<br/>
+地震速報<br/>
+Gmailの受信件数<br/>
+現在流れているItuneの曲名。<br/>
+PC起動してからの経過時間。<br/>
+メモリ使用率<br/>
+東京の天気<br/>
+日時</p>
+
+<p>が表示されてます。</p>
+
+<p>あらやだ、かっこいい。</p>
+
+<p>でもなんか表示変。<br/>
+あとgitのブランチがうまく表示されない</p>
+
+<p>軽くデバッグしたら、パスの取得に失敗してるっぽい。</p>
+
+<pre><code class="ruby">PROMPT="$PROMPT"'$([ -n "$TMUX" ] &amp;&amp; tmux setenv TMUXPWD_$(tmux display -p "#D" | tr -d %) "$PWD")'
+</code></pre>
+
+<p>って.zshrcに書いてもダメ。<br/>
+うーむ。</p>
+
+<p>そして今日はvim-powerline入れてみました。</p>
+
+<p><a href="http://f.hatena.ne.jp/gogo_sakura/20130228190240"><img src="http://cdn-ak.f.st-hatena.com/images/fotolife/g/gogo_sakura/20130228/20130228190240.png" title="f:id:gogo_sakura:20130228190240p:image" alt="f:id:gogo  _sakura:20130228190240p:image" /></a></p>
+
+<p>うん。かっこいい。</p>
+
+<p>ターミナル越しにうっすら透けている、うちの愛犬小梅さんにも使ってもらいました。</p>
+
+<p><a href="http://f.hatena.ne.jp/gogo_sakura/20130228183657"><img src="http://cdn-ak.f.st-hatena.com/images/fotolife/g/gogo_sakura/20130228/20130228183657.jpg" title="f:id:gogo_sakura:20130228183657j:image" alt="f:id:gogo  _sakura:20130228183657j:image" /></a></p>
+
+<p>・・・・・・。</p>
+
+<p>満足そうです(￣∇￣)</p>
+]]></content>
+    </entry>
+    
+</feed>

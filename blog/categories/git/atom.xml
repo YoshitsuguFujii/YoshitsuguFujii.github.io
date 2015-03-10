@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+    <title><![CDATA[Category: git | なんとなく日々徒然と]]></title>
+    <link href="http://yoshitsugufujii.github.io/blog/categories/git/atom.xml" rel="self"/>
+    <link href="http://yoshitsugufujii.github.io/"/>
+    <updated>2015-03-10T13:30:49+09:00</updated>
+    <id>http://yoshitsugufujii.github.io/</id>
+    <author>
+        <name><![CDATA[Yoshitsugu Fujii]]></name>
+        
+      </author>
+    <generator uri="http://octopress.org/">Octopress</generator>
+
+    
+    <entry>
+        <title type="html"><![CDATA[いろいろなgitignore]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2013/02/20/20130220124535/"/>
+        <updated>2013-02-20T12:45:00+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2013/02/20/20130220124535</id>
+        <content type="html"><![CDATA[<p>色々な言語やフレームワークのgitignoreのテンプレート</p>
+
+<p>とりあえず新規でプロジェクト作ったなら、適用してみると少しだけハッピーになれる気がしますね。<br/>
+<a href="https://github.com/github/gitignore">https://github.com/github/gitignore</a></p>
+
+<p>色々あるもんです。</p>
+]]></content>
+    </entry>
+    
+    <entry>
+        <title type="html"><![CDATA[gitで今やってる作業を一時退避する方法]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2012/02/09/20120209100229/"/>
+        <updated>2012-02-09T10:02:00+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2012/02/09/20120209100229</id>
+        <content type="html"><![CDATA[<p>今日は肉の日。</p>
+
+<p>肉関係ないけど.</p>
+
+<p>機能追加中に、バグ報告がはいった場合。<br/>
+今やってる修正を置いといて、最新を取得しなおしてバグフィックスしたい場合がある。</p>
+
+<p>そんな場合</p>
+
+<pre><code class="ruby">git stash
+</code></pre>
+
+<p>ってやると、今やっている作業内容(ステージングファイルもアンステージングファイルも)を一時退避できる。</p>
+
+<p>戻した場合は</p>
+
+<pre><code class="ruby">git stash pop
+</code></pre>
+
+<p>で、戻せる。</p>
+
+<p>今保存しているstash一覧は</p>
+
+<pre><code class="ruby">git stash list
+</code></pre>
+
+<p>コンフリクトしたりして、stashがどうにもならなくなってstashを消し去りたい場合には</p>
+
+<pre><code class="ruby">git stash clear
+</code></pre>
+
+<p>ってな感じでどうですか。</p>
+
+<p>これ知るまでは</p>
+
+<pre><code class="ruby">git commit -m "一時退避"
+git reset --soft HEAD^
+</code></pre>
+
+<p>ってやっていたマヌケは私です。</p>
+
+<p>ああ、とりあえず肉食いたい。</p>
+]]></content>
+    </entry>
+    
+</feed>

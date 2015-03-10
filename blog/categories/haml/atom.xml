@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+    <title><![CDATA[Category: haml | なんとなく日々徒然と]]></title>
+    <link href="http://yoshitsugufujii.github.io/blog/categories/haml/atom.xml" rel="self"/>
+    <link href="http://yoshitsugufujii.github.io/"/>
+    <updated>2015-03-10T13:30:49+09:00</updated>
+    <id>http://yoshitsugufujii.github.io/</id>
+    <author>
+        <name><![CDATA[Yoshitsugu Fujii]]></name>
+        
+      </author>
+    <generator uri="http://octopress.org/">Octopress</generator>
+
+    
+    <entry>
+        <title type="html"><![CDATA[とっとこhaml太郎]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2013/02/26/20130226105919/"/>
+        <updated>2013-02-26T10:59:00+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2013/02/26/20130226105919</id>
+        <content type="html"><![CDATA[<p>タイトルに意味はないです。<br/>
+今日はerbをhamlに一気に変換したいと思います。</p>
+
+<pre><code class="ruby">#Gemfile
+gem "erb2haml", :group =&gt; :development
+</code></pre>
+
+<pre><code class="ruby">bundle install   
+rake haml:convert_erbs
+
+ERROR:  Could not find html2haml in your PATH. Aborting.
+</code></pre>
+
+<p>あれ？</p>
+
+<p>追記</p>
+
+<pre><code class="ruby">#Gemfile
+group :development do
+  gem 'html2haml'
+  gem 'erb2haml'
+end
+</code></pre>
+
+<pre><code class="ruby">rake haml:convert_erbs
+Looking for ERB files to convert to Haml...
+Converting: app/views/devise/confirmations/new.html.erb... Done!
+Converting: app/views/devise/mailer/confirmation_instructions.html.erb... Done!
+Converting: app/views/devise/mailer/reset_password_instructions.html.erb... Done!
+Converting: app/views/devise/mailer/unlock_instructions.html.erb... Done!
+Converting: app/views/devise/passwords/edit.html.erb... Done!
+Converting: app/views/devise/passwords/new.html.erb... Done!
+Converting: app/views/devise/registrations/edit.html.erb... Done!
+Converting: app/views/devise/registrations/new.html.erb... Done!
+Converting: app/views/devise/sessions/new.html.erb... Done!
+</code></pre>
+
+<p>うんうん。</p>
+
+<p>追記<br/>
+遅れましたが、Ruby2.0おめでとうございます。<br/>
+とりあえずMacに入れてみました。それだけです。</p>
+]]></content>
+    </entry>
+    
+</feed>

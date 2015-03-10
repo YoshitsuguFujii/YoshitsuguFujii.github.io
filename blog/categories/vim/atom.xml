@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+    <title><![CDATA[Category: vim | なんとなく日々徒然と]]></title>
+    <link href="http://yoshitsugufujii.github.io/blog/categories/vim/atom.xml" rel="self"/>
+    <link href="http://yoshitsugufujii.github.io/"/>
+    <updated>2015-03-10T13:30:49+09:00</updated>
+    <id>http://yoshitsugufujii.github.io/</id>
+    <author>
+        <name><![CDATA[Yoshitsugu Fujii]]></name>
+        
+      </author>
+    <generator uri="http://octopress.org/">Octopress</generator>
+
+    
+    <entry>
+        <title type="html"><![CDATA[言語毎に異なるデバッグ文を挿入]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2013/11/29/20131129125427/"/>
+        <updated>2013-11-29T12:54:00+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2013/11/29/20131129125427</id>
+        <content type="html"><![CDATA[<p>デバッグ文を仕込む場合に、私の環境ではインサートモードでCTRL+bするとデバッグ文を仕込むようにしています。<br/>
+その際に言語毎(ファイルタイプ毎)に異なるデバッグ文を打ち込めるようにしたら便利すぎて辛いです。</p>
+
+<pre><code class="ruby">function! InsertDebugger()
+    if &amp;filetype == 'coffee' || &amp;filetype == 'javascript'
+      let debugger = "debugger"
+    elseif &amp;filetype == 'ruby'
+      let debugger = "binding.pry"
+    elseif &amp;filetype == 'eruby'
+      let debugger = "&lt;% binding.pry %&gt;"
+    elseif &amp;filetype == 'haml'
+      let debugger = "- binding.pry"
+    else
+      let debugger = "binding.pry"
+    endif
+
+    return debugger
+endfunction
+
+inoremap &lt;expr&gt; &lt;C-b&gt; InsertDebugger()
+</code></pre>
+
+<p>編集中のファイルが<br/>
+coffeescrptかjabascriptの場合はdebuggerを(chrome使ってるので)<br/>
+rubyの場合はbinding.pryを<br/>
+erbの場合は  &lt;% binding.pry %  >を<br/>
+hamlの場合は- binding.pryを打ち込みます。</p>
+
+<p>ちなみに今編集中のファイルのファイル・タイプを知りたいばあいは該当のファイルを開いて</p>
+
+<pre><code class="ruby">:echo &amp;filetpye
+</code></pre>
+
+<p>ってうつと表示されます</p>
+]]></content>
+    </entry>
+    
+    <entry>
+        <title type="html"><![CDATA[vimでファイルのブックマーク]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2013/11/20/20131120192300/"/>
+        <updated>2013-11-20T19:23:00+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2013/11/20/20131120192300</id>
+        <content type="html"><![CDATA[<p>vimを使っていて。<br/>
+ディレクトリはUniteBookmarkAdd使ってブックマークしてましたが。</p>
+
+<p>集中的にある機能のみを重点的に編集する時に、ファイルのブックマークしたくて調べたらあった。<br/>
+しかもデフォルトの機能っぽい。</p>
+
+<p>Hack   #16: 任意のファイルをブックマークする<br/>
+<a href="http://vim-users.jp/2009/05/hack16/">http://vim-users.jp/2009/05/hack16/</a></p>
+
+<p>例えば店舗とかっていう機能開発していて。</p>
+
+<p>StoreControllerのコントロールファイルではmC<br/>
+StoreのformのビューファイルではmF<br/>
+StoreのindexファイルではmS<br/>
+StoreのjsファイルではmJ</p>
+
+<p>しとくと編集していて、すぐにコントローラ開きたい時は<br/>
+  `C</p>
+
+<p>って押せばすぐ開く。<br/>
+簡単に設定できて、即応性があるのでいい感じですね。<br/>
+しかもブックマークとかにしちゃうと、設定後その機能の開発が終わったらブックマークを消さなきゃいけないと思いますが。<br/>
+今なにが設定されているとか気にせずに、常に上書きで使う感じもいいです。<br/>
+他にも色々便利機能ってあるのかな。</p>
+
+<p>vimの本ちゃんと読まないとなー</p>
+]]></content>
+    </entry>
+    
+    <entry>
+        <title type="html"><![CDATA[rubyの対応するdef endとかdo endを%で飛びたい]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2012/02/14/20120214125726/"/>
+        <updated>2012-02-14T12:57:00+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2012/02/14/20120214125726</id>
+        <content type="html"><![CDATA[<p>以下を入れれば良いっぽい</p>
+
+<p><a href="http://vim.sourceforge.net/scripts/script.php?script_id=290">ruby-matchit - ’Matchit’ for Ruby. : vim
+online</a></p>
+
+<p>ページ下部のClick on the package to
+download.からruby-matchit.vimをダウンロードして</p>
+
+<p>  ~/.vim/plugin/</p>
+
+<p>におきませう。<br/>
+それだけで%で対応するdef endとか飛べちゃう。</p>
+]]></content>
+    </entry>
+    
+</feed>

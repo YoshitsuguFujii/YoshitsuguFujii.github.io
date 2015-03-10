@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+    <title><![CDATA[Category: terminal | なんとなく日々徒然と]]></title>
+    <link href="http://yoshitsugufujii.github.io/blog/categories/terminal/atom.xml" rel="self"/>
+    <link href="http://yoshitsugufujii.github.io/"/>
+    <updated>2015-03-10T13:30:49+09:00</updated>
+    <id>http://yoshitsugufujii.github.io/</id>
+    <author>
+        <name><![CDATA[Yoshitsugu Fujii]]></name>
+        
+      </author>
+    <generator uri="http://octopress.org/">Octopress</generator>
+
+    
+    <entry>
+        <title type="html"><![CDATA[Terminalでsshするときに、接続先に応じて背景色を変える方法]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2014/01/24/20140124122500/"/>
+        <updated>2014-01-24T12:25:00+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2014/01/24/20140124122500</id>
+        <content type="html"><![CDATA[<p>朝これを見た。</p>
+
+<p>iTermでsshするときに、接続先に応じて背景色を変える方法<br/>
+<a href="http://qiita.com/k_kinukawa/items/3e5665325a4954e33019">http://qiita.com/k_kinukawa/items/3e5665325a4954e33019</a></p>
+
+<p>いいなと思った。</p>
+
+<p>でも普段僕はMacの標準のTerminalを使っている。<br/>
+Terminalで同じこと出きないかなとぐぐったらすぐあった。</p>
+
+<p><a href="https://github.com/dlobraico/dotfiles/blob/master/bin/ssh-host-color">https://github.com/dlobraico/dotfiles/blob/master/bin/ssh-host-color</a></p>
+
+<p>でも僕は透過率が75%にしていて透過率を設定したいのだけど。<br/>
+osascriptで透過率の設定がよくわからない。</p>
+
+<p>というか普段ターミナルの色とかはProの設定を使っているのでProの使いたいなーって思ってググってprofileを切り替えられるようにした。</p>
+
+<pre><code class="ruby">#!/bin/bash
+#
+# ssh into a machine and automatically set the background
+# color of Mac OS X Terminal depending on the hostname.
+#
+# Installation:
+# 1. Save this script to /some/bin/ssh-host-color
+# 2. chmod 755 /some/bin/ssh-host-color
+# 3. alias ssh=/some/bin/ssh-host-color
+# 4. Configure your host colors below.
+
+set_term_bgcolor() {
+   local R=$1
+   local G=$2
+   local B=$3
+   /usr/bin/osascript &lt;&lt;EOF
+tell application "Terminal"
+   tell window 0
+      set the background color to {$(($R*65535/255)), $(($G*65535/255)), $(($B*65535/255)), 32767}
+   end tell
+end tell
+EOF
+}
+
+set_term_profile() {
+   local profile=$1
+   /usr/bin/osascript -e "tell application   "Terminal  " to  set current settings of first window to settings set   "$profile  ""
+}
+
+# Host-specific background colors.
+if [[ "$@" =~ production1.com ]]; then
+   set_term_profile "HomeBrew"
+elif [[ "$@" =~ production2.com ]]; then
+   set_term_bgcolor 0 40 0
+fi
+
+ssh $@
+
+# Default background color.
+set_term_profile "Pro"
+</code></pre>
+
+<p>set  <em>term  </em>profileでプロファイルの名前を渡せばそれに切り替わる。<br/>
+set  <em>bg  </em>colorも残してる。</p>
+]]></content>
+    </entry>
+    
+</feed>

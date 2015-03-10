@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+    <title><![CDATA[Category: node.js | なんとなく日々徒然と]]></title>
+    <link href="http://yoshitsugufujii.github.io/blog/categories/node-dot-js/atom.xml" rel="self"/>
+    <link href="http://yoshitsugufujii.github.io/"/>
+    <updated>2015-03-10T13:30:49+09:00</updated>
+    <id>http://yoshitsugufujii.github.io/</id>
+    <author>
+        <name><![CDATA[Yoshitsugu Fujii]]></name>
+        
+      </author>
+    <generator uri="http://octopress.org/">Octopress</generator>
+
+    
+    <entry>
+        <title type="html"><![CDATA[knexで外部キー制約のマイグレーション]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2014/03/14/20140314195912/"/>
+        <updated>2014-03-14T19:59:00+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2014/03/14/20140314195912</id>
+        <content type="html"><![CDATA[<p><a href="http://tajimajunpei-blog.blogspot.jp/2013/12/nodejsorm-bookshelf.html">Node.js向けORM
+Bookshelfの紹介</a>を参照させていただきながら、Bookshelf触ってみている。</p>
+
+<p>ページではsqlite3だけど、自分はmysqlで使っている。</p>
+
+<p>外部キー制約の部分。</p>
+
+<pre><code class="ruby"> t.integer('post_id').notNull().references('id').inTable('posts');
+</code></pre>
+
+<p>がmysqlではCannot add foreign key constraintが出て動かなかった。</p>
+
+<p>これで動いた。</p>
+
+<pre><code class="ruby">t.integer('post_id').unsigned().notNullable().references('id').inTable('posts');
+</code></pre>
+]]></content>
+    </entry>
+    
+</feed>

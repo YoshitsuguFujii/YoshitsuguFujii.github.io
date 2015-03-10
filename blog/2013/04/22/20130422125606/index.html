@@ -1,0 +1,377 @@
+<!doctype html>
+    <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+    <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+    <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+    <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+
+    
+      
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>ファイアーウォールとかで守られている社内gitサーバーに置かれたgemを使いたい - なんとなく日々徒然と</title>
+        <meta name="author" content="Yoshitsugu Fujii">
+        
+        <meta name="description" content="ruby rails French Bulldog surfing aqualist">
+        
+        <meta name="viewport" content="width=device-width">
+        <link rel="canonical" href="http://yoshitsugufujii.github.io/blog/2013/04/22/20130422125606">
+
+        <link href='http://fonts.googleapis.com/css?family=Droid+Serif:400,400italic' rel='stylesheet' type='text/css'>
+        <link href="http://fonts.googleapis.com/css?family=Droid+Sans" rel="stylesheet" type="text/css">
+
+        
+        <link href="/favicon.png" rel="icon">
+        <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet">
+        <link href="/atom.xml" rel="alternate" title="なんとなく日々徒然と" type="application/atom+xml">
+    </head>
+
+
+    <body >
+
+        <header id="header">
+    <div class="row">
+    <div class="col-xs-12 col-sm-8 col-md-4">
+        <a href="/" class="site-title">なんとなく日々徒然と</a>
+    </div>
+    <div class="col-xs-12 col-sm-4 col-md-8">
+        <nav>
+    <input type="checkbox" id="toggle">
+    <label for="toggle" class="toggle" data-open="Main Menu" data-close="Close Menu"></label>
+    <ul class="menu">
+    <li><a href="/">Blog</a></li>
+    <li><a href="/profile/">Profile</a></li>
+</ul>
+
+</nav>
+
+    </div>
+</div>
+
+</header>
+
+
+        <div id="main-content">
+
+            <!--[if lte IE 9]>
+<div class="row upgrade-row">
+    <div class="col-lg-12">
+        <div class="upgrade">
+            <i class="upgrade__icon fa fa-warning"></i>
+            <h1 class="upgrade__title h6">Ohnoes!</h1>
+            <p class="upgrade__text">
+                Unfortunately, certain parts of this site may not display correctly in your version of Internet Explorer!<br>
+                If possible, you should consider <a href="http://browsehappy.com/">upgrading your browser</a>.
+            </p>
+        </div>
+    </div>
+</div>
+<!-- <![endif]-->
+
+
+            
+
+            <div class="row top-xs center-sm center-md center-lg site-wrapper">
+                
+                <div class="col-xs-12 col-sm-10 col-md-8 col-lg-8">
+                
+                    <article class="article article--single">
+    <header class="article__header">
+    
+        <h1 class="article__title">ファイアーウォールとかで守られている社内gitサーバーに置かれたgemを使いたい</h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2013-04-22T12:56:00+09:00" pubdate><i class="fa fa-calendar"></i> Apr 22nd, 2013</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+
+            
+                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
+            
+                <li><a class='category' href='/blog/categories/capistrano/'>capistrano</a></li>
+            
+        
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>弊社はgithub enterpriseで運営しています。<br/>
+外部からは自由にアクセスできないように、ファイアーウォールで社内アクセスのみに接続を限定しています。</p>
+
+<p>が、今やっている案件ではお客様が用意したサーバーにアクセスしなければならず。<br/>
+社内gitサーバーにアクセスできない状態です。</p>
+
+<p>そういった場合、capistranoでローカルにソースを先にダウンロードしてtarで固めてサーバーに送信するという指定ができます。</p>
+
+<p>config/deploy.rb</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">set</span> <span class="ss">:deploy_via</span><span class="p">,</span> <span class="ss">:copy</span>
+</span><span class='line'><span class="n">set</span> <span class="ss">:copy_cache</span><span class="p">,</span> <span class="kp">true</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ですが、Gemfileにか書かれているGemファイルはbundle
+installで入れるようなので、社内gitサーバーに置かれたgemを参照しようとしたら落ちました。</p>
+
+<p>うーん。gemも一式ローカルに落としてくれんか？と探していたらありました。<br/>
+<a href="https://github.com/rudionrails/capistrano-strategy-copy-bundled">rudionrails/capistrano-strategy-copy-bundled ?
+GitHub</a></p>
+
+<p>Gemfileにgem &lsquo;capistrano-strategy-copy-bundled&#8217;と書いてbundle install。</p>
+
+<p>config/deploy.rb</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">set</span> <span class="ss">:deploy_via</span><span class="p">,</span>    <span class="ss">:copy_bundled</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>でもcap deploy:updateしたら、</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">executing</span> <span class="ss">locally</span><span class="p">:</span> <span class="s2">&quot;cd /var/folders/dl/n1zf4q750msgc9jcd99hdq3c0000gn/T/20130422015014 &amp;&amp; bundle package --all&quot;</span>
+</span><span class='line'><span class="no">Error</span> <span class="n">loading</span> <span class="no">RubyGems</span> <span class="n">plugin</span> <span class="s2">&quot;/Users/gogosakrua/.rvm/gems/ruby-1.9.3-p385@global/gems/rubygems-bundler-1.1.0/lib/rubygems_plugin.rb&quot;</span><span class="p">:</span> <span class="no">Could</span> <span class="ow">not</span> <span class="n">find</span> <span class="n">rubygems</span><span class="o">-</span><span class="n">bundler</span> <span class="p">(</span><span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="n">amongst</span> <span class="o">[</span><span class="n">actionmailer</span><span class="o">-</span><span class="mi">3</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">12</span><span class="p">,</span> <span class="n">actionpack</span><span class="o">-</span><span class="mi">3</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">12</span><span class="p">,</span> <span class="n">active_decorato</span>
+</span><span class='line'><span class="n">r</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">3</span><span class="o">.</span><span class="mi">4</span><span class="p">,</span> <span class="n">activemodel</span><span class="o">-</span><span class="mi">3</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">12</span><span class="p">,</span> <span class="n">activerecord</span><span class="o">-</span><span class="mi">3</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">12</span><span class="p">,</span> <span class="n">activeresource</span><span class="o">-</span><span class="mi">3</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">12</span><span class="p">,</span> <span class="n">activesupport</span><span class="o">-</span><span class="mi">3</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">12</span><span class="p">,</span> <span class="n">arel</span><span class="o">-</span><span class="mi">3</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">2</span><span class="p">,</span> <span class="n">builder</span><span class="o">-</span><span class="mi">3</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">4</span><span class="p">,</span> <span class="n">cancan</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">6</span><span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="n">chronic</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">1</span><span class="p">,</span> <span class="n">chunky_png</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">7</span><span class="p">,</span> <span class="n">coffee</span><span class="o">-</span><span class="n">rails</span><span class="o">-</span><span class="mi">3</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">2</span><span class="p">,</span> <span class="n">coffee</span><span class="o">-</span><span class="n">script</span><span class="o">-</span><span class="mi">2</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span> <span class="n">coffee</span><span class="o">-</span><span class="n">script</span><span class="o">-</span><span class="n">source</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">6</span><span class="o">.</span><span class="mi">1</span><span class="p">,</span>
+</span><span class='line'><span class="n">compass</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">12</span><span class="o">.</span><span class="mi">2</span><span class="p">,</span> <span class="n">compass</span><span class="o">-</span><span class="n">colors</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span> <span class="n">compass</span><span class="o">-</span><span class="n">rails</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">3</span><span class="p">,</span> <span class="n">compass_twitter_bootstrap</span><span class="o">-</span><span class="mi">2</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">2</span><span class="p">,</span> <span class="n">country_select</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">1</span><span class="o">.</span><span class="mi">3</span><span class="p">,</span> <span class="n">erubis</span><span class="o">-</span><span class="mi">2</span><span class="o">.</span><span class="mi">7</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span> <span class="n">execjs</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">4</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span> <span class="n">fssm</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">10</span><span class="p">,</span> <span class="n">gruff</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">3</span><span class="o">.</span><span class="mi">7</span><span class="p">,</span> <span class="n">haml</span><span class="o">-</span><span class="mi">4</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span> <span class="n">haml</span><span class="o">-</span><span class="n">rails</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">4</span><span class="p">,</span> <span class="n">hike</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">1</span><span class="p">,</span> <span class="n">i18n</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">6</span><span class="o">.</span><span class="mi">4</span><span class="p">,</span> <span class="n">jbuilder</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">2</span><span class="p">,</span>
+</span><span class='line'><span class="n">journey</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">4</span><span class="p">,</span> <span class="n">jquery</span><span class="o">-</span><span class="n">rails</span><span class="o">-</span><span class="mi">2</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">1</span><span class="p">,</span> <span class="n">json</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">7</span><span class="o">.</span><span class="mi">7</span><span class="p">,</span> <span class="n">kaminari</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">14</span><span class="o">.</span><span class="mi">1</span><span class="p">,</span> <span class="n">libv8</span><span class="o">-</span><span class="mi">3</span><span class="o">.</span><span class="mi">11</span><span class="o">.</span><span class="mi">8</span><span class="o">.</span><span class="mi">13</span><span class="o">-</span><span class="n">x86_64</span><span class="o">-</span><span class="n">darwin</span><span class="o">-</span><span class="mi">12</span><span class="p">,</span> <span class="n">log4r</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">1</span><span class="o">.</span><span class="mi">10</span><span class="p">,</span> <span class="n">mail</span><span class="o">-</span><span class="mi">2</span><span class="o">.</span><span class="mi">4</span><span class="o">.</span><span class="mi">4</span><span class="p">,</span> <span class="n">mime</span><span class="o">-</span><span class="n">types</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">21</span><span class="p">,</span> <span class="n">multi_json</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">6</span><span class="o">.</span><span class="mi">1</span><span class="p">,</span> <span class="n">pg</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">14</span><span class="o">.</span><span class="mi">1</span><span class="p">,</span> <span class="n">polyamorous</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span> <span class="n">polyglot</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">3</span><span class="o">.</span><span class="mi">3</span><span class="p">,</span> <span class="n">rack</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">4</span><span class="o">.</span><span class="mi">5</span><span class="p">,</span> <span class="n">rack</span><span class="o">-</span><span class="n">cache</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">2</span><span class="p">,</span> <span class="n">rack</span><span class="o">-</span>
+</span><span class='line'><span class="n">mini</span><span class="o">-</span><span class="n">profiler</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">1</span><span class="o">.</span><span class="mi">23</span><span class="p">,</span> <span class="n">rack</span><span class="o">-</span><span class="n">ssl</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">3</span><span class="o">.</span><span class="mi">3</span><span class="p">,</span> <span class="n">rack</span><span class="o">-</span><span class="nb">test</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">6</span><span class="o">.</span><span class="mi">2</span><span class="p">,</span> <span class="n">rails</span><span class="o">-</span><span class="mi">3</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">12</span><span class="p">,</span> <span class="n">rails3_acts_as_paranoid</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">5</span><span class="p">,</span> <span class="n">railties</span><span class="o">-</span><span class="mi">3</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">12</span><span class="p">,</span> <span class="n">rake</span><span class="o">-</span><span class="mi">10</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">3</span><span class="p">,</span> <span class="n">ransack</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">7</span><span class="o">.</span><span class="mi">2</span><span class="p">,</span> <span class="n">rdoc</span><span class="o">-</span><span class="mi">3</span><span class="o">.</span><span class="mi">12</span><span class="o">.</span><span class="mi">2</span><span class="p">,</span> <span class="n">ref</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">2</span><span class="p">,</span> <span class="n">rjb</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">4</span><span class="o">.</span><span class="mi">6</span><span class="p">,</span> <span class="n">rmagick</span><span class="o">-</span><span class="mi">2</span><span class="o">.</span><span class="mi">13</span><span class="o">.</span><span class="mi">2</span><span class="p">,</span> <span class="n">rubyzip</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="n">sass</span><span class="o">-</span><span class="mi">3</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">6</span><span class="p">,</span> <span class="n">sass</span><span class="o">-</span><span class="n">rails</span><span class="o">-</span><span class="mi">3</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span>
+</span><span class='line'><span class="mi">6</span><span class="p">,</span> <span class="n">seed</span><span class="o">-</span><span class="n">fu</span><span class="o">-</span><span class="mi">2</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span> <span class="n">settingslogic</span><span class="o">-</span><span class="mi">2</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="n">simple_form</span><span class="o">-</span><span class="mi">2</span><span class="o">.</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span> <span class="n">sprockets</span><span class="o">-</span><span class="mi">2</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">2</span><span class="p">,</span> <span class="n">therubyracer</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">11</span><span class="o">.</span><span class="mi">4</span><span class="p">,</span> <span class="n">thor</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">17</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span> <span class="n">tilt</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">3</span><span class="o">.</span><span class="mi">4</span><span class="p">,</span> <span class="n">treetop</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">4</span><span class="o">.</span><span class="mi">12</span><span class="p">,</span> <span class="n">turbo</span><span class="o">-</span><span class="n">sprockets</span><span class="o">-</span><span class="n">rails3</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">3</span><span class="o">.</span><span class="mi">6</span><span class="p">,</span> <span class="n">tzinfo</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">3</span><span class="o">.</span><span class="mi">36</span><span class="p">,</span> <span class="n">uglifier</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">3</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span> <span class="n">whenever</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">8</span><span class="o">.</span><span class="mi">2</span><span class="o">]</span> <span class="p">(</span><span class="no">Gem</span><span class="o">::</span><span class="no">LoadError</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">command</span> <span class="n">finished</span> <span class="k">in</span> <span class="mi">3794</span><span class="n">ms</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>って怒られる。<br/>
+うーん。gemsetがdefault使われてるなー。ってことで。<br/>
+いい機会なので、rbenvにしてみました。<br/>
+<a href="http://ksauzz.github.io/blog/2012/03/23/rbenv-ruby-build-rbenv-gemset/">http://ksauzz.github.io/blog/2012/03/23/rbenv-ruby-build-rbenv-gemset/</a><a href="http://d.hatena.ne.jp/keyword/http%3A//ksauzz%2Egithub%2Eio/blog/2012/03/23/rbenv%2Druby%2Dbuild%2Drbenv%2Dgemset/?mode=edit">?</a></p>
+
+<p>んで cap deploy:update</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">undefined</span> <span class="nb">method</span> <span class="sb">`with_clean_env&#39; for Bundler:Module (NoMethodError)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>また怒られる。なんでだ。ぐぐっても有益な情報なし。<br/>
+あ、ひょっとしてbundle exec必要？</p>
+
+<p>ってことでbundle exec cap deploy:update</p>
+
+<p>んで行くはず。</p>
+
+<p>はずって言うのも。あまりにGem一式のダウンロードが重くて、やってらんねぇってなったので。<br/>
+急遽ファイアーウォールに穴開けてもらうことになったからです。</p>
+
+<p>中途半端ですまんです。</p>
+
+
+
+</article>
+
+
+
+                </div>
+
+                
+                <aside class="sidebar col-xs-12 col-md-4 col-lg-4">
+                    <div class="row">
+
+    
+
+    
+<section class="social col-xs-12 col-sm-6 col-md-12">
+    <h1>
+        Follow me!
+    </h1>
+    <ul class="unstyled">
+        
+        
+        
+        <li><a class="facebook" href="//facebook.com/fujiiyoshitsugu"><i class="fa fa-facebook-square"></i> Facebook</a></li>
+        <li><a class="github" href="//github.com/YoshitsuguFujii"><i class="fa fa-github"></i> Github</a></li>
+        
+        
+        
+        
+        
+        
+        
+        <li><a class="twitter" href="//twitter.com/YoshitsuguFujii"><i class="fa fa-twitter"></i> Twitter</a></li>
+        
+    </ul>
+</section>
+
+
+
+    <section id="recent-posts" class="col-xs-12 col-sm-6 col-md-12">
+    <h1>Recent Posts</h1>
+    <ul class="divided">
+        
+        <li class="post">
+            <a href="/blog/2015/03/10/githubpageniyi-xing-simasita/">GithubPageに移行しました</a>
+        </li>
+        
+        <li class="post">
+            <a href="/blog/2015/02/24/20150224142535/">Axlsxでエクセルのセルを折り返して全体を表示</a>
+        </li>
+        
+        <li class="post">
+            <a href="/blog/2015/02/23/20150223110642/">Axlsxでウィンドウ枠の固定</a>
+        </li>
+        
+        <li class="post">
+            <a href="/blog/2015/02/21/20150221171638/">Axlsxでエクセルファイル作成時に注意する点とかはまりどころとか</a>
+        </li>
+        
+        <li class="post">
+            <a href="/blog/2015/02/17/20150217112514/">trueとfalseにrefinmentsを使ってメソッド追加</a>
+        </li>
+        
+    </ul>
+</section>
+
+<section id="github-repos" class="col-xs-12 col-sm-6 col-md-12">
+    <h1>
+        GitHub Repos
+        
+        <small class="pull-right">
+            <a class="btn" href="//github.com/YoshitsuguFujii" title="@YoshitsuguFujii on GitHub" target="_blank">
+                <i class="fa fa-external-link"></i>
+            </a>
+        </small>
+        
+    </h1>
+    <ul id="gh_repos" class="divided">
+        <li class="loading">
+            <i class="fa fa-spinner fa-spin"></i>
+        </li>
+    </ul>
+</section>
+
+
+
+
+
+<section id="twitter-timeline" class="col-xs-12 col-sm-6 col-md-12">
+    <h1>
+        Latest Tweets
+        
+        <small class="pull-right">
+            <a class="btn" href="//twitter.com/YoshitsuguFujii" title="@YoshitsuguFujii on Twitter" target="_blank">
+                <i class="fa fa-external-link"></i>
+            </a>
+        </small>
+        
+    </h1>
+
+    <a class="twitter-timeline" data-dnt="true" href="//twitter.com/YoshitsuguFujii"  data-widget-id="574397323830132736"  data-link-color="#049cdb" data-tweet-limit="" data-chrome="noheader nofooter transparent noscrollbar">Tweets by @YoshitsuguFujii</a>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+</section>
+
+
+
+</div>
+
+                </aside>
+                
+            </div>
+        </div>
+
+        
+
+    
+    
+
+
+
+
+<footer class="footer">
+    <div class="row middle-xs">
+        
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <p class="footer__copyright">
+    All content copyright Yoshitsugu Fujii.<br>
+    Code under <a href="//github.com/coogie/oscailte/blob/master/README.md">MIT Licence</a>.
+</p>
+
+        </div>
+        
+        
+    </div>
+</footer>
+
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+<script src="//crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script>
+<script defer src="/javascripts/octopress.js"></script>
+
+
+
+
+
+
+
+
+<script>
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'YoshitsuguFujii',
+            count: 3,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+</script>
+<script src="/javascripts/github.js"></script>
+
+
+
+
+
+
+
+    </body>
+
+</html>

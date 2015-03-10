@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+    <title><![CDATA[Category: pusher | なんとなく日々徒然と]]></title>
+    <link href="http://yoshitsugufujii.github.io/blog/categories/pusher/atom.xml" rel="self"/>
+    <link href="http://yoshitsugufujii.github.io/"/>
+    <updated>2015-03-10T13:30:49+09:00</updated>
+    <id>http://yoshitsugufujii.github.io/</id>
+    <author>
+        <name><![CDATA[Yoshitsugu Fujii]]></name>
+        
+      </author>
+    <generator uri="http://octopress.org/">Octopress</generator>
+
+    
+    <entry>
+        <title type="html"><![CDATA[pusherの助けを借りたWebSocketを使ったチャットシステム]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2012/01/25/20120125110512/"/>
+        <updated>2012-01-25T11:05:00+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2012/01/25/20120125110512</id>
+        <content type="html"><![CDATA[<p>リアルタイムなchatを作りたい。<br/>
+そんな欲求誰にでもあるものです。</p>
+
+<p>時間のない主婦の方にも手軽にパパっとチャットシステムを作る方法を紹介しようと思います。</p>
+
+<p>材料は<br/>
+rails<br/>
+pusher</p>
+
+<p>作る料理は<br/>
+チャットシステム(現在の参加者表示機能付き)</p>
+
+<p>の二つです。</p>
+
+<p>変なテンションな書き方はここまで。</p>
+
+<p>今日の記事は全面的にここを参考にさせていだきました。<br/>
+<a href="http://yuno.heroku.com/blog/2011-06-23-Rails%E3%81%A6%E3%82%99WebSocket%E3%82%92%E6%89%8B%E8%BB%BD%E3%81%AB%E4%BD%BF%E3%81%86.md">Yuno</a></p>
+
+<p>pusherはWebSocketsを利用したAPIです。</p>
+
+<p><a href="http://pusher.com/">Leader in realtime technologies| Pusher</a></p>
+
+<p>わかりやすい図はっときます。</p>
+
+<p><a href="http://f.hatena.ne.jp/gogo_sakura/20120124124957"><img src="http://cdn-ak.f.st-hatena.com/images/fotolife/g/gogo_sakura/20120124/20120124124957.png" title="f:id:gogo_sakura:20120124124957p:image" alt="f:id:gogo  _sakura:20120124124957p:image" /></a></p>
+
+<p>例えばブラウザがpostリクエスト投げると、それを受け取ったサーバからpusherにそのデータを加工してパス。<br/>
+するとブラウザにpushしてくれるというイメージ。</p>
+
+<p>pusher利用にはユーザ登録で得られるAPI Credentialsが必要です。<br/>
+まずはpusherのサイトでユーザ登録して、</p>
+
+<p>app  _id<br/>
+key<br/>
+secret</p>
+
+<p>をゲットしてください。</p>
+
+<p>今日の記事は実際に作ったものからコピペで書いていますが。<br/>
+view部分はhamlで書いてるので、見ずらくてすいません。<br/>
+erbメインの方は脳内で変換かけてください。</p>
+
+<p>とりあえずGemfileに記述</p>
+
+<pre><code class="ruby">gem 'pusher'
+</code></pre>
+
+<p>bundle install後、config/initializers内にpusher.rb作成</p>
+
+<pre><code class="ruby">  Pusher.app_id = ユーザ登録でゲットしたapp_id
+  Pusher.key = ユーザ登録でゲットしたkey 
+  Pusher.secret = ユーザ登録でゲットしたsecret
+</code></pre>
+
+<p>config/route.rbにauthアクションへのルーティング追加</p>
+
+<pre><code class="ruby">resources :chats , :only =&gt; [:index , :create , :destroy] do
+  post :auth , :on =&gt; :collection
+end
+</code></pre>
+
+<p>現在の参加者を取得するためには、pusherの<a href="http://pusher.com/docs/client_api_guide/client_channels#presence-channels">Presence
+Channels</a>を使用しなければなりません。<br/>
+Presence
+Channelsを使用するためには、認証を受けること・channel名のprefixにpresence-つけないといけません。</p>
+
+<p>view</p>
+
+<pre><code class="ruby">= javascript_include_tag "http://js.pusher.com/1.11/pusher.min.js"
+
+:javascript
+  $(function(){
+    Pusher.channel_auth_endpoint = '/chats/auth';
+    var pusher  = new Pusher("#{ユーザ登録でゲットしたkey }");
+    var channel = pusher.subscribe("presence-chat");
+    channel.bind("chatevent", function(html) {
+      $("#chat_body").val('');
+      $("ul").prepend(html);
+    });
+
+    channel.bind('pusher:subscription_succeeded', function(members){
+      members.each(add_member);
+    });
+
+    channel.bind('pusher:member_added', function(member){
+      add_member(member);
+    })
+
+    channel.bind('pusher:member_removed', function(member){
+      remove_member(member);
+    })
+  });
+
+  function add_member(member) {
+    var container = $("&lt;span&gt;", {
+      "class": "member",
+      id: "presence_" + member.id
+    });
+
+    $('.members').append(container.html(member.info.name + " "))
+  }
+
+  function remove_member(member) {
+    $('#presence_' + member.id).remove();
+  }
+
+= render "form"
+
+%div
+  現在の参加者
+  %span.members
+
+%ul#chat_list
+  = render partial: "list", locals: { :chats =&gt; @chats }
+</code></pre>
+
+<p>フォームとリストの部分テンプレートは割愛。</p>
+
+<p>認証は</p>
+
+<pre><code class="ruby">Pusher.channel_auth_endpoint = '/chats/auth';
+</code></pre>
+
+<p>で指定したエンドポイントにコールバックされます。</p>
+
+<p>controller</p>
+
+<pre><code class="ruby">class ChatsController &lt; ApplicationController
+  protect_from_forgery :except =&gt; :auth
+
+  def create
+    @new_post = Chat.new(params[:chat])
+    @new_post.user = @current_user
+
+    if @new_post.save
+      Pusher["presence-chat"].trigger!(
+        "chatevent",
+        render_to_string(
+          file:   "chats/_list.html.haml",
+          layout: false,
+          locals: { :chats =&gt; Array.wrap(@new_post) }
+        )
+      )
+    end
+
+    render 'index'
+  end
+
+  def auth
+    if current_user
+      auth = Pusher["presence-chat"].authenticate(params[:socket_id],{
+          :user_id =&gt; @current_user.id,
+          :user_info =&gt; {
+            :name =&gt; @current_user.name
+          }
+        }
+      )
+      render :json =&gt; auth
+    else
+      render :text =&gt; "Not authorized", :status =&gt; '403'
+    end
+  end
+
+end
+</code></pre>
+
+<p>endpointで設定したauthアクションでは、コールバックされた際に渡されるsocket  _idを引数authenticateを実行しています。<br/>
+ちなみに自分はこの認証ではまりました。</p>
+
+<pre><code class="ruby">protect_from_forgery :except =&gt; :auth
+</code></pre>
+
+<p>でコールバックで呼び出された際に、CSRFを無効にしてあげる必要があったんですねぇ。</p>
+
+<p>以上で多分動くはずです。</p>
+]]></content>
+    </entry>
+    
+</feed>

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+    <title><![CDATA[Category: marvericks | なんとなく日々徒然と]]></title>
+    <link href="http://yoshitsugufujii.github.io/blog/categories/marvericks/atom.xml" rel="self"/>
+    <link href="http://yoshitsugufujii.github.io/"/>
+    <updated>2015-03-10T13:30:49+09:00</updated>
+    <id>http://yoshitsugufujii.github.io/</id>
+    <author>
+        <name><![CDATA[Yoshitsugu Fujii]]></name>
+        
+      </author>
+    <generator uri="http://octopress.org/">Octopress</generator>
+
+    
+    <entry>
+        <title type="html"><![CDATA[macをmarvericksにしたら、rails server動かなくなった]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2013/10/28/20131028135346/"/>
+        <updated>2013-10-28T13:53:00+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2013/10/28/20131028135346</id>
+        <content type="html"><![CDATA[<p>色々と必要ないものとかもありそうだけど、やったこと全部書く</p>
+
+<p>なにはともかく<br/>
+xcodeのcommand line toolの入れなおし</p>
+
+<pre><code class="ruby">xcode-select --install
+</code></pre>
+
+<p>んで、開発中のrailsディレクトリでrails serverしようとしたら動かない。<br/>
+とりあえず再bundle installしなおしてみる。</p>
+
+<p>nokogiriのインストールでlibxmlがどうこうってエラーでたから</p>
+
+<pre><code class="ruby">~/.rbenv/versions/2.0.0-p247/lib/ruby/gems/2.0.0/gems/nokogiri-1.6.0/ext/nokogiri/tmp/i686-apple-darwin11/ports/libxml2/2.8.0/libxml2-2.8.0
+sudo make clean
+sudo make
+</code></pre>
+
+<p>したらbundle installが成功。</p>
+
+<p>でもrails serverしたら</p>
+
+<pre><code class="ruby">Could not find libv8-3.11.8.17 in any of the sources
+</code></pre>
+
+<p>って出る。</p>
+
+<p>まず</p>
+
+<pre><code class="ruby">brew update
+</code></pre>
+
+<p>brew updateでこんなエラーが出た</p>
+
+<pre><code class="ruby">Error: Failure while executing: git pull -q origin refs/heads/master:refs/remotes/origin/master
+</code></pre>
+
+<p>pullできないみたいなので、ここを見つつ以下の様なことをやる。<br/>
+<a href="http://d.conma.me/entry/20120301/1330613125">http://d.conma.me/entry/20120301/1330613125</a></p>
+
+<pre><code class="ruby">cd `brew --prefix`
+git reset --hard origin/master #=&gt; untrackファイルがあるからダメとか言われる
+git add .
+git checkout -f
+git reset --hard origin/master
+brew update
+</code></pre>
+
+<p>brew update成功</p>
+
+<p>んでここを見つつ以下を実行<br/>
+How to fix libv8 error from Gemfile on Mavericks?<br/>
+<a href="http://stackoverflow.com/questions/19568852/how-to-fix-libv8-error-from-gemfile-on-mavericks">http://stackoverflow.com/questions/19568852/how-to-fix-libv8-error-from-gemfile-on-mavericks</a></p>
+
+<pre><code class="ruby">gem uninstall libv8
+brew install v8
+gem install therubyracer
+</code></pre>
+
+<p>brew install v8が通らない・・・</p>
+
+<pre><code class="ruby">==&gt; Downloading https://github.com/v8/v8/archive/3.19.18.4.tar.gz
+######################################################################## 100.0%
+==&gt; make dependencies
+            --revision 1501
+dyld: Library not loaded: /usr/local/lib/libsqlite3.0.8.6.dylib
+  Referenced from: /usr/local/bin/svn
+  Reason: image not found
+make: *** [dependencies] Trace/BPT trap: 5
+</code></pre>
+
+<p>また、エラー・・・</p>
+
+<pre><code class="ruby">brew rm svn
+brew install svn
+</code></pre>
+
+<p>んで再度</p>
+
+<pre><code class="ruby">brew install v8
+</code></pre>
+
+<p>通った&hellip;</p>
+
+<pre><code class="ruby">bundle install
+</code></pre>
+
+<p>してから、</p>
+
+<pre><code class="ruby">rails server
+Could not find libv8-3.11.8.17 in any of the sources
+Run `bundle install` to install missing gems.
+</code></pre>
+
+<p>あれ、ダメだ・・</p>
+
+<pre><code class="ruby">bundle exec rails server
+=&gt; Booting WEBrick
+=&gt; Rails 3.2.13 application starting in development on http://0.0.0.0:3000
+=&gt; Call with -d to detach
+=&gt; Ctrl-C to shutdown server
+[2013-10-28 13:47:46] INFO  WEBrick 1.3.1
+[2013-10-28 13:47:46] INFO  ruby 2.0.0 (2013-06-27) [x86_64-darwin12.5.0]
+[2013-10-28 13:47:46] INFO  WEBrick::HTTPServer#start: pid=16067 port=3000
+</code></pre>
+
+<p>ま、まぁいいか。</p>
+]]></content>
+    </entry>
+    
+</feed>

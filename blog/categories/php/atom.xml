@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+    <title><![CDATA[Category: php | なんとなく日々徒然と]]></title>
+    <link href="http://yoshitsugufujii.github.io/blog/categories/php/atom.xml" rel="self"/>
+    <link href="http://yoshitsugufujii.github.io/"/>
+    <updated>2015-03-10T13:30:49+09:00</updated>
+    <id>http://yoshitsugufujii.github.io/</id>
+    <author>
+        <name><![CDATA[Yoshitsugu Fujii]]></name>
+        
+      </author>
+    <generator uri="http://octopress.org/">Octopress</generator>
+
+    
+    <entry>
+        <title type="html"><![CDATA[Facebookとのアプリの連携を解除する]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2014/07/31/20140731131925/"/>
+        <updated>2014-07-31T13:19:00+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2014/07/31/20140731131925</id>
+        <content type="html"><![CDATA[<p>調べてみたら自分所のDBからFacebookの情報を消すだけのものが多くて、大元のFacebookのアプリ設定から削除するのがあんまり載ってなかったようなきがするので</p>
+
+<p>以下の感じで、連携解除ができます。</p>
+
+<pre><code class="ruby">$facebook = new Facebook(array(
+'appId' =&gt; アプリのapp_id,
+'secret' =&gt; アプリのapp_secret
+));
+
+$facebook-&gt;api("/me/permissions", "delete", array('access_token' =&gt; ユーザーのアクセストークン));
+</code></pre>
+
+<p>珍しくPHPでした。</p>
+]]></content>
+    </entry>
+    
+</feed>

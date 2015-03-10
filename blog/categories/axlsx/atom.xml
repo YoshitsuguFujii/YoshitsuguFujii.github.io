@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+    <title><![CDATA[Category: axlsx | なんとなく日々徒然と]]></title>
+    <link href="http://yoshitsugufujii.github.io/blog/categories/axlsx/atom.xml" rel="self"/>
+    <link href="http://yoshitsugufujii.github.io/"/>
+    <updated>2015-03-10T13:30:49+09:00</updated>
+    <id>http://yoshitsugufujii.github.io/</id>
+    <author>
+        <name><![CDATA[Yoshitsugu Fujii]]></name>
+        
+      </author>
+    <generator uri="http://octopress.org/">Octopress</generator>
+
+    
+    <entry>
+        <title type="html"><![CDATA[Axlsxでエクセルのセルを折り返して全体を表示]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2015/02/24/20150224142535/"/>
+        <updated>2015-02-24T14:25:12+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2015/02/24/20150224142535</id>
+        <content type="html"><![CDATA[<pre><code class="ruby">require 'axlsx'
+
+package = Axlsx::Package.new
+sheet = package.workbook.add_worksheet(name: 'lists')
+
+wrap_text = sheet.styles.add_style(
+                              {
+                               :fg_color=&gt; "FFFFFF",                           # 文字色
+                               :b =&gt; true,                                     # 太字
+                               :bg_color =&gt; "004586",                          # 背景色
+                               :sz =&gt; 12,                                      # フォントサイズ
+                               :border =&gt; { :style =&gt; :thin, :color =&gt; "00" }, # 罫線
+                               :alignment =&gt; { :horizontal =&gt; :center,         # 配置
+                                               :vertical =&gt; :center ,
+                                               :wrap_text =&gt; true}
+                              }
+                            )
+
+sheet.add_row(['とっても長いテキスト', '短いテキスト'], style: wrap_text)
+
+sheet.column_info.first.width = 5
+package.serialize('test.xlsx')
+</code></pre>
+]]></content>
+    </entry>
+    
+    <entry>
+        <title type="html"><![CDATA[Axlsxでウィンドウ枠の固定]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2015/02/23/20150223110642/"/>
+        <updated>2015-02-23T11:06:00+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2015/02/23/20150223110642</id>
+        <content type="html"><![CDATA[<p>エクセルのウィンドウ枠の固定をAxlsxで行う方法</p>
+
+<pre><code class="ruby">require 'axlsx'
+
+package = Axlsx::Package.new
+sheet = package.workbook.add_worksheet(name: 'lists')
+
+sheet.add_row(['品名', '単価', '数量', '計'] )
+sheet.add_row(['にんじん',    80, 1,      '=B2*C2'])
+
+sheet.sheet_view.pane do |pane|
+  pane.top_left_cell = "B2"
+  pane.state = :frozen_split
+  pane.y_split = 1
+  pane.x_split = 1
+  pane.active_pane = :bottom_right
+end
+
+package.serialize('test.xlsx')
+</code></pre>
+]]></content>
+    </entry>
+    
+    <entry>
+        <title type="html"><![CDATA[Axlsxでエクセルファイル作成時に注意する点とかはまりどころとか]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2015/02/21/20150221171638/"/>
+        <updated>2015-02-21T17:16:00+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2015/02/21/20150221171638</id>
+        <content type="html"><![CDATA[<p>最近Railsを使う会社が増えてきて、2年前にRailsを扱う会社をエージェントに探してもらった時はなかなか見つからなかったんですが、今は楽に見つかりそうですね。
+そもそも登録した転職サイトがダメだったのかもしれないと思いますが。
+千葉でRuby、Railsメインでやってる会社ないかな。</p>
+
+<p>さてさて、ここのところずっと触っているAxlsxです。</p>
+
+<h3>型に気をつける</h3>
+
+<p>エクセルのセルが数値か文字列かで挙動が変わったりします。
+文字列型のカラムに&#8221;1000&#8221;とか入っていた場合、エクセルでは数値として認識されてしまってvloolupなどの関数が反応しないことがあります。
+その場合は明示的にtypeを指定しましょう。</p>
+
+<pre><code class="ruby">sheet.add_row(
+  [
+    "1000",
+    1000,
+  ], types: [:string, :float])
+)
+
+# もしくは
+sheet.rows[0].cells[0].type = [:string]
+</code></pre>
+
+<p>typesに設定できるシンボル
+<a href="http://www.rubydoc.info/github/randym/axlsx/master/Axlsx/Cell:type">Method: Axlsx::Cell  #type — Documentation for randym/axlsx
+(master)</a>
+[:date, :time, :float, :integer, :string, :boolean]</p>
+
+<h3>エクセルの関数を設定してダウンロード</h3>
+
+<p>そのままアップロードすると関数による値の設定が行われません。
+おそらく数式はエクセルを開いた時にエクセル側で計算されるので、エクセルを一回も開かずにアップロードすると値が設定されていないことになるのかと思います
+fomula  _valueを設定しましょう</p>
+
+<pre><code class="ruby">sheet.add_row [1, 2, '=A1+B1'], :formula_values =&gt; [nil, nil, 3]
+
+#_もしくは
+sheet.rows[0].cells[0].value         = "=A1+B1"
+sheet.rows[0].cells[0].formula_value = "3"
+</code></pre>
+]]></content>
+    </entry>
+    
+    <entry>
+        <title type="html"><![CDATA[Axlxsを使って新規ファイルを作って、RubyXLで読み出す話]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2014/12/18/20141218200736/"/>
+        <updated>2014-12-18T20:07:00+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2014/12/18/20141218200736</id>
+        <content type="html"><![CDATA[<p>どんどんtipsがニッチになっていきますね。</p>
+
+<p>Axlxsで作ったファイルがRubyXLで読み取れませんでした。<br/>
+一度エクセルで開いて保存すると読み取れるようになる。</p>
+
+<p>RubyXLでAxlxsで作成したファイルを読み込むと数値とかは辛うじて所々取れていたので文字コードかと思って色々やってみましたが、このページで解決</p>
+
+<p><a href="https://github.com/randym/axlsx/issues/349">Strings outputted not seen by rubyXL ? Issue   #349 ? randym/axlsx ?
+GitHub</a></p>
+
+<p>pkg = Package.create<br/>
+したら<br/>
+pkg.use  <em>shared  </em>strings = true<br/>
+する必要があるみたいでした。</p>
+
+<p>これで無事に読みだすことができました。</p>
+]]></content>
+    </entry>
+    
+    <entry>
+        <title type="html"><![CDATA[AxlsxでExcelファイルをcell単位でprotectionをした話]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2014/12/17/20141217122846/"/>
+        <updated>2014-12-17T12:28:00+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2014/12/17/20141217122846</id>
+        <content type="html"><![CDATA[<p>Axlsxでエクセルと戯れる日々です。<br/>
+2シート目とかにマスタデータを保持しておいて、1シート目でプルダウンでマスタデータを選ばせたりしています。<br/>
+変更できないように2シート目はシート全体を保護しております。</p>
+
+<p>今日はAxlsxでセルの保護をしたお話です。</p>
+
+<p>これググっても全然出てきませんでした。</p>
+
+<p>結論から言うとこれでできます。</p>
+
+<pre><code class="ruby">require 'axlsx'
+require "securerandom"
+
+package = Axlsx::Package.new
+sheet = package.workbook.add_worksheet(name: 'lists')
+sheet.sheet_protection.password = SecureRandom.uuid
+locked = package.workbook.styles.add_style :locked =&gt; true
+unlocked = package.workbook.styles.add_style :locked =&gt; false
+
+sheet.add_row(['品名', '単価', '数量', '計'], style: unlocked )
+sheet.add_row(['にんじん',    80, 1,      '=B2*C2'], style: unlocked)
+
+sheet.rows[0].cells[0].style = locked # A1をロック(lock cell =&gt; A1)
+
+package.serialize('test.xlsx')
+</code></pre>
+
+<p>この答えの出し方が最終的にRubyのことはRubyに聞くという方式で解決したのですが、<br/>
+この解決の仕方がRubyエンジニアっぽいなと思ったのでどうやってこの結論に辿り着いたかダラダラ書こうかと思います。</p>
+
+<p>まずセルの保護をしたいという要件がありました。<br/>
+コピペエンジニアの端くれとしてまずはググります。</p>
+
+<p>行単位のロックのお話は見つけましたが、セルの保護ではいい結果がありません。<br/>
+<a href="http://stackoverflow.com/questions/19051049/how-do-i-protect-header-rows-but-allow-to-enter-new-rows-using-axlsx">ruby on rails 3 - How do I protect header rows but allow to enter new
+rows using AXLSX? - Stack
+Overflow</a></p>
+
+<p>テストは下手なドキュメントよりも役にたつと誰かが言っていたので(実際の使い方のサンプルが見れるので)Axlsxのテストを見てみます。<br/>
+bundle open axlsxでaxlsxのインストールされたディレクトリを開いて、grep
+protectとかやってみます。<br/>
+いくつかヒットしたのでソースを見てみますがなんのこっちゃわかりません感じです。</p>
+
+<p>とりあえずgrepでひっかかった<br/>
+Axlsx::CellProtection.new<br/>
+をキーワードにグーグルで検索してみますが有用な情報は皆無です。</p>
+
+<p>一旦途方にくれます。コーヒーとか飲みます。</p>
+
+<p>おもむろに再度irbを立ち上げます。<br/>
+とりあえず怪しいものがないかコンソールから確認していってみることにします</p>
+
+<pre><code class="ruby">require 'axlsx'
+package = Axlsx::Package.new
+sheet = package.workbook.add_worksheet(name: 'lists')
+
+sheet.add_row(['品名', '単価', '数量', '計'])
+</code></pre>
+
+<p>と打ちます。</p>
+
+<p>cellに保護をかけたいのだからcellオブジェクトにプロパティがあるんじゃないかとあたりをつけます。</p>
+
+<p>sheet.cellとうちます。そんなんねーよと返ってきます。<br/>
+sheet.cells と打ちます。なんかコンソールに文字がたくさんでます。</p>
+
+<p>A1のセルを取得してみます。<br/>
+sheet.cells[0,0]とうちます。空の配列が返ってきます。<br/>
+sheet.cells[0]とうちます。なんか一杯でてきます。<br/>
+sheet.cells[0].classとうちます。   # =  > Axlsx::Cell<br/>
+お、なんかいいの返ってきました。<br/>
+sheet.cells[0].methods.grep(/protect/)とかうってみます。
+[:protected  _methods]しか返ってきません。<br/>
+一回煮詰まります。
+sheet.cells[0].valueとかここで色々他のことをやってみますが、なかなかうまくいきません。</p>
+
+<p>そもそもセル単位で値とか設定できるんかと思いつきます。<br/>
+ググります。見つけます。</p>
+
+<p><a href="http://stackoverflow.com/questions/18178196/modify-specific-cell-value-using-axlsx-gem-given-the-column-number-and-row-numer">ruby on rails - Modify specific cell value using Axlsx gem given the
+column number and row numer - Stack
+Overflow</a></p>
+
+<p>特定のセルを取得するのは以下の方法でした。<br/>
+sheet.rows[0].cells[0]</p>
+
+<p>sheet.rows[0].cells[0].methodsでメソッド一回全部のメソッドを出してみます。</p>
+
+<p>sheet.rows[0].cells[0].pos   # =  > [0,0]<br/>
+とか<br/>
+sheet.rows[0].cells[0].reference   # =  >   $A  $1<br/>
+とか面白そうなメソッドがあります。</p>
+
+<p>その中にstyle=というメソッドを見つけました。<br/>
+これってひょっとして行単位のロックであったロックの書式を設定できるのではないかと推測します。</p>
+
+<p>そして出きたのが冒頭のコードです。</p>
+
+<p>sheet.rows[0].cells[0].style = locked<br/>
+だけでは不十分で<br/>
+sheet.sheet  _protection.password<br/>
+でパスワードを設定しないといけないとか、保護をかけて必要な所をlockしたりunlockしたりしないといけないとか色々とはまりながらもなんとか答えを出せました。<br/>
+今回は運も味方してくれたかなぁという気もします。</p>
+
+<p>困ったときはインタラクティブにどんなメソッドがあるかどんな値が設定されているか確認しながら<br/>
+試しながらやることで問題が解決できるというのは素晴らしいと思いました。</p>
+]]></content>
+    </entry>
+    
+</feed>

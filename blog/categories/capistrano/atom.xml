@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+    <title><![CDATA[Category: capistrano | なんとなく日々徒然と]]></title>
+    <link href="http://yoshitsugufujii.github.io/blog/categories/capistrano/atom.xml" rel="self"/>
+    <link href="http://yoshitsugufujii.github.io/"/>
+    <updated>2015-03-10T13:30:49+09:00</updated>
+    <id>http://yoshitsugufujii.github.io/</id>
+    <author>
+        <name><![CDATA[Yoshitsugu Fujii]]></name>
+        
+      </author>
+    <generator uri="http://octopress.org/">Octopress</generator>
+
+    
+    <entry>
+        <title type="html"><![CDATA[ファイアーウォールとかで守られている社内gitサーバーに置かれたgemを使いたい]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2013/04/22/20130422125606/"/>
+        <updated>2013-04-22T12:56:00+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2013/04/22/20130422125606</id>
+        <content type="html"><![CDATA[<p>弊社はgithub enterpriseで運営しています。<br/>
+外部からは自由にアクセスできないように、ファイアーウォールで社内アクセスのみに接続を限定しています。</p>
+
+<p>が、今やっている案件ではお客様が用意したサーバーにアクセスしなければならず。<br/>
+社内gitサーバーにアクセスできない状態です。</p>
+
+<p>そういった場合、capistranoでローカルにソースを先にダウンロードしてtarで固めてサーバーに送信するという指定ができます。</p>
+
+<p>config/deploy.rb</p>
+
+<pre><code class="ruby">set :deploy_via, :copy
+set :copy_cache, true
+</code></pre>
+
+<p>ですが、Gemfileにか書かれているGemファイルはbundle
+installで入れるようなので、社内gitサーバーに置かれたgemを参照しようとしたら落ちました。</p>
+
+<p>うーん。gemも一式ローカルに落としてくれんか？と探していたらありました。<br/>
+<a href="https://github.com/rudionrails/capistrano-strategy-copy-bundled">rudionrails/capistrano-strategy-copy-bundled ?
+GitHub</a></p>
+
+<p>Gemfileにgem &lsquo;capistrano-strategy-copy-bundled&#8217;と書いてbundle install。</p>
+
+<p>config/deploy.rb</p>
+
+<pre><code class="ruby">set :deploy_via,    :copy_bundled
+</code></pre>
+
+<p>でもcap deploy:updateしたら、</p>
+
+<pre><code class="ruby">executing locally: "cd /var/folders/dl/n1zf4q750msgc9jcd99hdq3c0000gn/T/20130422015014 &amp;&amp; bundle package --all"
+Error loading RubyGems plugin "/Users/gogosakrua/.rvm/gems/ruby-1.9.3-p385@global/gems/rubygems-bundler-1.1.0/lib/rubygems_plugin.rb": Could not find rubygems-bundler (&gt;= 0) amongst [actionmailer-3.2.12, actionpack-3.2.12, active_decorato
+r-0.3.4, activemodel-3.2.12, activerecord-3.2.12, activeresource-3.2.12, activesupport-3.2.12, arel-3.0.2, builder-3.0.4, cancan-1.6.9, chronic-0.9.1, chunky_png-1.2.7, coffee-rails-3.2.2, coffee-script-2.2.0, coffee-script-source-1.6.1,
+compass-0.12.2, compass-colors-0.9.0, compass-rails-1.0.3, compass_twitter_bootstrap-2.2.2.2, country_select-1.1.3, erubis-2.7.0, execjs-1.4.0, fssm-0.2.10, gruff-0.3.7, haml-4.0.0, haml-rails-0.4, hike-1.2.1, i18n-0.6.4, jbuilder-1.0.2,
+journey-1.0.4, jquery-rails-2.2.1, json-1.7.7, kaminari-0.14.1, libv8-3.11.8.13-x86_64-darwin-12, log4r-1.1.10, mail-2.4.4, mime-types-1.21, multi_json-1.6.1, pg-0.14.1, polyamorous-0.5.0, polyglot-0.3.3, rack-1.4.5, rack-cache-1.2, rack-
+mini-profiler-0.1.23, rack-ssl-1.3.3, rack-test-0.6.2, rails-3.2.12, rails3_acts_as_paranoid-0.2.5, railties-3.2.12, rake-10.0.3, ransack-0.7.2, rdoc-3.12.2, ref-1.0.2, rjb-1.4.6, rmagick-2.13.2, rubyzip-0.9.9, sass-3.2.6, sass-rails-3.2.
+6, seed-fu-2.2.0, settingslogic-2.0.9, simple_form-2.1.0, sprockets-2.2.2, therubyracer-0.11.4, thor-0.17.0, tilt-1.3.4, treetop-1.4.12, turbo-sprockets-rails3-0.3.6, tzinfo-0.3.36, uglifier-1.3.0, whenever-0.8.2] (Gem::LoadError)
+    command finished in 3794ms
+</code></pre>
+
+<p>って怒られる。<br/>
+うーん。gemsetがdefault使われてるなー。ってことで。<br/>
+いい機会なので、rbenvにしてみました。<br/>
+<a href="http://ksauzz.github.io/blog/2012/03/23/rbenv-ruby-build-rbenv-gemset/">http://ksauzz.github.io/blog/2012/03/23/rbenv-ruby-build-rbenv-gemset/</a><a href="http://d.hatena.ne.jp/keyword/http%3A//ksauzz%2Egithub%2Eio/blog/2012/03/23/rbenv%2Druby%2Dbuild%2Drbenv%2Dgemset/?mode=edit">?</a></p>
+
+<p>んで cap deploy:update</p>
+
+<pre><code class="ruby">undefined method `with_clean_env' for Bundler:Module (NoMethodError)
+</code></pre>
+
+<p>また怒られる。なんでだ。ぐぐっても有益な情報なし。<br/>
+あ、ひょっとしてbundle exec必要？</p>
+
+<p>ってことでbundle exec cap deploy:update</p>
+
+<p>んで行くはず。</p>
+
+<p>はずって言うのも。あまりにGem一式のダウンロードが重くて、やってらんねぇってなったので。<br/>
+急遽ファイアーウォールに穴開けてもらうことになったからです。</p>
+
+<p>中途半端ですまんです。</p>
+]]></content>
+    </entry>
+    
+</feed>

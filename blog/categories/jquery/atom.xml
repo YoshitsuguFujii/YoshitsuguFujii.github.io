@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+    <title><![CDATA[Category: jquery | なんとなく日々徒然と]]></title>
+    <link href="http://yoshitsugufujii.github.io/blog/categories/jquery/atom.xml" rel="self"/>
+    <link href="http://yoshitsugufujii.github.io/"/>
+    <updated>2015-03-10T13:30:49+09:00</updated>
+    <id>http://yoshitsugufujii.github.io/</id>
+    <author>
+        <name><![CDATA[Yoshitsugu Fujii]]></name>
+        
+      </author>
+    <generator uri="http://octopress.org/">Octopress</generator>
+
+    
+    <entry>
+        <title type="html"><![CDATA[jQueryのappendが重かったので対応したこと]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2014/03/24/20140324143648/"/>
+        <updated>2014-03-24T14:36:00+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2014/03/24/20140324143648</id>
+        <content type="html"><![CDATA[<p>railsでチェックボックスで会社を選択して、ajax通信で返すjsの内容がこんな感じだった。</p>
+
+<pre><code class="ruby">  &lt;% @company.each do |company| %&gt;
+    &lt;% company.member.each do |customer| %&gt;
+        $("#customer_area").append("&lt;%= escape_javascript(render("make_customer_area", cid: customer.id)) %&gt;");
+    &lt;% end %&gt;
+  &lt;% end %&gt;
+</code></pre>
+
+<p>重い。console.time仕込んで計測したらappendがめちゃめちゃ重い。<br/>
+一回のappendで1秒ぐらいかかってた。</p>
+
+<p>毎回appendじゃなくて、一回でappendしてみる</p>
+
+<pre><code class="ruby">  var html = []
+  var customer_area = $("#customer_area")
+  &lt;% @company.each do |company| %&gt;
+    &lt;% company.member.each do |customer| %&gt;
+        html.push("&lt;%= escape_javascript(render("make_customer_area", cid: customer.id)) %&gt;");
+    &lt;% end %&gt;
+  &lt;% end %&gt;
+
+  if ( html.length &gt; 0 ){
+    customer_area.append(html.join(''))
+  }
+</code></pre>
+
+<p>あんまり変わらないなぁ。<br/>
+というかappendやめよ。もうやめよ。</p>
+
+<pre><code class="ruby">  var html = []
+  var customer_area = document.getElementById("customer_area");
+  &lt;% @company.each do |company| %&gt;
+    &lt;% company.member.each do |customer| %&gt;
+        html.push("&lt;%= escape_javascript(render("make_customer_area", cid: customer.id)) %&gt;");
+    &lt;% end %&gt;
+  &lt;% end %&gt;
+
+  if ( html.length &gt; 0 ){
+    customer_area.innerHTML = customer_area.innerHTML + html.join('')
+  }
+</code></pre>
+
+<p>約0.5秒ぐらい早くなった。いいね。<br/>
+でもinnnerHTML使ってるから、何回か会社をクリックするとinnerHTMLにテキストが溜まりすぎてだんだん重くなる。<br/>
+innnerHTML参照せずにappendChildで追加しよう。</p>
+
+<pre><code class="ruby">  var html = []
+  var customer_area = document.getElementById("customer_area");
+  &lt;% @company.each do |company| %&gt;
+    &lt;% company.member.each do |customer| %&gt;
+        html.push("&lt;%= escape_javascript(render("make_customer_area", cid: customer.id)) %&gt;");
+    &lt;% end %&gt;
+  &lt;% end %&gt;
+
+  if ( html.length &gt; 0 ){
+    var element = document.createElement('div');
+    element.innerHTML = html.join('');
+    customer_area.appendChild(element);
+
+  }
+</code></pre>
+
+<p>これで当初の半分ぐらいまでは処理時間が軽減されました。</p>
+]]></content>
+    </entry>
+    
+    <entry>
+        <title type="html"><![CDATA[自分のjquery力のなさに泣けてきた話]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2013/11/12/20131112000000/"/>
+        <updated>2013-11-12T00:00:00+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2013/11/12/20131112000000</id>
+        <content type="html"><![CDATA[<p>jQuery力のなさに泣けてきた。</p>
+
+<p>data-hogeにdataでアクセスできるの知らんかった<br/>
+こんなのがある</p>
+
+<pre><code class="ruby">&lt;a href="foo" id="bar" data-count="1" data-url="http://~.com"&gt;&lt;/a&gt;
+</code></pre>
+
+<p>いままではこうやって値を取得してた。</p>
+
+<pre><code class="ruby">$('#bar').attr("data-count");
+</code></pre>
+
+<p>dataってあったのね。</p>
+
+<pre><code class="ruby">$('#bar').data("count");
+</code></pre>
+
+<p>しかも要素に設定されているdata-属性も一気に取得もできる -  >
+<a href="http://stackoverflow.com/questions/4187032/get-list-of-data-attributes-using-javascript-jquery">http://stackoverflow.com/questions/4187032/get-list-of-data-attributes-using-javascript-jquery</a></p>
+
+<pre><code class="ruby">$('#bar').data();
+</code></pre>
+
+<p>当然ajaxで一気に渡せる(※coffeescript)<br/>
+以下の例はリンクを押したら、どっかから何か取ってきて何かを追加してる雰囲気のやつ。</p>
+
+<pre><code class="ruby">  $(document).on 'click', '#hoge', (event) -&gt;
+
+    $.ajax
+      url: "どっかのURL"
+      type: "GET"
+      data: $(@).data()
+      success: (data) -&gt;
+        $('#bar').append(data)
+
+      error: (XMLHttpRequest, textStatus, errorThrown) -&gt;
+        console.log("XMLHttpRequest : " + XMLHttpRequest.status)
+        console.log("textStatus : " + textStatus)
+        console.log("errorThrown : " + errorThrown.message)
+</code></pre>
+
+<p>もっと早く出会いたかった・・・</p>
+
+<p>ちなみに今回はお手軽にタグのdata要素に情報もたしてそれを送信する例でしたが。<br/>
+フォームの値を全部キーと値のペアとかで送りたければ、serializeArrayが超ベンリです。こっちは知ってた！<br/>
+<a href="http://jquery-master.net/ajax/serialize.php">http://jquery-master.net/ajax/serialize.php</a></p>
+]]></content>
+    </entry>
+    
+    <entry>
+        <title type="html"><![CDATA[同じ内容のselectボックスを複数置いた場合に、選択項目を他のプルダウンから消す]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2012/12/20/20121220180607/"/>
+        <updated>2012-12-20T18:06:00+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2012/12/20/20121220180607</id>
+        <content type="html"><![CDATA[<p>htmlでまったく同じselectボックスを複数並べ、選択したら他のプルダウンからその要素を消すカスタムイベントを登録可能なjquery
+pluginを書きました。</p>
+
+<p>動作確認用のexample.htmlを含めgithubに公開しているので、よかったらどうぞ。</p>
+]]></content>
+    </entry>
+    
+</feed>

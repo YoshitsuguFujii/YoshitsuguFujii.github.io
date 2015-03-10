@@ -1,0 +1,1327 @@
+<!doctype html>
+    <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+    <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+    <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+    <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+
+    
+      
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>なんとなく日々徒然と</title>
+        <meta name="author" content="Yoshitsugu Fujii">
+        
+        <meta name="description" content="ruby rails French Bulldog surfing aqualist">
+        
+        <meta name="viewport" content="width=device-width">
+        <link rel="canonical" href="http://yoshitsugufujii.github.io/posts/3">
+
+        <link href='http://fonts.googleapis.com/css?family=Droid+Serif:400,400italic' rel='stylesheet' type='text/css'>
+        <link href="http://fonts.googleapis.com/css?family=Droid+Sans" rel="stylesheet" type="text/css">
+
+        
+        <link href="/favicon.png" rel="icon">
+        <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet">
+        <link href="/atom.xml" rel="alternate" title="なんとなく日々徒然と" type="application/atom+xml">
+    </head>
+
+
+    <body >
+
+        <header id="header">
+    <div class="row">
+    <div class="col-xs-12 col-sm-8 col-md-4">
+        <a href="/" class="site-title">なんとなく日々徒然と</a>
+    </div>
+    <div class="col-xs-12 col-sm-4 col-md-8">
+        <nav>
+    <input type="checkbox" id="toggle">
+    <label for="toggle" class="toggle" data-open="Main Menu" data-close="Close Menu"></label>
+    <ul class="menu">
+    <li><a href="/">Blog</a></li>
+    <li><a href="/profile/">Profile</a></li>
+</ul>
+
+</nav>
+
+    </div>
+</div>
+
+</header>
+
+
+        <div id="main-content">
+
+            <!--[if lte IE 9]>
+<div class="row upgrade-row">
+    <div class="col-lg-12">
+        <div class="upgrade">
+            <i class="upgrade__icon fa fa-warning"></i>
+            <h1 class="upgrade__title h6">Ohnoes!</h1>
+            <p class="upgrade__text">
+                Unfortunately, certain parts of this site may not display correctly in your version of Internet Explorer!<br>
+                If possible, you should consider <a href="http://browsehappy.com/">upgrading your browser</a>.
+            </p>
+        </div>
+    </div>
+</div>
+<!-- <![endif]-->
+
+
+            
+
+            <div class="row top-xs center-sm center-md center-lg site-wrapper">
+                
+                <div class="col-xs-12 col-sm-10 col-md-8 col-lg-8">
+                
+                        
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
+            <a href="/blog/2014/05/09/20140509000000/">godでThe server is not available (or you do not have</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2014-05-09T00:00:00+09:00" pubdate><i class="fa fa-calendar"></i> May 9th, 2014</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+                <li><a class='category' href='/blog/categories/god/'>god</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>色々と設定をいじっていて、godのプロセスが立ち上がらなくなった。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rbenv</span> <span class="nb">exec</span> <span class="n">bundle</span> <span class="nb">exec</span> <span class="n">god</span> <span class="n">terminate</span>
+</span><span class='line'><span class="c1"># =&gt; The server is not available (or you do not have permissions to access it)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>多分rootとかで色々やった時に出きたpidファイルとかが悪さしてるんだろうなー。<br/>
+って思ったけどどこにあるのか？</p>
+
+<p>とりあえずRAILS  _ROOTのtmpを見てみるけど。ない</p>
+
+<p>軽くはまりつつも、/tmpにありました。<br/>
+/tmp/god.12223.sock</p>
+
+<p>コレを消して無事解決！</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
+            <a href="/blog/2014/03/24/20140324143648/">jQueryのappendが重かったので対応したこと</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2014-03-24T14:36:00+09:00" pubdate><i class="fa fa-calendar"></i> Mar 24th, 2014</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/jquery/'>jquery</a></li>
+            
+                <li><a class='category' href='/blog/categories/javascript/'>javascript</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>railsでチェックボックスで会社を選択して、ajax通信で返すjsの内容がこんな感じだった。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="o">&lt;</span><span class="sx">% @company.each </span><span class="k">do</span> <span class="o">|</span><span class="n">company</span><span class="o">|</span> <span class="sx">%&gt;</span>
+</span><span class='line'><span class="sx">    &lt;% company.member.each do |customer| %&gt;</span>
+</span><span class='line'>        <span class="err">$</span><span class="p">(</span><span class="s2">&quot;#customer_area&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&lt;%= escape_javascript(render(&quot;</span><span class="n">make_customer_area</span><span class="s2">&quot;, cid: customer.id)) %&gt;&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="o">&lt;</span><span class="sx">% end %&gt;</span>
+</span><span class='line'><span class="sx">  &lt;% end %&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>重い。console.time仕込んで計測したらappendがめちゃめちゃ重い。<br/>
+一回のappendで1秒ぐらいかかってた。</p>
+
+<p>毎回appendじゃなくて、一回でappendしてみる</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">var</span> <span class="n">html</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'>  <span class="n">var</span> <span class="n">customer_area</span> <span class="o">=</span> <span class="err">$</span><span class="p">(</span><span class="s2">&quot;#customer_area&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="sx">% @company.each </span><span class="k">do</span> <span class="o">|</span><span class="n">company</span><span class="o">|</span> <span class="sx">%&gt;</span>
+</span><span class='line'><span class="sx">    &lt;% company.member.each do |customer| %&gt;</span>
+</span><span class='line'>        <span class="n">html</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="s2">&quot;&lt;%= escape_javascript(render(&quot;</span><span class="n">make_customer_area</span><span class="s2">&quot;, cid: customer.id)) %&gt;&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="o">&lt;</span><span class="sx">% end %&gt;</span>
+</span><span class='line'><span class="sx">  &lt;% end %&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span> <span class="n">html</span><span class="o">.</span><span class="n">length</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">){</span>
+</span><span class='line'>    <span class="n">customer_area</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">html</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">))</span>
+</span><span class='line'>  <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>あんまり変わらないなぁ。<br/>
+というかappendやめよ。もうやめよ。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">var</span> <span class="n">html</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'>  <span class="n">var</span> <span class="n">customer_area</span> <span class="o">=</span> <span class="n">document</span><span class="o">.</span><span class="n">getElementById</span><span class="p">(</span><span class="s2">&quot;customer_area&quot;</span><span class="p">);</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="sx">% @company.each </span><span class="k">do</span> <span class="o">|</span><span class="n">company</span><span class="o">|</span> <span class="sx">%&gt;</span>
+</span><span class='line'><span class="sx">    &lt;% company.member.each do |customer| %&gt;</span>
+</span><span class='line'>        <span class="n">html</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="s2">&quot;&lt;%= escape_javascript(render(&quot;</span><span class="n">make_customer_area</span><span class="s2">&quot;, cid: customer.id)) %&gt;&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="o">&lt;</span><span class="sx">% end %&gt;</span>
+</span><span class='line'><span class="sx">  &lt;% end %&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span> <span class="n">html</span><span class="o">.</span><span class="n">length</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">){</span>
+</span><span class='line'>    <span class="n">customer_area</span><span class="o">.</span><span class="n">innerHTML</span> <span class="o">=</span> <span class="n">customer_area</span><span class="o">.</span><span class="n">innerHTML</span> <span class="o">+</span> <span class="n">html</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>約0.5秒ぐらい早くなった。いいね。<br/>
+でもinnnerHTML使ってるから、何回か会社をクリックするとinnerHTMLにテキストが溜まりすぎてだんだん重くなる。<br/>
+innnerHTML参照せずにappendChildで追加しよう。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">var</span> <span class="n">html</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'>  <span class="n">var</span> <span class="n">customer_area</span> <span class="o">=</span> <span class="n">document</span><span class="o">.</span><span class="n">getElementById</span><span class="p">(</span><span class="s2">&quot;customer_area&quot;</span><span class="p">);</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="sx">% @company.each </span><span class="k">do</span> <span class="o">|</span><span class="n">company</span><span class="o">|</span> <span class="sx">%&gt;</span>
+</span><span class='line'><span class="sx">    &lt;% company.member.each do |customer| %&gt;</span>
+</span><span class='line'>        <span class="n">html</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="s2">&quot;&lt;%= escape_javascript(render(&quot;</span><span class="n">make_customer_area</span><span class="s2">&quot;, cid: customer.id)) %&gt;&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="o">&lt;</span><span class="sx">% end %&gt;</span>
+</span><span class='line'><span class="sx">  &lt;% end %&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span> <span class="n">html</span><span class="o">.</span><span class="n">length</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">){</span>
+</span><span class='line'>    <span class="n">var</span> <span class="n">element</span> <span class="o">=</span> <span class="n">document</span><span class="o">.</span><span class="n">createElement</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">element</span><span class="o">.</span><span class="n">innerHTML</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">customer_area</span><span class="o">.</span><span class="n">appendChild</span><span class="p">(</span><span class="n">element</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>これで当初の半分ぐらいまでは処理時間が軽減されました。</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
+            <a href="/blog/2014/03/14/20140314195912/">knexで外部キー制約のマイグレーション</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2014-03-14T19:59:00+09:00" pubdate><i class="fa fa-calendar"></i> Mar 14th, 2014</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/node-dot-js/'>node.js</a></li>
+            
+                <li><a class='category' href='/blog/categories/bookshelf/'>bookshelf</a></li>
+            
+                <li><a class='category' href='/blog/categories/knex/'>knex</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p><a href="http://tajimajunpei-blog.blogspot.jp/2013/12/nodejsorm-bookshelf.html">Node.js向けORM
+Bookshelfの紹介</a>を参照させていただきながら、Bookshelf触ってみている。</p>
+
+<p>ページではsqlite3だけど、自分はmysqlで使っている。</p>
+
+<p>外部キー制約の部分。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'> <span class="n">t</span><span class="o">.</span><span class="n">integer</span><span class="p">(</span><span class="s1">&#39;post_id&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">notNull</span><span class="p">()</span><span class="o">.</span><span class="n">references</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">inTable</span><span class="p">(</span><span class="s1">&#39;posts&#39;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>がmysqlではCannot add foreign key constraintが出て動かなかった。</p>
+
+<p>これで動いた。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">t</span><span class="o">.</span><span class="n">integer</span><span class="p">(</span><span class="s1">&#39;post_id&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">unsigned</span><span class="p">()</span><span class="o">.</span><span class="n">notNullable</span><span class="p">()</span><span class="o">.</span><span class="n">references</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">inTable</span><span class="p">(</span><span class="s1">&#39;posts&#39;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
+            <a href="/blog/2014/02/03/20140203145732/">csvからuserを検索して、データ更新サンプル</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2014-02-03T14:57:00+09:00" pubdate><i class="fa fa-calendar"></i> Feb 3rd, 2014</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>例えば外部システムとユーザの情報を持ち合っている時。<br/>
+外部システムのuser  <em>id(コード内ではuser  </em>external  _id)から、システム内のユーザIDを導き出して、そのデータにパッチを当てるスクリプト。</p>
+
+<p>active  _recordとかは単品で扱ってる(database.yml&#8217;読み込み)</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1">#!/usr/bin/env ruby</span>
+</span><span class='line'><span class="c1"># coding: utf-8</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;csv&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;optparse&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s2">&quot;active_record&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">params</span> <span class="o">=</span> <span class="no">ARGV</span><span class="o">.</span><span class="n">getopts</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;csv:user.csv&#39;</span><span class="p">,</span> <span class="s1">&#39;ENV:development&#39;</span><span class="p">,</span> <span class="s1">&#39;RAILS_ROOT:./&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="nb">p</span> <span class="n">params</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">config</span> <span class="o">=</span> <span class="no">YAML</span><span class="o">.</span><span class="n">load_file</span><span class="p">(</span> <span class="n">params</span><span class="o">[</span><span class="s1">&#39;RAILS_ROOT&#39;</span><span class="o">]</span> <span class="o">+</span> <span class="s1">&#39;config/database.yml&#39;</span> <span class="p">)</span>
+</span><span class='line'><span class="k">raise</span> <span class="no">ArgumentError</span><span class="p">,</span> <span class="s1">&#39;ENVが設定されていません&#39;</span>            <span class="k">if</span> <span class="n">params</span><span class="o">[</span><span class="s1">&#39;ENV&#39;</span><span class="o">].</span><span class="n">nil?</span>
+</span><span class='line'><span class="k">raise</span> <span class="no">ArgumentError</span><span class="p">,</span> <span class="s1">&#39;RAILS_ROOTが指定されていません&#39;</span>     <span class="k">if</span> <span class="n">params</span><span class="o">[</span><span class="s1">&#39;RAILS_ROOT&#39;</span><span class="o">].</span><span class="n">nil?</span>
+</span><span class='line'><span class="k">raise</span> <span class="no">ArgumentError</span><span class="p">,</span> <span class="s1">&#39;database.ymlを読み出せませんでした&#39;</span> <span class="k">if</span> <span class="n">config</span><span class="o">[</span><span class="n">params</span><span class="o">[</span><span class="s1">&#39;ENV&#39;</span><span class="o">]].</span><span class="n">nil?</span>
+</span><span class='line'><span class="k">raise</span> <span class="no">ArgumentError</span><span class="p">,</span> <span class="s1">&#39;csvファイルが存在しません&#39;</span>          <span class="k">unless</span> <span class="no">File</span><span class="o">.</span><span class="n">exists?</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="s1">&#39;csv&#39;</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">establish_connection</span><span class="p">(</span><span class="n">config</span><span class="o">[</span><span class="n">params</span><span class="o">[</span><span class="s1">&#39;ENV&#39;</span><span class="o">]]</span><span class="p">)</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">column</span> <span class="o">=</span> <span class="sx">%w(user_external_id  name birthday)</span>
+</span><span class='line'><span class="no">CSV</span><span class="o">.</span><span class="n">foreach</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="s1">&#39;csv&#39;</span><span class="o">]</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">row</span><span class="o">|</span>
+</span><span class='line'>  <span class="c1"># 一行を全部hashに入れる</span>
+</span><span class='line'>  <span class="n">row_hash</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span class='line'>  <span class="n">row</span><span class="o">.</span><span class="n">each_with_index</span> <span class="k">do</span> <span class="o">|</span><span class="n">r</span><span class="p">,</span><span class="n">idx</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">row_hash</span><span class="o">[</span><span class="n">column</span><span class="o">[</span><span class="n">idx</span><span class="o">]]</span> <span class="o">=</span> <span class="n">r</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">find_by_external_id</span><span class="p">(</span><span class="n">row_hash</span><span class="o">[</span><span class="s1">&#39;user_external_id&#39;</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">if</span> <span class="o">!</span><span class="n">user</span><span class="o">.</span><span class="n">nil?</span>
+</span><span class='line'>    <span class="n">user</span><span class="o">.</span><span class="n">update_attribute</span><span class="p">(</span><span class="ss">:name</span> <span class="o">=&gt;</span> <span class="n">row_hash</span><span class="o">[</span><span class="s1">&#39;name&#39;</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>実行はターミナルで</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">ruby</span> <span class="err">上記コードのファイル</span> <span class="o">--</span><span class="no">ENV</span> <span class="n">production</span>
+</span><span class='line'><span class="err">もしくは</span>
+</span><span class='line'><span class="n">bundle</span> <span class="nb">exec</span> <span class="n">ruby</span> <span class="err">上記コードのファイル</span> <span class="o">--</span><span class="no">ENV</span> <span class="n">production</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>とかとか</p>
+
+<p>スクリプトのオプションは<br/>
+ &ndash;ENVはdatabae.ymlの読み込みたい環境{development|production}<br/>
+ &ndash;csv で読み込むファイルパス<br/>
+ &ndash;RAILS  _ROOT でRailsのapp rootを指定。</p>
+
+<p>さらさらっと書いて本番のrails
+rootで動かしてパッチを実際に当てましたが。<br/>
+仕事にかかわる記述は消したり直したり、ロクにテストしていないので動かなかったらごめんなさい。</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
+            <a href="/blog/2014/01/30/20140130114654/">半角カナが入力されているファイルを抽出</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2014-01-30T11:46:00+09:00" pubdate><i class="fa fa-calendar"></i> Jan 30th, 2014</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>お客様から、半角カナを全角カナにしておくれと依頼がきていたので、railsのrootから半角カナを含むファイルを抜き出したくてスクリプト書きました。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1">#!/usr/bin/env ruby</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;find&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">except_ext</span> <span class="o">=</span> <span class="sx">%w(.log .yml .jpg .JPG .jpeg .png .pid .ttf .woff .md .json .ico .eot .gif)</span>                                                    <span class="c1"># 除外するファイル拡張子を設定</span>
+</span><span class='line'><span class="n">except_pattern</span> <span class="o">=</span> <span class="sx">%w(.git test .DS_Store migrate hankaku_kana_checker RackMultipart sprockets letter_opener underscore cache)</span>                <span class="c1"># 除外するパスに含まれる文字列を指定</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># チェックする半角カナの配列</span>
+</span><span class='line'><span class="n">han_kana</span> <span class="o">=</span>  <span class="sx">%w{ｱ ｲ ｳ ｴ ｵ ｶ ｷ ｸ ｹ ｺ ｻ ｼ ｽ ｾ ｿ ﾀ ﾁ ﾂ ﾃ ﾄ ﾅ ﾆ ﾇ ﾈ ﾉ ﾊ ﾋ ﾌ ﾍ ﾎ ﾏ ﾐ ﾑ ﾒ ﾓ ﾔ ﾕ ﾖ ﾗ ﾘ ﾙ ﾚ ﾛ ﾜ ｦ ﾝ ｧ ｨ ｩ ｪ ｫ ｬ ｭ ｮ ｯ ﾞ ﾟ ､ ｡ ｰ ｢ ｣}</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Find</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="s1">&#39;./&#39;</span><span class="p">))</span> <span class="k">do</span> <span class="o">|</span><span class="n">path</span><span class="o">|</span>
+</span><span class='line'>  <span class="k">next</span> <span class="k">if</span> <span class="no">File</span><span class="o">.</span><span class="n">directory?</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">next</span> <span class="k">if</span> <span class="n">except_ext</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">extname</span><span class="p">(</span><span class="n">path</span><span class="p">))</span> <span class="c1"># 調査しない拡張子</span>
+</span><span class='line'>  <span class="k">next</span> <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="no">Regexp</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">except_pattern</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;|&quot;</span><span class="p">)))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">begin</span>
+</span><span class='line'>    <span class="no">File</span><span class="o">.</span><span class="n">readlines</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">each</span><span class="o">.</span><span class="n">with_index</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">line</span><span class="p">,</span> <span class="n">idx</span><span class="o">|</span>
+</span><span class='line'>      <span class="vi">@idx</span><span class="p">,</span> <span class="vi">@line</span> <span class="o">=</span> <span class="n">idx</span><span class="p">,</span> <span class="n">line</span>
+</span><span class='line'>      <span class="c1"># CP932のファイルが混在してたのでダメならCP932で変換</span>
+</span><span class='line'>      <span class="n">include_han_kana</span> <span class="o">=</span> <span class="k">begin</span>
+</span><span class='line'>                           <span class="n">line</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="no">Regexp</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">han_kana</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;|&quot;</span><span class="p">)))</span>
+</span><span class='line'>                         <span class="k">rescue</span>
+</span><span class='line'>                           <span class="n">line</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;UTF-8&quot;</span><span class="p">,</span> <span class="s2">&quot;CP932&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="no">Regexp</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">han_kana</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;|&quot;</span><span class="p">)))</span>
+</span><span class='line'>                         <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="k">if</span> <span class="n">include_han_kana</span>
+</span><span class='line'>        <span class="nb">p</span> <span class="o">[</span><span class="n">idx</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">line</span><span class="o">].</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;: &quot;</span><span class="p">)</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">rescue</span> <span class="o">=&gt;</span> <span class="n">ex</span>
+</span><span class='line'>    <span class="nb">p</span> <span class="s2">&quot;####################################################################################################&quot;</span>
+</span><span class='line'>    <span class="nb">p</span> <span class="o">[</span><span class="vi">@idx</span><span class="p">,</span> <span class="vi">@line</span><span class="o">].</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;: &quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="nb">p</span> <span class="o">[</span> <span class="n">path</span><span class="p">,</span> <span class="n">ex</span><span class="o">.</span><span class="n">message</span> <span class="o">].</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="nb">p</span> <span class="n">ex</span><span class="o">.</span><span class="n">backtrace</span><span class="o">.</span><span class="n">first</span>
+</span><span class='line'>    <span class="nb">p</span> <span class="s2">&quot;####################################################################################################&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>再帰的にディレクトリをくだって、探します。<br/>
+含めたくないファイル名やディレクトリ名。拡張子を指定できます。</p>
+
+<p>良かったら使ってみてください。</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
+            <a href="/blog/2014/01/24/20140124122500/">Terminalでsshするときに、接続先に応じて背景色を変える方法</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2014-01-24T12:25:00+09:00" pubdate><i class="fa fa-calendar"></i> Jan 24th, 2014</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/terminal/'>terminal</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>朝これを見た。</p>
+
+<p>iTermでsshするときに、接続先に応じて背景色を変える方法<br/>
+<a href="http://qiita.com/k_kinukawa/items/3e5665325a4954e33019">http://qiita.com/k_kinukawa/items/3e5665325a4954e33019</a></p>
+
+<p>いいなと思った。</p>
+
+<p>でも普段僕はMacの標準のTerminalを使っている。<br/>
+Terminalで同じこと出きないかなとぐぐったらすぐあった。</p>
+
+<p><a href="https://github.com/dlobraico/dotfiles/blob/master/bin/ssh-host-color">https://github.com/dlobraico/dotfiles/blob/master/bin/ssh-host-color</a></p>
+
+<p>でも僕は透過率が75%にしていて透過率を設定したいのだけど。<br/>
+osascriptで透過率の設定がよくわからない。</p>
+
+<p>というか普段ターミナルの色とかはProの設定を使っているのでProの使いたいなーって思ってググってprofileを切り替えられるようにした。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1">#!/bin/bash</span>
+</span><span class='line'><span class="c1">#</span>
+</span><span class='line'><span class="c1"># ssh into a machine and automatically set the background</span>
+</span><span class='line'><span class="c1"># color of Mac OS X Terminal depending on the hostname.</span>
+</span><span class='line'><span class="c1">#</span>
+</span><span class='line'><span class="c1"># Installation:</span>
+</span><span class='line'><span class="c1"># 1. Save this script to /some/bin/ssh-host-color</span>
+</span><span class='line'><span class="c1"># 2. chmod 755 /some/bin/ssh-host-color</span>
+</span><span class='line'><span class="c1"># 3. alias ssh=/some/bin/ssh-host-color</span>
+</span><span class='line'><span class="c1"># 4. Configure your host colors below.</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">set_term_bgcolor</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>   <span class="n">local</span> <span class="n">R</span><span class="o">=</span><span class="vg">$1</span>
+</span><span class='line'>   <span class="n">local</span> <span class="n">G</span><span class="o">=</span><span class="vg">$2</span>
+</span><span class='line'>   <span class="n">local</span> <span class="n">B</span><span class="o">=</span><span class="vg">$3</span>
+</span><span class='line'>   <span class="sr">/usr/</span><span class="n">bin</span><span class="o">/</span><span class="n">osascript</span> <span class="o">&lt;&lt;</span><span class="no">EOF</span>
+</span><span class='line'><span class="sh">tell application &quot;Terminal&quot;</span>
+</span><span class='line'><span class="sh">   tell window 0</span>
+</span><span class='line'><span class="sh">      set the background color to {$(($R*65535/255)), $(($G*65535/255)), $(($B*65535/255)), 32767}</span>
+</span><span class='line'><span class="sh">   end tell</span>
+</span><span class='line'><span class="sh">end tell</span>
+</span><span class='line'><span class="no">EOF</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">set_term_profile</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>   <span class="n">local</span> <span class="n">profile</span><span class="o">=</span><span class="vg">$1</span>
+</span><span class='line'>   <span class="sr">/usr/</span><span class="n">bin</span><span class="o">/</span><span class="n">osascript</span> <span class="o">-</span><span class="n">e</span> <span class="s2">&quot;tell application   &quot;</span><span class="no">Terminal</span>  <span class="s2">&quot; to  set current settings of first window to settings set   &quot;</span><span class="vg">$profile</span>  <span class="s2">&quot;&quot;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Host-specific background colors.</span>
+</span><span class='line'><span class="k">if</span> <span class="o">[[</span> <span class="s2">&quot;$@&quot;</span> <span class="o">=~</span> <span class="n">production1</span><span class="o">.</span><span class="n">com</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+</span><span class='line'>   <span class="n">set_term_profile</span> <span class="s2">&quot;HomeBrew&quot;</span>
+</span><span class='line'><span class="n">elif</span> <span class="o">[[</span> <span class="s2">&quot;$@&quot;</span> <span class="o">=~</span> <span class="n">production2</span><span class="o">.</span><span class="n">com</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+</span><span class='line'>   <span class="n">set_term_bgcolor</span> <span class="mi">0</span> <span class="mi">40</span> <span class="mi">0</span>
+</span><span class='line'><span class="n">fi</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">ssh</span> <span class="vg">$@</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Default background color.</span>
+</span><span class='line'><span class="n">set_term_profile</span> <span class="s2">&quot;Pro&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>set  <em>term  </em>profileでプロファイルの名前を渡せばそれに切り替わる。<br/>
+set  <em>bg  </em>colorも残してる。</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
+            <a href="/blog/2014/01/10/20140110161334/">has_manyなassociationにメソッド追加</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2014-01-10T16:13:00+09:00" pubdate><i class="fa fa-calendar"></i> Jan 10th, 2014</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/rails/'>rails</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>めっちゃ簡単に出来るんですね。<br/>
+全然知らなかった。</p>
+
+<p><a href="http://stackoverflow.com/questions/10418193/how-to-add-methods-to-a-has-many-collection">http://stackoverflow.com/questions/10418193/how-to-add-methods-to-a-has-many-collection</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Customer</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:store</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Store</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">has_many</span> <span class="ss">:customers</span> <span class="k">do</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">names</span>
+</span><span class='line'>      <span class="nb">self</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:name</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rails</span> <span class="n">console</span>
+</span><span class='line'><span class="no">Store</span><span class="o">.</span><span class="n">last</span><span class="o">.</span><span class="n">customers</span><span class="o">.</span><span class="n">names</span> <span class="c1"># =&gt; customersの名前の配列が取れる！ </span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
+            <a href="/blog/2013/12/12/20131212124818/">jsでformの取り消す・やり直す</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2013-12-12T12:48:00+09:00" pubdate><i class="fa fa-calendar"></i> Dec 12th, 2013</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/javascript/'>javascript</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>javascript力が弱くて、クラス使って何か書きたくて、しかも
+coffeescriptで書きたくて、<br/>
+CTRL + Z
+というブラウザの標準の機能があるのに、jsで戻る、やり直しを行うことができるプラグインを作りました。<br/>
+正直使い道がよくわかりません。どのあたりをターゲットにしているのかもちょっとわかりません。</p>
+
+<p>こんな感じでエレメントを指定してformを対象にして</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">form</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">FormObserver</span><span class="p">(</span><span class="s1">&#39;form&#39;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="sr">//</span> <span class="err">一つ前の操作に戻す</span>
+</span><span class='line'><span class="n">form</span><span class="o">.</span><span class="n">undo</span><span class="p">();</span>
+</span><span class='line'><span class="sr">//</span> <span class="err">やり直し</span>
+</span><span class='line'><span class="n">form</span><span class="o">.</span><span class="n">redo</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>って感じで、操作できます。</p>
+
+<p>IE10とchromeでは動きました。<br/>
+よくテストはしてません。<br/>
+バグがあったらすいませんすいません。</p>
+
+<p>使って見たい方はこちらからどうぞ<br/>
+<a href="https://github.com/YoshitsuguFujii/form-undo.js">https://github.com/YoshitsuguFujii/form-undo.js</a></p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
+            <a href="/blog/2013/12/11/20131211200817/">変数の初期化</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2013-12-11T20:08:00+09:00" pubdate><i class="fa fa-calendar"></i> Dec 11th, 2013</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>clearなんてあったんや。<br/>
+<a href="http://ref.xaio.jp/ruby/classes/array/clear">http://ref.xaio.jp/ruby/classes/array/clear</a></p>
+
+<p>今まで</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">array</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;hoge&quot;</span><span class="p">,</span> <span class="s2">&quot;fuga&quot;</span><span class="o">]</span>
+</span><span class='line'><span class="n">array</span> <span class="o">=</span> <span class="o">[]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ってやってたのが、</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">array</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;hoge&quot;</span><span class="p">,</span> <span class="s2">&quot;fuga&quot;</span><span class="o">]</span>
+</span><span class='line'><span class="n">array</span><span class="o">.</span><span class="n">clear</span> <span class="c1"># =&gt; []</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>って書ける。より直感的ですね。</p>
+
+<p>ちなみに文字列もHashもあるみたいです。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">hash</span> <span class="o">=</span> <span class="p">{</span><span class="ss">hoge</span><span class="p">:</span> <span class="s2">&quot;fuga&quot;</span><span class="p">}</span>
+</span><span class='line'><span class="nb">hash</span><span class="o">.</span><span class="n">clear</span> <span class="c1"># {}</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">str</span> <span class="o">=</span> <span class="s2">&quot;fugafufa&quot;</span>
+</span><span class='line'><span class="n">str</span><span class="o">.</span><span class="n">clar</span> <span class="c1"># =&gt; &quot;&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>へー。</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
+            <a href="/blog/2013/12/06/20131206131145/">複数選択のselectボックスの値をcoffeescriptで取り出してみる</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2013-12-06T13:11:00+09:00" pubdate><i class="fa fa-calendar"></i> Dec 6th, 2013</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/coffeescript/'>coffeescript</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>1行で書けてすっきり。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">values</span> <span class="o">=</span> <span class="p">(</span><span class="n">option</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">option</span> <span class="k">in</span> <span class="n">document</span><span class="o">.</span><span class="n">getElementsByName</span><span class="p">(</span><span class="s2">&quot;multi-select&quot;</span><span class="p">)</span> <span class="k">when</span> <span class="n">option</span><span class="o">.</span><span class="n">selected</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+
+
+        </article>
+        <hr>
+    
+
+    <div class="pagination">
+    
+        <a class="btn pull-left" href="/posts/4">&larr; Older</a>
+    
+
+    
+        <a class="btn pull-right" href="/posts/2">Newer &rarr;</a>
+    
+    </div>
+
+                </div>
+
+                
+                <aside class="sidebar col-xs-12 col-md-4 col-lg-4">
+                    <div class="row">
+
+    
+
+    
+<section class="social col-xs-12 col-sm-6 col-md-12">
+    <h1>
+        Follow me!
+    </h1>
+    <ul class="unstyled">
+        
+        
+        
+        <li><a class="facebook" href="//facebook.com/fujiiyoshitsugu"><i class="fa fa-facebook-square"></i> Facebook</a></li>
+        <li><a class="github" href="//github.com/YoshitsuguFujii"><i class="fa fa-github"></i> Github</a></li>
+        
+        
+        
+        
+        
+        
+        
+        <li><a class="twitter" href="//twitter.com/YoshitsuguFujii"><i class="fa fa-twitter"></i> Twitter</a></li>
+        
+    </ul>
+</section>
+
+
+
+    <section id="recent-posts" class="col-xs-12 col-sm-6 col-md-12">
+    <h1>Recent Posts</h1>
+    <ul class="divided">
+        
+        <li class="post">
+            <a href="/blog/2015/03/10/githubpageniyi-xing-simasita/">GithubPageに移行しました</a>
+        </li>
+        
+        <li class="post">
+            <a href="/blog/2015/02/24/20150224142535/">Axlsxでエクセルのセルを折り返して全体を表示</a>
+        </li>
+        
+        <li class="post">
+            <a href="/blog/2015/02/23/20150223110642/">Axlsxでウィンドウ枠の固定</a>
+        </li>
+        
+        <li class="post">
+            <a href="/blog/2015/02/21/20150221171638/">Axlsxでエクセルファイル作成時に注意する点とかはまりどころとか</a>
+        </li>
+        
+        <li class="post">
+            <a href="/blog/2015/02/17/20150217112514/">trueとfalseにrefinmentsを使ってメソッド追加</a>
+        </li>
+        
+    </ul>
+</section>
+
+<section id="github-repos" class="col-xs-12 col-sm-6 col-md-12">
+    <h1>
+        GitHub Repos
+        
+        <small class="pull-right">
+            <a class="btn" href="//github.com/YoshitsuguFujii" title="@YoshitsuguFujii on GitHub" target="_blank">
+                <i class="fa fa-external-link"></i>
+            </a>
+        </small>
+        
+    </h1>
+    <ul id="gh_repos" class="divided">
+        <li class="loading">
+            <i class="fa fa-spinner fa-spin"></i>
+        </li>
+    </ul>
+</section>
+
+
+
+
+
+<section id="twitter-timeline" class="col-xs-12 col-sm-6 col-md-12">
+    <h1>
+        Latest Tweets
+        
+        <small class="pull-right">
+            <a class="btn" href="//twitter.com/YoshitsuguFujii" title="@YoshitsuguFujii on Twitter" target="_blank">
+                <i class="fa fa-external-link"></i>
+            </a>
+        </small>
+        
+    </h1>
+
+    <a class="twitter-timeline" data-dnt="true" href="//twitter.com/YoshitsuguFujii"  data-widget-id="574397323830132736"  data-link-color="#049cdb" data-tweet-limit="" data-chrome="noheader nofooter transparent noscrollbar">Tweets by @YoshitsuguFujii</a>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+</section>
+
+
+
+</div>
+
+                </aside>
+                
+            </div>
+        </div>
+
+        
+
+    
+    
+
+
+
+
+<footer class="footer">
+    <div class="row middle-xs">
+        
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <p class="footer__copyright">
+    All content copyright Yoshitsugu Fujii.<br>
+    Code under <a href="//github.com/coogie/oscailte/blob/master/README.md">MIT Licence</a>.
+</p>
+
+        </div>
+        
+        
+    </div>
+</footer>
+
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+<script src="//crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script>
+<script defer src="/javascripts/octopress.js"></script>
+
+
+
+
+
+
+
+
+<script>
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'YoshitsuguFujii',
+            count: 3,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+</script>
+<script src="/javascripts/github.js"></script>
+
+
+
+
+
+
+
+    </body>
+
+</html>

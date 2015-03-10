@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+    <title><![CDATA[Category: nokogiri | なんとなく日々徒然と]]></title>
+    <link href="http://yoshitsugufujii.github.io/blog/categories/nokogiri/atom.xml" rel="self"/>
+    <link href="http://yoshitsugufujii.github.io/"/>
+    <updated>2015-03-10T13:30:49+09:00</updated>
+    <id>http://yoshitsugufujii.github.io/</id>
+    <author>
+        <name><![CDATA[Yoshitsugu Fujii]]></name>
+        
+      </author>
+    <generator uri="http://octopress.org/">Octopress</generator>
+
+    
+    <entry>
+        <title type="html"><![CDATA[Nokogiriを使って部分的にhtmlを編集する]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2014/12/05/20141205115627/"/>
+        <updated>2014-12-05T11:56:00+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2014/12/05/20141205115627</id>
+        <content type="html"><![CDATA[<p>Nokogiriを使ってhelperメソッドで特定のinputに属性(クラス名)を追加したくなったのでやってみました。</p>
+
+<p>&#8220;` ruby
+html = &lt;&lt;HTML</p>
+
+<p><div>
+  <input id="hoge" class="field"></p>
+
+<p>HTML</p>
+
+<p>doc = Nokogiri::HTML.parse(html)</p>
+
+<p>doc.css(&ldquo;input#hoge&rdquo;).each do |input|
+  input[&lsquo;class&rsquo;] += &ldquo; has_error&rdquo;
+end</p>
+
+<p>doc.to_html # => &ldquo;&lt;!DOCTYPE html PUBLIC   &rdquo;-//W3C//DTD HTML 4.0 Transitional//EN  &ldquo;   &#8221;<a href="http://www.w3.org/TR/REC-html40/loose.dtd">http://www.w3.org/TR/REC-html40/loose.dtd</a>  &rdquo;>  n<html><body>  n<div>  n  <input class=  "field  ">  n  n</body></html>  n&#8221;
+&#8220;`</p>
+
+<p>Nokogiri::HTML.parseだとDOCTYPEとか  <html  >とか余計なものがついてくる。</p>
+
+<pre><code class="ruby">html = &lt;&lt;HTML
+&lt;div&gt;
+  &lt;input id="hoge" class="field"&gt;
+
+HTML
+
+doc = Nokogiri::HTML::DocumentFragment.parse(html)
+
+doc.css("input#hoge").each do |input|
+  input['class'] += " has_error"
+end
+
+doc.to_html # =&gt; "&lt;div&gt;  n  &lt;input id=  "hoge  " class=  "field has_error  "&gt;  n  n"
+</code></pre>
+
+<p>そういう場合はDocumentFragmentを使うと部分的にhtmlを使える。</p>
+]]></content>
+    </entry>
+    
+</feed>

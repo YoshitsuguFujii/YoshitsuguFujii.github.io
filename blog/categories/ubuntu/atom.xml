@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+    <title><![CDATA[Category: ubuntu | なんとなく日々徒然と]]></title>
+    <link href="http://yoshitsugufujii.github.io/blog/categories/ubuntu/atom.xml" rel="self"/>
+    <link href="http://yoshitsugufujii.github.io/"/>
+    <updated>2015-03-10T13:30:49+09:00</updated>
+    <id>http://yoshitsugufujii.github.io/</id>
+    <author>
+        <name><![CDATA[Yoshitsugu Fujii]]></name>
+        
+      </author>
+    <generator uri="http://octopress.org/">Octopress</generator>
+
+    
+    <entry>
+        <title type="html"><![CDATA[Ubuntu11.10にアップグレードしたらwi-fiが遅い件]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2012/01/28/20120128110647/"/>
+        <updated>2012-01-28T11:06:00+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2012/01/28/20120128110647</id>
+        <content type="html"><![CDATA[<p>珍しく休日にPCを起動した。<br/>
+何年ぶりだろう。</p>
+
+<p>自宅PCはWindows7とUbuntuのデュアルブートにしているのだけど、Ubuntuを11.04から11.10にしたら無線が遅い。<br/>
+ネットには接続されるし、IPもふられてるんだけど通信速度が異常に出ない。<br/>
+なんじゃこりゃ。</p>
+
+<p>このフォーラム<a href="http://askubuntu.com/questions/73523/wireless-internet-connection-so-slow-after-upgrade-to-11-10">Wireless Internet Connection so slow after upgrade to
+11.10</a>のとおりにコマンド打ったら、解決した。</p>
+
+<pre><code>sudo rmmod iwlagn
+sudo modprobe iwlagn 11n_disable=1
+</code></pre>
+]]></content>
+    </entry>
+    
+</feed>

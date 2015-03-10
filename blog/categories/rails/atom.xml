@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+    <title><![CDATA[Category: rails | なんとなく日々徒然と]]></title>
+    <link href="http://yoshitsugufujii.github.io/blog/categories/rails/atom.xml" rel="self"/>
+    <link href="http://yoshitsugufujii.github.io/"/>
+    <updated>2015-03-10T13:30:49+09:00</updated>
+    <id>http://yoshitsugufujii.github.io/</id>
+    <author>
+        <name><![CDATA[Yoshitsugu Fujii]]></name>
+        
+      </author>
+    <generator uri="http://octopress.org/">Octopress</generator>
+
+    
+    <entry>
+        <title type="html"><![CDATA[特定のキーを除いたhashを返す]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2014/12/09/20141209150940/"/>
+        <updated>2014-12-09T15:09:00+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2014/12/09/20141209150940</id>
+        <content type="html"><![CDATA[<p>今までdeleteでチクチク消したり、rejectで該当キーをひっかけてhash作り直しリしてました。</p>
+
+<p>exceptなんてあったんですね。</p>
+
+<pre><code class="ruby">{name: "藤井", age: 34, job: "developer"}.except(:age) # =&gt; { :name =&gt; "藤井", :job =&gt; "developer" }
+</code></pre>
+]]></content>
+    </entry>
+    
+    <entry>
+        <title type="html"><![CDATA[論理削除指定のモデルをhas_manyで参照し、かつnested_attributes_forにallow_destroyを指定するも物理削除になる。]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2014/12/07/20141207173028/"/>
+        <updated>2014-12-07T17:30:00+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2014/12/07/20141207173028</id>
+        <content type="html"><![CDATA[<p>環境はこちら<br/>
+activerecord(4.1.6)<br/>
+rails4  <em>acts  </em>as  _paranoid (0.1.4)</p>
+
+<p>has  <em>manyのリレーション先でacts  </em>as  <em>paranoid指定しているのですが、<br/>
+nested  </em>attributes  <em>for リレーション先, allow  </em>destroy : true<br/>
+で何故か物理削除になっていまったので調べてみました。</p>
+
+<p>結論としては</p>
+
+<p>lib/active  <em>record/associations/has  </em>many  <em>association.rb<br/>
+の112行目で<br/>
+records.each(&amp;:destroy!)<br/>
+とdestroy!で消していて、acts  </em>as  _paranoidのdestroy!は物理削除になるためでした。</p>
+
+<p>何故destroyに!がついているのか
+上記が定義されているdelete  <em>recordsメソッドを遡ってみます。<br/>
+delete  </em>recordsメソッドはlib/active  <em>record/associations/collection  </em>association.rb<br/>
+のremove  _recordsの中で呼ばれています(ソースでは492行目)</p>
+
+<pre><code class="ruby">  # lib/active_record/associations/collection_association.rb
+  def remove_records(existing_records, records, method)
+    records.each { |record| callback(:before_remove, record) }
+
+    delete_records(existing_records, method) if existing_records.any?
+    records.each { |record| target.delete(record) }
+
+    records.each { |record| callback(:after_remove, record) }
+  end
+</code></pre>
+
+<p>んでこれはどこで呼ばれるかというとここで呼ばれています(ソースでは485行目)</p>
+
+<pre><code class="ruby">  # lib/active_record/associations/collection_association.rb
+  def delete_or_destroy(records, method)
+    records = records.flatten
+    records.each { |record| raise_on_type_mismatch!(record) }
+    existing_records = records.reject { |r| r.new_record? }
+
+    if existing_records.empty?
+      remove_records(existing_records, records, method)
+    else
+      transaction { remove_records(existing_records, records, method) }
+    end
+  end
+</code></pre>
+
+<p>transactionで囲まれています。<br/>
+ということでdestroyに失敗した時にロールバックするために!をつけているようです。</p>
+
+<p>なのでparanoidのdestroy!をalias  <em>method  </em>chainで物理削除にしてしまうか。<br/>
+上記のrecords.each(&amp;:destroy!)をなんとか書き換えてあげると治りそうですね。</p>
+
+<p>今回はこうやって直しました。</p>
+
+<pre><code class="ruby">module ActiveRecord
+  module Associations
+    module HasManyAssociationPatch
+      def delete_records(records, method)
+        if method == :destroy
+          records.each do |record|
+            raise ActiveRecord::ActiveRecordError unless record.destroy
+          end
+          update_counter(-records.length) unless inverse_updates_counter_cache?
+        else
+          super
+        end
+      end
+    end
+  end
+end
+
+ActiveRecord::Associations::HasManyAssociation.send(:prepend, ActiveRecord::Associations::HasManyAssociationPatch)
+</code></pre>
+
+<p>今回ソース読んでいて知ったんですけど、has  <em>manyって削除する時に<br/>
+before  </em>remove<br/>
+after  _remove<br/>
+ってコールバックが発生するんですね。知らなかった。</p>
+]]></content>
+    </entry>
+    
+    <entry>
+        <title type="html"><![CDATA[railsで任意のタイミングで処理を開始]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2014/11/18/20141118110832/"/>
+        <updated>2014-11-18T11:08:00+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2014/11/18/20141118110832</id>
+        <content type="html"><![CDATA[<p>おかあさんといっしょを娘が見るので、毎朝のテレビチャンネルはEテレです。</p>
+
+<p>さてrailsでapp/model/concerns以下のモジュールを勝手にapp/modelにincludeしたいと考えました。<br/>
+命名規則でファイルを拾って、includeすることにします。<br/>
+例えば以下のファイル名をつけた場合に</p>
+
+<p>app/model/user.rb<br/>
+app/model/user  <em>auto  </em>load  _concern.rb</p>
+
+<p>userクラスに自動でuser  <em>auto  </em>load  _concern.rbの内容がincludeされる感じです。</p>
+
+<p>config/initializerに置きます。</p>
+
+<pre><code class="ruby">  %w(models).each do |elem|
+    Pathname.glob(Rails.root.join("app", elem, "concerns", "*")).each do |file|
+      if file.file?
+        file.basename.to_s.scan(/(.*)(_auto_load_concern.rb)$/) do |class_name|
+          if class_name.present?
+            model = class_name[0].classify.constantize
+            model.class_eval {  include file.basename(".rb").to_s.classify.constantize }
+          end
+        end
+      end
+    end
+  end
+</code></pre>
+
+<p>でもこのプロジェクトにはmodelクラスを拡張するプログラムがlib下にあります。<br/>
+それを読み込まない限りはmodelを参照するとエラーになるようになっています(上記class  _name[0].classify.constantizeでエラーとなる)</p>
+
+<p>そこでlib以下のそのプログラム群を読み込んだ後に読み込むようにしたいと思います。</p>
+
+<p>まず先ほどのコードを以下のようにActiveSupport.on  _loadで囲みます。</p>
+
+<pre><code class="ruby">ActiveSupport.on_load(:hoge) do
+  %w(models).each do |elem|
+    Pathname.glob(Rails.root.join("app", elem, "concerns", "*")).each do |file|
+      if file.file?
+        file.basename.to_s.scan(/(.*)(_auto_load_concern.rb)$/) do |class_name|
+          if class_name.present?
+            model = class_name[0].classify.constantize
+            model.class_eval {  include file.basename(".rb").to_s.classify.constantize }
+          end
+        end
+      end
+    end
+  end
+end
+</code></pre>
+
+<p>lib下のプログラム群で処理が終わった後に以下を差し込みます。</p>
+
+<pre><code class="ruby">  ActiveSupport.run_load_hooks :hoge
+</code></pre>
+
+<p>そうするとrun  <em>load  </em>hooksが呼ばれたタイミングでhogeがついていてるActiveSupport.on  _loadのブロック処理が開始されます。</p>
+]]></content>
+    </entry>
+    
+    <entry>
+        <title type="html"><![CDATA[has_manyなassociationにメソッド追加]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2014/01/10/20140110161334/"/>
+        <updated>2014-01-10T16:13:00+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2014/01/10/20140110161334</id>
+        <content type="html"><![CDATA[<p>めっちゃ簡単に出来るんですね。<br/>
+全然知らなかった。</p>
+
+<p><a href="http://stackoverflow.com/questions/10418193/how-to-add-methods-to-a-has-many-collection">http://stackoverflow.com/questions/10418193/how-to-add-methods-to-a-has-many-collection</a></p>
+
+<pre><code class="ruby">class Customer &lt; ActiveRecord::Base
+  belongs_to :store
+end
+
+class Store &lt; ActiveRecord::Base
+  has_many :customers do
+    def names
+      self.map(&amp;:name)
+    end
+  end
+end
+</code></pre>
+
+<pre><code class="ruby">rails console
+Store.last.customers.names # =&gt; customersの名前の配列が取れる！ 
+</code></pre>
+]]></content>
+    </entry>
+    
+    <entry>
+        <title type="html"><![CDATA[ある月に指定日が含まれるんか判定したい(要ActiveSupport)]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2013/11/18/20131118152008/"/>
+        <updated>2013-11-18T15:20:00+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2013/11/18/20131118152008</id>
+        <content type="html"><![CDATA[<p>ある月に指定日が含まれるんか判定したい</p>
+
+<p>月のRangeオブジェクトは<br/>
+Time  #all  _monthで取れる(要ActiveSupport)<br/>
+含まれるってことはbetween?かな</p>
+
+<pre><code class="ruby">Time.now.between?(Time.now.all_month)
+# ArgumentError: wrong number of arguments (1 for 2)
+# from (pry):8:in `between?'
+</code></pre>
+
+<p>ありゃ。<br/>
+あ、include?だったかな？</p>
+
+<pre><code class="ruby">Time.now.all_month.include?(Time.now)
+# TypeError: can't iterate from Time
+</code></pre>
+
+<p>むむ。<br/>
+じゃ、じゃあcovers</p>
+
+<pre><code class="ruby">Time.now.all_month.cover?(Time.now) 
+# -&gt; true
+Time.now.all_month.cover?(Time.now.prev_month) 
+# -&gt;false
+</code></pre>
+
+<p>できたヽ(｀▽´)/</p>
+]]></content>
+    </entry>
+    
+</feed>

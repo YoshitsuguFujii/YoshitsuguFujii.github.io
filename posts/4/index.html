@@ -1,0 +1,1234 @@
+<!doctype html>
+    <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+    <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+    <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+    <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+
+    
+      
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>なんとなく日々徒然と</title>
+        <meta name="author" content="Yoshitsugu Fujii">
+        
+        <meta name="description" content="ruby rails French Bulldog surfing aqualist">
+        
+        <meta name="viewport" content="width=device-width">
+        <link rel="canonical" href="http://yoshitsugufujii.github.io/posts/4">
+
+        <link href='http://fonts.googleapis.com/css?family=Droid+Serif:400,400italic' rel='stylesheet' type='text/css'>
+        <link href="http://fonts.googleapis.com/css?family=Droid+Sans" rel="stylesheet" type="text/css">
+
+        
+        <link href="/favicon.png" rel="icon">
+        <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet">
+        <link href="/atom.xml" rel="alternate" title="なんとなく日々徒然と" type="application/atom+xml">
+    </head>
+
+
+    <body >
+
+        <header id="header">
+    <div class="row">
+    <div class="col-xs-12 col-sm-8 col-md-4">
+        <a href="/" class="site-title">なんとなく日々徒然と</a>
+    </div>
+    <div class="col-xs-12 col-sm-4 col-md-8">
+        <nav>
+    <input type="checkbox" id="toggle">
+    <label for="toggle" class="toggle" data-open="Main Menu" data-close="Close Menu"></label>
+    <ul class="menu">
+    <li><a href="/">Blog</a></li>
+    <li><a href="/profile/">Profile</a></li>
+</ul>
+
+</nav>
+
+    </div>
+</div>
+
+</header>
+
+
+        <div id="main-content">
+
+            <!--[if lte IE 9]>
+<div class="row upgrade-row">
+    <div class="col-lg-12">
+        <div class="upgrade">
+            <i class="upgrade__icon fa fa-warning"></i>
+            <h1 class="upgrade__title h6">Ohnoes!</h1>
+            <p class="upgrade__text">
+                Unfortunately, certain parts of this site may not display correctly in your version of Internet Explorer!<br>
+                If possible, you should consider <a href="http://browsehappy.com/">upgrading your browser</a>.
+            </p>
+        </div>
+    </div>
+</div>
+<!-- <![endif]-->
+
+
+            
+
+            <div class="row top-xs center-sm center-md center-lg site-wrapper">
+                
+                <div class="col-xs-12 col-sm-10 col-md-8 col-lg-8">
+                
+                        
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
+            <a href="/blog/2013/11/29/20131129125427/">言語毎に異なるデバッグ文を挿入</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2013-11-29T12:54:00+09:00" pubdate><i class="fa fa-calendar"></i> Nov 29th, 2013</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/vim/'>vim</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>デバッグ文を仕込む場合に、私の環境ではインサートモードでCTRL+bするとデバッグ文を仕込むようにしています。<br/>
+その際に言語毎(ファイルタイプ毎)に異なるデバッグ文を打ち込めるようにしたら便利すぎて辛いです。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">function!</span> <span class="no">InsertDebugger</span><span class="p">()</span>
+</span><span class='line'>    <span class="k">if</span> <span class="o">&amp;</span><span class="n">filetype</span> <span class="o">==</span> <span class="s1">&#39;coffee&#39;</span> <span class="o">||</span> <span class="o">&amp;</span><span class="n">filetype</span> <span class="o">==</span> <span class="s1">&#39;javascript&#39;</span>
+</span><span class='line'>      <span class="n">let</span> <span class="n">debugger</span> <span class="o">=</span> <span class="s2">&quot;debugger&quot;</span>
+</span><span class='line'>    <span class="n">elseif</span> <span class="o">&amp;</span><span class="n">filetype</span> <span class="o">==</span> <span class="s1">&#39;ruby&#39;</span>
+</span><span class='line'>      <span class="n">let</span> <span class="n">debugger</span> <span class="o">=</span> <span class="s2">&quot;binding.pry&quot;</span>
+</span><span class='line'>    <span class="n">elseif</span> <span class="o">&amp;</span><span class="n">filetype</span> <span class="o">==</span> <span class="s1">&#39;eruby&#39;</span>
+</span><span class='line'>      <span class="n">let</span> <span class="n">debugger</span> <span class="o">=</span> <span class="s2">&quot;&lt;% binding.pry %&gt;&quot;</span>
+</span><span class='line'>    <span class="n">elseif</span> <span class="o">&amp;</span><span class="n">filetype</span> <span class="o">==</span> <span class="s1">&#39;haml&#39;</span>
+</span><span class='line'>      <span class="n">let</span> <span class="n">debugger</span> <span class="o">=</span> <span class="s2">&quot;- binding.pry&quot;</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="n">let</span> <span class="n">debugger</span> <span class="o">=</span> <span class="s2">&quot;binding.pry&quot;</span>
+</span><span class='line'>    <span class="n">endif</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">return</span> <span class="n">debugger</span>
+</span><span class='line'><span class="n">endfunction</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">inoremap</span> <span class="o">&lt;</span><span class="n">expr</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">C</span><span class="o">-</span><span class="n">b</span><span class="o">&gt;</span> <span class="no">InsertDebugger</span><span class="p">()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>編集中のファイルが<br/>
+coffeescrptかjabascriptの場合はdebuggerを(chrome使ってるので)<br/>
+rubyの場合はbinding.pryを<br/>
+erbの場合は  &lt;% binding.pry %  >を<br/>
+hamlの場合は- binding.pryを打ち込みます。</p>
+
+<p>ちなみに今編集中のファイルのファイル・タイプを知りたいばあいは該当のファイルを開いて</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="ss">:echo</span> <span class="o">&amp;</span><span class="n">filetpye</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ってうつと表示されます</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
+            <a href="/blog/2013/11/20/20131120192300/">vimでファイルのブックマーク</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2013-11-20T19:23:00+09:00" pubdate><i class="fa fa-calendar"></i> Nov 20th, 2013</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/vim/'>vim</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>vimを使っていて。<br/>
+ディレクトリはUniteBookmarkAdd使ってブックマークしてましたが。</p>
+
+<p>集中的にある機能のみを重点的に編集する時に、ファイルのブックマークしたくて調べたらあった。<br/>
+しかもデフォルトの機能っぽい。</p>
+
+<p>Hack   #16: 任意のファイルをブックマークする<br/>
+<a href="http://vim-users.jp/2009/05/hack16/">http://vim-users.jp/2009/05/hack16/</a></p>
+
+<p>例えば店舗とかっていう機能開発していて。</p>
+
+<p>StoreControllerのコントロールファイルではmC<br/>
+StoreのformのビューファイルではmF<br/>
+StoreのindexファイルではmS<br/>
+StoreのjsファイルではmJ</p>
+
+<p>しとくと編集していて、すぐにコントローラ開きたい時は<br/>
+  `C</p>
+
+<p>って押せばすぐ開く。<br/>
+簡単に設定できて、即応性があるのでいい感じですね。<br/>
+しかもブックマークとかにしちゃうと、設定後その機能の開発が終わったらブックマークを消さなきゃいけないと思いますが。<br/>
+今なにが設定されているとか気にせずに、常に上書きで使う感じもいいです。<br/>
+他にも色々便利機能ってあるのかな。</p>
+
+<p>vimの本ちゃんと読まないとなー</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
+            <a href="/blog/2013/11/19/20131119145036/">fields_forに渡すrelationを絞る</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2013-11-19T14:50:00+09:00" pubdate><i class="fa fa-calendar"></i> Nov 19th, 2013</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>contentモデルの下にcontent  <em>detailモデルがあって、
+accepts  </em>nested  <em>attributes  </em>forしていて、fields  _forを使う場合。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">f</span><span class="o">.</span><span class="n">fields_for</span> <span class="ss">:content_details</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>って書くと、contentに紐付く全部のcontent  _detailsがformとして表示されちゃう。</p>
+
+<p>第二引数にインスタンスを渡せばいいみたい。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">f</span><span class="o">.</span><span class="n">fields_for</span> <span class="ss">:content_details</span><span class="p">,</span> <span class="vi">@content</span><span class="o">.</span><span class="n">content_details</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">state</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ちなみに第二引数はnilがデフォルト引数なので</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">f</span><span class="o">.</span><span class="n">fields_for</span> <span class="ss">:content_details</span>
+</span><span class='line'><span class="n">f</span><span class="o">.</span><span class="n">fields_for</span> <span class="ss">:content_details</span><span class="p">,</span> <span class="kp">nil</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>は同じ意味になるので、インスタンス変数は値を入れなければnilなので</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">fields_for</span> <span class="ss">:content_details</span><span class="p">,</span> <span class="vi">@details</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ってやって、editの時だけ@detailsに値を入れるとうまく変更したいレコードのみ抽出できて、処理を切り分けられる気がします。</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
+            <a href="/blog/2013/11/18/20131118152008/">ある月に指定日が含まれるんか判定したい(要ActiveSupport)</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2013-11-18T15:20:00+09:00" pubdate><i class="fa fa-calendar"></i> Nov 18th, 2013</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/rails/'>rails</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>ある月に指定日が含まれるんか判定したい</p>
+
+<p>月のRangeオブジェクトは<br/>
+Time  #all  _monthで取れる(要ActiveSupport)<br/>
+含まれるってことはbetween?かな</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="o">.</span><span class="n">between?</span><span class="p">(</span><span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="o">.</span><span class="n">all_month</span><span class="p">)</span>
+</span><span class='line'><span class="c1"># ArgumentError: wrong number of arguments (1 for 2)</span>
+</span><span class='line'><span class="c1"># from (pry):8:in `between?&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ありゃ。<br/>
+あ、include?だったかな？</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="o">.</span><span class="n">all_month</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="p">)</span>
+</span><span class='line'><span class="c1"># TypeError: can&#39;t iterate from Time</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>むむ。<br/>
+じゃ、じゃあcovers</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="o">.</span><span class="n">all_month</span><span class="o">.</span><span class="n">cover?</span><span class="p">(</span><span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="p">)</span>
+</span><span class='line'><span class="c1"># -&gt; true</span>
+</span><span class='line'><span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="o">.</span><span class="n">all_month</span><span class="o">.</span><span class="n">cover?</span><span class="p">(</span><span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="o">.</span><span class="n">prev_month</span><span class="p">)</span>
+</span><span class='line'><span class="c1"># -&gt;false</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>できたヽ(｀▽´)/</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
+            <a href="/blog/2013/11/13/20131113112323/">Excelとか使う時はマウス使ってたんだけど。センタークリックでMission Controlを開きたい</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2013-11-13T11:23:00+09:00" pubdate><i class="fa fa-calendar"></i> Nov 13th, 2013</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/mac/'>mac</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>Mac Book Airで仕事しています。<br/>
+普段はTrack pad使っているんだけど。</p>
+
+<p>Excelとか使う時はやっぱりマウス使いたいってことで。<br/>
+その辺に転がっていたUSBマウスを接続して作業している。</p>
+
+<p>その際に他のワークスペース(デスクトップ？)に切り替えたい時はわざわざマウスから手を話して、トラックパッドの方で３本指スワイプしていた。<br/>
+これが超絶面倒なので、マウスのセンタークリックでできないかとやってみたら出きた。</p>
+
+<p>システム環境設定   > Mission Control</p>
+
+<p><a href="http://f.hatena.ne.jp/gogo_sakura/20131113112104"><img src="http://cdn-ak.f.st-hatena.com/images/fotolife/g/gogo_sakura/20131113/20131113112104.png" title="f:id:gogo_sakura:20131113112104p:image" alt="f:id:gogo  _sakura:20131113112104p:image" /></a></p>
+
+<p>ただchrome使っててタブ消したい時はセンタークリックで消してたけど。<br/>
+それが効かなくなるのが難点か・・・<br/>
+欲張り過ぎかなぁ。</p>
+
+<p>※Magic Mouseはお金ないので買えない人なのです</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
+            <a href="/blog/2013/11/12/20131112000000/">自分のjquery力のなさに泣けてきた話</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2013-11-12T00:00:00+09:00" pubdate><i class="fa fa-calendar"></i> Nov 12th, 2013</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/jquery/'>jquery</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>jQuery力のなさに泣けてきた。</p>
+
+<p>data-hogeにdataでアクセスできるの知らんかった<br/>
+こんなのがある</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="s2">&quot;foo&quot;</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;bar&quot;</span> <span class="n">data</span><span class="o">-</span><span class="n">count</span><span class="o">=</span><span class="s2">&quot;1&quot;</span> <span class="n">data</span><span class="o">-</span><span class="n">url</span><span class="o">=</span><span class="s2">&quot;http://~.com&quot;</span><span class="o">&gt;&lt;</span><span class="sr">/a&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>いままではこうやって値を取得してた。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span><span class="p">(</span><span class="s1">&#39;#bar&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">attr</span><span class="p">(</span><span class="s2">&quot;data-count&quot;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>dataってあったのね。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span><span class="p">(</span><span class="s1">&#39;#bar&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="s2">&quot;count&quot;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>しかも要素に設定されているdata-属性も一気に取得もできる -  >
+<a href="http://stackoverflow.com/questions/4187032/get-list-of-data-attributes-using-javascript-jquery">http://stackoverflow.com/questions/4187032/get-list-of-data-attributes-using-javascript-jquery</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span><span class="p">(</span><span class="s1">&#39;#bar&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">data</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>当然ajaxで一気に渡せる(※coffeescript)<br/>
+以下の例はリンクを押したら、どっかから何か取ってきて何かを追加してる雰囲気のやつ。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="err">$</span><span class="p">(</span><span class="n">document</span><span class="p">)</span><span class="o">.</span><span class="n">on</span> <span class="s1">&#39;click&#39;</span><span class="p">,</span> <span class="s1">&#39;#hoge&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">event</span><span class="p">)</span> <span class="o">-&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="vg">$.</span><span class="n">ajax</span>
+</span><span class='line'>      <span class="ss">url</span><span class="p">:</span> <span class="s2">&quot;どっかのURL&quot;</span>
+</span><span class='line'>      <span class="ss">type</span><span class="p">:</span> <span class="s2">&quot;GET&quot;</span>
+</span><span class='line'>      <span class="ss">data</span><span class="p">:</span> <span class="err">$</span><span class="p">(</span><span class="err">@</span><span class="p">)</span><span class="o">.</span><span class="n">data</span><span class="p">()</span>
+</span><span class='line'>      <span class="ss">success</span><span class="p">:</span> <span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">-&gt;</span>
+</span><span class='line'>        <span class="err">$</span><span class="p">(</span><span class="s1">&#39;#bar&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="ss">error</span><span class="p">:</span> <span class="p">(</span><span class="no">XMLHttpRequest</span><span class="p">,</span> <span class="n">textStatus</span><span class="p">,</span> <span class="n">errorThrown</span><span class="p">)</span> <span class="o">-&gt;</span>
+</span><span class='line'>        <span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;XMLHttpRequest : &quot;</span> <span class="o">+</span> <span class="no">XMLHttpRequest</span><span class="o">.</span><span class="n">status</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;textStatus : &quot;</span> <span class="o">+</span> <span class="n">textStatus</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;errorThrown : &quot;</span> <span class="o">+</span> <span class="n">errorThrown</span><span class="o">.</span><span class="n">message</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>もっと早く出会いたかった・・・</p>
+
+<p>ちなみに今回はお手軽にタグのdata要素に情報もたしてそれを送信する例でしたが。<br/>
+フォームの値を全部キーと値のペアとかで送りたければ、serializeArrayが超ベンリです。こっちは知ってた！<br/>
+<a href="http://jquery-master.net/ajax/serialize.php">http://jquery-master.net/ajax/serialize.php</a></p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
+            <a href="/blog/2013/11/07/20131107225813/">js.erbファイルのデバッグ</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2013-11-07T22:58:00+09:00" pubdate><i class="fa fa-calendar"></i> Nov 7th, 2013</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/rails/'>rails</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>railsでajax使って処理していて、コントローラからjsファイルを読んでviewの内容を書き換えたり、追加したりすることがあると思う。</p>
+
+<p>  # hogehoge.js.erb</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span><span class="p">(</span><span class="s2">&quot;kokonitsuika&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&lt;%= escape_javascript(render &quot;</span><span class="n">partial_view</span><span class="s2">&quot;) %&gt;&quot;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>このくらいなら多分ないけど。結構複雑なjs.erbに成長しちゃってjsのデバッグをしたい時には、chromeでインスペクション開いたままdebuggerを差し込むと止まってくれるので幸せになれるかも？</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">debugger</span>
+</span><span class='line'><span class="err">$</span><span class="p">(</span><span class="s2">&quot;kokonitsuika&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&lt;%= escape_javascript(render &quot;</span><span class="n">partial_view</span><span class="s2">&quot;) %&gt;&quot;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>腰が痛いぞ。</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
+            <a href="/blog/2013/10/29/20131029210140/">arel_table使いながら、たくさんの条件を配列にいれつつ検索</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2013-10-29T21:01:00+09:00" pubdate><i class="fa fa-calendar"></i> Oct 29th, 2013</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>何を言っているんでしょう。<br/>
+コード見たほうが早いですかね</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># andで条件組み立て</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">condition</span>
+</span><span class='line'>  <span class="n">cons</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'>  <span class="n">cons</span> <span class="o">&lt;&lt;</span> <span class="no">User</span><span class="o">.</span><span class="n">arel_table</span><span class="o">[</span><span class="ss">:name</span><span class="o">].</span><span class="n">matches</span><span class="p">(</span><span class="s2">&quot;%hoge%&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">cons</span> <span class="o">&lt;&lt;</span> <span class="no">User</span><span class="o">.</span><span class="n">arel_table</span><span class="o">[</span><span class="ss">:nick_name</span><span class="o">].</span><span class="n">matches</span><span class="p">(</span><span class="s2">&quot;%fuga%&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">cons</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:and</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">user</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">condition</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>配列の結合で一瞬悩んだのでメモ。<br/>
+andをorにすると、どれかに一致するという条件になります。</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
+            <a href="/blog/2013/10/28/20131028135346/">macをmarvericksにしたら、rails server動かなくなった</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2013-10-28T13:53:00+09:00" pubdate><i class="fa fa-calendar"></i> Oct 28th, 2013</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+                <li><a class='category' href='/blog/categories/marvericks/'>marvericks</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>色々と必要ないものとかもありそうだけど、やったこと全部書く</p>
+
+<p>なにはともかく<br/>
+xcodeのcommand line toolの入れなおし</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">xcode</span><span class="o">-</span><span class="nb">select</span> <span class="o">--</span><span class="n">install</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>んで、開発中のrailsディレクトリでrails serverしようとしたら動かない。<br/>
+とりあえず再bundle installしなおしてみる。</p>
+
+<p>nokogiriのインストールでlibxmlがどうこうってエラーでたから</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">~</span><span class="sr">/.rbenv/</span><span class="n">versions</span><span class="o">/</span><span class="mi">2</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">-</span><span class="n">p247</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">ruby</span><span class="o">/</span><span class="n">gems</span><span class="o">/</span><span class="mi">2</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">/</span><span class="n">gems</span><span class="o">/</span><span class="n">nokogiri</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">6</span><span class="o">.</span><span class="mi">0</span><span class="o">/</span><span class="n">ext</span><span class="o">/</span><span class="n">nokogiri</span><span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">i686</span><span class="o">-</span><span class="n">apple</span><span class="o">-</span><span class="n">darwin11</span><span class="o">/</span><span class="n">ports</span><span class="o">/</span><span class="n">libxml2</span><span class="o">/</span><span class="mi">2</span><span class="o">.</span><span class="mi">8</span><span class="o">.</span><span class="mi">0</span><span class="o">/</span><span class="n">libxml2</span><span class="o">-</span><span class="mi">2</span><span class="o">.</span><span class="mi">8</span><span class="o">.</span><span class="mi">0</span>
+</span><span class='line'><span class="n">sudo</span> <span class="n">make</span> <span class="n">clean</span>
+</span><span class='line'><span class="n">sudo</span> <span class="n">make</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>したらbundle installが成功。</p>
+
+<p>でもrails serverしたら</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Could</span> <span class="ow">not</span> <span class="n">find</span> <span class="n">libv8</span><span class="o">-</span><span class="mi">3</span><span class="o">.</span><span class="mi">11</span><span class="o">.</span><span class="mi">8</span><span class="o">.</span><span class="mi">17</span> <span class="k">in</span> <span class="n">any</span> <span class="n">of</span> <span class="n">the</span> <span class="n">sources</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>って出る。</p>
+
+<p>まず</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">brew</span> <span class="n">update</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>brew updateでこんなエラーが出た</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="ss">Error</span><span class="p">:</span> <span class="no">Failure</span> <span class="k">while</span> <span class="ss">executing</span><span class="p">:</span> <span class="n">git</span> <span class="n">pull</span> <span class="o">-</span><span class="n">q</span> <span class="n">origin</span> <span class="n">refs</span><span class="o">/</span><span class="n">heads</span><span class="o">/</span><span class="ss">master</span><span class="p">:</span><span class="n">refs</span><span class="o">/</span><span class="n">remotes</span><span class="o">/</span><span class="n">origin</span><span class="o">/</span><span class="n">master</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>pullできないみたいなので、ここを見つつ以下の様なことをやる。<br/>
+<a href="http://d.conma.me/entry/20120301/1330613125">http://d.conma.me/entry/20120301/1330613125</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">cd</span> <span class="sb">`brew --prefix`</span>
+</span><span class='line'><span class="n">git</span> <span class="n">reset</span> <span class="o">--</span><span class="n">hard</span> <span class="n">origin</span><span class="o">/</span><span class="n">master</span> <span class="c1">#=&gt; untrackファイルがあるからダメとか言われる</span>
+</span><span class='line'><span class="n">git</span> <span class="n">add</span> <span class="o">.</span>
+</span><span class='line'><span class="n">git</span> <span class="n">checkout</span> <span class="o">-</span><span class="n">f</span>
+</span><span class='line'><span class="n">git</span> <span class="n">reset</span> <span class="o">--</span><span class="n">hard</span> <span class="n">origin</span><span class="o">/</span><span class="n">master</span>
+</span><span class='line'><span class="n">brew</span> <span class="n">update</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>brew update成功</p>
+
+<p>んでここを見つつ以下を実行<br/>
+How to fix libv8 error from Gemfile on Mavericks?<br/>
+<a href="http://stackoverflow.com/questions/19568852/how-to-fix-libv8-error-from-gemfile-on-mavericks">http://stackoverflow.com/questions/19568852/how-to-fix-libv8-error-from-gemfile-on-mavericks</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="n">uninstall</span> <span class="n">libv8</span>
+</span><span class='line'><span class="n">brew</span> <span class="n">install</span> <span class="n">v8</span>
+</span><span class='line'><span class="n">gem</span> <span class="n">install</span> <span class="n">therubyracer</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>brew install v8が通らない・・・</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">==&gt;</span> <span class="no">Downloading</span> <span class="ss">https</span><span class="p">:</span><span class="sr">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">v8</span><span class="o">/</span><span class="n">v8</span><span class="o">/</span><span class="n">archive</span><span class="o">/</span><span class="mi">3</span><span class="o">.</span><span class="mi">19</span><span class="o">.</span><span class="mi">18</span><span class="o">.</span><span class="mi">4</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span>
+</span><span class='line'><span class="c1">######################################################################## 100.0%</span>
+</span><span class='line'><span class="o">==&gt;</span> <span class="n">make</span> <span class="n">dependencies</span>
+</span><span class='line'>            <span class="o">--</span><span class="n">revision</span> <span class="mi">1501</span>
+</span><span class='line'><span class="ss">dyld</span><span class="p">:</span> <span class="no">Library</span> <span class="ow">not</span> <span class="ss">loaded</span><span class="p">:</span> <span class="sr">/usr/</span><span class="n">local</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libsqlite3</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">8</span><span class="o">.</span><span class="mi">6</span><span class="o">.</span><span class="n">dylib</span>
+</span><span class='line'>  <span class="no">Referenced</span> <span class="ss">from</span><span class="p">:</span> <span class="sr">/usr/</span><span class="n">local</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">svn</span>
+</span><span class='line'>  <span class="ss">Reason</span><span class="p">:</span> <span class="n">image</span> <span class="ow">not</span> <span class="n">found</span>
+</span><span class='line'><span class="ss">make</span><span class="p">:</span> <span class="o">***</span> <span class="o">[</span><span class="n">dependencies</span><span class="o">]</span> <span class="no">Trace</span><span class="o">/</span><span class="no">BPT</span> <span class="nb">trap</span><span class="p">:</span> <span class="mi">5</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>また、エラー・・・</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">brew</span> <span class="n">rm</span> <span class="n">svn</span>
+</span><span class='line'><span class="n">brew</span> <span class="n">install</span> <span class="n">svn</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>んで再度</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">brew</span> <span class="n">install</span> <span class="n">v8</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>通った&hellip;</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">bundle</span> <span class="n">install</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>してから、</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rails</span> <span class="n">server</span>
+</span><span class='line'><span class="no">Could</span> <span class="ow">not</span> <span class="n">find</span> <span class="n">libv8</span><span class="o">-</span><span class="mi">3</span><span class="o">.</span><span class="mi">11</span><span class="o">.</span><span class="mi">8</span><span class="o">.</span><span class="mi">17</span> <span class="k">in</span> <span class="n">any</span> <span class="n">of</span> <span class="n">the</span> <span class="n">sources</span>
+</span><span class='line'><span class="no">Run</span> <span class="sb">`bundle install`</span> <span class="n">to</span> <span class="n">install</span> <span class="n">missing</span> <span class="n">gems</span><span class="o">.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>あれ、ダメだ・・</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">bundle</span> <span class="nb">exec</span> <span class="n">rails</span> <span class="n">server</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="no">Booting</span> <span class="no">WEBrick</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="no">Rails</span> <span class="mi">3</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">13</span> <span class="n">application</span> <span class="n">starting</span> <span class="k">in</span> <span class="n">development</span> <span class="n">on</span> <span class="ss">http</span><span class="p">:</span><span class="sr">//</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">:</span><span class="mi">3000</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="no">Call</span> <span class="n">with</span> <span class="o">-</span><span class="n">d</span> <span class="n">to</span> <span class="n">detach</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="no">Ctrl</span><span class="o">-</span><span class="n">C</span> <span class="n">to</span> <span class="n">shutdown</span> <span class="n">server</span>
+</span><span class='line'><span class="o">[</span><span class="mi">2013</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">28</span> <span class="mi">13</span><span class="p">:</span><span class="mi">47</span><span class="p">:</span><span class="mi">46</span><span class="o">]</span> <span class="no">INFO</span>  <span class="no">WEBrick</span> <span class="mi">1</span><span class="o">.</span><span class="mi">3</span><span class="o">.</span><span class="mi">1</span>
+</span><span class='line'><span class="o">[</span><span class="mi">2013</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">28</span> <span class="mi">13</span><span class="p">:</span><span class="mi">47</span><span class="p">:</span><span class="mi">46</span><span class="o">]</span> <span class="no">INFO</span>  <span class="n">ruby</span> <span class="mi">2</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span> <span class="p">(</span><span class="mi">2013</span><span class="o">-</span><span class="mo">06</span><span class="o">-</span><span class="mi">27</span><span class="p">)</span> <span class="o">[</span><span class="n">x86_64</span><span class="o">-</span><span class="n">darwin12</span><span class="o">.</span><span class="mi">5</span><span class="o">.</span><span class="mi">0</span><span class="o">]</span>
+</span><span class='line'><span class="o">[</span><span class="mi">2013</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">28</span> <span class="mi">13</span><span class="p">:</span><span class="mi">47</span><span class="p">:</span><span class="mi">46</span><span class="o">]</span> <span class="no">INFO</span>  <span class="no">WEBrick</span><span class="o">::</span><span class="no">HTTPServer</span><span class="c1">#start: pid=16067 port=3000</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ま、まぁいいか。</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
+            <a href="/blog/2013/10/18/20131018171610/">find_byのようなダイナミックファインダで例外</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2013-10-18T17:16:00+09:00" pubdate><i class="fa fa-calendar"></i> Oct 18th, 2013</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>find  _byのようなダイナミックファインダで例外<br/>
+びっくりまーくつければいいみたいです。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Prefecture</span><span class="o">.</span><span class="n">find_by_name!</span><span class="p">(</span><span class="s2">&quot;存在しない件&quot;</span> <span class="p">)</span> <span class="c1"># =&gt; ActiveRecord::RecordNotFound</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>rails4ではこうかな</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Prefecture</span><span class="o">.</span><span class="n">find_by!</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="s2">&quot;存在しない件&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+
+
+        </article>
+        <hr>
+    
+
+    <div class="pagination">
+    
+        <a class="btn pull-left" href="/posts/5">&larr; Older</a>
+    
+
+    
+        <a class="btn pull-right" href="/posts/3">Newer &rarr;</a>
+    
+    </div>
+
+                </div>
+
+                
+                <aside class="sidebar col-xs-12 col-md-4 col-lg-4">
+                    <div class="row">
+
+    
+
+    
+<section class="social col-xs-12 col-sm-6 col-md-12">
+    <h1>
+        Follow me!
+    </h1>
+    <ul class="unstyled">
+        
+        
+        
+        <li><a class="facebook" href="//facebook.com/fujiiyoshitsugu"><i class="fa fa-facebook-square"></i> Facebook</a></li>
+        <li><a class="github" href="//github.com/YoshitsuguFujii"><i class="fa fa-github"></i> Github</a></li>
+        
+        
+        
+        
+        
+        
+        
+        <li><a class="twitter" href="//twitter.com/YoshitsuguFujii"><i class="fa fa-twitter"></i> Twitter</a></li>
+        
+    </ul>
+</section>
+
+
+
+    <section id="recent-posts" class="col-xs-12 col-sm-6 col-md-12">
+    <h1>Recent Posts</h1>
+    <ul class="divided">
+        
+        <li class="post">
+            <a href="/blog/2015/03/10/githubpageniyi-xing-simasita/">GithubPageに移行しました</a>
+        </li>
+        
+        <li class="post">
+            <a href="/blog/2015/02/24/20150224142535/">Axlsxでエクセルのセルを折り返して全体を表示</a>
+        </li>
+        
+        <li class="post">
+            <a href="/blog/2015/02/23/20150223110642/">Axlsxでウィンドウ枠の固定</a>
+        </li>
+        
+        <li class="post">
+            <a href="/blog/2015/02/21/20150221171638/">Axlsxでエクセルファイル作成時に注意する点とかはまりどころとか</a>
+        </li>
+        
+        <li class="post">
+            <a href="/blog/2015/02/17/20150217112514/">trueとfalseにrefinmentsを使ってメソッド追加</a>
+        </li>
+        
+    </ul>
+</section>
+
+<section id="github-repos" class="col-xs-12 col-sm-6 col-md-12">
+    <h1>
+        GitHub Repos
+        
+        <small class="pull-right">
+            <a class="btn" href="//github.com/YoshitsuguFujii" title="@YoshitsuguFujii on GitHub" target="_blank">
+                <i class="fa fa-external-link"></i>
+            </a>
+        </small>
+        
+    </h1>
+    <ul id="gh_repos" class="divided">
+        <li class="loading">
+            <i class="fa fa-spinner fa-spin"></i>
+        </li>
+    </ul>
+</section>
+
+
+
+
+
+<section id="twitter-timeline" class="col-xs-12 col-sm-6 col-md-12">
+    <h1>
+        Latest Tweets
+        
+        <small class="pull-right">
+            <a class="btn" href="//twitter.com/YoshitsuguFujii" title="@YoshitsuguFujii on Twitter" target="_blank">
+                <i class="fa fa-external-link"></i>
+            </a>
+        </small>
+        
+    </h1>
+
+    <a class="twitter-timeline" data-dnt="true" href="//twitter.com/YoshitsuguFujii"  data-widget-id="574397323830132736"  data-link-color="#049cdb" data-tweet-limit="" data-chrome="noheader nofooter transparent noscrollbar">Tweets by @YoshitsuguFujii</a>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+</section>
+
+
+
+</div>
+
+                </aside>
+                
+            </div>
+        </div>
+
+        
+
+    
+    
+
+
+
+
+<footer class="footer">
+    <div class="row middle-xs">
+        
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <p class="footer__copyright">
+    All content copyright Yoshitsugu Fujii.<br>
+    Code under <a href="//github.com/coogie/oscailte/blob/master/README.md">MIT Licence</a>.
+</p>
+
+        </div>
+        
+        
+    </div>
+</footer>
+
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+<script src="//crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script>
+<script defer src="/javascripts/octopress.js"></script>
+
+
+
+
+
+
+
+
+<script>
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'YoshitsuguFujii',
+            count: 3,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+</script>
+<script src="/javascripts/github.js"></script>
+
+
+
+
+
+
+
+    </body>
+
+</html>

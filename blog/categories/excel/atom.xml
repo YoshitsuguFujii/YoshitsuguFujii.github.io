@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+    <title><![CDATA[Category: excel | なんとなく日々徒然と]]></title>
+    <link href="http://yoshitsugufujii.github.io/blog/categories/excel/atom.xml" rel="self"/>
+    <link href="http://yoshitsugufujii.github.io/"/>
+    <updated>2015-03-10T13:30:49+09:00</updated>
+    <id>http://yoshitsugufujii.github.io/</id>
+    <author>
+        <name><![CDATA[Yoshitsugu Fujii]]></name>
+        
+      </author>
+    <generator uri="http://octopress.org/">Octopress</generator>
+
+    
+    <entry>
+        <title type="html"><![CDATA[Axlxsを使って新規ファイルを作って、RubyXLで読み出す話]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2014/12/18/20141218200736/"/>
+        <updated>2014-12-18T20:07:00+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2014/12/18/20141218200736</id>
+        <content type="html"><![CDATA[<p>どんどんtipsがニッチになっていきますね。</p>
+
+<p>Axlxsで作ったファイルがRubyXLで読み取れませんでした。<br/>
+一度エクセルで開いて保存すると読み取れるようになる。</p>
+
+<p>RubyXLでAxlxsで作成したファイルを読み込むと数値とかは辛うじて所々取れていたので文字コードかと思って色々やってみましたが、このページで解決</p>
+
+<p><a href="https://github.com/randym/axlsx/issues/349">Strings outputted not seen by rubyXL ? Issue   #349 ? randym/axlsx ?
+GitHub</a></p>
+
+<p>pkg = Package.create<br/>
+したら<br/>
+pkg.use  <em>shared  </em>strings = true<br/>
+する必要があるみたいでした。</p>
+
+<p>これで無事に読みだすことができました。</p>
+]]></content>
+    </entry>
+    
+    <entry>
+        <title type="html"><![CDATA[AxlsxでExcelファイルをcell単位でprotectionをした話]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2014/12/17/20141217122846/"/>
+        <updated>2014-12-17T12:28:00+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2014/12/17/20141217122846</id>
+        <content type="html"><![CDATA[<p>Axlsxでエクセルと戯れる日々です。<br/>
+2シート目とかにマスタデータを保持しておいて、1シート目でプルダウンでマスタデータを選ばせたりしています。<br/>
+変更できないように2シート目はシート全体を保護しております。</p>
+
+<p>今日はAxlsxでセルの保護をしたお話です。</p>
+
+<p>これググっても全然出てきませんでした。</p>
+
+<p>結論から言うとこれでできます。</p>
+
+<pre><code class="ruby">require 'axlsx'
+require "securerandom"
+
+package = Axlsx::Package.new
+sheet = package.workbook.add_worksheet(name: 'lists')
+sheet.sheet_protection.password = SecureRandom.uuid
+locked = package.workbook.styles.add_style :locked =&gt; true
+unlocked = package.workbook.styles.add_style :locked =&gt; false
+
+sheet.add_row(['品名', '単価', '数量', '計'], style: unlocked )
+sheet.add_row(['にんじん',    80, 1,      '=B2*C2'], style: unlocked)
+
+sheet.rows[0].cells[0].style = locked # A1をロック(lock cell =&gt; A1)
+
+package.serialize('test.xlsx')
+</code></pre>
+
+<p>この答えの出し方が最終的にRubyのことはRubyに聞くという方式で解決したのですが、<br/>
+この解決の仕方がRubyエンジニアっぽいなと思ったのでどうやってこの結論に辿り着いたかダラダラ書こうかと思います。</p>
+
+<p>まずセルの保護をしたいという要件がありました。<br/>
+コピペエンジニアの端くれとしてまずはググります。</p>
+
+<p>行単位のロックのお話は見つけましたが、セルの保護ではいい結果がありません。<br/>
+<a href="http://stackoverflow.com/questions/19051049/how-do-i-protect-header-rows-but-allow-to-enter-new-rows-using-axlsx">ruby on rails 3 - How do I protect header rows but allow to enter new
+rows using AXLSX? - Stack
+Overflow</a></p>
+
+<p>テストは下手なドキュメントよりも役にたつと誰かが言っていたので(実際の使い方のサンプルが見れるので)Axlsxのテストを見てみます。<br/>
+bundle open axlsxでaxlsxのインストールされたディレクトリを開いて、grep
+protectとかやってみます。<br/>
+いくつかヒットしたのでソースを見てみますがなんのこっちゃわかりません感じです。</p>
+
+<p>とりあえずgrepでひっかかった<br/>
+Axlsx::CellProtection.new<br/>
+をキーワードにグーグルで検索してみますが有用な情報は皆無です。</p>
+
+<p>一旦途方にくれます。コーヒーとか飲みます。</p>
+
+<p>おもむろに再度irbを立ち上げます。<br/>
+とりあえず怪しいものがないかコンソールから確認していってみることにします</p>
+
+<pre><code class="ruby">require 'axlsx'
+package = Axlsx::Package.new
+sheet = package.workbook.add_worksheet(name: 'lists')
+
+sheet.add_row(['品名', '単価', '数量', '計'])
+</code></pre>
+
+<p>と打ちます。</p>
+
+<p>cellに保護をかけたいのだからcellオブジェクトにプロパティがあるんじゃないかとあたりをつけます。</p>
+
+<p>sheet.cellとうちます。そんなんねーよと返ってきます。<br/>
+sheet.cells と打ちます。なんかコンソールに文字がたくさんでます。</p>
+
+<p>A1のセルを取得してみます。<br/>
+sheet.cells[0,0]とうちます。空の配列が返ってきます。<br/>
+sheet.cells[0]とうちます。なんか一杯でてきます。<br/>
+sheet.cells[0].classとうちます。   # =  > Axlsx::Cell<br/>
+お、なんかいいの返ってきました。<br/>
+sheet.cells[0].methods.grep(/protect/)とかうってみます。
+[:protected  _methods]しか返ってきません。<br/>
+一回煮詰まります。
+sheet.cells[0].valueとかここで色々他のことをやってみますが、なかなかうまくいきません。</p>
+
+<p>そもそもセル単位で値とか設定できるんかと思いつきます。<br/>
+ググります。見つけます。</p>
+
+<p><a href="http://stackoverflow.com/questions/18178196/modify-specific-cell-value-using-axlsx-gem-given-the-column-number-and-row-numer">ruby on rails - Modify specific cell value using Axlsx gem given the
+column number and row numer - Stack
+Overflow</a></p>
+
+<p>特定のセルを取得するのは以下の方法でした。<br/>
+sheet.rows[0].cells[0]</p>
+
+<p>sheet.rows[0].cells[0].methodsでメソッド一回全部のメソッドを出してみます。</p>
+
+<p>sheet.rows[0].cells[0].pos   # =  > [0,0]<br/>
+とか<br/>
+sheet.rows[0].cells[0].reference   # =  >   $A  $1<br/>
+とか面白そうなメソッドがあります。</p>
+
+<p>その中にstyle=というメソッドを見つけました。<br/>
+これってひょっとして行単位のロックであったロックの書式を設定できるのではないかと推測します。</p>
+
+<p>そして出きたのが冒頭のコードです。</p>
+
+<p>sheet.rows[0].cells[0].style = locked<br/>
+だけでは不十分で<br/>
+sheet.sheet  _protection.password<br/>
+でパスワードを設定しないといけないとか、保護をかけて必要な所をlockしたりunlockしたりしないといけないとか色々とはまりながらもなんとか答えを出せました。<br/>
+今回は運も味方してくれたかなぁという気もします。</p>
+
+<p>困ったときはインタラクティブにどんなメソッドがあるかどんな値が設定されているか確認しながら<br/>
+試しながらやることで問題が解決できるというのは素晴らしいと思いました。</p>
+]]></content>
+    </entry>
+    
+    <entry>
+        <title type="html"><![CDATA[Axlsを使ってExcelでリスト（ドロップダウンするやつ）を作る]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2014/10/30/20141030155750/"/>
+        <updated>2014-10-30T15:57:00+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2014/10/30/20141030155750</id>
+        <content type="html"><![CDATA[<p>業務でエクセルを使うことになったので調べてました。</p>
+
+<p>↓Qiitaの素晴らしいまとめ<br/>
+RailsでExcelを扱うGemまとめ<br/>
+<a href="http://qiita.com/Kta-M/items/02a2c41c5624f75498aa">http://qiita.com/Kta-M/items/02a2c41c5624f75498aa</a></p>
+
+<p>↓情報はこの辺を見ました<br/>
+<a href="http://stackoverflow.com/questions/17320645/axlsx-building-dynamic-columns">http://stackoverflow.com/questions/17320645/axlsx-building-dynamic-columns</a></p>
+
+<p>あまりエクセルのリストを作成する情報がなかったので書いておきます。</p>
+
+<pre><code class="ruby">require 'axlsx'
+package = Axlsx::Package.new
+sheet = package.workbook.add_worksheet(name: 'lists')
+
+sheet.add_row(['品名', '単価', '数量', '計'])
+sheet.add_row(['にんじん',    80, 1,      '=B2*C2'])
+sheet.add_row(['たまねぎ',    50, 2,      '=B3*C3'])
+sheet.add_row(['じゃがいも',  40, 2,      '=B4*C4'])
+sheet.add_row(['牛肉',       200, 1,      '=B5*C5'])
+sheet.add_row(['カレー粉',   150, 1,      '=B6*C6'])
+sheet.add_row(['',            '', '総計', '=SUM(D2:D6)'])
+
+sheet.add_data_validation("A10", {
+  :type =&gt; :list,
+  :formula1 =&gt; 'A2:A6',
+  :showDropDown =&gt; false,
+  :showErrorMessage =&gt; true,
+  :errorTitle =&gt; '',
+  :error =&gt; 'リストから選んで下さい',
+  :errorStyle =&gt; :stop,
+  :showInputMessage =&gt; true,
+  :promptTitle =&gt; 'カレー具材',
+  :prompt =&gt; 'カレーの具材を選んで下さい。'})
+
+package.serialize('test.xlsx')
+</code></pre>
+]]></content>
+    </entry>
+    
+</feed>

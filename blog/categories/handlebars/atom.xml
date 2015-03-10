@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+    <title><![CDATA[Category: handlebars | なんとなく日々徒然と]]></title>
+    <link href="http://yoshitsugufujii.github.io/blog/categories/handlebars/atom.xml" rel="self"/>
+    <link href="http://yoshitsugufujii.github.io/"/>
+    <updated>2015-03-10T13:30:49+09:00</updated>
+    <id>http://yoshitsugufujii.github.io/</id>
+    <author>
+        <name><![CDATA[Yoshitsugu Fujii]]></name>
+        
+      </author>
+    <generator uri="http://octopress.org/">Octopress</generator>
+
+    
+    <entry>
+        <title type="html"><![CDATA[handlerbarsで現在のループ回数を知る]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2014/11/28/20141128152410/"/>
+        <updated>2014-11-28T15:24:00+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2014/11/28/20141128152410</id>
+        <content type="html"><![CDATA[<p>@indexで取れます。</p>
+
+<pre><code class="ruby">
+  : 
+  isFirst?: 
+  isLast?: 
+
+</code></pre>
+
+<p>その他に@firstには最初の一回目のループの時にはtrueが<br/>
+@lastには最後のループの時にはtrueが入るようです。<br/>
+@indexは入力欄  _1とかの1とか表示する時に使えそうですね。</p>
+
+<p>2次元配列とか多次元配列を回す時はこうですね。</p>
+
+<pre><code class="ruby">多次元配列の回し方
+
+
+  
+    
+    
+    
+  
+
+</code></pre>
+
+<p>ちなみにでコメントです。<br/>
+という書き方もできます。</p>
+]]></content>
+    </entry>
+    
+    <entry>
+        <title type="html"><![CDATA[slimbarsを使ったらUnknown line indicator]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2014/11/21/20141121134825/"/>
+        <updated>2014-11-21T13:48:00+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2014/11/21/20141121134825</id>
+        <content type="html"><![CDATA[<p>勉強がてらRailsのプロジェクトでBackBone.jsでテンプレートにはhandlebarsを使って処理を書いてみました。<br/>
+viewがslimなのでslimbarsで書いてます。</p>
+
+<p>変数を出力しようとしたら以下のエラー<br/>
+Unknown line indicator</p>
+
+<p>viewファイルはこんな感じ</p>
+
+<pre><code class="ruby">.hoge
+  .fuga
+     
+</code></pre>
+
+<p>ただしくはこう</p>
+
+<pre><code class="ruby">.hoge
+  .fuga
+    |  
+</code></pre>
+
+<p>hamlbarsではこう書けてしまうので、slimで書く場合は注意が必要だなと思いました。</p>
+
+<pre><code class="ruby">.hoge
+  .fuga
+     
+</code></pre>
+
+<p>小ネタも小ネタでした。</p>
+
+<p>しかしeachの中ではslimの記法使えないのかな？<br/>
+こうやらないと出力されない・・・</p>
+
+<pre><code class="ruby">select
+  | 
+    &lt;option value=""&gt;&lt;/option&gt;
+  | 
+</code></pre>
+]]></content>
+    </entry>
+    
+</feed>

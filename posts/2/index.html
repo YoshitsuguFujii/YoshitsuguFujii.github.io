@@ -1,0 +1,1624 @@
+<!doctype html>
+    <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+    <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+    <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+    <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+
+    
+      
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>なんとなく日々徒然と</title>
+        <meta name="author" content="Yoshitsugu Fujii">
+        
+        <meta name="description" content="ruby rails French Bulldog surfing aqualist">
+        
+        <meta name="viewport" content="width=device-width">
+        <link rel="canonical" href="http://yoshitsugufujii.github.io/posts/2">
+
+        <link href='http://fonts.googleapis.com/css?family=Droid+Serif:400,400italic' rel='stylesheet' type='text/css'>
+        <link href="http://fonts.googleapis.com/css?family=Droid+Sans" rel="stylesheet" type="text/css">
+
+        
+        <link href="/favicon.png" rel="icon">
+        <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet">
+        <link href="/atom.xml" rel="alternate" title="なんとなく日々徒然と" type="application/atom+xml">
+    </head>
+
+
+    <body >
+
+        <header id="header">
+    <div class="row">
+    <div class="col-xs-12 col-sm-8 col-md-4">
+        <a href="/" class="site-title">なんとなく日々徒然と</a>
+    </div>
+    <div class="col-xs-12 col-sm-4 col-md-8">
+        <nav>
+    <input type="checkbox" id="toggle">
+    <label for="toggle" class="toggle" data-open="Main Menu" data-close="Close Menu"></label>
+    <ul class="menu">
+    <li><a href="/">Blog</a></li>
+    <li><a href="/profile/">Profile</a></li>
+</ul>
+
+</nav>
+
+    </div>
+</div>
+
+</header>
+
+
+        <div id="main-content">
+
+            <!--[if lte IE 9]>
+<div class="row upgrade-row">
+    <div class="col-lg-12">
+        <div class="upgrade">
+            <i class="upgrade__icon fa fa-warning"></i>
+            <h1 class="upgrade__title h6">Ohnoes!</h1>
+            <p class="upgrade__text">
+                Unfortunately, certain parts of this site may not display correctly in your version of Internet Explorer!<br>
+                If possible, you should consider <a href="http://browsehappy.com/">upgrading your browser</a>.
+            </p>
+        </div>
+    </div>
+</div>
+<!-- <![endif]-->
+
+
+            
+
+            <div class="row top-xs center-sm center-md center-lg site-wrapper">
+                
+                <div class="col-xs-12 col-sm-10 col-md-8 col-lg-8">
+                
+                        
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
+            <a href="/blog/2014/12/09/20141209150940/">特定のキーを除いたhashを返す</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2014-12-09T15:09:00+09:00" pubdate><i class="fa fa-calendar"></i> Dec 9th, 2014</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/rails/'>rails</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>今までdeleteでチクチク消したり、rejectで該当キーをひっかけてhash作り直しリしてました。</p>
+
+<p>exceptなんてあったんですね。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="p">{</span><span class="nb">name</span><span class="p">:</span> <span class="s2">&quot;藤井&quot;</span><span class="p">,</span> <span class="ss">age</span><span class="p">:</span> <span class="mi">34</span><span class="p">,</span> <span class="ss">job</span><span class="p">:</span> <span class="s2">&quot;developer&quot;</span><span class="p">}</span><span class="o">.</span><span class="n">except</span><span class="p">(</span><span class="ss">:age</span><span class="p">)</span> <span class="c1"># =&gt; { :name =&gt; &quot;藤井&quot;, :job =&gt; &quot;developer&quot; }</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
+            <a href="/blog/2014/12/07/20141207173028/">論理削除指定のモデルをhas_manyで参照し、かつnested_attributes_forにallow_destroyを指定するも物理削除になる。</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2014-12-07T17:30:00+09:00" pubdate><i class="fa fa-calendar"></i> Dec 7th, 2014</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/rails/'>rails</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>環境はこちら<br/>
+activerecord(4.1.6)<br/>
+rails4  <em>acts  </em>as  _paranoid (0.1.4)</p>
+
+<p>has  <em>manyのリレーション先でacts  </em>as  <em>paranoid指定しているのですが、<br/>
+nested  </em>attributes  <em>for リレーション先, allow  </em>destroy : true<br/>
+で何故か物理削除になっていまったので調べてみました。</p>
+
+<p>結論としては</p>
+
+<p>lib/active  <em>record/associations/has  </em>many  <em>association.rb<br/>
+の112行目で<br/>
+records.each(&amp;:destroy!)<br/>
+とdestroy!で消していて、acts  </em>as  _paranoidのdestroy!は物理削除になるためでした。</p>
+
+<p>何故destroyに!がついているのか
+上記が定義されているdelete  <em>recordsメソッドを遡ってみます。<br/>
+delete  </em>recordsメソッドはlib/active  <em>record/associations/collection  </em>association.rb<br/>
+のremove  _recordsの中で呼ばれています(ソースでは492行目)</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="c1"># lib/active_record/associations/collection_association.rb</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">remove_records</span><span class="p">(</span><span class="n">existing_records</span><span class="p">,</span> <span class="n">records</span><span class="p">,</span> <span class="nb">method</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">records</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">record</span><span class="o">|</span> <span class="n">callback</span><span class="p">(</span><span class="ss">:before_remove</span><span class="p">,</span> <span class="n">record</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">delete_records</span><span class="p">(</span><span class="n">existing_records</span><span class="p">,</span> <span class="nb">method</span><span class="p">)</span> <span class="k">if</span> <span class="n">existing_records</span><span class="o">.</span><span class="n">any?</span>
+</span><span class='line'>    <span class="n">records</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">record</span><span class="o">|</span> <span class="n">target</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">record</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">records</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">record</span><span class="o">|</span> <span class="n">callback</span><span class="p">(</span><span class="ss">:after_remove</span><span class="p">,</span> <span class="n">record</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>んでこれはどこで呼ばれるかというとここで呼ばれています(ソースでは485行目)</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="c1"># lib/active_record/associations/collection_association.rb</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">delete_or_destroy</span><span class="p">(</span><span class="n">records</span><span class="p">,</span> <span class="nb">method</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">records</span> <span class="o">=</span> <span class="n">records</span><span class="o">.</span><span class="n">flatten</span>
+</span><span class='line'>    <span class="n">records</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">record</span><span class="o">|</span> <span class="n">raise_on_type_mismatch!</span><span class="p">(</span><span class="n">record</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'>    <span class="n">existing_records</span> <span class="o">=</span> <span class="n">records</span><span class="o">.</span><span class="n">reject</span> <span class="p">{</span> <span class="o">|</span><span class="n">r</span><span class="o">|</span> <span class="n">r</span><span class="o">.</span><span class="n">new_record?</span> <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="n">existing_records</span><span class="o">.</span><span class="n">empty?</span>
+</span><span class='line'>      <span class="n">remove_records</span><span class="p">(</span><span class="n">existing_records</span><span class="p">,</span> <span class="n">records</span><span class="p">,</span> <span class="nb">method</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="n">transaction</span> <span class="p">{</span> <span class="n">remove_records</span><span class="p">(</span><span class="n">existing_records</span><span class="p">,</span> <span class="n">records</span><span class="p">,</span> <span class="nb">method</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>transactionで囲まれています。<br/>
+ということでdestroyに失敗した時にロールバックするために!をつけているようです。</p>
+
+<p>なのでparanoidのdestroy!をalias  <em>method  </em>chainで物理削除にしてしまうか。<br/>
+上記のrecords.each(&amp;:destroy!)をなんとか書き換えてあげると治りそうですね。</p>
+
+<p>今回はこうやって直しました。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">ActiveRecord</span>
+</span><span class='line'>  <span class="k">module</span> <span class="nn">Associations</span>
+</span><span class='line'>    <span class="k">module</span> <span class="nn">HasManyAssociationPatch</span>
+</span><span class='line'>      <span class="k">def</span> <span class="nf">delete_records</span><span class="p">(</span><span class="n">records</span><span class="p">,</span> <span class="nb">method</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">if</span> <span class="nb">method</span> <span class="o">==</span> <span class="ss">:destroy</span>
+</span><span class='line'>          <span class="n">records</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">record</span><span class="o">|</span>
+</span><span class='line'>            <span class="k">raise</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">ActiveRecordError</span> <span class="k">unless</span> <span class="n">record</span><span class="o">.</span><span class="n">destroy</span>
+</span><span class='line'>          <span class="k">end</span>
+</span><span class='line'>          <span class="n">update_counter</span><span class="p">(</span><span class="o">-</span><span class="n">records</span><span class="o">.</span><span class="n">length</span><span class="p">)</span> <span class="k">unless</span> <span class="n">inverse_updates_counter_cache?</span>
+</span><span class='line'>        <span class="k">else</span>
+</span><span class='line'>          <span class="k">super</span>
+</span><span class='line'>        <span class="k">end</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Associations</span><span class="o">::</span><span class="no">HasManyAssociation</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="ss">:prepend</span><span class="p">,</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Associations</span><span class="o">::</span><span class="no">HasManyAssociationPatch</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>今回ソース読んでいて知ったんですけど、has  <em>manyって削除する時に<br/>
+before  </em>remove<br/>
+after  _remove<br/>
+ってコールバックが発生するんですね。知らなかった。</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
+            <a href="/blog/2014/12/05/20141205115627/">Nokogiriを使って部分的にhtmlを編集する</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2014-12-05T11:56:00+09:00" pubdate><i class="fa fa-calendar"></i> Dec 5th, 2014</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/nokogiri/'>nokogiri</a></li>
+            
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>Nokogiriを使ってhelperメソッドで特定のinputに属性(クラス名)を追加したくなったのでやってみました。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">html</span> <span class="o">=</span> <span class="o">&lt;&lt;</span><span class="no">HTML</span>
+</span><span class='line'><span class="sh">&lt;div&gt;</span>
+</span><span class='line'><span class="sh">  &lt;input id=&quot;hoge&quot; class=&quot;field&quot;&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">HTML</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">doc</span> <span class="o">=</span> <span class="no">Nokogiri</span><span class="o">::</span><span class="no">HTML</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">html</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">doc</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s2">&quot;input#hoge&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">input</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">input</span><span class="o">[</span><span class="s1">&#39;class&#39;</span><span class="o">]</span> <span class="o">+=</span> <span class="s2">&quot; has_error&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">doc</span><span class="o">.</span><span class="n">to_html</span> <span class="c1"># =&gt; &quot;&lt;!DOCTYPE html PUBLIC   &quot;-//W3C//DTD HTML 4.0 Transitional//EN  &quot;   &quot;http://www.w3.org/TR/REC-html40/loose.dtd  &quot;&gt;  n&lt;html&gt;&lt;body&gt;  n&lt;div&gt;  n  &lt;input class=  &quot;field  &quot;&gt;  n  n&lt;/body&gt;&lt;/html&gt;  n&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Nokogiri::HTML.parseだとDOCTYPEとか  <html  >とか余計なものがついてくる。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">html</span> <span class="o">=</span> <span class="o">&lt;&lt;</span><span class="no">HTML</span>
+</span><span class='line'><span class="sh">&lt;div&gt;</span>
+</span><span class='line'><span class="sh">  &lt;input id=&quot;hoge&quot; class=&quot;field&quot;&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">HTML</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">doc</span> <span class="o">=</span> <span class="no">Nokogiri</span><span class="o">::</span><span class="no">HTML</span><span class="o">::</span><span class="no">DocumentFragment</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">html</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">doc</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s2">&quot;input#hoge&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">input</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">input</span><span class="o">[</span><span class="s1">&#39;class&#39;</span><span class="o">]</span> <span class="o">+=</span> <span class="s2">&quot; has_error&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">doc</span><span class="o">.</span><span class="n">to_html</span> <span class="c1"># =&gt; &quot;&lt;div&gt;  n  &lt;input id=  &quot;hoge  &quot; class=  &quot;field has_error  &quot;&gt;  n  n&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>そういう場合はDocumentFragmentを使うと部分的にhtmlを使える。</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
+            <a href="/blog/2014/11/28/20141128152410/">handlerbarsで現在のループ回数を知る</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2014-11-28T15:24:00+09:00" pubdate><i class="fa fa-calendar"></i> Nov 28th, 2014</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/handlebars/'>handlebars</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>@indexで取れます。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="p"></span>
+</span><span class='line'>  <span class="p">:</span> <span class="p"></span>
+</span><span class='line'>  <span class="n">isFirst?</span><span class="p">:</span> <span class="p"></span>
+</span><span class='line'>  <span class="n">isLast?</span><span class="p">:</span> <span class="p"></span>
+</span><span class='line'><span class="p"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>その他に@firstには最初の一回目のループの時にはtrueが<br/>
+@lastには最後のループの時にはtrueが入るようです。<br/>
+@indexは入力欄  _1とかの1とか表示する時に使えそうですね。</p>
+
+<p>2次元配列とか多次元配列を回す時はこうですね。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">多次元配列の回し方</span>
+</span><span class='line'><span class="p"></span>
+</span><span class='line'><span class="p"></span>
+</span><span class='line'>  <span class="p"></span>
+</span><span class='line'>    <span class="p"></span>
+</span><span class='line'>    <span class="p"></span>
+</span><span class='line'>    <span class="p"></span>
+</span><span class='line'>  <span class="p"></span>
+</span><span class='line'><span class="p"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ちなみにでコメントです。<br/>
+という書き方もできます。</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
+            <a href="/blog/2014/11/21/20141121134825/">slimbarsを使ったらUnknown line indicator</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2014-11-21T13:48:00+09:00" pubdate><i class="fa fa-calendar"></i> Nov 21st, 2014</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/handlebars/'>handlebars</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>勉強がてらRailsのプロジェクトでBackBone.jsでテンプレートにはhandlebarsを使って処理を書いてみました。<br/>
+viewがslimなのでslimbarsで書いてます。</p>
+
+<p>変数を出力しようとしたら以下のエラー<br/>
+Unknown line indicator</p>
+
+<p>viewファイルはこんな感じ</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">.</span><span class="n">hoge</span>
+</span><span class='line'>  <span class="o">.</span><span class="n">fuga</span>
+</span><span class='line'>    <span class="p"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ただしくはこう</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">.</span><span class="n">hoge</span>
+</span><span class='line'>  <span class="o">.</span><span class="n">fuga</span>
+</span><span class='line'>    <span class="o">|</span> <span class="p"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>hamlbarsではこう書けてしまうので、slimで書く場合は注意が必要だなと思いました。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">.</span><span class="n">hoge</span>
+</span><span class='line'>  <span class="o">.</span><span class="n">fuga</span>
+</span><span class='line'>    <span class="p"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>小ネタも小ネタでした。</p>
+
+<p>しかしeachの中ではslimの記法使えないのかな？<br/>
+こうやらないと出力されない・・・</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">select</span>
+</span><span class='line'>  <span class="o">|</span> <span class="p"></span>
+</span><span class='line'>    <span class="o">&lt;</span><span class="n">option</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="o">&gt;</span><span class="p"></span><span class="o">&lt;</span><span class="sr">/option&gt;</span>
+</span><span class='line'><span class="sr">  | </span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
+            <a href="/blog/2014/11/18/20141118110832/">railsで任意のタイミングで処理を開始</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2014-11-18T11:08:00+09:00" pubdate><i class="fa fa-calendar"></i> Nov 18th, 2014</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+                <li><a class='category' href='/blog/categories/rails/'>rails</a></li>
+            
+                <li><a class='category' href='/blog/categories/activesupport/'>activesupport</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>おかあさんといっしょを娘が見るので、毎朝のテレビチャンネルはEテレです。</p>
+
+<p>さてrailsでapp/model/concerns以下のモジュールを勝手にapp/modelにincludeしたいと考えました。<br/>
+命名規則でファイルを拾って、includeすることにします。<br/>
+例えば以下のファイル名をつけた場合に</p>
+
+<p>app/model/user.rb<br/>
+app/model/user  <em>auto  </em>load  _concern.rb</p>
+
+<p>userクラスに自動でuser  <em>auto  </em>load  _concern.rbの内容がincludeされる感じです。</p>
+
+<p>config/initializerに置きます。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="sx">%w(models)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">elem</span><span class="o">|</span>
+</span><span class='line'>    <span class="no">Pathname</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="no">Rails</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;app&quot;</span><span class="p">,</span> <span class="n">elem</span><span class="p">,</span> <span class="s2">&quot;concerns&quot;</span><span class="p">,</span> <span class="s2">&quot;*&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">file</span><span class="o">|</span>
+</span><span class='line'>      <span class="k">if</span> <span class="n">file</span><span class="o">.</span><span class="n">file?</span>
+</span><span class='line'>        <span class="n">file</span><span class="o">.</span><span class="n">basename</span><span class="o">.</span><span class="n">to_s</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="sr">/(.*)(_auto_load_concern.rb)$/</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">class_name</span><span class="o">|</span>
+</span><span class='line'>          <span class="k">if</span> <span class="n">class_name</span><span class="o">.</span><span class="n">present?</span>
+</span><span class='line'>            <span class="n">model</span> <span class="o">=</span> <span class="n">class_name</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">classify</span><span class="o">.</span><span class="n">constantize</span>
+</span><span class='line'>            <span class="n">model</span><span class="o">.</span><span class="n">class_eval</span> <span class="p">{</span>  <span class="kp">include</span> <span class="n">file</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="s2">&quot;.rb&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to_s</span><span class="o">.</span><span class="n">classify</span><span class="o">.</span><span class="n">constantize</span> <span class="p">}</span>
+</span><span class='line'>          <span class="k">end</span>
+</span><span class='line'>        <span class="k">end</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>でもこのプロジェクトにはmodelクラスを拡張するプログラムがlib下にあります。<br/>
+それを読み込まない限りはmodelを参照するとエラーになるようになっています(上記class  _name[0].classify.constantizeでエラーとなる)</p>
+
+<p>そこでlib以下のそのプログラム群を読み込んだ後に読み込むようにしたいと思います。</p>
+
+<p>まず先ほどのコードを以下のようにActiveSupport.on  _loadで囲みます。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">ActiveSupport</span><span class="o">.</span><span class="n">on_load</span><span class="p">(</span><span class="ss">:hoge</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>  <span class="sx">%w(models)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">elem</span><span class="o">|</span>
+</span><span class='line'>    <span class="no">Pathname</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="no">Rails</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;app&quot;</span><span class="p">,</span> <span class="n">elem</span><span class="p">,</span> <span class="s2">&quot;concerns&quot;</span><span class="p">,</span> <span class="s2">&quot;*&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">file</span><span class="o">|</span>
+</span><span class='line'>      <span class="k">if</span> <span class="n">file</span><span class="o">.</span><span class="n">file?</span>
+</span><span class='line'>        <span class="n">file</span><span class="o">.</span><span class="n">basename</span><span class="o">.</span><span class="n">to_s</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="sr">/(.*)(_auto_load_concern.rb)$/</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">class_name</span><span class="o">|</span>
+</span><span class='line'>          <span class="k">if</span> <span class="n">class_name</span><span class="o">.</span><span class="n">present?</span>
+</span><span class='line'>            <span class="n">model</span> <span class="o">=</span> <span class="n">class_name</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">classify</span><span class="o">.</span><span class="n">constantize</span>
+</span><span class='line'>            <span class="n">model</span><span class="o">.</span><span class="n">class_eval</span> <span class="p">{</span>  <span class="kp">include</span> <span class="n">file</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="s2">&quot;.rb&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to_s</span><span class="o">.</span><span class="n">classify</span><span class="o">.</span><span class="n">constantize</span> <span class="p">}</span>
+</span><span class='line'>          <span class="k">end</span>
+</span><span class='line'>        <span class="k">end</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>lib下のプログラム群で処理が終わった後に以下を差し込みます。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="no">ActiveSupport</span><span class="o">.</span><span class="n">run_load_hooks</span> <span class="ss">:hoge</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>そうするとrun  <em>load  </em>hooksが呼ばれたタイミングでhogeがついていてるActiveSupport.on  _loadのブロック処理が開始されます。</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
+            <a href="/blog/2014/11/06/20141106202417/">コンソールでローディングを表示</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2014-11-06T20:24:00+09:00" pubdate><i class="fa fa-calendar"></i> Nov 6th, 2014</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>rubyXLで100以上シートのあるエクセルファイルを読み出すスクリプトを書いていて、<br/>
+現在の処理中のシート/シートの総数でプログレスバーを表示することはしたけど、<br/>
+ファイル読み込み中(5～7秒ぐらいかかる)はなんにもコンソールに表示されない状態が物足りなくて、<br/>
+ファイルの読み込み中はローディングチックなのを出すようにした。</p>
+
+<p>読み込みと別でThread生成して、そのThread内で1秒毎に  >と  >  >と  >  >  >を出している。<br/>
+読み込みが完了したらThreadをkillしてる。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">display_with_arrow</span><span class="p">(</span><span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">loading_thread</span> <span class="o">=</span> <span class="no">Thread</span><span class="o">.</span><span class="n">start</span><span class="p">{</span>
+</span><span class='line'>                              <span class="n">arrow_progress</span> <span class="o">=</span> <span class="sx">%w(&gt; &gt;&gt; &gt;&gt;&gt;)</span><span class="o">.</span><span class="n">cycle</span>
+</span><span class='line'>                              <span class="kp">loop</span><span class="p">{</span>
+</span><span class='line'>                                <span class="nb">print</span> <span class="s2">&quot;  r file reading </span><span class="si">#{</span><span class="nb">sprintf</span><span class="p">(</span><span class="s2">&quot;%-  s3s&quot;</span><span class="p">,</span><span class="n">arrow_progress</span><span class="o">.</span><span class="n">next</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>                                <span class="nb">sleep</span> <span class="mi">1</span>
+</span><span class='line'>                              <span class="p">}</span>
+</span><span class='line'>                            <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">rtn</span> <span class="o">=</span> <span class="n">block</span><span class="o">.</span><span class="n">call</span>
+</span><span class='line'>  <span class="no">Thread</span><span class="o">.</span><span class="n">kill</span><span class="p">(</span><span class="n">loading_thread</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">rtn</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># 読み込み</span>
+</span><span class='line'><span class="n">workbook</span> <span class="o">=</span> <span class="n">display_with_arrow</span> <span class="k">do</span>
+</span><span class='line'>             <span class="no">RubyXL</span><span class="o">::</span><span class="no">Parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s2">&quot;エクセルファイルへのパス&quot;</span><span class="p">)</span>
+</span><span class='line'>           <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>するとこうなる。<br/>
+<a href="http://f.hatena.ne.jp/gogo_sakura/20141106201955"><img src="http://cdn-ak.f.st-hatena.com/images/fotolife/g/gogo_sakura/20141106/20141106201955.gif" title="f:id:gogo_sakura:20141106201955g:image" alt="f:id:gogo  _sakura:20141106201955g:image" /></a></p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
+            <a href="/blog/2014/10/30/20141030155750/">Axlsを使ってExcelでリスト（ドロップダウンするやつ）を作る</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2014-10-30T15:57:00+09:00" pubdate><i class="fa fa-calendar"></i> Oct 30th, 2014</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/gem/'>gem</a></li>
+            
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+                <li><a class='category' href='/blog/categories/axlsx/'>axlsx</a></li>
+            
+                <li><a class='category' href='/blog/categories/excel/'>excel</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>業務でエクセルを使うことになったので調べてました。</p>
+
+<p>↓Qiitaの素晴らしいまとめ<br/>
+RailsでExcelを扱うGemまとめ<br/>
+<a href="http://qiita.com/Kta-M/items/02a2c41c5624f75498aa">http://qiita.com/Kta-M/items/02a2c41c5624f75498aa</a></p>
+
+<p>↓情報はこの辺を見ました<br/>
+<a href="http://stackoverflow.com/questions/17320645/axlsx-building-dynamic-columns">http://stackoverflow.com/questions/17320645/axlsx-building-dynamic-columns</a></p>
+
+<p>あまりエクセルのリストを作成する情報がなかったので書いておきます。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;axlsx&#39;</span>
+</span><span class='line'><span class="n">package</span> <span class="o">=</span> <span class="no">Axlsx</span><span class="o">::</span><span class="no">Package</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">sheet</span> <span class="o">=</span> <span class="n">package</span><span class="o">.</span><span class="n">workbook</span><span class="o">.</span><span class="n">add_worksheet</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="s1">&#39;lists&#39;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="o">[</span><span class="s1">&#39;品名&#39;</span><span class="p">,</span> <span class="s1">&#39;単価&#39;</span><span class="p">,</span> <span class="s1">&#39;数量&#39;</span><span class="p">,</span> <span class="s1">&#39;計&#39;</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="o">[</span><span class="s1">&#39;にんじん&#39;</span><span class="p">,</span>    <span class="mi">80</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>      <span class="s1">&#39;=B2*C2&#39;</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="o">[</span><span class="s1">&#39;たまねぎ&#39;</span><span class="p">,</span>    <span class="mi">50</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span>      <span class="s1">&#39;=B3*C3&#39;</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="o">[</span><span class="s1">&#39;じゃがいも&#39;</span><span class="p">,</span>  <span class="mi">40</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span>      <span class="s1">&#39;=B4*C4&#39;</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="o">[</span><span class="s1">&#39;牛肉&#39;</span><span class="p">,</span>       <span class="mi">200</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>      <span class="s1">&#39;=B5*C5&#39;</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="o">[</span><span class="s1">&#39;カレー粉&#39;</span><span class="p">,</span>   <span class="mi">150</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>      <span class="s1">&#39;=B6*C6&#39;</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="o">[</span><span class="s1">&#39;&#39;</span><span class="p">,</span>            <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;総計&#39;</span><span class="p">,</span> <span class="s1">&#39;=SUM(D2:D6)&#39;</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">add_data_validation</span><span class="p">(</span><span class="s2">&quot;A10&quot;</span><span class="p">,</span> <span class="p">{</span>
+</span><span class='line'>  <span class="ss">:type</span> <span class="o">=&gt;</span> <span class="ss">:list</span><span class="p">,</span>
+</span><span class='line'>  <span class="ss">:formula1</span> <span class="o">=&gt;</span> <span class="s1">&#39;A2:A6&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="ss">:showDropDown</span> <span class="o">=&gt;</span> <span class="kp">false</span><span class="p">,</span>
+</span><span class='line'>  <span class="ss">:showErrorMessage</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">,</span>
+</span><span class='line'>  <span class="ss">:errorTitle</span> <span class="o">=&gt;</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="ss">:error</span> <span class="o">=&gt;</span> <span class="s1">&#39;リストから選んで下さい&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="ss">:errorStyle</span> <span class="o">=&gt;</span> <span class="ss">:stop</span><span class="p">,</span>
+</span><span class='line'>  <span class="ss">:showInputMessage</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">,</span>
+</span><span class='line'>  <span class="ss">:promptTitle</span> <span class="o">=&gt;</span> <span class="s1">&#39;カレー具材&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="ss">:prompt</span> <span class="o">=&gt;</span> <span class="s1">&#39;カレーの具材を選んで下さい。&#39;</span><span class="p">})</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">package</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="s1">&#39;test.xlsx&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
+            <a href="/blog/2014/07/31/20140731131925/">Facebookとのアプリの連携を解除する</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2014-07-31T13:19:00+09:00" pubdate><i class="fa fa-calendar"></i> Jul 31st, 2014</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/php/'>php</a></li>
+            
+                <li><a class='category' href='/blog/categories/facebook/'>facebook</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>調べてみたら自分所のDBからFacebookの情報を消すだけのものが多くて、大元のFacebookのアプリ設定から削除するのがあんまり載ってなかったようなきがするので</p>
+
+<p>以下の感じで、連携解除ができます。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vg">$facebook</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">Facebook</span><span class="p">(</span><span class="n">array</span><span class="p">(</span>
+</span><span class='line'><span class="s1">&#39;appId&#39;</span> <span class="o">=&gt;</span> <span class="err">アプリの</span><span class="n">app_id</span><span class="p">,</span>
+</span><span class='line'><span class="s1">&#39;secret&#39;</span> <span class="o">=&gt;</span> <span class="err">アプリの</span><span class="n">app_secret</span>
+</span><span class='line'><span class="p">));</span>
+</span><span class='line'>
+</span><span class='line'><span class="vg">$facebook</span><span class="o">-&gt;</span><span class="n">api</span><span class="p">(</span><span class="s2">&quot;/me/permissions&quot;</span><span class="p">,</span> <span class="s2">&quot;delete&quot;</span><span class="p">,</span> <span class="n">array</span><span class="p">(</span><span class="s1">&#39;access_token&#39;</span> <span class="o">=&gt;</span> <span class="err">ユーザーのアクセストークン</span><span class="p">));</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>珍しくPHPでした。</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
+            <a href="/blog/2014/05/27/20140527111143/">s3からcliでファイルをまとめて落としたり、正規表現で落とせたりするツール</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2014-05-27T11:11:00+09:00" pubdate><i class="fa fa-calendar"></i> May 27th, 2014</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/aws/'>aws</a></li>
+            
+                <li><a class='category' href='/blog/categories/s3/'>s3</a></li>
+            
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>s3  <em>getter.rbとか名前つけて保存して<br/>
+ruby s3  </em>getter.rbとかで起動すると</p>
+
+<p>最初にbucket選ぶ選択肢が出てきて選択すると、bucketのディレクトリかファイルか、ファイル全てダウンロードが選べ。<br/>
+ディレクトリを選ぶと再帰的にまたディレクトリかファイルかファイル全てをダウンロードが選べます。</p>
+
+<p>ファイルもしくは全てダウンロードを選ぶと、ダウンロードと同時に解答するか選べ(すいません。現状gzの解凍のみ)<br/>
+また抽出するファイル名を正規表現で絞り込めるかを選べます。</p>
+
+<p>動くの重視で片手間に作ったのでノー例外処理でございます。<br/>
+gz圧縮以外にも対応したいとかあれば、ご自由に改変してお使いください。</p>
+
+<p>Gist<br/>
+<a href="https://gist.github.com/YoshitsuguFujii/349069b2e74c28153a17">https://gist.github.com/YoshitsuguFujii/349069b2e74c28153a17</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+<span class='line-number'>123</span>
+<span class='line-number'>124</span>
+<span class='line-number'>125</span>
+<span class='line-number'>126</span>
+<span class='line-number'>127</span>
+<span class='line-number'>128</span>
+<span class='line-number'>129</span>
+<span class='line-number'>130</span>
+<span class='line-number'>131</span>
+<span class='line-number'>132</span>
+<span class='line-number'>133</span>
+<span class='line-number'>134</span>
+<span class='line-number'>135</span>
+<span class='line-number'>136</span>
+<span class='line-number'>137</span>
+<span class='line-number'>138</span>
+<span class='line-number'>139</span>
+<span class='line-number'>140</span>
+<span class='line-number'>141</span>
+<span class='line-number'>142</span>
+<span class='line-number'>143</span>
+<span class='line-number'>144</span>
+<span class='line-number'>145</span>
+<span class='line-number'>146</span>
+<span class='line-number'>147</span>
+<span class='line-number'>148</span>
+<span class='line-number'>149</span>
+<span class='line-number'>150</span>
+<span class='line-number'>151</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># coding: utf-8</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">require</span> <span class="s2">&quot;aws-sdk&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">S3_SAVE_DIR</span> <span class="o">=</span> <span class="s2">&quot;s3/&quot;</span>
+</span><span class='line'><span class="no">ALL_FILE_DOWNLOAD</span> <span class="o">=</span> <span class="s2">&quot;全てのファイルを落とす&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">s3</span> <span class="o">=</span> <span class="no">AWS</span><span class="o">::</span><span class="no">S3</span><span class="o">.</span><span class="n">new</span><span class="p">(</span>
+</span><span class='line'>  <span class="ss">access_key_id</span><span class="p">:</span> <span class="s2">&quot;YOUR AWS ACCESS KEY&quot;</span>
+</span><span class='line'>  <span class="ss">secret_access_key</span><span class="p">:</span> <span class="s2">&quot;YOUR AWS SECRET&quot;</span>
+</span><span class='line'><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">show_item_with_pointer</span><span class="p">(</span><span class="n">iterator</span><span class="p">,</span> <span class="n">console_print</span> <span class="o">=</span> <span class="kp">true</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">rtn_hash</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span class='line'>  <span class="n">iterator</span><span class="o">.</span><span class="n">each_with_index</span> <span class="k">do</span> <span class="o">|</span><span class="n">value</span><span class="p">,</span> <span class="n">idx</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">rtn_hash</span><span class="o">[</span><span class="n">idx</span><span class="o">.</span><span class="n">to_s</span><span class="o">]</span> <span class="o">=</span> <span class="n">value</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">console_print</span>
+</span><span class='line'>      <span class="nb">p</span> <span class="s2">&quot;[&quot;</span> <span class="o">+</span> <span class="p">(</span><span class="n">idx</span><span class="p">)</span><span class="o">.</span><span class="n">to_s</span> <span class="o">+</span> <span class="s2">&quot;] &quot;</span> <span class="o">+</span> <span class="n">value</span><span class="o">.</span><span class="n">inspect</span><span class="o">.</span><span class="n">to_s</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">rtn_hash</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">ls</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">ls</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'>  <span class="n">directories</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">children</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:branch?</span><span class="p">)</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:prefix</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">files</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">children</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:leaf?</span><span class="p">)</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:key</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">#all_select = files.length &gt; 1 ?  [ALL_FILE_DOWNLOAD] : []</span>
+</span><span class='line'>  <span class="n">all_select</span> <span class="o">=</span> <span class="o">[</span><span class="no">ALL_FILE_DOWNLOAD</span><span class="o">]</span>
+</span><span class='line'>  <span class="n">ls</span> <span class="o">=</span> <span class="n">all_select</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">directories</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">files</span><span class="p">))</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">get_or_into_directory_recursive</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">file_and_directories</span> <span class="o">=</span> <span class="n">show_item_with_pointer</span><span class="p">(</span><span class="n">ls</span><span class="p">(</span><span class="n">tree</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">idx</span> <span class="o">=</span> <span class="n">gets_from_stdin</span><span class="p">(</span><span class="s2">&quot;fileまたはdirectoryを数値で選択&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">file_or_directory</span> <span class="o">=</span> <span class="n">file_and_directories</span><span class="o">[</span><span class="n">idx</span><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># select dir</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">file_or_directory</span><span class="o">.</span><span class="n">end_with?</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">tree</span> <span class="o">=</span> <span class="vi">@bucket</span><span class="o">.</span><span class="n">as_tree</span><span class="p">({</span><span class="ss">prefix</span><span class="p">:</span> <span class="n">file_or_directory</span><span class="p">})</span>
+</span><span class='line'>    <span class="n">objs</span> <span class="o">=</span> <span class="n">get_or_into_directory_recursive</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="n">objs</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'>    <span class="c1"># select all</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">file_or_directory</span> <span class="o">==</span> <span class="no">ALL_FILE_DOWNLOAD</span>
+</span><span class='line'>      <span class="n">objs</span> <span class="o">=</span> <span class="n">get_objects</span><span class="p">(</span><span class="n">file_and_directories</span><span class="p">)</span>
+</span><span class='line'>    <span class="c1"># select file</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="n">objs</span> <span class="o">&lt;&lt;</span> <span class="vi">@bucket</span><span class="o">.</span><span class="n">objects</span><span class="o">[</span><span class="n">file_or_directory</span><span class="o">]</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">return</span> <span class="n">objs</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># http://qiita.com/riocampos/items/cf71862bf975e13bdb4a</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">progress_bar</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">max</span> <span class="o">=</span> <span class="mi">100</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">i</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">to_f</span>
+</span><span class='line'>  <span class="n">max</span> <span class="o">=</span> <span class="n">max</span><span class="o">.</span><span class="n">to_f</span>
+</span><span class='line'>  <span class="n">i</span> <span class="o">=</span> <span class="n">max</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="n">max</span>
+</span><span class='line'>  <span class="n">percent</span> <span class="o">=</span> <span class="n">i</span> <span class="o">/</span> <span class="n">max</span> <span class="o">*</span> <span class="mi">100</span><span class="o">.</span><span class="mi">0</span>
+</span><span class='line'>  <span class="n">rest_size</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">5</span> <span class="o">+</span> <span class="mi">1</span> <span class="c1"># space + progress_num + %</span>
+</span><span class='line'>  <span class="n">bar_size</span> <span class="o">=</span> <span class="mi">79</span> <span class="o">-</span> <span class="n">rest_size</span> <span class="c1"># (width - 1) - rest_size</span>
+</span><span class='line'>  <span class="n">bar_str</span> <span class="o">=</span> <span class="s1">&#39;%-*s&#39;</span> <span class="o">%</span> <span class="o">[</span><span class="n">bar_size</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;#&#39;</span> <span class="o">*</span> <span class="p">(</span><span class="n">percent</span> <span class="o">*</span> <span class="n">bar_size</span> <span class="o">/</span> <span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">to_i</span><span class="p">)</span><span class="o">]</span>
+</span><span class='line'>  <span class="n">progress_num</span> <span class="o">=</span> <span class="s1">&#39;%3.1f&#39;</span> <span class="o">%</span> <span class="n">percent</span>
+</span><span class='line'>  <span class="nb">print</span> <span class="s2">&quot;  r</span><span class="si">#{</span><span class="n">bar_str</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="s1">&#39;%5s&#39;</span> <span class="o">%</span> <span class="n">progress_num</span><span class="si">}</span><span class="s2">%&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">get_objects</span><span class="p">(</span><span class="n">file_and_directories</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">objs</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'>  <span class="n">file_and_directories</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">idx</span><span class="p">,</span> <span class="n">path</span><span class="o">|</span>
+</span><span class='line'>    <span class="k">next</span> <span class="k">if</span> <span class="n">path</span> <span class="o">==</span> <span class="no">ALL_FILE_DOWNLOAD</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">end_with?</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">tree</span> <span class="o">=</span> <span class="vi">@bucket</span><span class="o">.</span><span class="n">as_tree</span><span class="p">({</span><span class="ss">prefix</span><span class="p">:</span> <span class="n">path</span><span class="p">})</span>
+</span><span class='line'>      <span class="n">recursive_file_and_directories</span> <span class="o">=</span> <span class="n">show_item_with_pointer</span><span class="p">(</span><span class="n">ls</span><span class="p">(</span><span class="n">tree</span><span class="p">),</span> <span class="kp">false</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">objs</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">get_objects</span><span class="p">(</span><span class="n">recursive_file_and_directories</span><span class="p">))</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="n">objs</span> <span class="o">&lt;&lt;</span> <span class="vi">@bucket</span><span class="o">.</span><span class="n">objects</span><span class="o">[</span><span class="n">path</span><span class="o">]</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">objs</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">gets_from_stdin</span><span class="p">(</span><span class="n">message</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">)</span>
+</span><span class='line'>  <span class="nb">print</span> <span class="n">message</span> <span class="k">unless</span> <span class="n">message</span><span class="o">.</span><span class="n">nil?</span>
+</span><span class='line'>  <span class="n">str</span> <span class="o">=</span> <span class="no">STDIN</span><span class="o">.</span><span class="n">gets</span><span class="o">.</span><span class="n">chomp</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">get_y_or_n_from_stdin</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">bol</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+</span><span class='line'>  <span class="k">while</span> <span class="o">!</span><span class="sx">%w(Y N)</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="n">bol</span><span class="o">.</span><span class="n">upcase</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">bol</span> <span class="o">=</span> <span class="n">gets_from_stdin</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="n">message</span><span class="si">}</span><span class="s2">(y/n)&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="n">bol</span><span class="o">.</span><span class="n">upcase</span> <span class="o">==</span> <span class="s2">&quot;Y&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">all_buckets</span> <span class="o">=</span> <span class="n">show_item_with_pointer</span><span class="p">(</span><span class="n">s3</span><span class="o">.</span><span class="n">buckets</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">idx</span> <span class="o">=</span> <span class="n">gets_from_stdin</span><span class="p">(</span><span class="s2">&quot;bucketを数値で選択&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="vi">@bucket</span> <span class="o">=</span> <span class="n">all_buckets</span><span class="o">[</span><span class="n">idx</span><span class="o">]</span>
+</span><span class='line'><span class="n">tree</span> <span class="o">=</span> <span class="vi">@bucket</span><span class="o">.</span><span class="n">as_tree</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">files</span> <span class="o">=</span> <span class="n">get_or_into_directory_recursive</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">s3_dir</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="no">S3_SAVE_DIR</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># gz圧縮なら解凍するか問う</span>
+</span><span class='line'><span class="n">extract_bol</span> <span class="o">=</span> <span class="k">if</span> <span class="n">files</span><span class="o">.</span><span class="n">any?</span><span class="p">{</span><span class="o">|</span><span class="n">file</span><span class="o">|</span> <span class="n">file</span><span class="o">.</span><span class="n">key</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="s2">&quot;gz&quot;</span><span class="p">)}</span>
+</span><span class='line'>                <span class="n">get_y_or_n_from_stdin</span><span class="p">(</span><span class="s2">&quot;解凍を同時に行いますか？&quot;</span><span class="p">)</span>
+</span><span class='line'>              <span class="k">else</span>
+</span><span class='line'>                <span class="kp">false</span>
+</span><span class='line'>              <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># 正規表現抜き出しを行うか問う</span>
+</span><span class='line'><span class="n">regexp</span> <span class="o">=</span> <span class="kp">nil</span>
+</span><span class='line'><span class="k">if</span> <span class="n">get_y_or_n_from_stdin</span><span class="p">(</span><span class="s2">&quot;正規表現によるファイル名絞り込みを行いますか？&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">regexp</span> <span class="o">=</span> <span class="no">Regexp</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">gets_from_stdin</span><span class="p">(</span><span class="s2">&quot;正規表現を入力してください&quot;</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">files</span> <span class="o">=</span> <span class="n">files</span><span class="o">.</span><span class="n">reject</span> <span class="k">do</span> <span class="o">|</span><span class="n">file</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">file_path</span> <span class="o">=</span> <span class="o">[</span><span class="n">s3_dir</span><span class="p">,</span><span class="n">file</span><span class="o">.</span><span class="n">key</span><span class="o">].</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="no">File</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">regexp</span><span class="p">)</span><span class="o">.</span><span class="n">nil?</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># 保存処理</span>
+</span><span class='line'><span class="n">files</span><span class="o">.</span><span class="n">each</span><span class="o">.</span><span class="n">with_index</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">file</span><span class="p">,</span> <span class="n">idx</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">file_path</span> <span class="o">=</span> <span class="o">[</span><span class="n">s3_dir</span><span class="p">,</span><span class="n">file</span><span class="o">.</span><span class="n">key</span><span class="o">].</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">dir</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+</span><span class='line'>  <span class="no">FileUtils</span><span class="o">.</span><span class="n">mkdir_p</span><span class="p">(</span><span class="n">dir</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="no">File</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">f</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">file</span><span class="o">.</span><span class="n">read</span> <span class="k">do</span> <span class="o">|</span><span class="n">chunk</span><span class="o">|</span>
+</span><span class='line'>      <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="n">extract_bol</span>
+</span><span class='line'>    <span class="sb">`gunzip </span><span class="si">#{</span><span class="n">file_path</span><span class="si">}</span><span class="sb">`</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">progress_bar</span><span class="p">((</span><span class="n">idx</span><span class="o">.</span><span class="n">to_f</span> <span class="o">/</span> <span class="n">files</span><span class="o">.</span><span class="n">length</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+
+
+        </article>
+        <hr>
+    
+
+    <div class="pagination">
+    
+        <a class="btn pull-left" href="/posts/3">&larr; Older</a>
+    
+
+    
+        <a class="btn pull-right" href="/index.html">Newer &rarr;</a>
+    
+    </div>
+
+                </div>
+
+                
+                <aside class="sidebar col-xs-12 col-md-4 col-lg-4">
+                    <div class="row">
+
+    
+
+    
+<section class="social col-xs-12 col-sm-6 col-md-12">
+    <h1>
+        Follow me!
+    </h1>
+    <ul class="unstyled">
+        
+        
+        
+        <li><a class="facebook" href="//facebook.com/fujiiyoshitsugu"><i class="fa fa-facebook-square"></i> Facebook</a></li>
+        <li><a class="github" href="//github.com/YoshitsuguFujii"><i class="fa fa-github"></i> Github</a></li>
+        
+        
+        
+        
+        
+        
+        
+        <li><a class="twitter" href="//twitter.com/YoshitsuguFujii"><i class="fa fa-twitter"></i> Twitter</a></li>
+        
+    </ul>
+</section>
+
+
+
+    <section id="recent-posts" class="col-xs-12 col-sm-6 col-md-12">
+    <h1>Recent Posts</h1>
+    <ul class="divided">
+        
+        <li class="post">
+            <a href="/blog/2015/03/10/githubpageniyi-xing-simasita/">GithubPageに移行しました</a>
+        </li>
+        
+        <li class="post">
+            <a href="/blog/2015/02/24/20150224142535/">Axlsxでエクセルのセルを折り返して全体を表示</a>
+        </li>
+        
+        <li class="post">
+            <a href="/blog/2015/02/23/20150223110642/">Axlsxでウィンドウ枠の固定</a>
+        </li>
+        
+        <li class="post">
+            <a href="/blog/2015/02/21/20150221171638/">Axlsxでエクセルファイル作成時に注意する点とかはまりどころとか</a>
+        </li>
+        
+        <li class="post">
+            <a href="/blog/2015/02/17/20150217112514/">trueとfalseにrefinmentsを使ってメソッド追加</a>
+        </li>
+        
+    </ul>
+</section>
+
+<section id="github-repos" class="col-xs-12 col-sm-6 col-md-12">
+    <h1>
+        GitHub Repos
+        
+        <small class="pull-right">
+            <a class="btn" href="//github.com/YoshitsuguFujii" title="@YoshitsuguFujii on GitHub" target="_blank">
+                <i class="fa fa-external-link"></i>
+            </a>
+        </small>
+        
+    </h1>
+    <ul id="gh_repos" class="divided">
+        <li class="loading">
+            <i class="fa fa-spinner fa-spin"></i>
+        </li>
+    </ul>
+</section>
+
+
+
+
+
+<section id="twitter-timeline" class="col-xs-12 col-sm-6 col-md-12">
+    <h1>
+        Latest Tweets
+        
+        <small class="pull-right">
+            <a class="btn" href="//twitter.com/YoshitsuguFujii" title="@YoshitsuguFujii on Twitter" target="_blank">
+                <i class="fa fa-external-link"></i>
+            </a>
+        </small>
+        
+    </h1>
+
+    <a class="twitter-timeline" data-dnt="true" href="//twitter.com/YoshitsuguFujii"  data-widget-id="574397323830132736"  data-link-color="#049cdb" data-tweet-limit="" data-chrome="noheader nofooter transparent noscrollbar">Tweets by @YoshitsuguFujii</a>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+</section>
+
+
+
+</div>
+
+                </aside>
+                
+            </div>
+        </div>
+
+        
+
+    
+    
+
+
+
+
+<footer class="footer">
+    <div class="row middle-xs">
+        
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <p class="footer__copyright">
+    All content copyright Yoshitsugu Fujii.<br>
+    Code under <a href="//github.com/coogie/oscailte/blob/master/README.md">MIT Licence</a>.
+</p>
+
+        </div>
+        
+        
+    </div>
+</footer>
+
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+<script src="//crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script>
+<script defer src="/javascripts/octopress.js"></script>
+
+
+
+
+
+
+
+
+<script>
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'YoshitsuguFujii',
+            count: 3,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+</script>
+<script src="/javascripts/github.js"></script>
+
+
+
+
+
+
+
+    </body>
+
+</html>
