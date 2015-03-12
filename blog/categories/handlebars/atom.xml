@@ -4,7 +4,7 @@
     <title><![CDATA[Category: handlebars | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/handlebars/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2015-03-12T15:29:29+09:00</updated>
+    <updated>2015-03-13T00:12:32+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -20,11 +20,11 @@
         <id>http://yoshitsugufujii.github.io/blog/2014/11/28/20141128152410</id>
         <content type="html"><![CDATA[<p>@indexで取れます。</p>
 
-<pre><code class="ruby">
-  : 
-  isFirst?: 
-  isLast?: 
-
+<pre><code class="ruby">{{#each array}}
+  {{@index}}: {{this}}
+  isFirst?: {{@first}}
+  isLast?: {{@last}}
+{{/each}}
 </code></pre>
 
 <p>その他に@firstには最初の一回目のループの時にはtrueが<br/>
@@ -34,18 +34,18 @@
 <p>2次元配列とか多次元配列を回す時はこうですね。</p>
 
 <pre><code class="ruby">多次元配列の回し方
-
-
-  
-    
-    
-    
-  
-
+{{! arraysは2次元配列 }}
+{{#each arrays }}
+  {{#each this}}
+    {{name}}
+    {{! 親要素へのアクセス }}
+    {{../id}}
+  {{/each}}
+{{/each}}
 </code></pre>
 
-<p>ちなみにでコメントです。<br/>
-という書き方もできます。</p>
+<p>ちなみに{{! }}でコメントです。<br/>
+{{!&ndash; &ndash;}}という書き方もできます。</p>
 ]]></content>
     </entry>
     
@@ -64,21 +64,21 @@ Unknown line indicator</p>
 
 <pre><code class="ruby">.hoge
   .fuga
-     
+    {{user}} 
 </code></pre>
 
 <p>ただしくはこう</p>
 
 <pre><code class="ruby">.hoge
   .fuga
-    |  
+    | {{user}} 
 </code></pre>
 
 <p>hamlbarsではこう書けてしまうので、slimで書く場合は注意が必要だなと思いました。</p>
 
 <pre><code class="ruby">.hoge
   .fuga
-     
+    {{user}} 
 </code></pre>
 
 <p>小ネタも小ネタでした。</p>
@@ -87,9 +87,9 @@ Unknown line indicator</p>
 こうやらないと出力されない・・・</p>
 
 <pre><code class="ruby">select
-  | 
-    &lt;option value=""&gt;&lt;/option&gt;
-  | 
+  | {{#each users }}
+    &lt;option value="{{id}}"&gt;{{name}}&lt;/option&gt;
+  | {{/each}}
 </code></pre>
 ]]></content>
     </entry>
