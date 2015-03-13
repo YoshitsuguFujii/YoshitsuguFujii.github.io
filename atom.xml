@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2015-03-13T00:09:58+09:00</updated>
+    <updated>2015-03-13T21:32:53+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -35,7 +35,8 @@
 
 <p></p>
 
-<p>compile errorになっていた原因はここにありました。
+<p>原因究明のためちょっとずつソースを削ってはコンパイルを繰り返したところ、
+compile errorになっていた原因はここにありました。
 わかりますか？</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
