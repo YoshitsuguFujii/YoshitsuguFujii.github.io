@@ -252,7 +252,7 @@ desc "deploy public directory to github pages"
 multitask :push do
   puts "## Deploying branch to Github Pages "
   puts "## Pulling any updates from Github Pages "
-  cd "#{deploy_dir}" do 
+  cd "#{deploy_dir}" do
     Bundler.with_clean_env { system "git pull" }
   end
   (Dir["#{deploy_dir}/*"]).each { |f| rm_rf(f) }
@@ -404,3 +404,22 @@ task :list do
   puts "Tasks: #{(Rake::Task.tasks - [Rake::Task[:list]]).join(', ')}"
   puts "(type rake -T for more detail)\n\n"
 end
+
+# http://qiita.com/gam0022/items/7b5a6e4492c90583706f
+# usage rake generate_only[my-post]
+# thanks to http://rcmdnk.github.io/blog/2013/12/06/blog-octopress-rake/
+desc "Generate only the specified post (much faster)"
+task :generate_only, :filename do |t, args|
+  if args.filename
+    filename = args.filename
+  else
+    filename = Dir.glob("#{source_dir}/#{posts_dir}/*.#{new_post_ext}").sort_by{|f| File.mtime(f)}.last
+  end
+  puts "## Test build for #{filename}"
+  puts "## Stashing other posts"
+  Rake::Task[:isolate].invoke(filename)
+  Rake::Task[:generate].execute
+  puts "## Restoring stashed posts"
+  Rake::Task[:integrate].execute
+end
+task go: :generate_only
