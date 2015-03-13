@@ -1,5 +1,6 @@
-<li>
-  <a href="https://twitter.com/intent/tweet?text={{ page.title}} by @{{ site.twitter_user }}&url={{ site.url}}{{ page.url }}" title="Share {{ page.title }} on Twitter">
-    <img src="/images/social/twitter.png" />
-  </a>
+<li class="twitter">
+<a class="twitter-share-button" href="https://twitter.com/share?text={{ page.title}} by @{{ site.twitter_user }}&url={{ site.url}}{{ page.url }}"> Tweet </a>
+<script>
+  window.twttr=(function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return;js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);t._e=[];t.ready=function(f){t._e.push(f);};return t;}(document,"script","twitter-wjs"));
+</script>
 </li>

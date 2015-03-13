@@ -1,1 +1,34 @@
 @import 'oscailte/oscailte';
+
+div.social_box{
+  height: 30px;
+  line-height: 15px;
+}
+
+div.share{
+  margin-bottom: 40px;
+
+  ul.social{
+    list-style: outside none none;
+    margin-left: 0;
+
+    li{
+      float: left;
+      margin-right: 10px;
+
+      &.facebook{
+        span{
+          vertical-align: top;
+        }
+      }
+
+      &.twitter{
+        width: 75px;
+      }
+
+      &.pocket{
+        width: 85px;
+      }
+    }
+  }
+}

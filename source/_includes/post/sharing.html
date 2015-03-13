@@ -1,9 +1,10 @@
 {% if page.sharing != false %}
-	<div class="share">
-	  <!-- <ul> -->
-	  <!--   {% include social/twitter.html %} -->
-	  <!--   {% include social/facebook.html %} -->
-	  <!--   {% include social/google-plus.html %} -->
-	  <!-- </ul> -->
-	</div>
+  <div class="share social_box clearfix">
+    <ul class="social">
+      {% include social/pocket.html %}
+      {% include social/hatena.html %}
+      {% include social/twitter.html %}
+      {% include social/facebook.html %}
+    </ul>
+  </div>
 {% endif %}
