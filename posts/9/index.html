@@ -82,6 +82,73 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2012/04/17/20120417122312/">each_with_indexの開始を任意の数値から</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2012-04-17T12:23:00+09:00" pubdate><i class="fa fa-calendar"></i> Apr 17th, 2012</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>each  <em>with  </em>indexは0始まりでインデックスが使える。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span><span class="s2">&quot;b&quot;</span><span class="o">].</span><span class="n">each_with_index</span><span class="p">{</span><span class="o">|</span><span class="n">elem</span><span class="p">,</span><span class="n">i</span><span class="o">|</span> <span class="nb">puts</span> <span class="n">i</span><span class="p">}</span> <span class="c1">#=&gt; 0 1</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>でも連番降ったりとか１始まりが欲しい場合がある。<br/>
+そんな場合。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span><span class="s2">&quot;b&quot;</span><span class="o">].</span><span class="n">each</span><span class="o">.</span><span class="n">with_index</span><span class="p">(</span><span class="mi">1</span><span class="p">){</span><span class="o">|</span><span class="n">elem</span><span class="p">,</span><span class="n">i</span><span class="o">|</span> <span class="nb">puts</span> <span class="n">i</span><span class="p">}</span> <span class="c1">#=&gt; 1 2</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>もちろん数値変えればスタートの値も変わる。</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2012/04/03/20120403122204/">rails console</a>
         </h1>
     
@@ -829,65 +896,6 @@ rails 3.0.5</p>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2012/02/24/20120224111023/">sqlの実行。</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2012-02-24T11:10:00+09:00" pubdate><i class="fa fa-calendar"></i> Feb 24th, 2012</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/rails/'>rails</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;drop table foo&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="no">Model</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">.execute</span><span class="p">(</span><span class="s2">&quot;drop table foo&quot;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -951,6 +959,10 @@ rails 3.0.5</p>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2015/03/13/real-delete-discreetly/">関連先が存在していたら論理削除、関連先が存在していなかったら物理削除</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2015/03/12/invalid-css-after/">開発環境(development)で問題なかったのにdeployしようとしたらprecompileでこける。</a>
         </li>
         
@@ -964,10 +976,6 @@ rails 3.0.5</p>
         
         <li class="post">
             <a href="/blog/2015/02/23/20150223110642/">Axlsxでウィンドウ枠の固定</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2015/02/21/20150221171638/">Axlsxでエクセルファイル作成時に注意する点とかはまりどころとか</a>
         </li>
         
     </ul>
