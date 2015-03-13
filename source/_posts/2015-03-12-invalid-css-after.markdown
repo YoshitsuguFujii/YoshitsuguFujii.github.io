@@ -6,7 +6,7 @@ comments: true
 categories: [ruby on rails ruby]
 ---
 
-```log
+```
 rake aborted!
 Sass::SyntaxError: Invalid CSS after "...idth: Infinity%": expected expression (e.g. 1px, bold), was "; }"
   (in /var/www/hogehoge/app/assets/stylesheets/fuga/fuga.css.scss)
