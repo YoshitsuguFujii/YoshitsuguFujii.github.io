@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2015-03-14T00:33:34+09:00</updated>
+    <updated>2015-03-17T14:16:23+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,38 @@
     </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[はじめて医療費控除を申告してみたよ]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2015/03/16/iryohi-koujo/"/>
+        <updated>2015-03-16T21:07:30+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2015/03/16/iryohi-koujo</id>
+        <content type="html"><![CDATA[<p>医療費控除。</p>
+
+<p>薄々は知っていたけどそんなに病院にお金を使うこともなく、領収書と取っといたりするのも面倒なのであまり意識したことはなかったのですが、<br/>
+去年はエクストルージョンという歯の処置を保険適用外(15万弱しました)でやったりとかなりお金を使ったので今回は医療費控除を請求してみることにしました。</p>
+
+<p>郵送で申し込みます。</p>
+
+<!-- more -->
+
+
+<p></p>
+
+<p><a href="https://www.keisan.nta.go.jp/h26/ta_top.htm#bsctrl">国税局</a>のシステムから入力していくと最終的にPDFができあがるのでこちらを印刷して郵送します。<br/>
+医療費控除は特に難しいことはなく、ページを順次入力していったらすんなりできました。</p>
+
+<p>ちなみに私は住宅減税で所得税は全額還付されており、住民税に充当される分が軽減されるとかよくわらかなかったので妻で申請することにしました。<br/>
+個人個人ではなく同じ家に住む人をまとめて対象とできるので私のを合算した金額を妻が請求するといったことが可能なんですね。</p>
+
+<p>ちなみに国税局のHP金額をうちこんでいくと最後に実際に還付される金額が画面上で表示されます。<br/>
+去年は病院に172000円使いました。還付で6080円ほど戻ってくるようです。</p>
+
+<p>入力大変でしたけど、ちょっとした小遣いと思えば大きいですね。<br/>
+いったいいくら帰ってくるの？とか夫と妻どちらで申請したらいいの？<br/>
+と悩んでいる方がいらっしゃったら実際にWEBから入力してみて、最後に表示される金額を見て決めてみたらいいんではないでしょうか？</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[関連先が存在していたら論理削除、関連先が存在していなかったら物理削除]]></title>
@@ -1324,79 +1356,6 @@ app/model/user  <em>auto  </em>load  _concern.rb</p>
 
 <p>するとこうなる。<br/>
 <a href="http://f.hatena.ne.jp/gogo_sakura/20141106201955"><img src="http://cdn-ak.f.st-hatena.com/images/fotolife/g/gogo_sakura/20141106/20141106201955.gif" title="f:id:gogo_sakura:20141106201955g:image" alt="f:id:gogo  _sakura:20141106201955g:image" /></a></p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[Axlsを使ってExcelでリスト（ドロップダウンするやつ）を作る]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2014/10/30/20141030155750/"/>
-        <updated>2014-10-30T15:57:00+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2014/10/30/20141030155750</id>
-        <content type="html"><![CDATA[<p>業務でエクセルを使うことになったので調べてました。</p>
-
-<p>↓Qiitaの素晴らしいまとめ<br/>
-RailsでExcelを扱うGemまとめ<br/>
-<a href="http://qiita.com/Kta-M/items/02a2c41c5624f75498aa">http://qiita.com/Kta-M/items/02a2c41c5624f75498aa</a></p>
-
-<p>↓情報はこの辺を見ました<br/>
-<a href="http://stackoverflow.com/questions/17320645/axlsx-building-dynamic-columns">http://stackoverflow.com/questions/17320645/axlsx-building-dynamic-columns</a></p>
-
-<p>あまりエクセルのリストを作成する情報がなかったので書いておきます。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;axlsx&#39;</span>
-</span><span class='line'><span class="n">package</span> <span class="o">=</span> <span class="no">Axlsx</span><span class="o">::</span><span class="no">Package</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'><span class="n">sheet</span> <span class="o">=</span> <span class="n">package</span><span class="o">.</span><span class="n">workbook</span><span class="o">.</span><span class="n">add_worksheet</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="s1">&#39;lists&#39;</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="o">[</span><span class="s1">&#39;品名&#39;</span><span class="p">,</span> <span class="s1">&#39;単価&#39;</span><span class="p">,</span> <span class="s1">&#39;数量&#39;</span><span class="p">,</span> <span class="s1">&#39;計&#39;</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="o">[</span><span class="s1">&#39;にんじん&#39;</span><span class="p">,</span>    <span class="mi">80</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>      <span class="s1">&#39;=B2*C2&#39;</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="o">[</span><span class="s1">&#39;たまねぎ&#39;</span><span class="p">,</span>    <span class="mi">50</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span>      <span class="s1">&#39;=B3*C3&#39;</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="o">[</span><span class="s1">&#39;じゃがいも&#39;</span><span class="p">,</span>  <span class="mi">40</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span>      <span class="s1">&#39;=B4*C4&#39;</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="o">[</span><span class="s1">&#39;牛肉&#39;</span><span class="p">,</span>       <span class="mi">200</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>      <span class="s1">&#39;=B5*C5&#39;</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="o">[</span><span class="s1">&#39;カレー粉&#39;</span><span class="p">,</span>   <span class="mi">150</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>      <span class="s1">&#39;=B6*C6&#39;</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="o">[</span><span class="s1">&#39;&#39;</span><span class="p">,</span>            <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;総計&#39;</span><span class="p">,</span> <span class="s1">&#39;=SUM(D2:D6)&#39;</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">add_data_validation</span><span class="p">(</span><span class="s2">&quot;A10&quot;</span><span class="p">,</span> <span class="p">{</span>
-</span><span class='line'>  <span class="ss">:type</span> <span class="o">=&gt;</span> <span class="ss">:list</span><span class="p">,</span>
-</span><span class='line'>  <span class="ss">:formula1</span> <span class="o">=&gt;</span> <span class="s1">&#39;A2:A6&#39;</span><span class="p">,</span>
-</span><span class='line'>  <span class="ss">:showDropDown</span> <span class="o">=&gt;</span> <span class="kp">false</span><span class="p">,</span>
-</span><span class='line'>  <span class="ss">:showErrorMessage</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">,</span>
-</span><span class='line'>  <span class="ss">:errorTitle</span> <span class="o">=&gt;</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
-</span><span class='line'>  <span class="ss">:error</span> <span class="o">=&gt;</span> <span class="s1">&#39;リストから選んで下さい&#39;</span><span class="p">,</span>
-</span><span class='line'>  <span class="ss">:errorStyle</span> <span class="o">=&gt;</span> <span class="ss">:stop</span><span class="p">,</span>
-</span><span class='line'>  <span class="ss">:showInputMessage</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">,</span>
-</span><span class='line'>  <span class="ss">:promptTitle</span> <span class="o">=&gt;</span> <span class="s1">&#39;カレー具材&#39;</span><span class="p">,</span>
-</span><span class='line'>  <span class="ss">:prompt</span> <span class="o">=&gt;</span> <span class="s1">&#39;カレーの具材を選んで下さい。&#39;</span><span class="p">})</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">package</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="s1">&#39;test.xlsx&#39;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
 ]]></content>
     </entry>
     
