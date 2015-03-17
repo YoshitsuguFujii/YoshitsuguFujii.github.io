@@ -12,6 +12,8 @@ categories: [ruby]
 Gistではここに置いてあります。  
 [real_delete_discreetly](https://gist.github.com/YoshitsuguFujii/e86d1f208a594ae4effa)
 
+<!-- more --> 
+
 本体です
 ```ruby 
 module RealDeleteDiscreetly
