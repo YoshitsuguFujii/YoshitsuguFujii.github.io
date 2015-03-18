@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2015-03-17T14:16:23+09:00</updated>
+    <updated>2015-03-18T12:29:38+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,131 @@
     </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[ファイル内の特定の行の数値をインクリメントする]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2015/03/18/increment-in-file/"/>
+        <updated>2015-03-18T12:00:03+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2015/03/18/increment-in-file</id>
+        <content type="html"><![CDATA[<p>yamlファイルの特定の数字をインクリメントしたくてスクリプトを書きました。
+データとしてはこんな感じです。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">data_one</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">col_num</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">1</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">hoge</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">options</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">fuga</span>
+</span><span class='line'><span class="l-Scalar-Plain">data_two</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">col_num</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">1</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">foo</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">options</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">baa</span>
+</span><span class='line'><span class="l-Scalar-Plain">data_three</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">col_num</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">1</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">foofoo</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">options</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">baabaa</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<!-- more -->
+
+
+<p>これのcol_numをインクリメントします。
+応用きくように正規表現でひっかかるようにしときましょう。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">if</span> <span class="no">ARGV</span><span class="o">.</span><span class="n">size</span> <span class="o">!=</span> <span class="mi">2</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;</span><span class="se">\e</span><span class="s2">[31m</span><span class="si">#{</span><span class="s2">&quot;[!]引数が不正です。第一引数にはファイルパスを、第二引数には正規表現を指定してください&quot;</span><span class="si">}</span><span class="se">\e</span><span class="s2">[0m&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">file_name</span> <span class="o">=</span> <span class="no">ARGV</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span>
+</span><span class='line'><span class="n">regexp</span>    <span class="o">=</span> <span class="no">Regexp</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="no">ARGV</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># 念のためバックアップを取る</span>
+</span><span class='line'><span class="sb">`cp </span><span class="si">#{</span><span class="n">file_name</span><span class="si">}</span><span class="sb"> </span><span class="si">#{</span><span class="n">file_name</span><span class="si">}</span><span class="sb">_bk`</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">sequence</span> <span class="o">=</span> <span class="kp">nil</span>
+</span><span class='line'><span class="n">replaced_file_body</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+</span><span class='line'><span class="no">File</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">file</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">each_line</span> <span class="k">do</span> <span class="o">|</span><span class="n">line</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">replaced_file_body</span> <span class="o">&lt;&lt;</span> <span class="k">if</span> <span class="n">line</span> <span class="o">=~</span>  <span class="n">regexp</span>
+</span><span class='line'>                            <span class="c1"># 初回のsequenceのはじまり取得</span>
+</span><span class='line'>                            <span class="k">if</span> <span class="n">sequence</span><span class="o">.</span><span class="n">nil?</span>
+</span><span class='line'>                              <span class="n">sequence</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="sr">/[^0-9]/</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to_i</span>
+</span><span class='line'>                              <span class="n">line</span>
+</span><span class='line'>                            <span class="k">else</span>
+</span><span class='line'>                              <span class="c1"># sequenceをincrementしながら置換</span>
+</span><span class='line'>                              <span class="n">line</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="sr">/\d.*/</span><span class="p">,</span> <span class="p">(</span><span class="n">sequence</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">to_s</span><span class="p">)</span>
+</span><span class='line'>                            <span class="k">end</span>
+</span><span class='line'>                          <span class="k">else</span>
+</span><span class='line'>                            <span class="n">line</span>
+</span><span class='line'>                          <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># 変換した内容で書き換え</span>
+</span><span class='line'><span class="n">file</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="n">file</span> <span class="o">&lt;&lt;</span> <span class="n">replaced_file_body</span>
+</span><span class='line'><span class="n">file</span><span class="o">.</span><span class="n">close</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>使い方はこんな感じです</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>ruby increment_number_in_file.rb official_document_archive.yml col_num
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>状況に応じて書き換えながらになると思いますが、よかったら使ってみてください。</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[はじめて医療費控除を申告してみたよ]]></title>
@@ -1299,63 +1424,6 @@ app/model/user  <em>auto  </em>load  _concern.rb</p>
 
 
 <p>そうするとrun  <em>load  </em>hooksが呼ばれたタイミングでhogeがついていてるActiveSupport.on  _loadのブロック処理が開始されます。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[コンソールでローディングを表示]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2014/11/06/20141106202417/"/>
-        <updated>2014-11-06T20:24:00+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2014/11/06/20141106202417</id>
-        <content type="html"><![CDATA[<p>rubyXLで100以上シートのあるエクセルファイルを読み出すスクリプトを書いていて、<br/>
-現在の処理中のシート/シートの総数でプログレスバーを表示することはしたけど、<br/>
-ファイル読み込み中(5～7秒ぐらいかかる)はなんにもコンソールに表示されない状態が物足りなくて、<br/>
-ファイルの読み込み中はローディングチックなのを出すようにした。</p>
-
-<p>読み込みと別でThread生成して、そのThread内で1秒毎に  >と  >  >と  >  >  >を出している。<br/>
-読み込みが完了したらThreadをkillしてる。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">display_with_arrow</span><span class="p">(</span><span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">loading_thread</span> <span class="o">=</span> <span class="no">Thread</span><span class="o">.</span><span class="n">start</span><span class="p">{</span>
-</span><span class='line'>                              <span class="n">arrow_progress</span> <span class="o">=</span> <span class="sx">%w(&gt; &gt;&gt; &gt;&gt;&gt;)</span><span class="o">.</span><span class="n">cycle</span>
-</span><span class='line'>                              <span class="kp">loop</span><span class="p">{</span>
-</span><span class='line'>                                <span class="nb">print</span> <span class="s2">&quot;  r file reading </span><span class="si">#{</span><span class="nb">sprintf</span><span class="p">(</span><span class="s2">&quot;%-  s3s&quot;</span><span class="p">,</span><span class="n">arrow_progress</span><span class="o">.</span><span class="n">next</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
-</span><span class='line'>                                <span class="nb">sleep</span> <span class="mi">1</span>
-</span><span class='line'>                              <span class="p">}</span>
-</span><span class='line'>                            <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">rtn</span> <span class="o">=</span> <span class="n">block</span><span class="o">.</span><span class="n">call</span>
-</span><span class='line'>  <span class="no">Thread</span><span class="o">.</span><span class="n">kill</span><span class="p">(</span><span class="n">loading_thread</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">rtn</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># 読み込み</span>
-</span><span class='line'><span class="n">workbook</span> <span class="o">=</span> <span class="n">display_with_arrow</span> <span class="k">do</span>
-</span><span class='line'>             <span class="no">RubyXL</span><span class="o">::</span><span class="no">Parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s2">&quot;エクセルファイルへのパス&quot;</span><span class="p">)</span>
-</span><span class='line'>           <span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>するとこうなる。<br/>
-<a href="http://f.hatena.ne.jp/gogo_sakura/20141106201955"><img src="http://cdn-ak.f.st-hatena.com/images/fotolife/g/gogo_sakura/20141106/20141106201955.gif" title="f:id:gogo_sakura:20141106201955g:image" alt="f:id:gogo  _sakura:20141106201955g:image" /></a></p>
 ]]></content>
     </entry>
     

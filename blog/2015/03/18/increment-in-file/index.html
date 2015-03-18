@@ -9,13 +9,13 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>変数の初期化 - なんとなく日々徒然と</title>
+        <title>ファイル内の特定の行の数値をインクリメントする - なんとなく日々徒然と</title>
         <meta name="author" content="Yoshitsugu Fujii">
         
         <meta name="description" content="ruby rails French Bulldog surfing aqualist">
         
         <meta name="viewport" content="width=device-width">
-        <link rel="canonical" href="http://yoshitsugufujii.github.io/blog/2013/12/11/20131211200817">
+        <link rel="canonical" href="http://yoshitsugufujii.github.io/blog/2015/03/18/increment-in-file">
 
         <link href='http://fonts.googleapis.com/css?family=Droid+Serif:400,400italic' rel='stylesheet' type='text/css'>
         <link href="http://fonts.googleapis.com/css?family=Droid+Sans" rel="stylesheet" type="text/css">
@@ -78,7 +78,7 @@
                     <article class="article article--single">
     <header class="article__header">
     
-        <h1 class="article__title">変数の初期化</h1>
+        <h1 class="article__title">ファイル内の特定の行の数値をインクリメントする</h1>
     
 
     
@@ -90,7 +90,7 @@
 
 
 
-    <time class="article__date pull-left" datetime="2013-12-11T20:08:00+09:00" pubdate><i class="fa fa-calendar"></i> Dec 11th, 2013</time>
+    <time class="article__date pull-left" datetime="2015-03-18T12:00:03+09:00" pubdate><i class="fa fa-calendar"></i> Mar 18th, 2015</time>
 
 
 
@@ -118,45 +118,123 @@
 
 
 
-    <p>clearなんてあったんや。<br/>
-<a href="http://ref.xaio.jp/ruby/classes/array/clear">http://ref.xaio.jp/ruby/classes/array/clear</a></p>
-
-<p>今まで</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">array</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;hoge&quot;</span><span class="p">,</span> <span class="s2">&quot;fuga&quot;</span><span class="o">]</span>
-</span><span class='line'><span class="n">array</span> <span class="o">=</span> <span class="o">[]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>ってやってたのが、</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">array</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;hoge&quot;</span><span class="p">,</span> <span class="s2">&quot;fuga&quot;</span><span class="o">]</span>
-</span><span class='line'><span class="n">array</span><span class="o">.</span><span class="n">clear</span> <span class="c1"># =&gt; []</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>って書ける。より直感的ですね。</p>
-
-<p>ちなみに文字列もHashもあるみたいです。</p>
+    <p>yamlファイルの特定の数字をインクリメントしたくてスクリプトを書きました。
+データとしてはこんな感じです。</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">hash</span> <span class="o">=</span> <span class="p">{</span><span class="ss">hoge</span><span class="p">:</span> <span class="s2">&quot;fuga&quot;</span><span class="p">}</span>
-</span><span class='line'><span class="nb">hash</span><span class="o">.</span><span class="n">clear</span> <span class="c1"># {}</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">str</span> <span class="o">=</span> <span class="s2">&quot;fugafufa&quot;</span>
-</span><span class='line'><span class="n">str</span><span class="o">.</span><span class="n">clar</span> <span class="c1"># =&gt; &quot;&quot;</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">data_one</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">col_num</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">1</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">hoge</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">options</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">fuga</span>
+</span><span class='line'><span class="l-Scalar-Plain">data_two</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">col_num</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">1</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">foo</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">options</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">baa</span>
+</span><span class='line'><span class="l-Scalar-Plain">data_three</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">col_num</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">1</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">foofoo</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">options</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">baabaa</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>へー。</p>
+
+
+<!-- more -->
+
+
+<p>これのcol_numをインクリメントします。
+応用きくように正規表現でひっかかるようにしときましょう。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">if</span> <span class="no">ARGV</span><span class="o">.</span><span class="n">size</span> <span class="o">!=</span> <span class="mi">2</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;</span><span class="se">\e</span><span class="s2">[31m</span><span class="si">#{</span><span class="s2">&quot;[!]引数が不正です。第一引数にはファイルパスを、第二引数には正規表現を指定してください&quot;</span><span class="si">}</span><span class="se">\e</span><span class="s2">[0m&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">file_name</span> <span class="o">=</span> <span class="no">ARGV</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span>
+</span><span class='line'><span class="n">regexp</span>    <span class="o">=</span> <span class="no">Regexp</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="no">ARGV</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># 念のためバックアップを取る</span>
+</span><span class='line'><span class="sb">`cp </span><span class="si">#{</span><span class="n">file_name</span><span class="si">}</span><span class="sb"> </span><span class="si">#{</span><span class="n">file_name</span><span class="si">}</span><span class="sb">_bk`</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">sequence</span> <span class="o">=</span> <span class="kp">nil</span>
+</span><span class='line'><span class="n">replaced_file_body</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+</span><span class='line'><span class="no">File</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">file</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">each_line</span> <span class="k">do</span> <span class="o">|</span><span class="n">line</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">replaced_file_body</span> <span class="o">&lt;&lt;</span> <span class="k">if</span> <span class="n">line</span> <span class="o">=~</span>  <span class="n">regexp</span>
+</span><span class='line'>                            <span class="c1"># 初回のsequenceのはじまり取得</span>
+</span><span class='line'>                            <span class="k">if</span> <span class="n">sequence</span><span class="o">.</span><span class="n">nil?</span>
+</span><span class='line'>                              <span class="n">sequence</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="sr">/[^0-9]/</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to_i</span>
+</span><span class='line'>                              <span class="n">line</span>
+</span><span class='line'>                            <span class="k">else</span>
+</span><span class='line'>                              <span class="c1"># sequenceをincrementしながら置換</span>
+</span><span class='line'>                              <span class="n">line</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="sr">/\d.*/</span><span class="p">,</span> <span class="p">(</span><span class="n">sequence</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">to_s</span><span class="p">)</span>
+</span><span class='line'>                            <span class="k">end</span>
+</span><span class='line'>                          <span class="k">else</span>
+</span><span class='line'>                            <span class="n">line</span>
+</span><span class='line'>                          <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># 変換した内容で書き換え</span>
+</span><span class='line'><span class="n">file</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="n">file</span> <span class="o">&lt;&lt;</span> <span class="n">replaced_file_body</span>
+</span><span class='line'><span class="n">file</span><span class="o">.</span><span class="n">close</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>使い方はこんな感じです</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>ruby increment_number_in_file.rb official_document_archive.yml col_num
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>状況に応じて書き換えながらになると思いますが、よかったら使ってみてください。</p>
 
 
 
@@ -179,7 +257,7 @@
 </li>
 
       <li class="twitter">
-<a class="twitter-share-button" href="https://twitter.com/share?text=変数の初期化 by @YoshitsuguFujii&url=http://yoshitsugufujii.github.io/blog/2013/12/11/20131211200817/"> Tweet </a>
+<a class="twitter-share-button" href="https://twitter.com/share?text=ファイル内の特定の行の数値をインクリメントする by @YoshitsuguFujii&url=http://yoshitsugufujii.github.io/blog/2015/03/18/increment-in-file/"> Tweet </a>
 <script>
   window.twttr=(function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return;js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);t._e=[];t.ready=function(f){t._e.push(f);};return t;}(document,"script","twitter-wjs"));
 </script>
@@ -374,8 +452,8 @@
     
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://yoshitsugufujii.github.io/blog/2013/12/11/20131211200817/';
-        var disqus_url = 'http://yoshitsugufujii.github.io/blog/2013/12/11/20131211200817/';
+        var disqus_identifier = 'http://yoshitsugufujii.github.io/blog/2015/03/18/increment-in-file/';
+        var disqus_url = 'http://yoshitsugufujii.github.io/blog/2015/03/18/increment-in-file/';
         var disqus_script = 'embed.js';
     
     (function () {

@@ -4,7 +4,7 @@
     <title><![CDATA[Category: ruby | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/ruby/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2015-03-17T14:16:23+09:00</updated>
+    <updated>2015-03-18T12:29:38+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,79 @@
       </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[ファイル内の特定の行の数値をインクリメントする]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2015/03/18/increment-in-file/"/>
+        <updated>2015-03-18T12:00:03+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2015/03/18/increment-in-file</id>
+        <content type="html"><![CDATA[<p>yamlファイルの特定の数字をインクリメントしたくてスクリプトを書きました。
+データとしてはこんな感じです。</p>
+
+<pre><code class="yaml">data_one:
+  col_num: 1
+  name: hoge
+  options: fuga
+data_two:
+  col_num: 1
+  name: foo
+  options: baa
+data_three:
+  col_num: 1
+  name: foofoo
+  options: baabaa
+</code></pre>
+
+<!-- more -->
+
+
+<p>これのcol_numをインクリメントします。
+応用きくように正規表現でひっかかるようにしときましょう。</p>
+
+<pre><code class="ruby">if ARGV.size != 2
+  puts "\e[31m#{"[!]引数が不正です。第一引数にはファイルパスを、第二引数には正規表現を指定してください"}\e[0m"
+end
+
+file_name = ARGV[0]
+regexp    = Regexp.new(ARGV[1])
+
+# 念のためバックアップを取る
+`cp #{file_name} #{file_name}_bk`
+
+sequence = nil
+replaced_file_body = ""
+File.open(file_name) do |file|
+  file.read.each_line do |line|
+    replaced_file_body &lt;&lt; if line =~  regexp
+                            # 初回のsequenceのはじまり取得
+                            if sequence.nil?
+                              sequence = line.gsub(/[^0-9]/, "").to_i
+                              line
+                            else
+                              # sequenceをincrementしながら置換
+                              line.gsub(/\d.*/, (sequence += 1).to_s)
+                            end
+                          else
+                            line
+                          end
+  end
+
+end
+
+# 変換した内容で書き換え
+file = File.open(file_name, "w")
+file &lt;&lt; replaced_file_body
+file.close
+</code></pre>
+
+<p>使い方はこんな感じです
+<code>bash
+ruby increment_number_in_file.rb official_document_archive.yml col_num
+</code></p>
+
+<p>状況に応じて書き換えながらになると思いますが、よかったら使ってみてください。</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[関連先が存在していたら論理削除、関連先が存在していなかったら物理削除]]></title>
@@ -325,38 +398,6 @@ fomula  _valueを設定しましょう</p>
 #_もしくは
 sheet.rows[0].cells[0].value         = "=A1+B1"
 sheet.rows[0].cells[0].formula_value = "3"
-</code></pre>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[trueとfalseにrefinmentsを使ってメソッド追加]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2015/02/17/20150217112514/"/>
-        <updated>2015-02-17T11:25:00+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2015/02/17/20150217112514</id>
-        <content type="html"><![CDATA[<p>Rubyでモデルの値がtrueの場合は○。falseの場合は空文字を表示するメソッドが欲しかったのでrefimentsを使って実装したかったけどなかなかうまくいかない。<br/>
-trueはインスタンスだと思うんだけど何か普通のインスタンスと違うのだろうか。</p>
-
-<p>試行錯誤は省いて結論としてはこうしたらできました.</p>
-
-<pre><code class="ruby">module BooleanEx
-  refine TrueClass do
-    def true.to_circle
-      "○"
-    end
-  end
-
-  refine FalseClass do
-    def false.to_circle
-      ""
-    end
-  end
-end
-
-using BooleanEx
-
-true.to_circle # =&gt; "○"
-false.to_circle # =&gt; ""
 </code></pre>
 ]]></content>
     </entry>
