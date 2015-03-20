@@ -82,6 +82,159 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2014/01/24/20140124122500/">Terminalでsshするときに、接続先に応じて背景色を変える方法</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2014-01-24T12:25:00+09:00" pubdate><i class="fa fa-calendar"></i> Jan 24th, 2014</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/terminal/'>terminal</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>朝これを見た。</p>
+
+<p>iTermでsshするときに、接続先に応じて背景色を変える方法<br/>
+<a href="http://qiita.com/k_kinukawa/items/3e5665325a4954e33019">http://qiita.com/k_kinukawa/items/3e5665325a4954e33019</a></p>
+
+<p>いいなと思った。</p>
+
+<p>でも普段僕はMacの標準のTerminalを使っている。<br/>
+Terminalで同じこと出きないかなとぐぐったらすぐあった。</p>
+
+<p><a href="https://github.com/dlobraico/dotfiles/blob/master/bin/ssh-host-color">https://github.com/dlobraico/dotfiles/blob/master/bin/ssh-host-color</a></p>
+
+<p>でも僕は透過率が75%にしていて透過率を設定したいのだけど。<br/>
+osascriptで透過率の設定がよくわからない。</p>
+
+<p>というか普段ターミナルの色とかはProの設定を使っているのでProの使いたいなーって思ってググってprofileを切り替えられるようにした。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1">#!/bin/bash</span>
+</span><span class='line'><span class="c1">#</span>
+</span><span class='line'><span class="c1"># ssh into a machine and automatically set the background</span>
+</span><span class='line'><span class="c1"># color of Mac OS X Terminal depending on the hostname.</span>
+</span><span class='line'><span class="c1">#</span>
+</span><span class='line'><span class="c1"># Installation:</span>
+</span><span class='line'><span class="c1"># 1. Save this script to /some/bin/ssh-host-color</span>
+</span><span class='line'><span class="c1"># 2. chmod 755 /some/bin/ssh-host-color</span>
+</span><span class='line'><span class="c1"># 3. alias ssh=/some/bin/ssh-host-color</span>
+</span><span class='line'><span class="c1"># 4. Configure your host colors below.</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">set_term_bgcolor</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>   <span class="n">local</span> <span class="n">R</span><span class="o">=</span><span class="vg">$1</span>
+</span><span class='line'>   <span class="n">local</span> <span class="n">G</span><span class="o">=</span><span class="vg">$2</span>
+</span><span class='line'>   <span class="n">local</span> <span class="n">B</span><span class="o">=</span><span class="vg">$3</span>
+</span><span class='line'>   <span class="sr">/usr/</span><span class="n">bin</span><span class="o">/</span><span class="n">osascript</span> <span class="o">&lt;&lt;</span><span class="no">EOF</span>
+</span><span class='line'><span class="sh">tell application &quot;Terminal&quot;</span>
+</span><span class='line'><span class="sh">   tell window 0</span>
+</span><span class='line'><span class="sh">      set the background color to {$(($R*65535/255)), $(($G*65535/255)), $(($B*65535/255)), 32767}</span>
+</span><span class='line'><span class="sh">   end tell</span>
+</span><span class='line'><span class="sh">end tell</span>
+</span><span class='line'><span class="no">EOF</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">set_term_profile</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>   <span class="n">local</span> <span class="n">profile</span><span class="o">=</span><span class="vg">$1</span>
+</span><span class='line'>   <span class="sr">/usr/</span><span class="n">bin</span><span class="o">/</span><span class="n">osascript</span> <span class="o">-</span><span class="n">e</span> <span class="s2">&quot;tell application   &quot;</span><span class="no">Terminal</span>  <span class="s2">&quot; to  set current settings of first window to settings set   &quot;</span><span class="vg">$profile</span>  <span class="s2">&quot;&quot;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Host-specific background colors.</span>
+</span><span class='line'><span class="k">if</span> <span class="o">[[</span> <span class="s2">&quot;$@&quot;</span> <span class="o">=~</span> <span class="n">production1</span><span class="o">.</span><span class="n">com</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+</span><span class='line'>   <span class="n">set_term_profile</span> <span class="s2">&quot;HomeBrew&quot;</span>
+</span><span class='line'><span class="n">elif</span> <span class="o">[[</span> <span class="s2">&quot;$@&quot;</span> <span class="o">=~</span> <span class="n">production2</span><span class="o">.</span><span class="n">com</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+</span><span class='line'>   <span class="n">set_term_bgcolor</span> <span class="mi">0</span> <span class="mi">40</span> <span class="mi">0</span>
+</span><span class='line'><span class="n">fi</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">ssh</span> <span class="vg">$@</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Default background color.</span>
+</span><span class='line'><span class="n">set_term_profile</span> <span class="s2">&quot;Pro&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>set  <em>term  </em>profileでプロファイルの名前を渡せばそれに切り替わる。<br/>
+set  <em>bg  </em>colorも残してる。</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2014/01/10/20140110161334/">has_manyなassociationにメソッド追加</a>
         </h1>
     
@@ -829,126 +982,6 @@ Time  #all  _monthで取れる(要ActiveSupport)<br/>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2013/11/12/20131112000000/">自分のjquery力のなさに泣けてきた話</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2013-11-12T00:00:00+09:00" pubdate><i class="fa fa-calendar"></i> Nov 12th, 2013</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/jquery/'>jquery</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>jQuery力のなさに泣けてきた。</p>
-
-<p>data-hogeにdataでアクセスできるの知らんかった<br/>
-こんなのがある</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="s2">&quot;foo&quot;</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;bar&quot;</span> <span class="n">data</span><span class="o">-</span><span class="n">count</span><span class="o">=</span><span class="s2">&quot;1&quot;</span> <span class="n">data</span><span class="o">-</span><span class="n">url</span><span class="o">=</span><span class="s2">&quot;http://~.com&quot;</span><span class="o">&gt;&lt;</span><span class="sr">/a&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>いままではこうやって値を取得してた。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span><span class="p">(</span><span class="s1">&#39;#bar&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">attr</span><span class="p">(</span><span class="s2">&quot;data-count&quot;</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>dataってあったのね。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span><span class="p">(</span><span class="s1">&#39;#bar&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="s2">&quot;count&quot;</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>しかも要素に設定されているdata-属性も一気に取得もできる -  >
-<a href="http://stackoverflow.com/questions/4187032/get-list-of-data-attributes-using-javascript-jquery">http://stackoverflow.com/questions/4187032/get-list-of-data-attributes-using-javascript-jquery</a></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span><span class="p">(</span><span class="s1">&#39;#bar&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">data</span><span class="p">();</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>当然ajaxで一気に渡せる(※coffeescript)<br/>
-以下の例はリンクを押したら、どっかから何か取ってきて何かを追加してる雰囲気のやつ。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="err">$</span><span class="p">(</span><span class="n">document</span><span class="p">)</span><span class="o">.</span><span class="n">on</span> <span class="s1">&#39;click&#39;</span><span class="p">,</span> <span class="s1">&#39;#hoge&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">event</span><span class="p">)</span> <span class="o">-&gt;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="vg">$.</span><span class="n">ajax</span>
-</span><span class='line'>      <span class="ss">url</span><span class="p">:</span> <span class="s2">&quot;どっかのURL&quot;</span>
-</span><span class='line'>      <span class="ss">type</span><span class="p">:</span> <span class="s2">&quot;GET&quot;</span>
-</span><span class='line'>      <span class="ss">data</span><span class="p">:</span> <span class="err">$</span><span class="p">(</span><span class="err">@</span><span class="p">)</span><span class="o">.</span><span class="n">data</span><span class="p">()</span>
-</span><span class='line'>      <span class="ss">success</span><span class="p">:</span> <span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">-&gt;</span>
-</span><span class='line'>        <span class="err">$</span><span class="p">(</span><span class="s1">&#39;#bar&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="ss">error</span><span class="p">:</span> <span class="p">(</span><span class="no">XMLHttpRequest</span><span class="p">,</span> <span class="n">textStatus</span><span class="p">,</span> <span class="n">errorThrown</span><span class="p">)</span> <span class="o">-&gt;</span>
-</span><span class='line'>        <span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;XMLHttpRequest : &quot;</span> <span class="o">+</span> <span class="no">XMLHttpRequest</span><span class="o">.</span><span class="n">status</span><span class="p">)</span>
-</span><span class='line'>        <span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;textStatus : &quot;</span> <span class="o">+</span> <span class="n">textStatus</span><span class="p">)</span>
-</span><span class='line'>        <span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;errorThrown : &quot;</span> <span class="o">+</span> <span class="n">errorThrown</span><span class="o">.</span><span class="n">message</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>もっと早く出会いたかった・・・</p>
-
-<p>ちなみに今回はお手軽にタグのdata要素に情報もたしてそれを送信する例でしたが。<br/>
-フォームの値を全部キーと値のペアとかで送りたければ、serializeArrayが超ベンリです。こっちは知ってた！<br/>
-<a href="http://jquery-master.net/ajax/serialize.php">http://jquery-master.net/ajax/serialize.php</a></p>
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -1012,6 +1045,10 @@ Time  #all  _monthで取れる(要ActiveSupport)<br/>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2015/03/20/delete-duplicated-file/">重複している画像ファイルを削除(rubyで)</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2015/03/18/increment-in-file/">ファイル内の特定の行の数値をインクリメントする</a>
         </li>
         
@@ -1025,10 +1062,6 @@ Time  #all  _monthで取れる(要ActiveSupport)<br/>
         
         <li class="post">
             <a href="/blog/2015/03/12/invalid-css-after/">開発環境(development)で問題なかったのにdeployしようとしたらprecompileでこける。</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2015/03/10/githubpageniyi-xing-simasita/">GithubPageに移行しました</a>
         </li>
         
     </ul>

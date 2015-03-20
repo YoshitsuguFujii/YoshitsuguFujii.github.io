@@ -4,7 +4,7 @@
     <title><![CDATA[Category: ruby | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/ruby/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2015-03-20T10:34:54+09:00</updated>
+    <updated>2015-03-20T17:41:27+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,46 @@
       </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[重複している画像ファイルを削除(rubyで)]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2015/03/20/delete-duplicated-file/"/>
+        <updated>2015-03-20T17:27:16+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2015/03/20/delete-duplicated-file</id>
+        <content type="html"><![CDATA[<p>重複しているファイルを削除します。</p>
+
+<pre><code class="ruby delete_duplicate_file.rb">require 'digest/md5'
+
+file_hash = ARGV.inject(Hash.new) do |hash, file|
+              hash[file] = Digest::MD5.hexdigest(File.open(file, 'rb').read)
+              hash
+            end
+
+duplicated_md5 = file_hash.values.sort.inject(Hash.new) do |file_count, md5|
+                   file_count[md5] = file_hash.values.count(md5)
+                   file_count
+                 end.select do |md5, count|
+                   count &gt; 1
+                 end.keys
+
+duplicated_md5.map do |file_md5|
+  # 削除ではなく重複したファイルを他のディレクトリに退避したい場合などはここを変えてください。
+  File.unlink file_hash.invert[file_md5]
+end
+</code></pre>
+
+<!-- more -->
+
+
+<p>使い方
+<code>bash
+ruby delete_duplicate_file.rb ./*
+</code></p>
+
+<p>引数でブロブ渡したら勝手に展開されて渡されてきたので、そのままプログラム内で参照しちゃったけどひょっとしたらzshだけかも(?)<br/>
+もっとうまく書けるような気もするけど体力不足の今日の私の脳みそではこれが限界。</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[ファイル内の特定の行の数値をインクリメントする]]></title>
@@ -366,54 +406,6 @@ sheet.sheet_view.pane do |pane|
 end
 
 package.serialize('test.xlsx')
-</code></pre>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[Axlsxでエクセルファイル作成時に注意する点とかはまりどころとか]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2015/02/21/20150221171638/"/>
-        <updated>2015-02-21T17:16:00+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2015/02/21/20150221171638</id>
-        <content type="html"><![CDATA[<p>最近Railsを使う会社が増えてきて、2年前にRailsを扱う会社をエージェントに探してもらった時はなかなか見つからなかったんですが、今は楽に見つかりそうですね。
-そもそも登録した転職サイトがダメだったのかもしれないと思いますが。
-千葉でRuby、Railsメインでやってる会社ないかな。</p>
-
-<p>さてさて、ここのところずっと触っているAxlsxです。</p>
-
-<h3>型に気をつける</h3>
-
-<p>エクセルのセルが数値か文字列かで挙動が変わったりします。
-文字列型のカラムに&#8221;1000&#8221;とか入っていた場合、エクセルでは数値として認識されてしまってvloolupなどの関数が反応しないことがあります。
-その場合は明示的にtypeを指定しましょう。</p>
-
-<pre><code class="ruby">sheet.add_row(
-  [
-    "1000",
-    1000,
-  ], types: [:string, :float])
-)
-
-# もしくは
-sheet.rows[0].cells[0].type = [:string]
-</code></pre>
-
-<p>typesに設定できるシンボル
-<a href="http://www.rubydoc.info/github/randym/axlsx/master/Axlsx/Cell:type">Method: Axlsx::Cell  #type — Documentation for randym/axlsx
-(master)</a>
-[:date, :time, :float, :integer, :string, :boolean]</p>
-
-<h3>エクセルの関数を設定してダウンロード</h3>
-
-<p>そのままアップロードすると関数による値の設定が行われません。
-おそらく数式はエクセルを開いた時にエクセル側で計算されるので、エクセルを一回も開かずにアップロードすると値が設定されていないことになるのかと思います
-fomula  _valueを設定しましょう</p>
-
-<pre><code class="ruby">sheet.add_row [1, 2, '=A1+B1'], :formula_values =&gt; [nil, nil, 3]
-
-#_もしくは
-sheet.rows[0].cells[0].value         = "=A1+B1"
-sheet.rows[0].cells[0].formula_value = "3"
 </code></pre>
 ]]></content>
     </entry>

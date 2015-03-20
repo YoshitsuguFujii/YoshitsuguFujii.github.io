@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2015-03-20T10:34:54+09:00</updated>
+    <updated>2015-03-20T17:41:27+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,67 @@
     </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[重複している画像ファイルを削除(rubyで)]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2015/03/20/delete-duplicated-file/"/>
+        <updated>2015-03-20T17:27:16+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2015/03/20/delete-duplicated-file</id>
+        <content type="html"><![CDATA[<p>重複しているファイルを削除します。</p>
+
+<figure class='code'><figcaption><span>delete_duplicate_file.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;digest/md5&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">file_hash</span> <span class="o">=</span> <span class="no">ARGV</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="no">Hash</span><span class="o">.</span><span class="n">new</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="nb">hash</span><span class="p">,</span> <span class="n">file</span><span class="o">|</span>
+</span><span class='line'>              <span class="nb">hash</span><span class="o">[</span><span class="n">file</span><span class="o">]</span> <span class="o">=</span> <span class="no">Digest</span><span class="o">::</span><span class="no">MD5</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">)</span>
+</span><span class='line'>              <span class="nb">hash</span>
+</span><span class='line'>            <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">duplicated_md5</span> <span class="o">=</span> <span class="n">file_hash</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">sort</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="no">Hash</span><span class="o">.</span><span class="n">new</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">file_count</span><span class="p">,</span> <span class="n">md5</span><span class="o">|</span>
+</span><span class='line'>                   <span class="n">file_count</span><span class="o">[</span><span class="n">md5</span><span class="o">]</span> <span class="o">=</span> <span class="n">file_hash</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">md5</span><span class="p">)</span>
+</span><span class='line'>                   <span class="n">file_count</span>
+</span><span class='line'>                 <span class="k">end</span><span class="o">.</span><span class="n">select</span> <span class="k">do</span> <span class="o">|</span><span class="n">md5</span><span class="p">,</span> <span class="n">count</span><span class="o">|</span>
+</span><span class='line'>                   <span class="n">count</span> <span class="o">&gt;</span> <span class="mi">1</span>
+</span><span class='line'>                 <span class="k">end</span><span class="o">.</span><span class="n">keys</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">duplicated_md5</span><span class="o">.</span><span class="n">map</span> <span class="k">do</span> <span class="o">|</span><span class="n">file_md5</span><span class="o">|</span>
+</span><span class='line'>  <span class="c1"># 削除ではなく重複したファイルを他のディレクトリに退避したい場合などはここを変えてください。</span>
+</span><span class='line'>  <span class="no">File</span><span class="o">.</span><span class="n">unlink</span> <span class="n">file_hash</span><span class="o">.</span><span class="n">invert</span><span class="o">[</span><span class="n">file_md5</span><span class="o">]</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<!-- more -->
+
+
+<p>使い方</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>ruby delete_duplicate_file.rb ./*
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>引数でブロブ渡したら勝手に展開されて渡されてきたので、そのままプログラム内で参照しちゃったけどひょっとしたらzshだけかも(?)<br/>
+もっとうまく書けるような気もするけど体力不足の今日の私の脳みそではこれが限界。</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[ファイル内の特定の行の数値をインクリメントする]]></title>
@@ -1359,100 +1420,6 @@ Unknown line indicator</p>
 
 
 
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[railsで任意のタイミングで処理を開始]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2014/11/18/20141118110832/"/>
-        <updated>2014-11-18T11:08:00+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2014/11/18/20141118110832</id>
-        <content type="html"><![CDATA[<p>おかあさんといっしょを娘が見るので、毎朝のテレビチャンネルはEテレです。</p>
-
-<p>さてrailsでapp/model/concerns以下のモジュールを勝手にapp/modelにincludeしたいと考えました。<br/>
-命名規則でファイルを拾って、includeすることにします。<br/>
-例えば以下のファイル名をつけた場合に</p>
-
-<p>app/model/user.rb<br/>
-app/model/user  <em>auto  </em>load  _concern.rb</p>
-
-<p>userクラスに自動でuser  <em>auto  </em>load  _concern.rbの内容がincludeされる感じです。</p>
-
-<p>config/initializerに置きます。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="sx">%w(models)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">elem</span><span class="o">|</span>
-</span><span class='line'>    <span class="no">Pathname</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="no">Rails</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;app&quot;</span><span class="p">,</span> <span class="n">elem</span><span class="p">,</span> <span class="s2">&quot;concerns&quot;</span><span class="p">,</span> <span class="s2">&quot;*&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">file</span><span class="o">|</span>
-</span><span class='line'>      <span class="k">if</span> <span class="n">file</span><span class="o">.</span><span class="n">file?</span>
-</span><span class='line'>        <span class="n">file</span><span class="o">.</span><span class="n">basename</span><span class="o">.</span><span class="n">to_s</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="sr">/(.*)(_auto_load_concern.rb)$/</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">class_name</span><span class="o">|</span>
-</span><span class='line'>          <span class="k">if</span> <span class="n">class_name</span><span class="o">.</span><span class="n">present?</span>
-</span><span class='line'>            <span class="n">model</span> <span class="o">=</span> <span class="n">class_name</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">classify</span><span class="o">.</span><span class="n">constantize</span>
-</span><span class='line'>            <span class="n">model</span><span class="o">.</span><span class="n">class_eval</span> <span class="p">{</span>  <span class="kp">include</span> <span class="n">file</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="s2">&quot;.rb&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to_s</span><span class="o">.</span><span class="n">classify</span><span class="o">.</span><span class="n">constantize</span> <span class="p">}</span>
-</span><span class='line'>          <span class="k">end</span>
-</span><span class='line'>        <span class="k">end</span>
-</span><span class='line'>      <span class="k">end</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>でもこのプロジェクトにはmodelクラスを拡張するプログラムがlib下にあります。<br/>
-それを読み込まない限りはmodelを参照するとエラーになるようになっています(上記class  _name[0].classify.constantizeでエラーとなる)</p>
-
-<p>そこでlib以下のそのプログラム群を読み込んだ後に読み込むようにしたいと思います。</p>
-
-<p>まず先ほどのコードを以下のようにActiveSupport.on  _loadで囲みます。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">ActiveSupport</span><span class="o">.</span><span class="n">on_load</span><span class="p">(</span><span class="ss">:hoge</span><span class="p">)</span> <span class="k">do</span>
-</span><span class='line'>  <span class="sx">%w(models)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">elem</span><span class="o">|</span>
-</span><span class='line'>    <span class="no">Pathname</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="no">Rails</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;app&quot;</span><span class="p">,</span> <span class="n">elem</span><span class="p">,</span> <span class="s2">&quot;concerns&quot;</span><span class="p">,</span> <span class="s2">&quot;*&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">file</span><span class="o">|</span>
-</span><span class='line'>      <span class="k">if</span> <span class="n">file</span><span class="o">.</span><span class="n">file?</span>
-</span><span class='line'>        <span class="n">file</span><span class="o">.</span><span class="n">basename</span><span class="o">.</span><span class="n">to_s</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="sr">/(.*)(_auto_load_concern.rb)$/</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">class_name</span><span class="o">|</span>
-</span><span class='line'>          <span class="k">if</span> <span class="n">class_name</span><span class="o">.</span><span class="n">present?</span>
-</span><span class='line'>            <span class="n">model</span> <span class="o">=</span> <span class="n">class_name</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">classify</span><span class="o">.</span><span class="n">constantize</span>
-</span><span class='line'>            <span class="n">model</span><span class="o">.</span><span class="n">class_eval</span> <span class="p">{</span>  <span class="kp">include</span> <span class="n">file</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="s2">&quot;.rb&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to_s</span><span class="o">.</span><span class="n">classify</span><span class="o">.</span><span class="n">constantize</span> <span class="p">}</span>
-</span><span class='line'>          <span class="k">end</span>
-</span><span class='line'>        <span class="k">end</span>
-</span><span class='line'>      <span class="k">end</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>lib下のプログラム群で処理が終わった後に以下を差し込みます。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="no">ActiveSupport</span><span class="o">.</span><span class="n">run_load_hooks</span> <span class="ss">:hoge</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>そうするとrun  <em>load  </em>hooksが呼ばれたタイミングでhogeがついていてるActiveSupport.on  _loadのブロック処理が開始されます。</p>
 ]]></content>
     </entry>
     
