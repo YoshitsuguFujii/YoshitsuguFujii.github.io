@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2015-03-18T12:29:38+09:00</updated>
+    <updated>2015-03-20T10:34:54+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -131,6 +131,35 @@
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'>ruby increment_number_in_file.rb official_document_archive.yml col_num
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>すると結果こうなります。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">data_one</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">col_num</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">1</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">hoge</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">options</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">fuga</span>
+</span><span class='line'><span class="l-Scalar-Plain">data_two</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">col_num</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">2</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">foo</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">options</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">baa</span>
+</span><span class='line'><span class="l-Scalar-Plain">data_three</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">col_num</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">3</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">foofoo</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">options</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">baabaa</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
