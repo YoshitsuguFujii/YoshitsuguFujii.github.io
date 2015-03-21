@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2015-03-20T17:41:27+09:00</updated>
+    <updated>2015-03-21T19:20:57+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,30 @@
     </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[今日 嫁にホワイトデーのお返しをしたよ]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2015/03/21/mouse-pad/"/>
+        <updated>2015-03-21T12:16:35+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2015/03/21/mouse-pad</id>
+        <content type="html"><![CDATA[<p>嫁のホワイトデーのお返しがようやく届きました。</p>
+
+<p>かわいいマウスパッドというリクエストでしたが、探したけどかわいいマウスパッドがあまりなくどうしたものかと思ってましたが、
+商品を自由にカスタマイズできる <a href="www.zazzle.co.jp">Zazzle</a>というサービスがとても良さそうだったのでこれを利用しました。</p>
+
+<p>オーダーが3月9日。銀行振込も同日に行いました。<br/>
+振込確認したので作りますメールが12日にきて、13日に発送しますメールがきました。<br/>
+アメリカからの発送なので少し日数がたった3月16日に家に届きました。<br/>
+でも実際には仕事で受け取れず、受け取ったのは今日です(^^;)</p>
+
+<p>こんな感じのマウスパッドが届きました！
+素晴らしい出来！</p>
+
+<p><img src="http://yoshitsugufujii.github.io/images/for_post/20150321_011205565_iOS.jpg"></p>
+
+<p>何か記念品を贈りたくなったらまた利用しようと思います。</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[重複している画像ファイルを削除(rubyで)]]></title>
@@ -1356,70 +1380,6 @@ after  _remove<br/>
 
 <p>ちなみにでコメントです。<br/>
 という書き方もできます。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[slimbarsを使ったらUnknown line indicator]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2014/11/21/20141121134825/"/>
-        <updated>2014-11-21T13:48:00+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2014/11/21/20141121134825</id>
-        <content type="html"><![CDATA[<p>勉強がてらRailsのプロジェクトでBackBone.jsでテンプレートにはhandlebarsを使って処理を書いてみました。<br/>
-viewがslimなのでslimbarsで書いてます。</p>
-
-<p>変数を出力しようとしたら以下のエラー<br/>
-Unknown line indicator</p>
-
-<p>viewファイルはこんな感じ</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">.</span><span class="n">hoge</span>
-</span><span class='line'>  <span class="o">.</span><span class="n">fuga</span>
-</span><span class='line'>    <span class="p"></span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>ただしくはこう</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">.</span><span class="n">hoge</span>
-</span><span class='line'>  <span class="o">.</span><span class="n">fuga</span>
-</span><span class='line'>    <span class="o">|</span> <span class="p"></span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>hamlbarsではこう書けてしまうので、slimで書く場合は注意が必要だなと思いました。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">.</span><span class="n">hoge</span>
-</span><span class='line'>  <span class="o">.</span><span class="n">fuga</span>
-</span><span class='line'>    <span class="p"></span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>小ネタも小ネタでした。</p>
-
-<p>しかしeachの中ではslimの記法使えないのかな？<br/>
-こうやらないと出力されない・・・</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">select</span>
-</span><span class='line'>  <span class="o">|</span> <span class="p"></span>
-</span><span class='line'>    <span class="o">&lt;</span><span class="n">option</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="o">&gt;</span><span class="p"></span><span class="o">&lt;</span><span class="sr">/option&gt;</span>
-</span><span class='line'><span class="sr">  | </span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
 ]]></content>
     </entry>
     
