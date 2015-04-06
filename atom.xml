@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2015-04-03T14:29:03+09:00</updated>
+    <updated>2015-04-06T13:31:43+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,42 @@
     </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[sidekiqでcould not obtain a database connection]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2015/04/06/sidekiq-has-connection-over-db-pool-size/"/>
+        <updated>2015-04-06T13:13:17+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2015/04/06/sidekiq-has-connection-over-db-pool-size</id>
+        <content type="html"><![CDATA[<p>sidekiqを運用していたら以下のようなエラーが発生</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>could not obtain a database connection within 5.000 seconds (waited 5.000 seconds)  
+</span><span class='line'>activerecord-4.1.4/lib/active_record/connection_adapters/abstract/connection_pool.rb:190:in `block in wait_poll'  </span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<!-- more -->
+
+
+<p>sidekiqのconcurrencyの設定が25でdatabase.ymlのpoolサイズが5でした。<br/>
+sidekiqのconcurrencyとpoolは揃えるのがデフォみたいです。</p>
+
+<p><a href="http://railscasts.com/episodes/366-sidekiq?language=ja&amp;view=asciicast">Sidekiq-RailsCast</a></p>
+
+<blockquote><p>データベースの設定ファイルのプールサイズの上限にも気をつけるべきです。
+これはデフォルトでは5になっているので、データベースに同時に接続できるスレッド数は5までです。この制限を上げておく方がいいでしょう。
+Sidekiqはデフォルトでは25個までのジョブを同時に実行できるので、poolオプションを同じ数に設定しておくのがいいでしょう。
+ただし、最適値は設定によって変わります。</p></blockquote>
+
+<p>対策としてはこちらの記事のSidekiqの項が参考になるかと思います。<br/>
+<a href="https://jeremy.wordpress.com/2014/06/02/activerecord-connection-pool-unicorn-sidekiq://jeremy.wordpress.com/2014/06/02/activerecord-connection-pool-unicorn-sidekiq/">How to use a different ActiveRecord connection pool between Unicorn and Sidekiq?</a></p>
+
+<p>こちらはDatabase.ymlにsidekiq用の設定を作ってconfig/initializerでその設定を読み込むというものですね。<br/>
+色々な所に落とし穴はあるものです。</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[同一のselectボックスを複数設置した場合に、選択された項目を他のプルダウンから削除するjs]]></title>
@@ -1332,77 +1368,6 @@ delete  </em>recordsメソッドはlib/active  <em>record/associations/collectio
 before  </em>remove<br/>
 after  _remove<br/>
 ってコールバックが発生するんですね。知らなかった。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[Nokogiriを使って部分的にhtmlを編集する]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2014/12/05/20141205115627/"/>
-        <updated>2014-12-05T11:56:00+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2014/12/05/20141205115627</id>
-        <content type="html"><![CDATA[<p>Nokogiriを使ってhelperメソッドで特定のinputに属性(クラス名)を追加したくなったのでやってみました。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">html</span> <span class="o">=</span> <span class="o">&lt;&lt;</span><span class="no">HTML</span>
-</span><span class='line'><span class="sh">&lt;div&gt;</span>
-</span><span class='line'><span class="sh">  &lt;input id=&quot;hoge&quot; class=&quot;field&quot;&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">HTML</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">doc</span> <span class="o">=</span> <span class="no">Nokogiri</span><span class="o">::</span><span class="no">HTML</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">html</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">doc</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s2">&quot;input#hoge&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">input</span><span class="o">|</span>
-</span><span class='line'>  <span class="n">input</span><span class="o">[</span><span class="s1">&#39;class&#39;</span><span class="o">]</span> <span class="o">+=</span> <span class="s2">&quot; has_error&quot;</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">doc</span><span class="o">.</span><span class="n">to_html</span> <span class="c1"># =&gt; &quot;&lt;!DOCTYPE html PUBLIC   &quot;-//W3C//DTD HTML 4.0 Transitional//EN  &quot;   &quot;http://www.w3.org/TR/REC-html40/loose.dtd  &quot;&gt;  n&lt;html&gt;&lt;body&gt;  n&lt;div&gt;  n  &lt;input class=  &quot;field  &quot;&gt;  n  n&lt;/body&gt;&lt;/html&gt;  n&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Nokogiri::HTML.parseだとDOCTYPEとか  <html  >とか余計なものがついてくる。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">html</span> <span class="o">=</span> <span class="o">&lt;&lt;</span><span class="no">HTML</span>
-</span><span class='line'><span class="sh">&lt;div&gt;</span>
-</span><span class='line'><span class="sh">  &lt;input id=&quot;hoge&quot; class=&quot;field&quot;&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">HTML</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">doc</span> <span class="o">=</span> <span class="no">Nokogiri</span><span class="o">::</span><span class="no">HTML</span><span class="o">::</span><span class="no">DocumentFragment</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">html</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">doc</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s2">&quot;input#hoge&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">input</span><span class="o">|</span>
-</span><span class='line'>  <span class="n">input</span><span class="o">[</span><span class="s1">&#39;class&#39;</span><span class="o">]</span> <span class="o">+=</span> <span class="s2">&quot; has_error&quot;</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">doc</span><span class="o">.</span><span class="n">to_html</span> <span class="c1"># =&gt; &quot;&lt;div&gt;  n  &lt;input id=  &quot;hoge  &quot; class=  &quot;field has_error  &quot;&gt;  n  n&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>そういう場合はDocumentFragmentを使うと部分的にhtmlを使える。</p>
 ]]></content>
     </entry>
     
