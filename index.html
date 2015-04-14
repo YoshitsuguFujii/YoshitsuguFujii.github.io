@@ -82,7 +82,7 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
-            <a href="/blog/2015/04/06/sidekiq-has-connection-over-db-pool-size/">sidekiqでcould not obtain a database connection</a>
+            <a href="/blog/2015/04/14/html5shiv-respond-with-slim/">RailsでIE8の対応(with rails assets)</a>
         </h1>
     
 
@@ -95,7 +95,7 @@
 
 
 
-    <time class="article__date pull-left" datetime="2015-04-06T13:13:17+09:00" pubdate><i class="fa fa-calendar"></i> Apr 6th, 2015</time>
+    <time class="article__date pull-left" datetime="2015-04-14T11:30:58+09:00" pubdate><i class="fa fa-calendar"></i> Apr 14th, 2015</time>
 
 
 
@@ -107,7 +107,7 @@
         <ul class="unstyled">
         
             
-                <li><a class='category' href='/blog/categories/sidekiq/'>sidekiq</a></li>
+                <li><a class='category' href='/blog/categories/ruby-ruby-on-rails/'>ruby ruby on rails</a></li>
             
             
         </ul>
@@ -123,18 +123,21 @@
 
 
     <div class="article__content clearfix">
-        <p>sidekiqを運用していたら以下のようなエラーが発生</p>
+        <p>IE8も推奨ブラウザに含めるプロジェクトに関わることになったのでrails-assetsを使ってIE8に対応していきたいと思います。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>could not obtain a database connection within 5.000 seconds (waited 5.000 seconds)  
-</span><span class='line'>activerecord-4.1.4/lib/active_record/connection_adapters/abstract/connection_pool.rb:190:in `block in wait_poll'  </span></code></pre></td></tr></table></div></figure>
+<p>やることとしては以下の感じですかね。</p>
+
+<ul>
+<li>jquery1.x系の導入(今回は1.9.1)</li>
+<li>html5shiv.jsの導入</li>
+<li>respond.jsの導入</li>
+</ul>
 
 
+<p>テンプレートエンジンはslimを使います。</p>
 
 
-
-        <a class="btn pull-right" href="/blog/2015/04/06/sidekiq-has-connection-over-db-pool-size/">Read on &rarr;</a>
+        <a class="btn pull-right" href="/blog/2015/04/14/html5shiv-respond-with-slim/">Read on &rarr;</a>
     </div>
 
 
@@ -840,7 +843,7 @@
     <ul class="divided">
         
         <li class="post">
-            <a href="/blog/2015/04/06/sidekiq-has-connection-over-db-pool-size/">sidekiqでcould not obtain a database connection</a>
+            <a href="/blog/2015/04/14/html5shiv-respond-with-slim/">RailsでIE8の対応(with rails assets)</a>
         </li>
         
         <li class="post">

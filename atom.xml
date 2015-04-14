@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2015-04-06T13:31:43+09:00</updated>
+    <updated>2015-04-14T11:50:40+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -14,38 +14,77 @@
 
     
     <entry>
-        <title type="html"><![CDATA[sidekiqでcould not obtain a database connection]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2015/04/06/sidekiq-has-connection-over-db-pool-size/"/>
-        <updated>2015-04-06T13:13:17+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2015/04/06/sidekiq-has-connection-over-db-pool-size</id>
-        <content type="html"><![CDATA[<p>sidekiqを運用していたら以下のようなエラーが発生</p>
+        <title type="html"><![CDATA[RailsでIE8の対応(with rails assets)]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2015/04/14/html5shiv-respond-with-slim/"/>
+        <updated>2015-04-14T11:30:58+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2015/04/14/html5shiv-respond-with-slim</id>
+        <content type="html"><![CDATA[<p>IE8も推奨ブラウザに含めるプロジェクトに関わることになったのでrails-assetsを使ってIE8に対応していきたいと思います。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>could not obtain a database connection within 5.000 seconds (waited 5.000 seconds)  
-</span><span class='line'>activerecord-4.1.4/lib/active_record/connection_adapters/abstract/connection_pool.rb:190:in `block in wait_poll'  </span></code></pre></td></tr></table></div></figure>
+<p>やることとしては以下の感じですかね。</p>
+
+<ul>
+<li>jquery1.x系の導入(今回は1.9.1)</li>
+<li>html5shiv.jsの導入</li>
+<li>respond.jsの導入</li>
+</ul>
 
 
-
+<p>テンプレートエンジンはslimを使います。</p>
 
 <!-- more -->
 
 
-<p>sidekiqのconcurrencyの設定が25でdatabase.ymlのpoolサイズが5でした。<br/>
-sidekiqのconcurrencyとpoolは揃えるのがデフォみたいです。</p>
+<p>まずはGemfile</p>
 
-<p><a href="http://railscasts.com/episodes/366-sidekiq?language=ja&amp;view=asciicast">Sidekiq-RailsCast</a></p>
+<figure class='code'><figcaption><span>Gemfile</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Slim</span>
+</span><span class='line'><span class="n">gem</span> <span class="s2">&quot;slim-rails&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">source</span> <span class="s1">&#39;https://rails-assets.org&#39;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;rails-assets-jquery&#39;</span><span class="p">,</span> <span class="s2">&quot;1.9.1&quot;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># for ie8</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;rails-assets-html5shiv&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;rails-assets-respond&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<blockquote><p>データベースの設定ファイルのプールサイズの上限にも気をつけるべきです。
-これはデフォルトでは5になっているので、データベースに同時に接続できるスレッド数は5までです。この制限を上げておく方がいいでしょう。
-Sidekiqはデフォルトでは25個までのジョブを同時に実行できるので、poolオプションを同じ数に設定しておくのがいいでしょう。
-ただし、最適値は設定によって変わります。</p></blockquote>
 
-<p>対策としてはこちらの記事のSidekiqの項が参考になるかと思います。<br/>
-<a href="https://jeremy.wordpress.com/2014/06/02/activerecord-connection-pool-unicorn-sidekiq://jeremy.wordpress.com/2014/06/02/activerecord-connection-pool-unicorn-sidekiq/">How to use a different ActiveRecord connection pool between Unicorn and Sidekiq?</a></p>
+<p><code>bundle install</code>したらconfig/initializers/assets.rbに以下を追記</p>
 
-<p>こちらはDatabase.ymlにsidekiq用の設定を作ってconfig/initializerでその設定を読み込むというものですね。<br/>
-色々な所に落とし穴はあるものです。</p>
+<figure class='code'><figcaption><span>config/initializers/assets.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Rails</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">assets</span><span class="o">.</span><span class="n">precompile</span> <span class="o">+=</span> <span class="sx">%w(html5shiv.js respond.js)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>そしてapp/views/layouts/application.html.slimで読み込みます。</p>
+
+<figure class='code'><figcaption><span>app/views/layouts/application.html.slim</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='haml'><span class='line'><span class="c">/</span><span class="cs">[if lt IE 9]</span><span class="c"></span>
+</span><span class='line'>  <span class="p">=</span> <span class="n">javascript_include_tag</span> <span class="s2">&quot;html5shiv&quot;</span>
+</span><span class='line'>  <span class="p">=</span> <span class="n">javascript_include_tag</span> <span class="s2">&quot;respond&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>最後に<code>app/assets/javascripts/application.js</code>でjqueryを読み込みます</p>
+
+<figure class='code'><figcaption><span>app/assets/javascripts/application.js</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="c1">//= require jquery</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>以上でhtml5shiv.jsとrespond.js、そしてIE8に対応しているjquery1.x版の導入がrails-assetsにて完了です。</p>
 ]]></content>
     </entry>
     
