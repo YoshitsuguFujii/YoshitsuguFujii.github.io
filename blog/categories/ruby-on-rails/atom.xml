@@ -4,7 +4,7 @@
     <title><![CDATA[Category: ruby on rails | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/ruby-on-rails/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2015-04-14T11:50:40+09:00</updated>
+    <updated>2015-04-16T11:38:29+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,52 @@
       </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[Railsでbootswatch導入(with rails assets)]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2015/04/16/bootswatch-with-rails-assets/"/>
+        <updated>2015-04-16T11:01:57+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2015/04/16/bootswatch-with-rails-assets</id>
+        <content type="html"><![CDATA[<p>管理画面を作るにあたって<a href="http://getbootstrap.com/">bootstrap</a>だけで1から作るのもしんどかったので、フリーのbootstrap用テンプレート<a href="https://bootswatch.com/">bootswatch</a>を使って管理画面を作ってみたいと思います。</p>
+
+<p>導入には以下4パターンがあるかと思います。</p>
+
+<ol>
+<li><a href="https://github.com/maxim/bootswatch-rails">bootswatch-rails</a>などのGemを使う</li>
+<li>bowerで入れる</li>
+<li>rails-assetsで入れる</li>
+<li>サイトからダウンロードしてassets下に配置する</li>
+</ol>
+
+
+<p>今回はrails-assetsで導入してみました。</p>
+
+<!-- more -->
+
+
+<p><a href="https://rails-assets.org/">Rails Assets</a>で検索するといくつか候補が出てきます。<br/>
+今回はrails-assets-bootswatch-sassを使ってみます</p>
+
+<pre><code class="ruby Gemfile">source 'https://rails-assets.org' do
+  gem 'rails-assets-bootstrap-sass-official'
+  gem 'rails-assets-bootswatch-sass'
+end
+</code></pre>
+
+<p>そしてapplication.cssをapplication.css.scssにリネームして以下を追加です。</p>
+
+<pre><code class="css app/assets/stylesheets/application.css.scss">$icon-font-path: "bootstrap-sass-official/";
+
+@import "bootstrap-sass-official";
+@import "bootswatch-sass/flatly/variables";
+@import "bootswatch-sass/flatly/bootswatch";
+@import "bootswatch-sass/flatly/bootstrap";
+</code></pre>
+
+<p>これでサイトがbootswatchのテーマが適用された状態(今回はフラットデザインのflatlyを選びました)となります。
+簡単ですね。</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[cacheのキーを削除]]></title>
@@ -151,30 +197,6 @@ f.fields_for :content_details, nil
 </code></pre>
 
 <p>ってやって、editの時だけ@detailsに値を入れるとうまく変更したいレコードのみ抽出できて、処理を切り分けられる気がします。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[arel_table使いながら、たくさんの条件を配列にいれつつ検索]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2013/10/29/20131029210140/"/>
-        <updated>2013-10-29T21:01:00+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2013/10/29/20131029210140</id>
-        <content type="html"><![CDATA[<p>何を言っているんでしょう。<br/>
-コード見たほうが早いですかね</p>
-
-<pre><code class="ruby"># andで条件組み立て
-def condition
-  cons = []
-  cons &lt;&lt; User.arel_table[:name].matches("%hoge%") 
-  cons &lt;&lt; User.arel_table[:nick_name].matches("%fuga%")
-  cons.inject(&amp;:and)
-end
-
-user.where(condition)
-</code></pre>
-
-<p>配列の結合で一瞬悩んだのでメモ。<br/>
-andをorにすると、どれかに一致するという条件になります。</p>
 ]]></content>
     </entry>
     
