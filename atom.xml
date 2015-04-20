@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2015-04-16T11:38:29+09:00</updated>
+    <updated>2015-04-20T19:39:47+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,52 @@
     </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[pecoでctrl+jとctrl+kで上下移動]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2015/04/20/peco-selectup-selectdown/"/>
+        <updated>2015-04-20T19:31:45+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2015/04/20/peco-selectup-selectdown</id>
+        <content type="html"><![CDATA[<p>pecoをランチャーとして使っているのですが、<br/>
+メニューを呼び出した後ホームポジションから手を離して矢印キーに指を運ぶのが嫌でctrl+jとctrl+kで移動できないかと思っていたら会社の人にやり方を教えてもらいできました。</p>
+
+<p>具体的にはpecoの<a href="https://github.com/peco/peco#keymaps">キーマップ</a>を使います</p>
+
+<!-- more -->
+
+
+<p>keymap設定用にconfig.jsonを作成します。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">cd</span> ~/
+</span><span class='line'>mkdir .peco
+</span><span class='line'>vim ~/.peco/config.json
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>以下の内容で保存します。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="nt">&quot;Keymap&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nt">&quot;C-j&quot;</span><span class="p">:</span> <span class="s2">&quot;peco.SelectDown&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="nt">&quot;C-k&quot;</span><span class="p">:</span> <span class="s2">&quot;peco.SelectUp&quot;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>これでctrl+jで下に、ctrl+kで上に移動するようになっているはずです。
+簡単！</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[Railsでbootswatch導入(with rails assets)]]></title>
@@ -1318,24 +1364,6 @@ sheet.sheet  _protection.password<br/>
 
 <p>困ったときはインタラクティブにどんなメソッドがあるかどんな値が設定されているか確認しながら<br/>
 試しながらやることで問題が解決できるというのは素晴らしいと思いました。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[特定のキーを除いたhashを返す]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2014/12/09/20141209150940/"/>
-        <updated>2014-12-09T15:09:00+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2014/12/09/20141209150940</id>
-        <content type="html"><![CDATA[<p>今までdeleteでチクチク消したり、rejectで該当キーをひっかけてhash作り直しリしてました。</p>
-
-<p>exceptなんてあったんですね。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="p">{</span><span class="nb">name</span><span class="p">:</span> <span class="s2">&quot;藤井&quot;</span><span class="p">,</span> <span class="ss">age</span><span class="p">:</span> <span class="mi">34</span><span class="p">,</span> <span class="ss">job</span><span class="p">:</span> <span class="s2">&quot;developer&quot;</span><span class="p">}</span><span class="o">.</span><span class="n">except</span><span class="p">(</span><span class="ss">:age</span><span class="p">)</span> <span class="c1"># =&gt; { :name =&gt; &quot;藤井&quot;, :job =&gt; &quot;developer&quot; }</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
 ]]></content>
     </entry>
     

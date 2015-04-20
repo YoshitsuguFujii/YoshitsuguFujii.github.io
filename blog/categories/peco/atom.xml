@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+    <title><![CDATA[Category: peco | なんとなく日々徒然と]]></title>
+    <link href="http://yoshitsugufujii.github.io/blog/categories/peco/atom.xml" rel="self"/>
+    <link href="http://yoshitsugufujii.github.io/"/>
+    <updated>2015-04-20T19:39:47+09:00</updated>
+    <id>http://yoshitsugufujii.github.io/</id>
+    <author>
+        <name><![CDATA[Yoshitsugu Fujii]]></name>
+        
+      </author>
+    <generator uri="http://octopress.org/">Octopress</generator>
+
+    
+    <entry>
+        <title type="html"><![CDATA[pecoでctrl+jとctrl+kで上下移動]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2015/04/20/peco-selectup-selectdown/"/>
+        <updated>2015-04-20T19:31:45+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2015/04/20/peco-selectup-selectdown</id>
+        <content type="html"><![CDATA[<p>pecoをランチャーとして使っているのですが、<br/>
+メニューを呼び出した後ホームポジションから手を離して矢印キーに指を運ぶのが嫌でctrl+jとctrl+kで移動できないかと思っていたら会社の人にやり方を教えてもらいできました。</p>
+
+<p>具体的にはpecoの<a href="https://github.com/peco/peco#keymaps">キーマップ</a>を使います</p>
+
+<!-- more -->
+
+
+<p>keymap設定用にconfig.jsonを作成します。</p>
+
+<pre><code class="bash">cd ~/
+mkdir .peco
+vim ~/.peco/config.json
+</code></pre>
+
+<p>以下の内容で保存します。</p>
+
+<pre><code class="json">{
+    "Keymap": {
+        "C-j": "peco.SelectDown",
+        "C-k": "peco.SelectUp"
+    }
+}
+</code></pre>
+
+<p>これでctrl+jで下に、ctrl+kで上に移動するようになっているはずです。
+簡単！</p>
+]]></content>
+    </entry>
+    
+</feed>
