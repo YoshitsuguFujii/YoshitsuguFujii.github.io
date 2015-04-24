@@ -62,3 +62,18 @@ end
 ```
   
 とかやると日本語かされた時刻も選択可能なカレンダーがいい感じに表示されるはずです。
+  
+### 2014/04/25追記  
+  
+ちなみに書式設定をいじれば時刻選択なしの日付のみのdatepickerとしても使えます。  
+  
+```js
+  $(".datepicker").datetimepicker({
+    format: "YYYY/MM/DD",
+    showClear: true,
+    showClose: true,
+    locale: 'ja'
+   });
+```
+  
+非常にいいですね。
