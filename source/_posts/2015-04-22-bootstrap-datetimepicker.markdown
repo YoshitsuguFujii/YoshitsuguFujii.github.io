@@ -11,7 +11,7 @@ categories: [ruby,ruby on rails,bootswatch]
 今回の案件では時刻まで絞り込みたいというお話だったのでdatetimepickerを導入してみました。  
 
 
-こちらを使いいます。かなり高機能な上に日本語化まで対応できる優れもの。  
+こちらを使います。かなり高機能な上に日本語化まで対応できる優れもの。  
 [Eonasdan/bootstrap-datetimepicker](http://eonasdan.github.io/bootstrap-datetimepicker/)  
   
 デモを見るだけでもワクワクしますね。  
@@ -53,7 +53,7 @@ end
 とかやって  
   
 ```js
-  $(".datetime_from,.datetime_to").datetimepicker({
+  $(".datetimepicker").datetimepicker({
     format: "YYYY/MM/DD HH:mm",
     showClear: true,
     showClose: true,
