@@ -3,7 +3,7 @@ layout: post
 title: "Rails Engineを使った開発"
 date: 2015-05-19 13:09:58 +0900
 comments: true
-categories: [ruby,ruby on rails,bootswatch]
+categories: [ruby,ruby on rails]
 ---
 
 一つ前に携わったプロジェクトではサブシステムがたくさんあり、それぞれがrailsで構築されていて共通処理やmodelはrails engineにあつめられ各システムで参照しておりました。  
