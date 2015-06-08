@@ -4,7 +4,7 @@
     <title><![CDATA[Category: ruby | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/ruby/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2015-04-20T19:39:47+09:00</updated>
+    <updated>2015-06-08T12:47:53+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -14,417 +14,340 @@
 
     
     <entry>
-        <title type="html"><![CDATA[Railsでbootswatch導入(with rails assets)]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2015/04/16/bootswatch-with-rails-assets/"/>
-        <updated>2015-04-16T11:01:57+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2015/04/16/bootswatch-with-rails-assets</id>
-        <content type="html"><![CDATA[<p>管理画面を作るにあたって<a href="http://getbootstrap.com/">bootstrap</a>だけで1から作るのもしんどかったので、フリーのbootstrap用テンプレート<a href="https://bootswatch.com/">bootswatch</a>を使って管理画面を作ってみたいと思います。</p>
+        <title type="html"><![CDATA[Deviseでパスワードの検証をスキップする]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2015/06/08/devise-skip-password-check/"/>
+        <updated>2015-06-08T12:35:01+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2015/06/08/devise-skip-password-check</id>
+        <content type="html"><![CDATA[<pre><code class="ruby">#開発環境  
+rails 4.2.1  
+devise 3.4.1  
+</code></pre>
 
-<p>導入には以下4パターンがあるかと思います。</p>
+<p>deviseを使っていて、ユーザモデルに仮登録状態を作りたいと思います。<br/>
+仮登録の段階ではパスワードはまだ要求されず。<br/>
+最後の最後でパスワードを設定して本会員登録完了といったフローです。</p>
 
-<ol>
-<li><a href="https://github.com/maxim/bootswatch-rails">bootswatch-rails</a>などのGemを使う</li>
-<li>bowerで入れる</li>
-<li>rails-assetsで入れる</li>
-<li>サイトからダウンロードしてassets下に配置する</li>
-</ol>
-
-
-<p>今回はrails-assetsで導入してみました。</p>
+<p>deviseでは対象モデルに<code>devise :validatable</code>に設定している場合はメールアドレスやパスワードの検証が走ります。<br/>
+今回はパスワード以外のチェックはやってほしいため<code>:validatable</code>の宣言を外すだけではダメです。</p>
 
 <!-- more -->
 
 
-<p><a href="https://rails-assets.org/">Rails Assets</a>で検索するといくつか候補が出てきます。<br/>
-今回はrails-assets-bootswatch-sassを使ってみます</p>
+<p>deviseの以下のソースを見てみます</p>
 
-<pre><code class="ruby Gemfile">source 'https://rails-assets.org' do
-  gem 'rails-assets-bootstrap-sass-official'
-  gem 'rails-assets-bootswatch-sass'
-end
-</code></pre>
+<pre><code class="ruby lib/devise/models/validatable.rb">def self.included(base)
+  base.extend ClassMethods
+  assert_validations_api!(base)
 
-<p>そしてapplication.cssをapplication.css.scssにリネームして以下を追加です。</p>
+  base.class_eval do
+    validates_presence_of   :email, if: :email_required?
+    validates_uniqueness_of :email, allow_blank: true, if: :email_changed?
+    validates_format_of     :email, with: email_regexp, allow_blank: true, if: :email_changed?
 
-<pre><code class="css app/assets/stylesheets/application.css.scss">$icon-font-path: "bootstrap-sass-official/";
-
-@import "bootstrap-sass-official";
-@import "bootswatch-sass/flatly/variables";
-@import "bootswatch-sass/flatly/bootswatch";
-@import "bootswatch-sass/flatly/bootstrap";
-</code></pre>
-
-<p>これでサイトがbootswatchのテーマが適用された状態(今回はフラットデザインのflatlyを選びました)となります。
-簡単ですね。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[重複している画像ファイルを削除(rubyで)]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2015/03/20/delete-duplicated-file/"/>
-        <updated>2015-03-20T17:27:16+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2015/03/20/delete-duplicated-file</id>
-        <content type="html"><![CDATA[<p>重複しているファイルを削除します。</p>
-
-<pre><code class="ruby delete_duplicate_file.rb">require 'digest/md5'
-
-file_hash = ARGV.inject(Hash.new) do |hash, file|
-              hash[file] = Digest::MD5.hexdigest(File.open(file, 'rb').read)
-              hash
-            end
-
-duplicated_md5 = file_hash.values.sort.inject(Hash.new) do |file_count, md5|
-                   file_count[md5] = file_hash.values.count(md5)
-                   file_count
-                 end.select do |md5, count|
-                   count &gt; 1
-                 end.keys
-
-duplicated_md5.map do |file_md5|
-  # 削除ではなく重複したファイルを他のディレクトリに退避したい場合などはここを変えてください。
-  File.unlink file_hash.invert[file_md5]
-end
-</code></pre>
-
-<!-- more -->
-
-
-<p>使い方
-<code>bash
-ruby delete_duplicate_file.rb ./*
-</code></p>
-
-<p>引数でブロブ渡したら勝手に展開されて渡されてきたので、そのままプログラム内で参照しちゃったけどひょっとしたらzshだけかも(?)<br/>
-もっとうまく書けるような気もするけど体力不足の今日の私の脳みそではこれが限界。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[ファイル内の特定の行の数値をインクリメントする]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2015/03/18/increment-in-file/"/>
-        <updated>2015-03-18T12:00:03+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2015/03/18/increment-in-file</id>
-        <content type="html"><![CDATA[<p>yamlファイルの特定の数字をインクリメントしたくてスクリプトを書きました。
-データとしてはこんな感じです。</p>
-
-<pre><code class="yaml">data_one:
-  col_num: 1
-  name: hoge
-  options: fuga
-data_two:
-  col_num: 1
-  name: foo
-  options: baa
-data_three:
-  col_num: 1
-  name: foofoo
-  options: baabaa
-</code></pre>
-
-<!-- more -->
-
-
-<p>これのcol_numをインクリメントします。
-応用きくように正規表現でひっかかるようにしときましょう。</p>
-
-<pre><code class="ruby">if ARGV.size != 2
-  puts "\e[31m#{"[!]引数が不正です。第一引数にはファイルパスを、第二引数には正規表現を指定してください"}\e[0m"
-end
-
-file_name = ARGV[0]
-regexp    = Regexp.new(ARGV[1])
-
-# 念のためバックアップを取る
-`cp #{file_name} #{file_name}_bk`
-
-sequence = nil
-replaced_file_body = ""
-File.open(file_name) do |file|
-  file.read.each_line do |line|
-    replaced_file_body &lt;&lt; if line =~  regexp
-                            # 初回のsequenceのはじまり取得
-                            if sequence.nil?
-                              sequence = line.gsub(/[^0-9]/, "").to_i
-                              line
-                            else
-                              # sequenceをincrementしながら置換
-                              line.gsub(/\d.*/, (sequence += 1).to_s)
-                            end
-                          else
-                            line
-                          end
+    validates_presence_of     :password, if: :password_required?
+    validates_confirmation_of :password, if: :password_required?
+    validates_length_of       :password, within: password_length, allow_blank: true
   end
-
-end
-
-# 変換した内容で書き換え
-file = File.open(file_name, "w")
-file &lt;&lt; replaced_file_body
-file.close
-</code></pre>
-
-<p>使い方はこんな感じです
-<code>bash
-ruby increment_number_in_file.rb official_document_archive.yml col_num
-</code></p>
-
-<p>すると結果こうなります。</p>
-
-<pre><code class="yaml">data_one:
-  col_num: 1
-  name: hoge
-  options: fuga
-data_two:
-  col_num: 2
-  name: foo
-  options: baa
-data_three:
-  col_num: 3
-  name: foofoo
-  options: baabaa
-</code></pre>
-
-<p>状況に応じて書き換えながらになると思いますが、よかったら使ってみてください。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[関連先が存在していたら論理削除、関連先が存在していなかったら物理削除]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2015/03/13/real-delete-discreetly/"/>
-        <updated>2015-03-13T22:21:31+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2015/03/13/real-delete-discreetly</id>
-        <content type="html"><![CDATA[<p>という内容のものが業務で必要になり、処理を書きましたが勘違いでそんな仕様はどこにもなくお蔵入りになってしまって悔しいので
-ここでさらします。</p>
-
-<p>Gistではここに置いてあります。<br/>
-<a href="https://gist.github.com/YoshitsuguFujii/e86d1f208a594ae4effa">real_delete_discreetly</a></p>
-
-<!-- more -->
-
-
-<p></p>
-
-<p>本体です
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">RealDeleteDiscreetly</span>
-</span><span class='line'>  <span class="kp">extend</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">Concern</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="sr">&lt;p&gt;  def delete_discreetly</span>
-</span><span class='line'><span class="sr">    relation_exist = false</span>
-</span><span class='line'><span class="sr">    self.class.confirm_relations.each do |confirm_relation|</span>
-</span><span class='line'><span class="sr">      if destroyed_by_association</span>
-</span><span class='line'><span class="sr">        if destroyed_by_association.active_record == confirm_relation.to_s.classify.constantize</span>
-</span><span class='line'><span class="sr">          relation_exist = false</span>
-</span><span class='line'><span class="sr">          break</span>
-</span><span class='line'><span class="sr">        end</span>
-</span><span class='line'><span class="sr">      else</span>
-</span><span class='line'><span class="sr">        if reflection = self.class.reflections[confirm_relation].presence</span>
-</span><span class='line'><span class="sr">          send_method = case reflection.macro</span>
-</span><span class='line'><span class="sr">                    when :has_many</span>
-</span><span class='line'><span class="sr">                      :exists?</span>
-</span><span class='line'><span class="sr">                    else</span>
-</span><span class='line'><span class="sr">                      :present?</span>
-</span><span class='line'><span class="sr">                    end&lt;/</span><span class="nb">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span>      <span class="k">if</span> <span class="nb">send</span><span class="p">(</span><span class="n">confirm_relation</span><span class="p">)</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">send_method</span><span class="p">)</span>
-</span><span class='line'>        <span class="n">relation_exist</span> <span class="o">=</span> <span class="kp">true</span>
-</span><span class='line'>        <span class="k">break</span>
-</span><span class='line'>      <span class="k">end</span>
-</span><span class='line'>    <span class="k">else</span>
-</span><span class='line'>      <span class="k">raise</span> <span class="no">ArgumentError</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">confirm_relation</span><span class="si">}</span><span class="s2"> is not Reflection&quot;</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">unless</span> <span class="n">relation_exist</span>
-</span><span class='line'>  <span class="nb">self</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">delete_all!</span><span class="p">(</span><span class="nb">self</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">primary_key</span><span class="o">.</span><span class="n">to_sym</span> <span class="o">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="nb">id</span><span class="p">)</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'><span class="o">&lt;</span><span class="sr">/code&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span>  <span class="k">end</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="sr">&lt;p&gt;  module ClassMethods</span>
-</span><span class='line'><span class="sr">    def real_delete_discreetly(options = {})</span>
-</span><span class='line'><span class="sr">      class_attribute :confirm_relations</span>
-</span><span class='line'><span class="sr">      self.confirm_relations = options.delete(:confirm_relations)&lt;/</span><span class="nb">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span>  <span class="n">acts_as_paranoid</span> <span class="n">options</span>
-</span><span class='line'>  <span class="n">after_destroy</span> <span class="ss">:delete_discreetly</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'><span class="o">&lt;</span><span class="sr">/code&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure></p>
-
-<p>論理削除部分はact_as_paranoidに依存しています。<br/>
-このソースはlibなどのオートロードの対象となるディレクトリに置く想定です。</p>
-
-<p>該当のモデルでreal_delete_discreetlyすると<br/>
-関連先が存在していたら論理削除、関連先が存在していなかったら物理削除<br/>
-という動きをするようになるはずです。</p>
-
-<p>こんな書き方になります。</p>
-
-<pre><code class="ruby">class UserProfile &lt; ActiveRecord::Base
-  belongs_to :user
-  real_delete_discreetly column: :del_flg, column_type: 'boolean', confirm_relations: [:user]
 end
 </code></pre>
 
-<p>こうするとuserが存在する場合は論理削除。<br/>
-userレコードが存在しない場合は物理削除になります。<br/>
-confirm_relations以外の値はacts_as_paranoidで渡すものと同じものが指定できます。<br/>
-今回の例では論理削除のカラムをデフォルトのdeleted_atじゃなくてdelete_flagで見ている例ですね。</p>
+<p>パスワードの検証をするかどうかはpassword_required?で判定しています。
+判定メソッドはこんな感じです。</p>
 
-<p>rspecも書くつもりだったので各モデルで使えるshared_exampleもあります。</p>
+<pre><code class="ruby">def password_required?
+  !persisted? || !password.nil? || !password_confirmation.nil?
+end
+</code></pre>
 
-<pre><code class="ruby">shared_examples_for 'real delete discreetly' do |opts|
-  let(:base_instance) { opts[:base_instance] }
-  let(:confirm_relations) { opts[:confirm_relations] }
-  let(:paranoid_column) { opts[:paranoid_column] || :delete_flag }
-  let(:paranoid_column_type) { opts[:paranoid_column_type] || :boolean }
+<p>これを対象のモデルでオーバーライドします。</p>
 
-  before do
-    @model = base_instance.dup
-    @model.save
-    case paranoid_column_type.to_sym
-    when :boolean
-      @from = false
-      @to = true
+<pre><code class="ruby">class User &lt; ActiveRecord::Base
+
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :trackable, :validatable
+
+  def password_required?
+    if member?
+      !persisted? || !password.nil? || !password_confirmation.nil?
     else
-      time = Time.now
-      Time.stub(:now).and_return(time)
-      @from = nil
-      @to = time
+      false
     end
   end
+end
+</code></pre>
 
-  context 'relation exists' do
-    before do
-      confirm_relation = confirm_relations.first
-      case @model.class.reflections[confirm_relation].macro
-      when :has_many
-        @model.send(confirm_relation).send(:build)
-      else
-        @model.send("build_#{confirm_relation}")
+<p>これでmember?がtrueを返さない(本登録前のユーザ)はパスワードの検証処理をスキップできるようになります。</p>
+]]></content>
+    </entry>
+    
+    <entry>
+        <title type="html"><![CDATA[deep_rejectが欲しくてrefinementsで実装しようとした話]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2015/05/26/deep-reject/"/>
+        <updated>2015-05-26T19:03:54+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2015/05/26/deep-reject</id>
+        <content type="html"><![CDATA[<p>再帰的に条件判定を行うrejectが欲しくなりました。<br/>
+こういう動きです。</p>
+
+<pre><code class="ruby">[1,2].deep_reject{|val| val == 1 }  # =&gt; [2]
+
+[1,2, [1,2,3]].deep_reject{|val| val == 1 } # =&gt; [2, [2, 3]]
+
+[1, 2, {a: "a", b: "b" }].deep_reject{|key, val| key == :a } # =&gt; [1, 2, {:b=&gt;"b"}]
+
+[1, 2, {a: "a", b: "b", c: {a: "c", c: "d"} }].deep_reject{|key, val| key == :a } 
+# =&gt; [1, 2, {:b=&gt;"b", :c=&gt;{:c=&gt;"d"}}]
+</code></pre>
+
+<p>かなり便利そうです。</p>
+
+<!-- more -->
+
+
+<p>refinmetsで実装してみます。</p>
+
+<pre><code class="ruby">  module HashEx
+    refine Hash do
+      def deep_reject(&amp;block)
+        self.each_with_object({}) do |(k, v), result|
+          unless block.call(k, v)
+            if v.is_a?(Hash)
+              result[k] = v.deep_reject(&amp;block)
+            else
+              result[k] = v
+            end
+          end
+        end
       end
     end
-
-    it 'soft deleted' do
-      expect { @model.destroy }.to change { @model.send(paranoid_column) }.from(@from).to(@to)
-    end
-
-    it 'not real deleted' do
-      expect { @model.destroy }.to change(@model.class.unscoped, :count).by(0)
-    end
   end
 
-  context 'when relation not exists' do
-    it 'real deleted' do
-      expect { @model.destroy }.to change(@model.class.unscoped, :count).by(-1)
+  module ArrayEx
+    refine Array do
+      def deep_reject(&amp;block)
+        self.each_with_object([]) do |v, result|
+          unless block.call(v)
+            if v.is_a?(Array)
+              result &lt;&lt; v.deep_reject(&amp;block)
+            elsif v.is_a?(Hash)
+              result &lt;&lt; v.deep_reject(&amp;block) # 呼べない！
+            else
+              result &lt;&lt; v
+            end
+          end
+        end
+      end
+    end
+  end
+</code></pre>
+
+<p>ですがこれを
+<code>ruby
+using ArrayEx
+using HashEx
+</code></p>
+
+<p>と読み込んで使おうとしたところ残念ながら配列の中にハッシュが紛れ込んでいるようなケースだとArrayExのdeep_rejectからHashExのdeep_rejectが参照できず思った通りの結果になりませんでした。<br/>
+refinementsはかなり厳密なスコープで動くようです。</p>
+
+<p>まぁあったら有意義なメソッドだしいいかということで結局オープンクラスで実装しました。</p>
+
+<pre><code class="ruby">class Array
+  def deep_reject(&amp;block)
+    self.each_with_object([]) do |v, result|
+      unless block.call(v)
+        if v.is_a?(Array)
+          result &lt;&lt; v.deep_reject(&amp;block)
+        elsif v.is_a?(Hash)
+          result &lt;&lt; v.deep_reject(&amp;block)
+        else
+          result &lt;&lt; v
+        end
+      end
+    end
+  end
+end
+
+class Hash
+  def deep_reject(&amp;block)
+    self.each_with_object({}) do |(k, v), result|
+      unless block.call(k, v)
+        if v.is_a?(Hash)
+          result[k] = v.deep_reject(&amp;block)
+        elsif v.is_a?(Array)
+          result[k] = v.deep_reject(&amp;block)
+        else
+          result[k] = v
+        end
+      end
     end
   end
 end
 </code></pre>
-
-<p>これをspec_helperなどからrequireするなり読み込めるようにしてもらって<br/>
-対象のモデルで</p>
-
-<pre><code class="ruby">require 'rails_helper'
-
-RSpec.describe UserProfile, type: :model do
- include_examples 'real delete discreetly',
- base_instance: UserProfile.create(user_id: nil_or_exist_id),
- confirm_relations: [:user]
-end
-</code></pre>
-
-<p>とかやると論理削除と物理削除のテストが走ります。<br/>
-ただ冒頭でも述べた通りお蔵入りしたのでちゃんと動くかどうか細かい所までは見きれていないです。
-何かの参考になれば幸いです。</p>
-
-<p>親のレコードが消された時に連動してdependent: :destroyとかの指定で消える場合は、親のレコードってdestroyed_by_associationに格納されるんですね。<br/>
-今回のコードを書いてて初めて知りました。</p>
 ]]></content>
     </entry>
     
     <entry>
-        <title type="html"><![CDATA[Axlsxでエクセルのセルを折り返して全体を表示]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2015/02/24/20150224142535/"/>
-        <updated>2015-02-24T14:25:12+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2015/02/24/20150224142535</id>
-        <content type="html"><![CDATA[<pre><code class="ruby">require 'axlsx'
+        <title type="html"><![CDATA[モデルのattributeに変更がなくてもnested_attribute_forを使っているモデルでcallbackを発生させる]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2015/05/25/force-occur-callbacks/"/>
+        <updated>2015-05-25T16:15:38+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2015/05/25/force-occur-callbacks</id>
+        <content type="html"><![CDATA[<p>任意の条件でnested_attribute_forの対象の保存処理を走らせる方法です</p>
 
-package = Axlsx::Package.new
-sheet = package.workbook.add_worksheet(name: 'lists')
+<p>ファイルのアップロード用のモデルを作っていて<code>ActionDispatch::Http::UploadedFile</code>を一旦attr_accessorのアクセサで受けたあとcallbackでファイル名やファイルサイズをmodelクラスの該当のカラムに設定するという処理を書いておりました。</p>
 
-wrap_text = sheet.styles.add_style(
-                              {
-                               :fg_color=&gt; "FFFFFF",                           # 文字色
-                               :b =&gt; true,                                     # 太字
-                               :bg_color =&gt; "004586",                          # 背景色
-                               :sz =&gt; 12,                                      # フォントサイズ
-                               :border =&gt; { :style =&gt; :thin, :color =&gt; "00" }, # 罫線
-                               :alignment =&gt; { :horizontal =&gt; :center,         # 配置
-                                               :vertical =&gt; :center ,
-                                               :wrap_text =&gt; true}
-                              }
-                            )
+<p>ファイルは可変にアップロードしたかったのでこのモデルの親モデルから参照するようにして、nested_attribute_forで親モデル更新時に一緒に更新するようにします。</p>
 
-sheet.add_row(['とっても長いテキスト', '短いテキスト'], style: wrap_text)
+<pre><code class="ruby">class Oya &lt; ActiveRecord::Base
+  has_many :files, dependent: :destroy
 
-sheet.column_info.first.width = 5
-package.serialize('test.xlsx')
+  accepts_nested_attributes_for :files, allow_destroy: true
+end
 </code></pre>
+
+<pre><code class="ruby">class File &lt; ActiveRecord::Base
+  attr_accessor :file
+end
+</code></pre>
+
+<!-- more -->
+
+
+<p>いらない情報ですが、一応モデルクラスFileモデルの参照先のテーブルfilesテーブルはこんな感じです。
+<code>ruby
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `oya_id` int(11) NOT NULL,
+  `data_file_name` varchar(255) DEFAULT NULL,
+  `data_content_type` varchar(255) DEFAULT NULL,
+  `data_file_size` int(11) DEFAULT NULL,
+</code></p>
+
+<p>新規登録の時は良かったんですが、親モデル保存時にnested_attribute_forの対象のモデルクラスのsave(auto_save)やcallbackを走らせるかどうかは実際にデータベースに登録されているカラムの値に変化があったかで決定されているようです(たぶん)</p>
+
+<p>そのため変更時にはformからはfileというアクセサに設定する値のみ飛んでくるような作りだとauto_saveが動かずFileクラスの更新処理が走りませんでした。</p>
+
+<p>そのためchanged_for_autosave?をオーバーライドすることで独自に変更判定を行いcallback並びにauto saveが動くようにします。</p>
+
+<pre><code class="ruby">class File &lt; ActiveRecord::Base
+  attr_accessor :file
+
+  def changed_for_autosave?
+    if file.present?
+      return true
+    end
+    super
+  end
+end
+</code></pre>
+
+<p>知ってると簡単ですが、知らないとはまりますね。</p>
+]]></content>
+    </entry>
+    
+    <entry>
+        <title type="html"><![CDATA[nested_formで下じゃなくて上に要素を追加したい場合]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2015/05/20/nested-form-add-field-to-top/"/>
+        <updated>2015-05-20T18:03:26+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2015/05/20/nested-form-add-field-to-top</id>
+        <content type="html"><![CDATA[<p>neste_formは可変なサイズの子要素を動的に追加できるGemです。</p>
+
+<p><a href="https://github.com/ryanb/nested_for://github.com/ryanb/nested_form">nested form</a></p>
+
+<p>いつも大変お世話になっておりますが、今回の案件で追加する先を指定したエレメントの下ではなく上に追加しなければいけなくなり対応しました。</p>
+
+<!-- more -->
+
+
+<p>バージョンは<br/>
+<code>ruby Gemfile.lock
+nested_form (0.3.2)  
+</code>
+での作業となります。</p>
+
+<p>ますnested_formで使われるjsを眺めるとそんなに長くない処理であることがわかります。<br/>
+その中で追加ボタンを押したときに要素を追加する部分はこの辺りになるようです。</p>
+
+<pre><code class="js jquery_nested_form:55行目あたり">    insertFields: function(content, assoc, link) {
+      var target = $(link).data('target');
+      if (target) {
+        return $(content).appendTo($(target));
+      } else {
+        return $(content).insertBefore(link);
+      }
+    },
+</code></pre>
+
+<p>ここを上書きします。 <br/>
+application.jsで<code>//= require jquery_nested_form</code>の後に以下の処理を書いて上書きしちゃいましよう。</p>
+
+<pre><code class="js">window.NestedFormEvents.prototype.insertFields = function(content, assoc, link) {
+  var target = $(link).data('target');
+  if ($(link).data('destination') == "prepend"){
+    return $(target).prepend($(content));
+  }else{
+    if (target) {
+      return $(content).appendTo($(target));
+    } else {
+      return $(content).insertBefore(link);
+    }
+  }
+}
+</code></pre>
+
+<p>linkのdata-destination=prependで対象の要素の上にprependで追加されるイメージです。</p>
+
+<p>&#8220;`erb</p>
+
+<table id="tasks">
+  <%= f.fields_for :tasks, :wrapper => false do |task_form| %>
+    <tr class="fields">
+      <td><%= task_form.text_field :name %></td>
+      <td><%= task_form.link_to_remove "Remove this task" %></td>
+    </tr>
+  <% end %>
+</table>
+
+
+<p><p>&lt;%= f.link_to_add &ldquo;Add a task&rdquo;, :tasks, :data => { :target => &ldquo;#tasks&rdquo;, :prepend => true } %></p>
+&#8220;`</p>
+
+<p>簡単でした。</p>
+]]></content>
+    </entry>
+    
+    <entry>
+        <title type="html"><![CDATA[Rails Engineを使った開発]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2015/05/19/develop-with-rails-engine/"/>
+        <updated>2015-05-19T13:09:58+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2015/05/19/develop-with-rails-engine</id>
+        <content type="html"><![CDATA[<p>一つ前に携わったプロジェクトではサブシステムがたくさんあり、それぞれがrailsで構築されていて共通処理やmodelはrails engineにあつめられ各システムで参照しておりました。</p>
+
+<p>今までgemのコードリーディングをする時にしか意識していなかったrails engineですが(deviseとかとか)、結構便利だということを今更ながら実感し、最近は共有処理をengineに書き出してそれを参照するようにしています。</p>
+
+<p>クックパッドさんでも共通部分をengineに集めているようです。<br/>
+<a href="http://techlife.cookpad.com/entry/2015/04/06/155940">新規サービスの管理画面を短期間で見栄え良く実装する</a></p>
+
+<p>ドリコムさんでは複数のengineを組み合わせてシステムを作っているようです。<br/>
+<a href="http://blog.onk.ninja/2014/12/02/mountable_engine.html">Mountable Engine だらけの Rails アプリ開発</a></p>
+
+<!-- more -->
+
+
+<p>でも完全に共通に作ろうとすると色々考えなきゃいけないから工数がかかっちゃうんじゃないかと懸念があるかもしれません。<br/>
+でも最初はそこまで共通化する必要もないのではないのかと思います。</p>
+
+<p>git使っていれば、システムの納品段階でengineのブランチを切るなりタグを打つなりして機能を固定してしまえばいいのです。<br/>
+そうすれば、今後engineに修正が加わってもGemfileで該当のブランチまたはタグを見るようにすれば問題なく納品段階のengineのコードでシステムは動き続けます。<br/>
+その後時間をおいてゆっくりとプロジェクトに依存したコードを共通化していけばいいのです。</p>
+
+<p>これを応用してめったにやらない処理であんまり入れなたくないような機能や、<br/>
+モンキーパッチなども参照元のプロジェクト単位でengineをカスタマイズして導入することもできます。</p>
+
+<p>そして共通化した処理を書くことはいつもより有益なことをしてる気持ちで仕事ができるので楽しいです。<br/>
+engine固有の仕組みや書き方もあって最初は中々辛い部分もありますが、
+engineを使ったことのない方は決まり切った処理をコピぺで過去のプロジェクトから持ってくるのではなく、
+その処理をengineに書き出してそれをプロジェクトから参照してみてはいかがでしょうか？</p>
 ]]></content>
     </entry>
     

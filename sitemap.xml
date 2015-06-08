@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://yoshitsugufujii.github.io/blog/2015/06/08/devise-skip-password-check/</loc>
+    <lastmod>2015-06-08T12:35:01+09:00</lastmod>
+  </url>
+  <url>
+    <loc>http://yoshitsugufujii.github.io/blog/2015/05/26/deep-reject/</loc>
+    <lastmod>2015-05-26T19:03:54+09:00</lastmod>
+  </url>
+  <url>
+    <loc>http://yoshitsugufujii.github.io/blog/2015/05/25/force-occur-callbacks/</loc>
+    <lastmod>2015-05-25T16:15:38+09:00</lastmod>
+  </url>
+  <url>
+    <loc>http://yoshitsugufujii.github.io/blog/2015/05/20/nested-form-add-field-to-top/</loc>
+    <lastmod>2015-05-20T18:03:26+09:00</lastmod>
+  </url>
+  <url>
+    <loc>http://yoshitsugufujii.github.io/blog/2015/05/19/develop-with-rails-engine/</loc>
+    <lastmod>2015-05-19T13:09:58+09:00</lastmod>
+  </url>
+  <url>
+    <loc>http://yoshitsugufujii.github.io/blog/2015/04/22/bootstrap-datetimepicker/</loc>
+    <lastmod>2015-04-22T21:52:21+09:00</lastmod>
+  </url>
+  <url>
     <loc>http://yoshitsugufujii.github.io/blog/2015/04/20/peco-selectup-selectdown/</loc>
     <lastmod>2015-04-20T19:31:45+09:00</lastmod>
   </url>
@@ -506,22 +530,22 @@
   </url>
   <url>
     <loc>http://yoshitsugufujii.github.io/blog/</loc>
-    <lastmod>2015-04-20T19:39:47+09:00</lastmod>
+    <lastmod>2015-06-08T12:47:53+09:00</lastmod>
   </url>
   <url>
     <loc>http://yoshitsugufujii.github.io/archives/</loc>
-    <lastmod>2015-04-20T19:39:47+09:00</lastmod>
+    <lastmod>2015-06-08T12:47:53+09:00</lastmod>
   </url>
   <url>
     <loc>http://yoshitsugufujii.github.io/blog/archives/</loc>
-    <lastmod>2015-04-20T19:39:47+09:00</lastmod>
+    <lastmod>2015-06-08T12:47:53+09:00</lastmod>
   </url>
   <url>
     <loc>http://yoshitsugufujii.github.io/</loc>
-    <lastmod>2015-04-20T19:39:47+09:00</lastmod>
+    <lastmod>2015-06-08T12:47:53+09:00</lastmod>
   </url>
   <url>
     <loc>http://yoshitsugufujii.github.io/profile/</loc>
-    <lastmod>2015-04-20T19:39:47+09:00</lastmod>
+    <lastmod>2015-06-08T12:47:53+09:00</lastmod>
   </url>
 </urlset>

@@ -4,7 +4,7 @@
     <title><![CDATA[Category: bootswatch | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/bootswatch/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2015-04-20T19:39:47+09:00</updated>
+    <updated>2015-06-08T12:47:53+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,79 @@
       </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[Railsでbootstrap datetimepickerを日本語化しつつ導入(with rails assets)]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2015/04/22/bootstrap-datetimepicker/"/>
+        <updated>2015-04-22T21:52:21+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2015/04/22/bootstrap-datetimepicker</id>
+        <content type="html"><![CDATA[<p>普段はよく<a href="https://github.com/eternicode/bootstrap-datepicker">bootstrap-datepicker</a>を使うのですが、
+今回の案件では時刻まで絞り込みたいというお話だったのでdatetimepickerを導入してみました。</p>
+
+<p>こちらを使います。かなり高機能な上に日本語化まで対応できる優れもの。<br/>
+<a href="http://eonasdan.github.io/bootstrap-datetimepicker/">Eonasdan/bootstrap-datetimepicker</a></p>
+
+<p>デモを見るだけでもワクワクしますね。<br/>
+<a href="http://eonasdan.github.io/bootstrap-datetimepicker/Installing/">入れ方</a>もたくさん用意されていていいですね。<br/>
+今回もrails-assetsで導入します。</p>
+
+<!-- more -->
+
+
+<pre><code class="ruby Gemfile">source 'https://rails-assets.org' do
+  gem 'rails-assets-bootstrap-sass-official'
+  gem 'rails-assets-eonasdan-bootstrap-datetimepicker'
+end
+</code></pre>
+
+<p><code>bundle install</code>したら次はapp/assets/javascripts/application.jsに以下を記述。<br/>
+日本語化する場合はmomentも一緒にいれます。</p>
+
+<pre><code class="js app/assets/javascripts/application.js">//= require bootstrap-sass-official
+//= require moment
+//= require moment/locale/ja
+//= require eonasdan-bootstrap-datetimepicker
+</code></pre>
+
+<p>最後にcssの読み込み<br/>
+<code>css app/assets/stylesheets/application.css.scss
+@import "bootstrap-sass-official";
+@import "eonasdan-bootstrap-datetimepicker";
+</code></p>
+
+<p>これで設定は終了です。<br/>
+あとはhtmlで</p>
+
+<pre><code class="html">&lt;input class="datetimepicker form-control" type="text"&gt;
+</code></pre>
+
+<p>とかやって</p>
+
+<pre><code class="js">  $(".datetimepicker").datetimepicker({
+    format: "YYYY/MM/DD HH:mm",
+    showClear: true,
+    showClose: true,
+    locale: 'ja'
+   });
+</code></pre>
+
+<p>とかやると日本語かされた時刻も選択可能なカレンダーがいい感じに表示されるはずです。</p>
+
+<h3>2014/04/25追記</h3>
+
+<p>ちなみに書式設定をいじれば時刻選択なしの日付のみのdatepickerとしても使えます。</p>
+
+<pre><code class="js">  $(".datepicker").datetimepicker({
+    format: "YYYY/MM/DD",
+    showClear: true,
+    showClose: true,
+    locale: 'ja'
+   });
+</code></pre>
+
+<p>非常にいいですね。</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[Railsでbootswatch導入(with rails assets)]]></title>

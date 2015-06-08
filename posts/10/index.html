@@ -82,6 +82,459 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2012/06/15/20120615110211/">Array.wrapが便利な件</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2012-06-15T11:02:00+09:00" pubdate><i class="fa fa-calendar"></i> Jun 15th, 2012</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/rails/'>rails</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>好きです。Array.wrap<br/>
+ActiveSupportでArrayクラスで定義されてます。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">Array</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="s2">&quot;hoge&quot;</span><span class="p">)</span> <span class="c1">#=&gt; [&quot;hoge&quot;]</span>
+</span><span class='line'><span class="nb">Array</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="o">[</span><span class="s2">&quot;hoge&quot;</span><span class="o">]</span><span class="p">)</span> <span class="c1">#=&gt; [&quot;hoge&quot;]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>うんうん。いい。</p>
+
+<p>下のコードは適当に書いたので動かんかったらごめんなさい。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">has_one</span> <span class="ss">:lover</span>
+</span><span class='line'>  <span class="n">has_many</span> <span class="ss">:friends</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ってモデルがあったら</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">print_relations</span><span class="p">(</span><span class="n">lover_or_friends</span><span class="p">)</span>
+</span><span class='line'><span class="err">　　</span><span class="k">if</span> <span class="n">lover_or_friends</span><span class="o">.</span><span class="n">instance_of?</span><span class="p">(</span><span class="no">Lover</span><span class="p">)</span>
+</span><span class='line'><span class="err">　　</span>  <span class="nb">p</span> <span class="n">lover_or_friends</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="n">lover_or_friends</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">lover_or_friend</span><span class="o">|</span>
+</span><span class='line'>        <span class="nb">p</span> <span class="n">lover_or_friend</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>って、いちいち判定せずに。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">print_relations</span><span class="p">(</span><span class="n">lover_or_friends</span><span class="p">)</span>
+</span><span class='line'>    <span class="nb">Array</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="n">lover_or_friends</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">lover_or_friend</span><span class="o">|</span>
+</span><span class='line'>      <span class="nb">p</span> <span class="n">lover_or_friend</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>って、いっそArrayにしてしまって、回すとスッキリ</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
+            <a href="/blog/2012/06/14/20120614151703/">xxx_pathからurlを取りたい</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2012-06-14T15:17:00+09:00" pubdate><i class="fa fa-calendar"></i> Jun 14th, 2012</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/rails/'>rails</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>通常使ってたらあんまりないのかもしれないけど。</p>
+
+<p>libとかでxxx  _path(rake routesで一番左にでるやつ)のurlを取りたいとき。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Rails</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">routes</span><span class="o">.</span><span class="n">url_helpers</span><span class="o">.</span><span class="n">xxx_path</span><span class="p">(</span><span class="vi">@user</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>で取れる。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Rails</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">routes</span><span class="o">.</span><span class="n">url_helpers</span><span class="o">.</span><span class="n">user_register_shop_staffs_path</span><span class="p">(</span><span class="n">shop</span><span class="p">)</span> <span class="c1"># =&gt; &quot;/shops/1/staffs/user_register&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
+            <a href="/blog/2012/06/12/20120612172917/">jpmobileでredirect_toした時にflashが取得できない</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2012-06-12T17:29:00+09:00" pubdate><i class="fa fa-calendar"></i> Jun 12th, 2012</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/rails/'>rails</a></li>
+            
+                <li><a class='category' href='/blog/categories/jpmobile/'>jpmobile</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>軽くはまった。</p>
+
+<p>rails 3.0.5<br/>
+jpmobile 1.0.0</p>
+
+<p>最初にアクセスしたコントローラで、flashを設定しつつredirect  _toしたらflashから値が取り出せなかった。</p>
+
+<p>flashはsession使っているから、初回のみsession作ってあげる必要があったみたい。</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
+            <a href="/blog/2012/04/24/20120424124400/">配列の配列をループするときとか</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2012-04-24T12:44:00+09:00" pubdate><i class="fa fa-calendar"></i> Apr 24th, 2012</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>個数分受けとればいい。<br/>
+勝手に展開してくれる。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">array</span> <span class="o">=</span> <span class="o">[[</span><span class="s2">&quot;1a&quot;</span><span class="p">,</span><span class="s2">&quot;1b&quot;</span><span class="o">]</span><span class="p">,</span><span class="o">[</span><span class="s2">&quot;2a&quot;</span><span class="p">,</span><span class="s2">&quot;2b&quot;</span><span class="o">]]</span>
+</span><span class='line'><span class="n">array</span><span class="o">.</span><span class="n">map</span><span class="p">{</span><span class="o">|</span><span class="n">a1</span><span class="p">,</span><span class="n">a2</span><span class="o">|</span> <span class="n">a1</span> <span class="o">+</span> <span class="n">a2</span><span class="p">}</span> <span class="c1"># =&gt; [&quot;1a1b&quot;, &quot;2a2b&quot;]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>injectとかと併用する場合は括弧で囲う。<br/>
+以下は連想配列に変換する例</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">array</span> <span class="o">=</span> <span class="o">[[</span><span class="s2">&quot;1a&quot;</span><span class="p">,</span><span class="s2">&quot;1b&quot;</span><span class="o">]</span><span class="p">,</span><span class="o">[</span><span class="s2">&quot;2a&quot;</span><span class="p">,</span><span class="s2">&quot;2b&quot;</span><span class="o">]]</span>
+</span><span class='line'><span class="n">array</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="no">Hash</span><span class="o">.</span><span class="n">new</span><span class="p">){</span><span class="o">|</span><span class="nb">hash</span><span class="p">,(</span><span class="n">param1</span><span class="p">,</span><span class="n">param2</span><span class="p">)</span><span class="o">|</span> <span class="nb">hash</span><span class="o">[</span><span class="p">(</span><span class="n">param1</span><span class="p">)</span><span class="o">]</span> <span class="o">=</span> <span class="n">param2</span><span class="p">;</span> <span class="nb">hash</span> <span class="p">}</span> <span class="c1"># =&gt; {&quot;1a&quot;=&gt;&quot;1b&quot;, &quot;2a&quot;=&gt;&quot;2b&quot;}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>いいですね。Happyになりますね。</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
+            <a href="/blog/2012/04/17/20120417122312/">each_with_indexの開始を任意の数値から</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2012-04-17T12:23:00+09:00" pubdate><i class="fa fa-calendar"></i> Apr 17th, 2012</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>each  <em>with  </em>indexは0始まりでインデックスが使える。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span><span class="s2">&quot;b&quot;</span><span class="o">].</span><span class="n">each_with_index</span><span class="p">{</span><span class="o">|</span><span class="n">elem</span><span class="p">,</span><span class="n">i</span><span class="o">|</span> <span class="nb">puts</span> <span class="n">i</span><span class="p">}</span> <span class="c1">#=&gt; 0 1</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>でも連番降ったりとか１始まりが欲しい場合がある。<br/>
+そんな場合。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span><span class="s2">&quot;b&quot;</span><span class="o">].</span><span class="n">each</span><span class="o">.</span><span class="n">with_index</span><span class="p">(</span><span class="mi">1</span><span class="p">){</span><span class="o">|</span><span class="n">elem</span><span class="p">,</span><span class="n">i</span><span class="o">|</span> <span class="nb">puts</span> <span class="n">i</span><span class="p">}</span> <span class="c1">#=&gt; 1 2</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>もちろん数値変えればスタートの値も変わる。</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
+            <a href="/blog/2012/04/03/20120403122204/">rails console</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2012-04-03T12:22:00+09:00" pubdate><i class="fa fa-calendar"></i> Apr 3rd, 2012</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>rails consoleで</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="no">Logger</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="no">STDOUT</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>って書くとSQLが吐かれるようになります。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">User</span><span class="o">.</span><span class="n">first</span>
+</span><span class='line'><span class="no">User</span> <span class="no">Load</span> <span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">1</span><span class="n">ms</span><span class="p">)</span>  <span class="no">SELECT</span> <span class="sb">`users`</span><span class="o">.</span><span class="n">*</span> <span class="no">FROM</span> <span class="sb">`users`</span> <span class="no">WHERE</span> <span class="p">(</span><span class="n">users</span><span class="o">.</span><span class="n">deleted_at</span> <span class="no">IS</span> <span class="no">NULL</span><span class="p">)</span> <span class="no">LIMIT</span> <span class="mi">1</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2012/03/19/20120319180847/">アクセス中のURL取得とホスト取得</a>
         </h1>
     
@@ -354,531 +807,6 @@ rails 3.0.5</p>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2012/03/02/20120302132903/">nilガードとifを組み合わせてみた</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2012-03-02T13:29:00+09:00" pubdate><i class="fa fa-calendar"></i> Mar 2nd, 2012</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>こんな風にかける。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">foo</span> <span class="o">=</span> <span class="kp">nil</span>
-</span><span class='line'><span class="n">foo</span> <span class="o">=</span> <span class="n">foo</span> <span class="o">||</span> <span class="k">if</span> <span class="p">(</span><span class="nb">rand</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">odd?</span>
-</span><span class='line'>               <span class="s2">&quot;foo&quot;</span>
-</span><span class='line'>             <span class="k">else</span>
-</span><span class='line'>               <span class="s2">&quot;fooooooooooooo&quot;</span>
-</span><span class='line'>             <span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>すごい。</p>
-
-
-
-        </article>
-        <hr>
-    
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2012/02/29/20120229114012/">before_filterのメソッドを引数付きで呼びだしたいよね</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2012-02-29T11:40:00+09:00" pubdate><i class="fa fa-calendar"></i> Feb 29th, 2012</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/rails/'>rails</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>そんなあなたに。</p>
-
-<p>ruby 1.9.2<br/>
-rails 3.0.5</p>
-
-<p>で確認しました。</p>
-
-<p><a href="http://www.ruby-forum.com/topic/102047">ここ</a>を参考にしました。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">before_filter</span> <span class="ss">:display_list</span><span class="p">,</span> <span class="ss">:only</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="s1">&#39;top&#39;</span><span class="o">]</span> <span class="k">do</span> <span class="o">|</span><span class="n">controller</span><span class="o">|</span>
-</span><span class='line'>  <span class="n">controller</span><span class="o">.</span><span class="n">display_list</span><span class="p">(</span><span class="s1">&#39;index&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">def</span> <span class="nf">display_list</span><span class="p">(</span><span class="n">list</span><span class="p">)</span>
-</span><span class='line'> <span class="nb">p</span> <span class="n">list</span> <span class="c1">#=&gt; &#39;index&#39;</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>ちなみにこれでも動きました。でもなんかこの書き方怖い。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">before_filter</span> <span class="s2">&quot;display_list(&#39;index&#39;)&quot;</span><span class="o">.</span><span class="n">to_sym</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-
-
-        </article>
-        <hr>
-    
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2012/02/28/20120228113656/">ある特定のオブジェクトにメソッドを追加する</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2012-02-28T11:36:00+09:00" pubdate><i class="fa fa-calendar"></i> Feb 28th, 2012</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>前に書いた<a href="http://d.hatena.ne.jp/gogo_sakura/20120207">オープンクラス</a>では、クラスを再オープンしてメソッドを追加した場合に。<br/>
-同じクラスから生成されたオブジェクト全てにメソッドが追加されました。<br/>
-もう一回やってみましょう。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Hoge</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">aaa</span>
-</span><span class='line'>    <span class="nb">p</span> <span class="s1">&#39;aaa&#39;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">hoge1</span> <span class="o">=</span> <span class="no">Hoge</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'><span class="n">hoge2</span> <span class="o">=</span> <span class="no">Hoge</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="n">hoge1</span><span class="o">.</span><span class="n">methods</span><span class="o">.</span><span class="n">grep</span><span class="p">(</span><span class="sr">/aaa|bbb/</span><span class="p">)</span> <span class="c1"># =&gt; [:aaa]</span>
-</span><span class='line'><span class="n">hoge2</span><span class="o">.</span><span class="n">methods</span><span class="o">.</span><span class="n">grep</span><span class="p">(</span><span class="sr">/aaa|bbb/</span><span class="p">)</span> <span class="c1"># =&gt; [:aaa]</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">Hoge</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">bbb</span>
-</span><span class='line'>    <span class="nb">p</span> <span class="s1">&#39;bbb&#39;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">hoge1</span><span class="o">.</span><span class="n">methods</span><span class="o">.</span><span class="n">grep</span><span class="p">(</span><span class="sr">/aaa|bbb/</span><span class="p">)</span> <span class="c1"># =&gt; [:aaa, :bbb]</span>
-</span><span class='line'><span class="n">hoge2</span><span class="o">.</span><span class="n">methods</span><span class="o">.</span><span class="n">grep</span><span class="p">(</span><span class="sr">/aaa|bbb/</span><span class="p">)</span> <span class="c1"># =&gt; [:aaa, :bbb]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>生成されたオブジェクトがメソッドを呼ぶとき。<br/>
-オブジェクトはクラスにメソッドを探しにいき、クラスに定義したメソッドがあった場合にそれを実行します。<br/>
-つまりクラスのメソッドに対する変更はそのクラスから生成された全オブジェクトに影響があるということです。</p>
-
-<p>でも実際には特定のオブジェクトにのみ処理を追加したい場合があります。<br/>
-特異なんとかを使います。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Hoge</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">aaa</span>
-</span><span class='line'>    <span class="nb">p</span> <span class="s1">&#39;aaa&#39;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">hoge1</span> <span class="o">=</span> <span class="no">Hoge</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'><span class="n">hoge2</span> <span class="o">=</span> <span class="no">Hoge</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">hoge1</span><span class="o">.</span><span class="n">methods</span><span class="o">.</span><span class="n">grep</span><span class="p">(</span><span class="sr">/aaa|bbb/</span><span class="p">)</span> <span class="c1"># =&gt; [:aaa]</span>
-</span><span class='line'><span class="n">hoge2</span><span class="o">.</span><span class="n">methods</span><span class="o">.</span><span class="n">grep</span><span class="p">(</span><span class="sr">/aaa|bbb/</span><span class="p">)</span> <span class="c1"># =&gt; [:aaa]</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">def</span> <span class="nc">hoge1</span><span class="o">.</span><span class="nf">bbb</span>
-</span><span class='line'>  <span class="nb">p</span> <span class="s2">&quot;bbb&quot;</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">hoge1</span><span class="o">.</span><span class="n">methods</span><span class="o">.</span><span class="n">grep</span><span class="p">(</span><span class="sr">/aaa|bbb/</span><span class="p">)</span> <span class="c1"># =&gt; [:bbb,:aaa]</span>
-</span><span class='line'><span class="n">hoge2</span><span class="o">.</span><span class="n">methods</span><span class="o">.</span><span class="n">grep</span><span class="p">(</span><span class="sr">/aaa|bbb/</span><span class="p">)</span> <span class="c1"># =&gt; [:aaa]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>hoge1のみにメソッドbbbが追加されました。<br/>
-他にinstance  _evalも使えます。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">hoge1</span><span class="o">.</span><span class="n">instance_eval</span> <span class="p">{</span>  <span class="k">def</span> <span class="nf">ccc</span><span class="p">;</span> <span class="nb">p</span> <span class="s2">&quot;ccc&quot;</span><span class="p">;</span><span class="k">end</span><span class="p">}</span>
-</span><span class='line'>  <span class="n">hoge1</span><span class="o">.</span><span class="n">methods</span><span class="o">.</span><span class="n">grep</span><span class="p">(</span><span class="sr">/aaa|bbb|ccc/</span><span class="p">)</span> <span class="c1"># =&gt; [:bbb, :ccc, :aaa]</span>
-</span><span class='line'>  <span class="n">hoge2</span><span class="o">.</span><span class="n">methods</span><span class="o">.</span><span class="n">grep</span><span class="p">(</span><span class="sr">/aaa|bbb|ccc/</span><span class="p">)</span> <span class="c1"># =&gt; [:aaa]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>蛇足ですが。class  _eval</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="no">Hoge</span><span class="o">.</span><span class="n">class_eval</span> <span class="p">{</span>  <span class="k">def</span> <span class="nf">ddd</span><span class="p">;</span> <span class="nb">p</span> <span class="s2">&quot;ddd&quot;</span><span class="p">;</span><span class="k">end</span><span class="p">}</span>
-</span><span class='line'>  <span class="n">hoge1</span><span class="o">.</span><span class="n">methods</span><span class="o">.</span><span class="n">grep</span><span class="p">(</span><span class="sr">/aaa|bbb|ccc|ddd/</span><span class="p">)</span> <span class="c1"># =&gt; [:bbb, :ccc, :aaa, :ddd]</span>
-</span><span class='line'>  <span class="n">hoge2</span><span class="o">.</span><span class="n">methods</span><span class="o">.</span><span class="n">grep</span><span class="p">(</span><span class="sr">/aaa|bbb|ccc|ddd/</span><span class="p">)</span> <span class="c1"># =&gt; [:aaa, :ddd]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>class  <em>evalはclassのメソッドなのでHoge.class  </em>evalで呼びます。<br/>
-全オブジェクトに影響しています。</p>
-
-<p>class  _eval(classのメソッド)はクラスのコンテキスト内で評価されるので、クラスメソッドとして追加されます。<br/>
-これはオープンクラスで追加したのと処理と同じような動きです。</p>
-
-
-
-        </article>
-        <hr>
-    
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2012/02/27/20120227112947/">instance_evalを引数つけて実行</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2012-02-27T11:29:00+09:00" pubdate><i class="fa fa-calendar"></i> Feb 27th, 2012</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>ruby1.9からです。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Foo</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span>
-</span><span class='line'>    <span class="vi">@v</span> <span class="o">=</span> <span class="mi">2</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">foo</span> <span class="o">=</span> <span class="no">Foo</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'><span class="n">foo</span><span class="o">.</span><span class="n">instance_exec</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">bar</span><span class="o">|</span>
-</span><span class='line'>  <span class="nb">p</span> <span class="vi">@v</span> <span class="o">*</span> <span class="n">bar</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'><span class="c1"># =&gt; 4</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-
-
-        </article>
-        <hr>
-    
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2012/02/24/20120224111023/">sqlの実行。</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2012-02-24T11:10:00+09:00" pubdate><i class="fa fa-calendar"></i> Feb 24th, 2012</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/rails/'>rails</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;drop table foo&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="no">Model</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">.execute</span><span class="p">(</span><span class="s2">&quot;drop table foo&quot;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-
-
-        </article>
-        <hr>
-    
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2012/02/23/20120223114250/">テーブルの一覧を取得</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2012-02-23T11:42:00+09:00" pubdate><i class="fa fa-calendar"></i> Feb 23rd, 2012</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/rails/'>rails</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>テーブルの一覧を取得</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">tables</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -942,23 +870,23 @@ rails 3.0.5</p>
     <ul class="divided">
         
         <li class="post">
-            <a href="/blog/2015/04/20/peco-selectup-selectdown/">pecoでctrl+jとctrl+kで上下移動</a>
+            <a href="/blog/2015/06/08/devise-skip-password-check/">Deviseでパスワードの検証をスキップする</a>
         </li>
         
         <li class="post">
-            <a href="/blog/2015/04/16/bootswatch-with-rails-assets/">Railsでbootswatch導入(with rails assets)</a>
+            <a href="/blog/2015/05/26/deep-reject/">deep_rejectが欲しくてrefinementsで実装しようとした話</a>
         </li>
         
         <li class="post">
-            <a href="/blog/2015/04/14/html5shiv-respond-with-slim/">RailsでIE8の対応(with rails assets)</a>
+            <a href="/blog/2015/05/25/force-occur-callbacks/">モデルのattributeに変更がなくてもnested_attribute_forを使っているモデルでcallbackを発生させる</a>
         </li>
         
         <li class="post">
-            <a href="/blog/2015/03/24/select-narrowing-down/">同一のselectボックスを複数設置した場合に、選択された項目を他のプルダウンから削除するjs</a>
+            <a href="/blog/2015/05/20/nested-form-add-field-to-top/">nested_formで下じゃなくて上に要素を追加したい場合</a>
         </li>
         
         <li class="post">
-            <a href="/blog/2015/03/21/mouse-pad/">今日 嫁にホワイトデーのお返しをしたよ</a>
+            <a href="/blog/2015/05/19/develop-with-rails-engine/">Rails Engineを使った開発</a>
         </li>
         
     </ul>

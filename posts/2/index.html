@@ -82,6 +82,430 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2015/03/21/mouse-pad/">今日 嫁にホワイトデーのお返しをしたよ</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2015-03-21T12:16:35+09:00" pubdate><i class="fa fa-calendar"></i> Mar 21st, 2015</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/self/'>self</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>嫁のホワイトデーのお返しがようやく届きました。</p>
+
+<p>かわいいマウスパッドというリクエストでしたが、探したけどかわいいマウスパッドがあまりなくどうしたものかと思ってましたが、
+商品を自由にカスタマイズできる <a href="http://www.zazzle.co.jp">Zazzle</a>というサービスがとても良さそうだったのでこれを利用しました。</p>
+
+<p>オーダーが3月9日。銀行振込も同日に行いました。<br/>
+振込確認したので作りますメールが12日にきて、13日に発送しますメールがきました。<br/>
+アメリカからの発送なので少し日数がたった3月16日に家に届きました。<br/>
+でも実際には仕事で受け取れず、受け取ったのは今日です(^^;)</p>
+
+<p>こんな感じのマウスパッドが届きました！
+素晴らしい出来！</p>
+
+<p><img src="/images/for_post/20150321_011205565_iOS.jpg"></p>
+
+<p>何か記念品を贈りたくなったらまた利用しようと思います。</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
+            <a href="/blog/2015/03/20/delete-duplicated-file/">重複している画像ファイルを削除(rubyで)</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2015-03-20T17:27:16+09:00" pubdate><i class="fa fa-calendar"></i> Mar 20th, 2015</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <div class="article__content clearfix">
+        <p>重複しているファイルを削除します。</p>
+
+<figure class='code'><figcaption><span>delete_duplicate_file.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;digest/md5&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">file_hash</span> <span class="o">=</span> <span class="no">ARGV</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="no">Hash</span><span class="o">.</span><span class="n">new</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="nb">hash</span><span class="p">,</span> <span class="n">file</span><span class="o">|</span>
+</span><span class='line'>              <span class="nb">hash</span><span class="o">[</span><span class="n">file</span><span class="o">]</span> <span class="o">=</span> <span class="no">Digest</span><span class="o">::</span><span class="no">MD5</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">)</span>
+</span><span class='line'>              <span class="nb">hash</span>
+</span><span class='line'>            <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">duplicated_md5</span> <span class="o">=</span> <span class="n">file_hash</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">sort</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="no">Hash</span><span class="o">.</span><span class="n">new</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">file_count</span><span class="p">,</span> <span class="n">md5</span><span class="o">|</span>
+</span><span class='line'>                   <span class="n">file_count</span><span class="o">[</span><span class="n">md5</span><span class="o">]</span> <span class="o">=</span> <span class="n">file_hash</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">md5</span><span class="p">)</span>
+</span><span class='line'>                   <span class="n">file_count</span>
+</span><span class='line'>                 <span class="k">end</span><span class="o">.</span><span class="n">select</span> <span class="k">do</span> <span class="o">|</span><span class="n">md5</span><span class="p">,</span> <span class="n">count</span><span class="o">|</span>
+</span><span class='line'>                   <span class="n">count</span> <span class="o">&gt;</span> <span class="mi">1</span>
+</span><span class='line'>                 <span class="k">end</span><span class="o">.</span><span class="n">keys</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">duplicated_md5</span><span class="o">.</span><span class="n">map</span> <span class="k">do</span> <span class="o">|</span><span class="n">file_md5</span><span class="o">|</span>
+</span><span class='line'>  <span class="c1"># 削除ではなく重複したファイルを他のディレクトリに退避したい場合などはここを変えてください。</span>
+</span><span class='line'>  <span class="no">File</span><span class="o">.</span><span class="n">unlink</span> <span class="n">file_hash</span><span class="o">.</span><span class="n">invert</span><span class="o">[</span><span class="n">file_md5</span><span class="o">]</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+        <a class="btn pull-right" href="/blog/2015/03/20/delete-duplicated-file/">Read on &rarr;</a>
+    </div>
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
+            <a href="/blog/2015/03/18/increment-in-file/">ファイル内の特定の行の数値をインクリメントする</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2015-03-18T12:00:03+09:00" pubdate><i class="fa fa-calendar"></i> Mar 18th, 2015</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <div class="article__content clearfix">
+        <p>yamlファイルの特定の数字をインクリメントしたくてスクリプトを書きました。
+データとしてはこんな感じです。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">data_one</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">col_num</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">1</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">hoge</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">options</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">fuga</span>
+</span><span class='line'><span class="l-Scalar-Plain">data_two</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">col_num</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">1</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">foo</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">options</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">baa</span>
+</span><span class='line'><span class="l-Scalar-Plain">data_three</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">col_num</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">1</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">foofoo</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">options</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">baabaa</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+
+        <a class="btn pull-right" href="/blog/2015/03/18/increment-in-file/">Read on &rarr;</a>
+    </div>
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
+            <a href="/blog/2015/03/16/iryohi-koujo/">はじめて医療費控除を申告してみたよ</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2015-03-16T21:07:30+09:00" pubdate><i class="fa fa-calendar"></i> Mar 16th, 2015</time>
+
+
+
+
+            
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <div class="article__content clearfix">
+        <p>医療費控除。</p>
+
+<p>薄々は知っていたけどそんなに病院にお金を使うこともなく、領収書と取っといたりするのも面倒なのであまり意識したことはなかったのですが、<br/>
+去年はエクストルージョンという歯の処置を保険適用外(15万弱しました)でやったりとかなりお金を使ったので今回は医療費控除を請求してみることにしました。</p>
+
+<p>郵送で申し込みます。</p>
+
+
+        <a class="btn pull-right" href="/blog/2015/03/16/iryohi-koujo/">Read on &rarr;</a>
+    </div>
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
+            <a href="/blog/2015/03/13/real-delete-discreetly/">関連先が存在していたら論理削除、関連先が存在していなかったら物理削除</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2015-03-13T22:21:31+09:00" pubdate><i class="fa fa-calendar"></i> Mar 13th, 2015</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <div class="article__content clearfix">
+        <p>という内容のものが業務で必要になり、処理を書きましたが勘違いでそんな仕様はどこにもなくお蔵入りになってしまって悔しいので
+ここでさらします。</p>
+
+<p>Gistではここに置いてあります。<br/>
+<a href="https://gist.github.com/YoshitsuguFujii/e86d1f208a594ae4effa">real_delete_discreetly</a></p>
+
+
+        <a class="btn pull-right" href="/blog/2015/03/13/real-delete-discreetly/">Read on &rarr;</a>
+    </div>
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
+            <a href="/blog/2015/03/12/invalid-css-after/">開発環境(development)で問題なかったのにdeployしようとしたらprecompileでこける。</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2015-03-12T23:58:19+09:00" pubdate><i class="fa fa-calendar"></i> Mar 12th, 2015</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby-on-rails-ruby/'>ruby on rails ruby</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <div class="article__content clearfix">
+        <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rake aborted!
+</span><span class='line'>Sass::SyntaxError: Invalid CSS after "...idth: Infinity%": expected expression (e.g. 1px, bold), was "; }"
+</span><span class='line'>  (in /var/www/hogehoge/app/assets/stylesheets/fuga/fuga.css.scss)
+</span><span class='line'>(sass):12</span></code></pre></td></tr></table></div></figure>
+
+
+<p>見た目にも問題なさそうだし、念のため<a href="https://github.com/causes/scss-lint">scss-lint</a>とかも通してみたけど問題なさそう。</p>
+
+
+        <a class="btn pull-right" href="/blog/2015/03/12/invalid-css-after/">Read on &rarr;</a>
+    </div>
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2015/03/10/githubpageniyi-xing-simasita/">GithubPageに移行しました</a>
         </h1>
     
@@ -437,589 +861,6 @@ fomula  _valueを設定しましょう</p>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2015/02/17/20150217112514/">trueとfalseにrefinmentsを使ってメソッド追加</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2015-02-17T11:25:00+09:00" pubdate><i class="fa fa-calendar"></i> Feb 17th, 2015</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>Rubyでモデルの値がtrueの場合は○。falseの場合は空文字を表示するメソッドが欲しかったのでrefimentsを使って実装したかったけどなかなかうまくいかない。<br/>
-trueはインスタンスだと思うんだけど何か普通のインスタンスと違うのだろうか。</p>
-
-<p>試行錯誤は省いて結論としてはこうしたらできました.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">BooleanEx</span>
-</span><span class='line'>  <span class="n">refine</span> <span class="no">TrueClass</span> <span class="k">do</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nc">true</span><span class="o">.</span><span class="nf">to_circle</span>
-</span><span class='line'>      <span class="s2">&quot;○&quot;</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">refine</span> <span class="no">FalseClass</span> <span class="k">do</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nc">false</span><span class="o">.</span><span class="nf">to_circle</span>
-</span><span class='line'>      <span class="s2">&quot;&quot;</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">using</span> <span class="no">BooleanEx</span>
-</span><span class='line'>
-</span><span class='line'><span class="kp">true</span><span class="o">.</span><span class="n">to_circle</span> <span class="c1"># =&gt; &quot;○&quot;</span>
-</span><span class='line'><span class="kp">false</span><span class="o">.</span><span class="n">to_circle</span> <span class="c1"># =&gt; &quot;&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-
-
-        </article>
-        <hr>
-    
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2015/01/08/20150108182843/">cacheのキーを削除</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2015-01-08T18:28:00+09:00" pubdate><i class="fa fa-calendar"></i> Jan 8th, 2015</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>例えばmodelへの問い合わせ結果をキャッシュに保存していて、after  _saveなどで消したい場合などは<br/>
-Rails.cache.delete(&lsquo;キー名&rsquo;)でできる。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">users</span> <span class="o">=</span> <span class="no">Rails</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s2">&quot;users&quot;</span><span class="p">,</span> <span class="ss">expires_in</span><span class="p">:</span> <span class="mi">30</span><span class="o">.</span><span class="n">seconds</span><span class="p">)</span> <span class="k">do</span>
-</span><span class='line'>  <span class="no">User</span><span class="o">.</span><span class="n">all</span><span class="o">.</span><span class="n">to_a</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># 消す</span>
-</span><span class='line'><span class="no">Rails</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="s1">&#39;users&#39;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-
-
-        </article>
-        <hr>
-    
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2014/12/26/20141226142144/">関連を保存時に削除する</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2014-12-26T14:21:00+09:00" pubdate><i class="fa fa-calendar"></i> Dec 26th, 2014</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>saveした時に削除したいときは対象のレコードに対して</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">accepts_nested_attributes_for</span> <span class="p">:</span><span class="err">対象のアソシエーション</span><span class="p">,</span> <span class="ss">allow_destroy</span><span class="p">:</span> <span class="kp">true</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>で宣言してから、</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">parent</span><span class="o">.</span><span class="n">childs</span><span class="o">.</span><span class="n">first</span><span class="o">.</span><span class="n">mark_for_destruction</span> <span class="c1"># 削除したいレコードに削除のマークをつける</span>
-</span><span class='line'><span class="n">parent</span><span class="o">.</span><span class="n">childs</span><span class="o">.</span><span class="n">save</span> <span class="c1"># =&gt; childsのfirstのものか削除される。</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>で削除される。<br/>
-ちなみにsave時にこれを削除してねってマークしたかは</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">parent</span><span class="o">.</span><span class="n">childs</span><span class="o">.</span><span class="n">first</span><span class="o">.</span><span class="n">marked_for_destruction?</span> <span class="c1"># =&gt; true</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>で確認できる。</p>
-
-
-
-        </article>
-        <hr>
-    
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2014/12/19/20141219102458/">カリー化のお話</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2014-12-19T10:24:00+09:00" pubdate><i class="fa fa-calendar"></i> Dec 19th, 2014</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p><a href="http://qiita.com/lnznt/items/0b20440cecd6f4e348b9">Ruby のカリー化を日本語で説明してみる -
-Qiita</a><br/>
-という記事を見たので自分も食べられない方のカリーを使ったものをなんか書いてみました。</p>
-
-<p>irbで実行できます。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">meeting</span> <span class="o">=</span> <span class="no">Proc</span><span class="o">.</span><span class="n">new</span> <span class="k">do</span> <span class="o">|</span><span class="n">teacher</span><span class="p">,</span> <span class="n">student</span><span class="o">|</span>
-</span><span class='line'> <span class="nb">p</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">teacher</span><span class="si">}</span><span class="s2">は</span><span class="si">#{</span><span class="n">student</span><span class="si">}</span><span class="s2">くんとカレーについて話す&quot;</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">fujii_meeting</span> <span class="o">=</span> <span class="n">meeting</span><span class="o">.</span><span class="n">curry</span><span class="o">.</span><span class="p">(</span><span class="s2">&quot;藤井先生&quot;</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="sx">%w(田中 佐藤 斉藤 加藤)</span><span class="o">.</span><span class="n">each</span><span class="p">(</span><span class="o">&amp;</span><span class="n">fujii_meeting</span><span class="p">)</span>
-</span><span class='line'><span class="c1"># =&gt; &quot;藤井先生は田中くんとカレーについて話す&quot;</span>
-</span><span class='line'><span class="c1"># =&gt; &quot;藤井先生は佐藤くんとカレーについて話す&quot;</span>
-</span><span class='line'><span class="c1"># =&gt; &quot;藤井先生は斉藤くんとカレーについて話す&quot;</span>
-</span><span class='line'><span class="c1"># =&gt; &quot;藤井先生は加藤くんとカレーについて話す&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-
-
-        </article>
-        <hr>
-    
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2014/12/18/20141218200736/">Axlxsを使って新規ファイルを作って、RubyXLで読み出す話</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2014-12-18T20:07:00+09:00" pubdate><i class="fa fa-calendar"></i> Dec 18th, 2014</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
-            
-                <li><a class='category' href='/blog/categories/gem/'>gem</a></li>
-            
-                <li><a class='category' href='/blog/categories/axlsx/'>axlsx</a></li>
-            
-                <li><a class='category' href='/blog/categories/excel/'>excel</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>どんどんtipsがニッチになっていきますね。</p>
-
-<p>Axlxsで作ったファイルがRubyXLで読み取れませんでした。<br/>
-一度エクセルで開いて保存すると読み取れるようになる。</p>
-
-<p>RubyXLでAxlxsで作成したファイルを読み込むと数値とかは辛うじて所々取れていたので文字コードかと思って色々やってみましたが、このページで解決</p>
-
-<p><a href="https://github.com/randym/axlsx/issues/349">Strings outputted not seen by rubyXL ? Issue   #349 ? randym/axlsx ?
-GitHub</a></p>
-
-<p>pkg = Package.create<br/>
-したら<br/>
-pkg.use  <em>shared  </em>strings = true<br/>
-する必要があるみたいでした。</p>
-
-<p>これで無事に読みだすことができました。</p>
-
-
-
-        </article>
-        <hr>
-    
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2014/12/17/20141217122846/">AxlsxでExcelファイルをcell単位でprotectionをした話</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2014-12-17T12:28:00+09:00" pubdate><i class="fa fa-calendar"></i> Dec 17th, 2014</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
-            
-                <li><a class='category' href='/blog/categories/gem/'>gem</a></li>
-            
-                <li><a class='category' href='/blog/categories/axlsx/'>axlsx</a></li>
-            
-                <li><a class='category' href='/blog/categories/excel/'>excel</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>Axlsxでエクセルと戯れる日々です。<br/>
-2シート目とかにマスタデータを保持しておいて、1シート目でプルダウンでマスタデータを選ばせたりしています。<br/>
-変更できないように2シート目はシート全体を保護しております。</p>
-
-<p>今日はAxlsxでセルの保護をしたお話です。</p>
-
-<p>これググっても全然出てきませんでした。</p>
-
-<p>結論から言うとこれでできます。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;axlsx&#39;</span>
-</span><span class='line'><span class="nb">require</span> <span class="s2">&quot;securerandom&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">package</span> <span class="o">=</span> <span class="no">Axlsx</span><span class="o">::</span><span class="no">Package</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'><span class="n">sheet</span> <span class="o">=</span> <span class="n">package</span><span class="o">.</span><span class="n">workbook</span><span class="o">.</span><span class="n">add_worksheet</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="s1">&#39;lists&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">sheet_protection</span><span class="o">.</span><span class="n">password</span> <span class="o">=</span> <span class="no">SecureRandom</span><span class="o">.</span><span class="n">uuid</span>
-</span><span class='line'><span class="n">locked</span> <span class="o">=</span> <span class="n">package</span><span class="o">.</span><span class="n">workbook</span><span class="o">.</span><span class="n">styles</span><span class="o">.</span><span class="n">add_style</span> <span class="ss">:locked</span> <span class="o">=&gt;</span> <span class="kp">true</span>
-</span><span class='line'><span class="n">unlocked</span> <span class="o">=</span> <span class="n">package</span><span class="o">.</span><span class="n">workbook</span><span class="o">.</span><span class="n">styles</span><span class="o">.</span><span class="n">add_style</span> <span class="ss">:locked</span> <span class="o">=&gt;</span> <span class="kp">false</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="o">[</span><span class="s1">&#39;品名&#39;</span><span class="p">,</span> <span class="s1">&#39;単価&#39;</span><span class="p">,</span> <span class="s1">&#39;数量&#39;</span><span class="p">,</span> <span class="s1">&#39;計&#39;</span><span class="o">]</span><span class="p">,</span> <span class="ss">style</span><span class="p">:</span> <span class="n">unlocked</span> <span class="p">)</span>
-</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="o">[</span><span class="s1">&#39;にんじん&#39;</span><span class="p">,</span>    <span class="mi">80</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>      <span class="s1">&#39;=B2*C2&#39;</span><span class="o">]</span><span class="p">,</span> <span class="ss">style</span><span class="p">:</span> <span class="n">unlocked</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">rows</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">cells</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">style</span> <span class="o">=</span> <span class="n">locked</span> <span class="c1"># A1をロック(lock cell =&gt; A1)</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">package</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="s1">&#39;test.xlsx&#39;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>この答えの出し方が最終的にRubyのことはRubyに聞くという方式で解決したのですが、<br/>
-この解決の仕方がRubyエンジニアっぽいなと思ったのでどうやってこの結論に辿り着いたかダラダラ書こうかと思います。</p>
-
-<p>まずセルの保護をしたいという要件がありました。<br/>
-コピペエンジニアの端くれとしてまずはググります。</p>
-
-<p>行単位のロックのお話は見つけましたが、セルの保護ではいい結果がありません。<br/>
-<a href="http://stackoverflow.com/questions/19051049/how-do-i-protect-header-rows-but-allow-to-enter-new-rows-using-axlsx">ruby on rails 3 - How do I protect header rows but allow to enter new
-rows using AXLSX? - Stack
-Overflow</a></p>
-
-<p>テストは下手なドキュメントよりも役にたつと誰かが言っていたので(実際の使い方のサンプルが見れるので)Axlsxのテストを見てみます。<br/>
-bundle open axlsxでaxlsxのインストールされたディレクトリを開いて、grep
-protectとかやってみます。<br/>
-いくつかヒットしたのでソースを見てみますがなんのこっちゃわかりません感じです。</p>
-
-<p>とりあえずgrepでひっかかった<br/>
-Axlsx::CellProtection.new<br/>
-をキーワードにグーグルで検索してみますが有用な情報は皆無です。</p>
-
-<p>一旦途方にくれます。コーヒーとか飲みます。</p>
-
-<p>おもむろに再度irbを立ち上げます。<br/>
-とりあえず怪しいものがないかコンソールから確認していってみることにします</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;axlsx&#39;</span>
-</span><span class='line'><span class="n">package</span> <span class="o">=</span> <span class="no">Axlsx</span><span class="o">::</span><span class="no">Package</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'><span class="n">sheet</span> <span class="o">=</span> <span class="n">package</span><span class="o">.</span><span class="n">workbook</span><span class="o">.</span><span class="n">add_worksheet</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="s1">&#39;lists&#39;</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="o">[</span><span class="s1">&#39;品名&#39;</span><span class="p">,</span> <span class="s1">&#39;単価&#39;</span><span class="p">,</span> <span class="s1">&#39;数量&#39;</span><span class="p">,</span> <span class="s1">&#39;計&#39;</span><span class="o">]</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>と打ちます。</p>
-
-<p>cellに保護をかけたいのだからcellオブジェクトにプロパティがあるんじゃないかとあたりをつけます。</p>
-
-<p>sheet.cellとうちます。そんなんねーよと返ってきます。<br/>
-sheet.cells と打ちます。なんかコンソールに文字がたくさんでます。</p>
-
-<p>A1のセルを取得してみます。<br/>
-sheet.cells[0,0]とうちます。空の配列が返ってきます。<br/>
-sheet.cells[0]とうちます。なんか一杯でてきます。<br/>
-sheet.cells[0].classとうちます。   # =  > Axlsx::Cell<br/>
-お、なんかいいの返ってきました。<br/>
-sheet.cells[0].methods.grep(/protect/)とかうってみます。
-[:protected  _methods]しか返ってきません。<br/>
-一回煮詰まります。
-sheet.cells[0].valueとかここで色々他のことをやってみますが、なかなかうまくいきません。</p>
-
-<p>そもそもセル単位で値とか設定できるんかと思いつきます。<br/>
-ググります。見つけます。</p>
-
-<p><a href="http://stackoverflow.com/questions/18178196/modify-specific-cell-value-using-axlsx-gem-given-the-column-number-and-row-numer">ruby on rails - Modify specific cell value using Axlsx gem given the
-column number and row numer - Stack
-Overflow</a></p>
-
-<p>特定のセルを取得するのは以下の方法でした。<br/>
-sheet.rows[0].cells[0]</p>
-
-<p>sheet.rows[0].cells[0].methodsでメソッド一回全部のメソッドを出してみます。</p>
-
-<p>sheet.rows[0].cells[0].pos   # =  > [0,0]<br/>
-とか<br/>
-sheet.rows[0].cells[0].reference   # =  >   $A  $1<br/>
-とか面白そうなメソッドがあります。</p>
-
-<p>その中にstyle=というメソッドを見つけました。<br/>
-これってひょっとして行単位のロックであったロックの書式を設定できるのではないかと推測します。</p>
-
-<p>そして出きたのが冒頭のコードです。</p>
-
-<p>sheet.rows[0].cells[0].style = locked<br/>
-だけでは不十分で<br/>
-sheet.sheet  _protection.password<br/>
-でパスワードを設定しないといけないとか、保護をかけて必要な所をlockしたりunlockしたりしないといけないとか色々とはまりながらもなんとか答えを出せました。<br/>
-今回は運も味方してくれたかなぁという気もします。</p>
-
-<p>困ったときはインタラクティブにどんなメソッドがあるかどんな値が設定されているか確認しながら<br/>
-試しながらやることで問題が解決できるというのは素晴らしいと思いました。</p>
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -1083,23 +924,23 @@ sheet.sheet  _protection.password<br/>
     <ul class="divided">
         
         <li class="post">
-            <a href="/blog/2015/04/20/peco-selectup-selectdown/">pecoでctrl+jとctrl+kで上下移動</a>
+            <a href="/blog/2015/06/08/devise-skip-password-check/">Deviseでパスワードの検証をスキップする</a>
         </li>
         
         <li class="post">
-            <a href="/blog/2015/04/16/bootswatch-with-rails-assets/">Railsでbootswatch導入(with rails assets)</a>
+            <a href="/blog/2015/05/26/deep-reject/">deep_rejectが欲しくてrefinementsで実装しようとした話</a>
         </li>
         
         <li class="post">
-            <a href="/blog/2015/04/14/html5shiv-respond-with-slim/">RailsでIE8の対応(with rails assets)</a>
+            <a href="/blog/2015/05/25/force-occur-callbacks/">モデルのattributeに変更がなくてもnested_attribute_forを使っているモデルでcallbackを発生させる</a>
         </li>
         
         <li class="post">
-            <a href="/blog/2015/03/24/select-narrowing-down/">同一のselectボックスを複数設置した場合に、選択された項目を他のプルダウンから削除するjs</a>
+            <a href="/blog/2015/05/20/nested-form-add-field-to-top/">nested_formで下じゃなくて上に要素を追加したい場合</a>
         </li>
         
         <li class="post">
-            <a href="/blog/2015/03/21/mouse-pad/">今日 嫁にホワイトデーのお返しをしたよ</a>
+            <a href="/blog/2015/05/19/develop-with-rails-engine/">Rails Engineを使った開発</a>
         </li>
         
     </ul>
