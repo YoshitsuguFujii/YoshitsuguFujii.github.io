@@ -3,7 +3,7 @@ layout: post
 title: "Deviseで特定の条件のみパスワードの検証をスキップする"
 date: 2015-06-08 12:35:01 +0900
 comments: true
-categories: [ruby,ruby on rails devise]
+categories: [ruby,ruby on rails, devise]
 ---
 
 ```ruby
