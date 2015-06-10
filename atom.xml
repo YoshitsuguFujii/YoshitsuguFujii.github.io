@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2015-06-08T14:27:31+09:00</updated>
+    <updated>2015-06-10T12:20:51+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,61 @@
     </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[user_idをurlに付与して全ページで引き回す]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2015/06/10/append-user-id-to-url/"/>
+        <updated>2015-06-10T12:01:49+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2015/06/10/append-user-id-to-url</id>
+        <content type="html"><![CDATA[<p>特定のパラメータを常にurlに付与する方法です。</p>
+
+<p>urlにuser_idをクエリなどにふくめておくとgoogle analyticsとか使った時に、特定のユーザがどういうページにアクセスしたかわかりユーザの行動分析に使えたりします。</p>
+
+<p>なのでurlに自動でuser_id=[:user_id]の形式でアクセスしてるページのuser_idが付与されると非常に便利そうです。</p>
+
+<p>参考になったのはjpmobileのソースでした(docomo端末の場合にguidを自動付与したりしています)<br/>
+<a href="https://github.com/jpmobile/jpmobile/blob/master/lib/jpmobile/docomo_guid.rb">docomo_guid.rb</a></p>
+
+<!-- more -->
+
+
+<p>こうすれば自動でユーザーIDが設定されます。</p>
+
+<figure class='code'><figcaption><span>app/controller/application_controller.rb </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ApplicationController</span> <span class="o">&lt;</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">default_url_options</span>
+</span><span class='line'>    <span class="n">result</span> <span class="o">=</span> <span class="k">super</span> <span class="o">||</span> <span class="p">{}</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">current_user</span><span class="o">.</span><span class="n">present?</span>
+</span><span class='line'>      <span class="n">result</span><span class="o">.</span><span class="n">merge!</span><span class="p">(</span><span class="ss">user_id</span><span class="p">:</span> <span class="n">current_user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="n">result</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="ss">:user_id</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="n">result</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>これでログインしていれば(上記だとcurrent_userが取れれば)<br/>
+<a href="http://localhost:3000/?user_id=6">http://localhost:3000/?user_id=6</a><br/>
+みたいに付与されるはずです。</p>
+
+<p>今やっている案件でこの処理が必要になったので思い出しながら書いてみましたが、以前これを利用して遷移前の履歴をurlに保持するgemを作ったことをふと思いだしました。<br/>
+<a href="https://github.com/YoshitsuguFujii/light_stalking">light_stalking</a></p>
+
+<p>このGEMは思いつきで作って実際に使ってないので色々と問題ありそうですが、default_url_optionsを使うことでurlの最大長にひっかからない範囲で色々なことができそうという一例になるんじゃないかと思いました。</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[Deviseで特定の条件のみパスワードの検証をスキップする]]></title>
@@ -1604,72 +1659,6 @@ compile errorになっていた原因はここにありました。
 </span><span class='line'><span class="k">end</span>
 </span><span class='line'>
 </span><span class='line'><span class="n">package</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="s1">&#39;test.xlsx&#39;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[Axlsxでエクセルファイル作成時に注意する点とかはまりどころとか]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2015/02/21/20150221171638/"/>
-        <updated>2015-02-21T17:16:00+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2015/02/21/20150221171638</id>
-        <content type="html"><![CDATA[<p>最近Railsを使う会社が増えてきて、2年前にRailsを扱う会社をエージェントに探してもらった時はなかなか見つからなかったんですが、今は楽に見つかりそうですね。
-そもそも登録した転職サイトがダメだったのかもしれないと思いますが。
-千葉でRuby、Railsメインでやってる会社ないかな。</p>
-
-<p>さてさて、ここのところずっと触っているAxlsxです。</p>
-
-<h3>型に気をつける</h3>
-
-<p>エクセルのセルが数値か文字列かで挙動が変わったりします。
-文字列型のカラムに&#8221;1000&#8221;とか入っていた場合、エクセルでは数値として認識されてしまってvloolupなどの関数が反応しないことがあります。
-その場合は明示的にtypeを指定しましょう。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span>
-</span><span class='line'>  <span class="o">[</span>
-</span><span class='line'>    <span class="s2">&quot;1000&quot;</span><span class="p">,</span>
-</span><span class='line'>    <span class="mi">1000</span><span class="p">,</span>
-</span><span class='line'>  <span class="o">]</span><span class="p">,</span> <span class="ss">types</span><span class="p">:</span> <span class="o">[</span><span class="ss">:string</span><span class="p">,</span> <span class="ss">:float</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># もしくは</span>
-</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">rows</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">cells</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">type</span> <span class="o">=</span> <span class="o">[</span><span class="ss">:string</span><span class="o">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>typesに設定できるシンボル
-<a href="http://www.rubydoc.info/github/randym/axlsx/master/Axlsx/Cell:type">Method: Axlsx::Cell  #type — Documentation for randym/axlsx
-(master)</a>
-[:date, :time, :float, :integer, :string, :boolean]</p>
-
-<h3>エクセルの関数を設定してダウンロード</h3>
-
-<p>そのままアップロードすると関数による値の設定が行われません。
-おそらく数式はエクセルを開いた時にエクセル側で計算されるので、エクセルを一回も開かずにアップロードすると値が設定されていないことになるのかと思います
-fomula  _valueを設定しましょう</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">add_row</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;=A1+B1&#39;</span><span class="o">]</span><span class="p">,</span> <span class="ss">:formula_values</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="kp">nil</span><span class="p">,</span> <span class="kp">nil</span><span class="p">,</span> <span class="mi">3</span><span class="o">]</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">#_もしくは</span>
-</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">rows</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">cells</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">value</span>         <span class="o">=</span> <span class="s2">&quot;=A1+B1&quot;</span>
-</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">rows</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">cells</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">formula_value</span> <span class="o">=</span> <span class="s2">&quot;3&quot;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 

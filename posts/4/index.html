@@ -82,6 +82,101 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2014/11/28/20141128152410/">handlerbarsで現在のループ回数を知る</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2014-11-28T15:24:00+09:00" pubdate><i class="fa fa-calendar"></i> Nov 28th, 2014</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/handlebars/'>handlebars</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>@indexで取れます。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="p"></span>
+</span><span class='line'>  <span class="p">:</span> <span class="p"></span>
+</span><span class='line'>  <span class="n">isFirst?</span><span class="p">:</span> <span class="p"></span>
+</span><span class='line'>  <span class="n">isLast?</span><span class="p">:</span> <span class="p"></span>
+</span><span class='line'><span class="p"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>その他に@firstには最初の一回目のループの時にはtrueが<br/>
+@lastには最後のループの時にはtrueが入るようです。<br/>
+@indexは入力欄  _1とかの1とか表示する時に使えそうですね。</p>
+
+<p>2次元配列とか多次元配列を回す時はこうですね。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">多次元配列の回し方</span>
+</span><span class='line'><span class="p"></span>
+</span><span class='line'><span class="p"></span>
+</span><span class='line'>  <span class="p"></span>
+</span><span class='line'>    <span class="p"></span>
+</span><span class='line'>    <span class="p"></span>
+</span><span class='line'>    <span class="p"></span>
+</span><span class='line'>  <span class="p"></span>
+</span><span class='line'><span class="p"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ちなみにでコメントです。<br/>
+という書き方もできます。</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2014/11/21/20141121134825/">slimbarsを使ったらUnknown line indicator</a>
         </h1>
     
@@ -1306,150 +1401,6 @@ Bookshelfの紹介</a>を参照させていただきながら、Bookshelf触っ�
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2014/02/03/20140203145732/">csvからuserを検索して、データ更新サンプル</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2014-02-03T14:57:00+09:00" pubdate><i class="fa fa-calendar"></i> Feb 3rd, 2014</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>例えば外部システムとユーザの情報を持ち合っている時。<br/>
-外部システムのuser  <em>id(コード内ではuser  </em>external  _id)から、システム内のユーザIDを導き出して、そのデータにパッチを当てるスクリプト。</p>
-
-<p>active  _recordとかは単品で扱ってる(database.yml&#8217;読み込み)</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1">#!/usr/bin/env ruby</span>
-</span><span class='line'><span class="c1"># coding: utf-8</span>
-</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;csv&#39;</span>
-</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;optparse&#39;</span>
-</span><span class='line'><span class="nb">require</span> <span class="s2">&quot;active_record&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">params</span> <span class="o">=</span> <span class="no">ARGV</span><span class="o">.</span><span class="n">getopts</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;csv:user.csv&#39;</span><span class="p">,</span> <span class="s1">&#39;ENV:development&#39;</span><span class="p">,</span> <span class="s1">&#39;RAILS_ROOT:./&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="nb">p</span> <span class="n">params</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">config</span> <span class="o">=</span> <span class="no">YAML</span><span class="o">.</span><span class="n">load_file</span><span class="p">(</span> <span class="n">params</span><span class="o">[</span><span class="s1">&#39;RAILS_ROOT&#39;</span><span class="o">]</span> <span class="o">+</span> <span class="s1">&#39;config/database.yml&#39;</span> <span class="p">)</span>
-</span><span class='line'><span class="k">raise</span> <span class="no">ArgumentError</span><span class="p">,</span> <span class="s1">&#39;ENVが設定されていません&#39;</span>            <span class="k">if</span> <span class="n">params</span><span class="o">[</span><span class="s1">&#39;ENV&#39;</span><span class="o">].</span><span class="n">nil?</span>
-</span><span class='line'><span class="k">raise</span> <span class="no">ArgumentError</span><span class="p">,</span> <span class="s1">&#39;RAILS_ROOTが指定されていません&#39;</span>     <span class="k">if</span> <span class="n">params</span><span class="o">[</span><span class="s1">&#39;RAILS_ROOT&#39;</span><span class="o">].</span><span class="n">nil?</span>
-</span><span class='line'><span class="k">raise</span> <span class="no">ArgumentError</span><span class="p">,</span> <span class="s1">&#39;database.ymlを読み出せませんでした&#39;</span> <span class="k">if</span> <span class="n">config</span><span class="o">[</span><span class="n">params</span><span class="o">[</span><span class="s1">&#39;ENV&#39;</span><span class="o">]].</span><span class="n">nil?</span>
-</span><span class='line'><span class="k">raise</span> <span class="no">ArgumentError</span><span class="p">,</span> <span class="s1">&#39;csvファイルが存在しません&#39;</span>          <span class="k">unless</span> <span class="no">File</span><span class="o">.</span><span class="n">exists?</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="s1">&#39;csv&#39;</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">establish_connection</span><span class="p">(</span><span class="n">config</span><span class="o">[</span><span class="n">params</span><span class="o">[</span><span class="s1">&#39;ENV&#39;</span><span class="o">]]</span><span class="p">)</span>
-</span><span class='line'><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">column</span> <span class="o">=</span> <span class="sx">%w(user_external_id  name birthday)</span>
-</span><span class='line'><span class="no">CSV</span><span class="o">.</span><span class="n">foreach</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="s1">&#39;csv&#39;</span><span class="o">]</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">row</span><span class="o">|</span>
-</span><span class='line'>  <span class="c1"># 一行を全部hashに入れる</span>
-</span><span class='line'>  <span class="n">row_hash</span> <span class="o">=</span> <span class="p">{}</span>
-</span><span class='line'>  <span class="n">row</span><span class="o">.</span><span class="n">each_with_index</span> <span class="k">do</span> <span class="o">|</span><span class="n">r</span><span class="p">,</span><span class="n">idx</span><span class="o">|</span>
-</span><span class='line'>    <span class="n">row_hash</span><span class="o">[</span><span class="n">column</span><span class="o">[</span><span class="n">idx</span><span class="o">]]</span> <span class="o">=</span> <span class="n">r</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">find_by_external_id</span><span class="p">(</span><span class="n">row_hash</span><span class="o">[</span><span class="s1">&#39;user_external_id&#39;</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">if</span> <span class="o">!</span><span class="n">user</span><span class="o">.</span><span class="n">nil?</span>
-</span><span class='line'>    <span class="n">user</span><span class="o">.</span><span class="n">update_attribute</span><span class="p">(</span><span class="ss">:name</span> <span class="o">=&gt;</span> <span class="n">row_hash</span><span class="o">[</span><span class="s1">&#39;name&#39;</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>実行はターミナルで</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">ruby</span> <span class="err">上記コードのファイル</span> <span class="o">--</span><span class="no">ENV</span> <span class="n">production</span>
-</span><span class='line'><span class="err">もしくは</span>
-</span><span class='line'><span class="n">bundle</span> <span class="nb">exec</span> <span class="n">ruby</span> <span class="err">上記コードのファイル</span> <span class="o">--</span><span class="no">ENV</span> <span class="n">production</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>とかとか</p>
-
-<p>スクリプトのオプションは<br/>
- &ndash;ENVはdatabae.ymlの読み込みたい環境{development|production}<br/>
- &ndash;csv で読み込むファイルパス<br/>
- &ndash;RAILS  _ROOT でRailsのapp rootを指定。</p>
-
-<p>さらさらっと書いて本番のrails
-rootで動かしてパッチを実際に当てましたが。<br/>
-仕事にかかわる記述は消したり直したり、ロクにテストしていないので動かなかったらごめんなさい。</p>
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -1513,6 +1464,10 @@ rootで動かしてパッチを実際に当てましたが。<br/>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2015/06/10/append-user-id-to-url/">user_idをurlに付与して全ページで引き回す</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2015/06/08/devise-skip-password-check/">Deviseで特定の条件のみパスワードの検証をスキップする</a>
         </li>
         
@@ -1526,10 +1481,6 @@ rootで動かしてパッチを実際に当てましたが。<br/>
         
         <li class="post">
             <a href="/blog/2015/05/20/nested-form-add-field-to-top/">nested_formで下じゃなくて上に要素を追加したい場合</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2015/05/19/develop-with-rails-engine/">Rails Engineを使った開発</a>
         </li>
         
     </ul>

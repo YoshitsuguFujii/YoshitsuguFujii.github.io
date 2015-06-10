@@ -4,7 +4,7 @@
     <title><![CDATA[Category: ruby on rails | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/ruby-on-rails/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2015-06-08T14:27:31+09:00</updated>
+    <updated>2015-06-10T12:20:51+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,116 @@
       </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[user_idをurlに付与して全ページで引き回す]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2015/06/10/append-user-id-to-url/"/>
+        <updated>2015-06-10T12:01:49+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2015/06/10/append-user-id-to-url</id>
+        <content type="html"><![CDATA[<p>特定のパラメータを常にurlに付与する方法です。</p>
+
+<p>urlにuser_idをクエリなどにふくめておくとgoogle analyticsとか使った時に、特定のユーザがどういうページにアクセスしたかわかりユーザの行動分析に使えたりします。</p>
+
+<p>なのでurlに自動でuser_id=[:user_id]の形式でアクセスしてるページのuser_idが付与されると非常に便利そうです。</p>
+
+<p>参考になったのはjpmobileのソースでした(docomo端末の場合にguidを自動付与したりしています)<br/>
+<a href="https://github.com/jpmobile/jpmobile/blob/master/lib/jpmobile/docomo_guid.rb">docomo_guid.rb</a></p>
+
+<!-- more -->
+
+
+<p>こうすれば自動でユーザーIDが設定されます。</p>
+
+<pre><code class="ruby app/controller/application_controller.rb ">class ApplicationController &lt; ActionController::Base
+  def default_url_options
+    result = super || {}
+    if current_user.present?
+      result.merge!(user_id: current_user.id)
+    else
+      result.delete(:user_id)
+    end
+    result
+  end
+end
+</code></pre>
+
+<p>これでログインしていれば(上記だとcurrent_userが取れれば)<br/>
+<a href="http://localhost:3000/?user_id=6">http://localhost:3000/?user_id=6</a><br/>
+みたいに付与されるはずです。</p>
+
+<p>今やっている案件でこの処理が必要になったので思い出しながら書いてみましたが、以前これを利用して遷移前の履歴をurlに保持するgemを作ったことをふと思いだしました。<br/>
+<a href="https://github.com/YoshitsuguFujii/light_stalking">light_stalking</a></p>
+
+<p>このGEMは思いつきで作って実際に使ってないので色々と問題ありそうですが、default_url_optionsを使うことでurlの最大長にひっかからない範囲で色々なことができそうという一例になるんじゃないかと思いました。</p>
+]]></content>
+    </entry>
+    
+    <entry>
+        <title type="html"><![CDATA[Deviseで特定の条件のみパスワードの検証をスキップする]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2015/06/08/devise-skip-password-check/"/>
+        <updated>2015-06-08T12:35:01+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2015/06/08/devise-skip-password-check</id>
+        <content type="html"><![CDATA[<pre><code class="ruby">#開発環境  
+rails 4.2.1  
+devise 3.4.1  
+</code></pre>
+
+<p>deviseを使っていて、ユーザモデルに仮登録状態を作りたいと思います。<br/>
+仮登録の段階ではパスワードはまだ要求されず。<br/>
+最後の最後でパスワードを設定して本会員登録完了といったフローです。</p>
+
+<p>deviseでは対象モデルに<code>devise :validatable</code>に設定している場合はメールアドレスやパスワードの検証が走ります。<br/>
+今回はパスワード以外のチェックはやってほしいため<code>:validatable</code>の宣言を外すだけではダメです。</p>
+
+<!-- more -->
+
+
+<p>deviseの以下のソースを見てみます</p>
+
+<pre><code class="ruby lib/devise/models/validatable.rb">def self.included(base)
+  base.extend ClassMethods
+  assert_validations_api!(base)
+
+  base.class_eval do
+    validates_presence_of   :email, if: :email_required?
+    validates_uniqueness_of :email, allow_blank: true, if: :email_changed?
+    validates_format_of     :email, with: email_regexp, allow_blank: true, if: :email_changed?
+
+    validates_presence_of     :password, if: :password_required?
+    validates_confirmation_of :password, if: :password_required?
+    validates_length_of       :password, within: password_length, allow_blank: true
+  end
+end
+</code></pre>
+
+<p>パスワードの検証をするかどうかはpassword_required?で判定しています。
+判定メソッドはこんな感じです。</p>
+
+<pre><code class="ruby">def password_required?
+  !persisted? || !password.nil? || !password_confirmation.nil?
+end
+</code></pre>
+
+<p>これを対象のモデルでオーバーライドします。</p>
+
+<pre><code class="ruby">class User &lt; ActiveRecord::Base
+
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :trackable, :validatable
+
+  def password_required?
+    if member?
+      !persisted? || !password.nil? || !password_confirmation.nil?
+    else
+      false
+    end
+  end
+end
+</code></pre>
+
+<p>これでmember?がtrueを返さない(本登録前のユーザ)はパスワードの検証処理をスキップできるようになります。</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[モデルのattributeに変更がなくてもnested_attribute_forを使っているモデルでcallbackを発生させる]]></title>
@@ -175,125 +285,6 @@ application.jsで<code>//= require jquery_nested_form</code>の後に以下の�
 engine固有の仕組みや書き方もあって最初は中々辛い部分もありますが、
 engineを使ったことのない方は決まり切った処理をコピぺで過去のプロジェクトから持ってくるのではなく、
 その処理をengineに書き出してそれをプロジェクトから参照してみてはいかがでしょうか？</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[Railsでbootstrap datetimepickerを日本語化しつつ導入(with rails assets)]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2015/04/22/bootstrap-datetimepicker/"/>
-        <updated>2015-04-22T21:52:21+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2015/04/22/bootstrap-datetimepicker</id>
-        <content type="html"><![CDATA[<p>普段はよく<a href="https://github.com/eternicode/bootstrap-datepicker">bootstrap-datepicker</a>を使うのですが、
-今回の案件では時刻まで絞り込みたいというお話だったのでdatetimepickerを導入してみました。</p>
-
-<p>こちらを使います。かなり高機能な上に日本語化まで対応できる優れもの。<br/>
-<a href="http://eonasdan.github.io/bootstrap-datetimepicker/">Eonasdan/bootstrap-datetimepicker</a></p>
-
-<p>デモを見るだけでもワクワクしますね。<br/>
-<a href="http://eonasdan.github.io/bootstrap-datetimepicker/Installing/">入れ方</a>もたくさん用意されていていいですね。<br/>
-今回もrails-assetsで導入します。</p>
-
-<!-- more -->
-
-
-<pre><code class="ruby Gemfile">source 'https://rails-assets.org' do
-  gem 'rails-assets-bootstrap-sass-official'
-  gem 'rails-assets-eonasdan-bootstrap-datetimepicker'
-end
-</code></pre>
-
-<p><code>bundle install</code>したら次はapp/assets/javascripts/application.jsに以下を記述。<br/>
-日本語化する場合はmomentも一緒にいれます。</p>
-
-<pre><code class="js app/assets/javascripts/application.js">//= require bootstrap-sass-official
-//= require moment
-//= require moment/locale/ja
-//= require eonasdan-bootstrap-datetimepicker
-</code></pre>
-
-<p>最後にcssの読み込み<br/>
-<code>css app/assets/stylesheets/application.css.scss
-@import "bootstrap-sass-official";
-@import "eonasdan-bootstrap-datetimepicker";
-</code></p>
-
-<p>これで設定は終了です。<br/>
-あとはhtmlで</p>
-
-<pre><code class="html">&lt;input class="datetimepicker form-control" type="text"&gt;
-</code></pre>
-
-<p>とかやって</p>
-
-<pre><code class="js">  $(".datetimepicker").datetimepicker({
-    format: "YYYY/MM/DD HH:mm",
-    showClear: true,
-    showClose: true,
-    locale: 'ja'
-   });
-</code></pre>
-
-<p>とかやると日本語かされた時刻も選択可能なカレンダーがいい感じに表示されるはずです。</p>
-
-<h3>2014/04/25追記</h3>
-
-<p>ちなみに書式設定をいじれば時刻選択なしの日付のみのdatepickerとしても使えます。</p>
-
-<pre><code class="js">  $(".datepicker").datetimepicker({
-    format: "YYYY/MM/DD",
-    showClear: true,
-    showClose: true,
-    locale: 'ja'
-   });
-</code></pre>
-
-<p>非常にいいですね。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[Railsでbootswatch導入(with rails assets)]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2015/04/16/bootswatch-with-rails-assets/"/>
-        <updated>2015-04-16T11:01:57+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2015/04/16/bootswatch-with-rails-assets</id>
-        <content type="html"><![CDATA[<p>管理画面を作るにあたって<a href="http://getbootstrap.com/">bootstrap</a>だけで1から作るのもしんどかったので、フリーのbootstrap用テンプレート<a href="https://bootswatch.com/">bootswatch</a>を使って管理画面を作ってみたいと思います。</p>
-
-<p>導入には以下4パターンがあるかと思います。</p>
-
-<ol>
-<li><a href="https://github.com/maxim/bootswatch-rails">bootswatch-rails</a>などのGemを使う</li>
-<li>bowerで入れる</li>
-<li>rails-assetsで入れる</li>
-<li>サイトからダウンロードしてassets下に配置する</li>
-</ol>
-
-
-<p>今回はrails-assetsで導入してみました。</p>
-
-<!-- more -->
-
-
-<p><a href="https://rails-assets.org/">Rails Assets</a>で検索するといくつか候補が出てきます。<br/>
-今回はrails-assets-bootswatch-sassを使ってみます</p>
-
-<pre><code class="ruby Gemfile">source 'https://rails-assets.org' do
-  gem 'rails-assets-bootstrap-sass-official'
-  gem 'rails-assets-bootswatch-sass'
-end
-</code></pre>
-
-<p>そしてapplication.cssをapplication.css.scssにリネームして以下を追加です。</p>
-
-<pre><code class="css app/assets/stylesheets/application.css.scss">$icon-font-path: "bootstrap-sass-official/";
-
-@import "bootstrap-sass-official";
-@import "bootswatch-sass/flatly/variables";
-@import "bootswatch-sass/flatly/bootswatch";
-@import "bootswatch-sass/flatly/bootstrap";
-</code></pre>
-
-<p>これでサイトがbootswatchのテーマが適用された状態(今回はフラットデザインのflatlyを選びました)となります。
-簡単ですね。</p>
 ]]></content>
     </entry>
     

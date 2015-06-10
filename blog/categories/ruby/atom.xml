@@ -4,7 +4,7 @@
     <title><![CDATA[Category: ruby | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/ruby/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2015-06-08T14:27:31+09:00</updated>
+    <updated>2015-06-10T12:20:51+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,49 @@
       </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[user_idをurlに付与して全ページで引き回す]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2015/06/10/append-user-id-to-url/"/>
+        <updated>2015-06-10T12:01:49+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2015/06/10/append-user-id-to-url</id>
+        <content type="html"><![CDATA[<p>特定のパラメータを常にurlに付与する方法です。</p>
+
+<p>urlにuser_idをクエリなどにふくめておくとgoogle analyticsとか使った時に、特定のユーザがどういうページにアクセスしたかわかりユーザの行動分析に使えたりします。</p>
+
+<p>なのでurlに自動でuser_id=[:user_id]の形式でアクセスしてるページのuser_idが付与されると非常に便利そうです。</p>
+
+<p>参考になったのはjpmobileのソースでした(docomo端末の場合にguidを自動付与したりしています)<br/>
+<a href="https://github.com/jpmobile/jpmobile/blob/master/lib/jpmobile/docomo_guid.rb">docomo_guid.rb</a></p>
+
+<!-- more -->
+
+
+<p>こうすれば自動でユーザーIDが設定されます。</p>
+
+<pre><code class="ruby app/controller/application_controller.rb ">class ApplicationController &lt; ActionController::Base
+  def default_url_options
+    result = super || {}
+    if current_user.present?
+      result.merge!(user_id: current_user.id)
+    else
+      result.delete(:user_id)
+    end
+    result
+  end
+end
+</code></pre>
+
+<p>これでログインしていれば(上記だとcurrent_userが取れれば)<br/>
+<a href="http://localhost:3000/?user_id=6">http://localhost:3000/?user_id=6</a><br/>
+みたいに付与されるはずです。</p>
+
+<p>今やっている案件でこの処理が必要になったので思い出しながら書いてみましたが、以前これを利用して遷移前の履歴をurlに保持するgemを作ったことをふと思いだしました。<br/>
+<a href="https://github.com/YoshitsuguFujii/light_stalking">light_stalking</a></p>
+
+<p>このGEMは思いつきで作って実際に使ってないので色々と問題ありそうですが、default_url_optionsを使うことでurlの最大長にひっかからない範囲で色々なことができそうという一例になるんじゃないかと思いました。</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[Deviseで特定の条件のみパスワードの検証をスキップする]]></title>
@@ -313,41 +356,6 @@ application.jsで<code>//= require jquery_nested_form</code>の後に以下の�
 &#8220;`</p>
 
 <p>簡単でした。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[Rails Engineを使った開発]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2015/05/19/develop-with-rails-engine/"/>
-        <updated>2015-05-19T13:09:58+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2015/05/19/develop-with-rails-engine</id>
-        <content type="html"><![CDATA[<p>一つ前に携わったプロジェクトではサブシステムがたくさんあり、それぞれがrailsで構築されていて共通処理やmodelはrails engineにあつめられ各システムで参照しておりました。</p>
-
-<p>今までgemのコードリーディングをする時にしか意識していなかったrails engineですが(deviseとかとか)、結構便利だということを今更ながら実感し、最近は共有処理をengineに書き出してそれを参照するようにしています。</p>
-
-<p>クックパッドさんでも共通部分をengineに集めているようです。<br/>
-<a href="http://techlife.cookpad.com/entry/2015/04/06/155940">新規サービスの管理画面を短期間で見栄え良く実装する</a></p>
-
-<p>ドリコムさんでは複数のengineを組み合わせてシステムを作っているようです。<br/>
-<a href="http://blog.onk.ninja/2014/12/02/mountable_engine.html">Mountable Engine だらけの Rails アプリ開発</a></p>
-
-<!-- more -->
-
-
-<p>でも完全に共通に作ろうとすると色々考えなきゃいけないから工数がかかっちゃうんじゃないかと懸念があるかもしれません。<br/>
-でも最初はそこまで共通化する必要もないのではないのかと思います。</p>
-
-<p>git使っていれば、システムの納品段階でengineのブランチを切るなりタグを打つなりして機能を固定してしまえばいいのです。<br/>
-そうすれば、今後engineに修正が加わってもGemfileで該当のブランチまたはタグを見るようにすれば問題なく納品段階のengineのコードでシステムは動き続けます。<br/>
-その後時間をおいてゆっくりとプロジェクトに依存したコードを共通化していけばいいのです。</p>
-
-<p>これを応用してめったにやらない処理であんまり入れなたくないような機能や、<br/>
-モンキーパッチなども参照元のプロジェクト単位でengineをカスタマイズして導入することもできます。</p>
-
-<p>そして共通化した処理を書くことはいつもより有益なことをしてる気持ちで仕事ができるので楽しいです。<br/>
-engine固有の仕組みや書き方もあって最初は中々辛い部分もありますが、
-engineを使ったことのない方は決まり切った処理をコピぺで過去のプロジェクトから持ってくるのではなく、
-その処理をengineに書き出してそれをプロジェクトから参照してみてはいかがでしょうか？</p>
 ]]></content>
     </entry>
     
