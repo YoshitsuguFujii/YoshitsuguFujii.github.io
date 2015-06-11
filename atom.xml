@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2015-06-10T12:38:26+09:00</updated>
+    <updated>2015-06-11T14:49:51+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,53 @@
     </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[simple_formで表示されるエラーをfull_messagesのものにする]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2015/06/11/simple-form-error-full-message/"/>
+        <updated>2015-06-11T14:30:19+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2015/06/11/simple-form-error-full-message</id>
+        <content type="html"><![CDATA[<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1">#開発環境</span>
+</span><span class='line'><span class="n">rails</span> <span class="p">(</span><span class="mi">4</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">1</span><span class="p">)</span>
+</span><span class='line'><span class="n">simple_form</span> <span class="p">(</span><span class="mi">3</span><span class="o">.</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>simple_formをそのまま使うとエラー発生時のエラーの表示がfull_messageではなく、object.errors[:name]みたいにした時の値しか表示してくれない。</p>
+
+<p>こんな感じ。<br/>
+<img src="http://yoshitsugufujii.github.io/images/blog/simple_form_error2015-06-10.png" alt="normal error" /></p>
+
+<p>ちょっとこれだとあんまりなのでfull_messageでメッセージを表示したい</p>
+
+<!-- more -->
+
+
+<p>この<a href="https://github.com/plataformatec/simple_form/issues/989">issue</a>でこの問題にパッチを当てている人がいたのでそのままパクらせていただきます。</p>
+
+<p>こうするだけ</p>
+
+<figure class='code'><figcaption><span>config/initializer/simple_form_error_path.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">SimpleForm::Components::Errors</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">errors_on_attribute</span>
+</span><span class='line'>    <span class="n">object</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">full_messages_for</span><span class="p">(</span><span class="n">attribute_name</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>するとこうなります。<br/>
+<img src="http://yoshitsugufujii.github.io/images/blog/simple_form_full_error2015-06-10.png" alt="full error" /><br/>
+いい感じですね。</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[railsでuser_idをurlに付与して引き回す方法]]></title>
@@ -1610,54 +1657,6 @@ compile errorになっていた原因はここにありました。
 </span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="o">[</span><span class="s1">&#39;とっても長いテキスト&#39;</span><span class="p">,</span> <span class="s1">&#39;短いテキスト&#39;</span><span class="o">]</span><span class="p">,</span> <span class="ss">style</span><span class="p">:</span> <span class="n">wrap_text</span><span class="p">)</span>
 </span><span class='line'>
 </span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">column_info</span><span class="o">.</span><span class="n">first</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="mi">5</span>
-</span><span class='line'><span class="n">package</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="s1">&#39;test.xlsx&#39;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[Axlsxでウィンドウ枠の固定]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2015/02/23/20150223110642/"/>
-        <updated>2015-02-23T11:06:00+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2015/02/23/20150223110642</id>
-        <content type="html"><![CDATA[<p>エクセルのウィンドウ枠の固定をAxlsxで行う方法</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;axlsx&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">package</span> <span class="o">=</span> <span class="no">Axlsx</span><span class="o">::</span><span class="no">Package</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'><span class="n">sheet</span> <span class="o">=</span> <span class="n">package</span><span class="o">.</span><span class="n">workbook</span><span class="o">.</span><span class="n">add_worksheet</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="s1">&#39;lists&#39;</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="o">[</span><span class="s1">&#39;品名&#39;</span><span class="p">,</span> <span class="s1">&#39;単価&#39;</span><span class="p">,</span> <span class="s1">&#39;数量&#39;</span><span class="p">,</span> <span class="s1">&#39;計&#39;</span><span class="o">]</span> <span class="p">)</span>
-</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="o">[</span><span class="s1">&#39;にんじん&#39;</span><span class="p">,</span>    <span class="mi">80</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>      <span class="s1">&#39;=B2*C2&#39;</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">sheet_view</span><span class="o">.</span><span class="n">pane</span> <span class="k">do</span> <span class="o">|</span><span class="n">pane</span><span class="o">|</span>
-</span><span class='line'>  <span class="n">pane</span><span class="o">.</span><span class="n">top_left_cell</span> <span class="o">=</span> <span class="s2">&quot;B2&quot;</span>
-</span><span class='line'>  <span class="n">pane</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="ss">:frozen_split</span>
-</span><span class='line'>  <span class="n">pane</span><span class="o">.</span><span class="n">y_split</span> <span class="o">=</span> <span class="mi">1</span>
-</span><span class='line'>  <span class="n">pane</span><span class="o">.</span><span class="n">x_split</span> <span class="o">=</span> <span class="mi">1</span>
-</span><span class='line'>  <span class="n">pane</span><span class="o">.</span><span class="n">active_pane</span> <span class="o">=</span> <span class="ss">:bottom_right</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
 </span><span class='line'><span class="n">package</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="s1">&#39;test.xlsx&#39;</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 

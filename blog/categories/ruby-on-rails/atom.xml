@@ -4,7 +4,7 @@
     <title><![CDATA[Category: ruby on rails | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/ruby-on-rails/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2015-06-10T12:38:26+09:00</updated>
+    <updated>2015-06-11T14:49:51+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,43 @@
       </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[simple_formで表示されるエラーをfull_messagesのものにする]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2015/06/11/simple-form-error-full-message/"/>
+        <updated>2015-06-11T14:30:19+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2015/06/11/simple-form-error-full-message</id>
+        <content type="html"><![CDATA[<pre><code class="ruby">#開発環境
+rails (4.2.1)
+simple_form (3.1.0)
+</code></pre>
+
+<p>simple_formをそのまま使うとエラー発生時のエラーの表示がfull_messageではなく、object.errors[:name]みたいにした時の値しか表示してくれない。</p>
+
+<p>こんな感じ。<br/>
+<img src="/images/blog/simple_form_error2015-06-10.png" alt="normal error" /></p>
+
+<p>ちょっとこれだとあんまりなのでfull_messageでメッセージを表示したい</p>
+
+<!-- more -->
+
+
+<p>この<a href="https://github.com/plataformatec/simple_form/issues/989">issue</a>でこの問題にパッチを当てている人がいたのでそのままパクらせていただきます。</p>
+
+<p>こうするだけ<br/>
+<code>ruby config/initializer/simple_form_error_path.rb
+module SimpleForm::Components::Errors
+  def errors_on_attribute
+    object.errors.full_messages_for(attribute_name)
+  end
+end
+</code></p>
+
+<p>するとこうなります。<br/>
+<img src="/images/blog/simple_form_full_error2015-06-10.png" alt="full error" /><br/>
+いい感じですね。</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[railsでuser_idをurlに付与して引き回す方法]]></title>
@@ -250,41 +287,6 @@ application.jsで<code>//= require jquery_nested_form</code>の後に以下の�
 &#8220;`</p>
 
 <p>簡単でした。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[Rails Engineを使った開発]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2015/05/19/develop-with-rails-engine/"/>
-        <updated>2015-05-19T13:09:58+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2015/05/19/develop-with-rails-engine</id>
-        <content type="html"><![CDATA[<p>一つ前に携わったプロジェクトではサブシステムがたくさんあり、それぞれがrailsで構築されていて共通処理やmodelはrails engineにあつめられ各システムで参照しておりました。</p>
-
-<p>今までgemのコードリーディングをする時にしか意識していなかったrails engineですが(deviseとかとか)、結構便利だということを今更ながら実感し、最近は共有処理をengineに書き出してそれを参照するようにしています。</p>
-
-<p>クックパッドさんでも共通部分をengineに集めているようです。<br/>
-<a href="http://techlife.cookpad.com/entry/2015/04/06/155940">新規サービスの管理画面を短期間で見栄え良く実装する</a></p>
-
-<p>ドリコムさんでは複数のengineを組み合わせてシステムを作っているようです。<br/>
-<a href="http://blog.onk.ninja/2014/12/02/mountable_engine.html">Mountable Engine だらけの Rails アプリ開発</a></p>
-
-<!-- more -->
-
-
-<p>でも完全に共通に作ろうとすると色々考えなきゃいけないから工数がかかっちゃうんじゃないかと懸念があるかもしれません。<br/>
-でも最初はそこまで共通化する必要もないのではないのかと思います。</p>
-
-<p>git使っていれば、システムの納品段階でengineのブランチを切るなりタグを打つなりして機能を固定してしまえばいいのです。<br/>
-そうすれば、今後engineに修正が加わってもGemfileで該当のブランチまたはタグを見るようにすれば問題なく納品段階のengineのコードでシステムは動き続けます。<br/>
-その後時間をおいてゆっくりとプロジェクトに依存したコードを共通化していけばいいのです。</p>
-
-<p>これを応用してめったにやらない処理であんまり入れなたくないような機能や、<br/>
-モンキーパッチなども参照元のプロジェクト単位でengineをカスタマイズして導入することもできます。</p>
-
-<p>そして共通化した処理を書くことはいつもより有益なことをしてる気持ちで仕事ができるので楽しいです。<br/>
-engine固有の仕組みや書き方もあって最初は中々辛い部分もありますが、
-engineを使ったことのない方は決まり切った処理をコピぺで過去のプロジェクトから持ってくるのではなく、
-その処理をengineに書き出してそれをプロジェクトから参照してみてはいかがでしょうか？</p>
 ]]></content>
     </entry>
     

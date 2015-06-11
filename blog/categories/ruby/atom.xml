@@ -4,7 +4,7 @@
     <title><![CDATA[Category: ruby | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/ruby/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2015-06-10T12:38:26+09:00</updated>
+    <updated>2015-06-11T14:49:51+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,43 @@
       </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[simple_formで表示されるエラーをfull_messagesのものにする]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2015/06/11/simple-form-error-full-message/"/>
+        <updated>2015-06-11T14:30:19+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2015/06/11/simple-form-error-full-message</id>
+        <content type="html"><![CDATA[<pre><code class="ruby">#開発環境
+rails (4.2.1)
+simple_form (3.1.0)
+</code></pre>
+
+<p>simple_formをそのまま使うとエラー発生時のエラーの表示がfull_messageではなく、object.errors[:name]みたいにした時の値しか表示してくれない。</p>
+
+<p>こんな感じ。<br/>
+<img src="/images/blog/simple_form_error2015-06-10.png" alt="normal error" /></p>
+
+<p>ちょっとこれだとあんまりなのでfull_messageでメッセージを表示したい</p>
+
+<!-- more -->
+
+
+<p>この<a href="https://github.com/plataformatec/simple_form/issues/989">issue</a>でこの問題にパッチを当てている人がいたのでそのままパクらせていただきます。</p>
+
+<p>こうするだけ<br/>
+<code>ruby config/initializer/simple_form_error_path.rb
+module SimpleForm::Components::Errors
+  def errors_on_attribute
+    object.errors.full_messages_for(attribute_name)
+  end
+end
+</code></p>
+
+<p>するとこうなります。<br/>
+<img src="/images/blog/simple_form_full_error2015-06-10.png" alt="full error" /><br/>
+いい感じですね。</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[railsでuser_idをurlに付与して引き回す方法]]></title>
@@ -285,77 +322,6 @@ end
 </code></pre>
 
 <p>知ってると簡単ですが、知らないとはまりますね。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[nested_formで下じゃなくて上に要素を追加したい場合]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2015/05/20/nested-form-add-field-to-top/"/>
-        <updated>2015-05-20T18:03:26+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2015/05/20/nested-form-add-field-to-top</id>
-        <content type="html"><![CDATA[<p>neste_formは可変なサイズの子要素を動的に追加できるGemです。</p>
-
-<p><a href="https://github.com/ryanb/nested_for://github.com/ryanb/nested_form">nested form</a></p>
-
-<p>いつも大変お世話になっておりますが、今回の案件で追加する先を指定したエレメントの下ではなく上に追加しなければいけなくなり対応しました。</p>
-
-<!-- more -->
-
-
-<p>バージョンは<br/>
-<code>ruby Gemfile.lock
-nested_form (0.3.2)  
-</code>
-での作業となります。</p>
-
-<p>ますnested_formで使われるjsを眺めるとそんなに長くない処理であることがわかります。<br/>
-その中で追加ボタンを押したときに要素を追加する部分はこの辺りになるようです。</p>
-
-<pre><code class="js jquery_nested_form:55行目あたり">    insertFields: function(content, assoc, link) {
-      var target = $(link).data('target');
-      if (target) {
-        return $(content).appendTo($(target));
-      } else {
-        return $(content).insertBefore(link);
-      }
-    },
-</code></pre>
-
-<p>ここを上書きします。 <br/>
-application.jsで<code>//= require jquery_nested_form</code>の後に以下の処理を書いて上書きしちゃいましよう。</p>
-
-<pre><code class="js">window.NestedFormEvents.prototype.insertFields = function(content, assoc, link) {
-  var target = $(link).data('target');
-  if ($(link).data('destination') == "prepend"){
-    return $(target).prepend($(content));
-  }else{
-    if (target) {
-      return $(content).appendTo($(target));
-    } else {
-      return $(content).insertBefore(link);
-    }
-  }
-}
-</code></pre>
-
-<p>linkのdata-destination=prependで対象の要素の上にprependで追加されるイメージです。</p>
-
-<p>&#8220;`erb</p>
-
-<table id="tasks">
-  <%= f.fields_for :tasks, :wrapper => false do |task_form| %>
-    <tr class="fields">
-      <td><%= task_form.text_field :name %></td>
-      <td><%= task_form.link_to_remove "Remove this task" %></td>
-    </tr>
-  <% end %>
-</table>
-
-
-<p><p>&lt;%= f.link_to_add &ldquo;Add a task&rdquo;, :tasks, :data => { :target => &ldquo;#tasks&rdquo;, :prepend => true } %></p>
-&#8220;`</p>
-
-<p>簡単でした。</p>
 ]]></content>
     </entry>
     
