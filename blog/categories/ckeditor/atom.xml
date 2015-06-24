@@ -4,7 +4,7 @@
     <title><![CDATA[Category: ckeditor | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/ckeditor/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2015-06-24T15:04:52+09:00</updated>
+    <updated>2015-06-24T15:09:22+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -43,7 +43,7 @@ WYSIWYGエディタの<a href="http://ckeditor.com/demo">ckeditor</a>がすご�
 
 <p>インストールがすんでうまく表示されるようになったら、以下の感じに修正します。</p>
 
-<pre><code class="js admin/app/assets/javascripts/ckeditor/config.js">config.stylesSet = 'my_styles';
+<pre><code class="js app/assets/javascripts/ckeditor/config.js">config.stylesSet = 'my_styles';
 CKEDITOR.stylesSet.add( 'my_styles', [
     // Block Styles
     { name: 'Blue Title',       element: 'h3',      styles: { 'color': 'Blue' } },
