@@ -31,7 +31,7 @@ gemがあったので私はこれを使ってckeditorを利用しています。
 インストールがすんでうまく表示されるようになったら、以下の感じに修正します。  
   
   
-```js admin/app/assets/javascripts/ckeditor/config.js
+```js app/assets/javascripts/ckeditor/config.js
 config.stylesSet = 'my_styles';
 CKEDITOR.stylesSet.add( 'my_styles', [
     // Block Styles
