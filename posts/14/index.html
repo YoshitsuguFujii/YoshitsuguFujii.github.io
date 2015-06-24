@@ -82,6 +82,108 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2012/01/20/20120120123309/">Nヶ月前の月を求める</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2012-01-20T12:33:00+09:00" pubdate><i class="fa fa-calendar"></i> Jan 20th, 2012</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>またまたRubyネタ。</p>
+
+<p>Rails抜きでNヶ月前の月から今日までの月を求める必要があったので考えてみました。</p>
+
+<p>すっごい遠回りして考えてるかもしれません。</p>
+
+<p>rubyの配列はインデックスにマイナスを指定することができます。<br/>
+その場合、参照する先は後ろから数えた値となります。</p>
+
+<p>今日のコードはirbだけで試せます。<br/>
+REPL最高。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="o">]</span>
+</span><span class='line'><span class="n">a</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="c1"># =&gt; 1</span>
+</span><span class='line'><span class="n">a</span><span class="o">[-</span><span class="mi">1</span><span class="o">]</span> <span class="c1"># =&gt; 3</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>とりあえずNは３として、今月を含めて3ヶ月前を求めるには</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">month</span> <span class="o">=</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">12</span><span class="o">]</span>
+</span><span class='line'><span class="n">month</span><span class="o">[</span><span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="o">.</span><span class="n">month</span><span class="o">-</span><span class="mi">3</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>1月ならば11月が帰ってきます。<br/>
+2月ならば12月。3月なら1月となります。</p>
+
+<p>インデックスは０始まりなのでそのあたりを考慮しないとあかんですね。</p>
+
+<p>以上です。と書こうとしたけど、3ヶ月前から今日までの月でしたね。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="mi">3</span><span class="o">.</span><span class="n">times</span><span class="p">{</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="nb">p</span> <span class="n">month</span><span class="o">[</span><span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="o">.</span><span class="n">month</span><span class="o">-</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>先ほど述べたようにインデックスが0始まりなので-1してます。<br/>
+配列で欲しいなら</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="mi">3</span><span class="o">.</span><span class="n">times</span><span class="o">.</span><span class="n">map</span><span class="p">{</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="nb">p</span> <span class="n">month</span><span class="o">[</span><span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="o">.</span><span class="n">month</span><span class="o">-</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>かなぁ？</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2012/01/19/20120119105710/">rubyはブロックを引数に取れる</a>
         </h1>
     
@@ -510,6 +612,10 @@ return link  </em>to( change  <em>value , disp  </em>path )<br/>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2015/06/24/ckeditor-customer-style/">ckeditorのスタイルにカスタムスタイル追加する方法</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2015/06/11/simple-form-error-full-message/">simple_formで表示されるエラーをfull_messagesのものにする</a>
         </li>
         
@@ -523,10 +629,6 @@ return link  </em>to( change  <em>value , disp  </em>path )<br/>
         
         <li class="post">
             <a href="/blog/2015/05/26/deep-reject/">deep_rejectが欲しくてrefinementsで実装しようとした話</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2015/05/25/force-occur-callbacks/">モデルのattributeに変更がなくてもnested_attribute_forを使っているモデルでcallbackを発生させる</a>
         </li>
         
     </ul>
