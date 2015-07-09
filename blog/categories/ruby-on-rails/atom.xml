@@ -4,7 +4,7 @@
     <title><![CDATA[Category: ruby on rails | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/ruby-on-rails/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2015-06-24T15:09:22+09:00</updated>
+    <updated>2015-07-09T12:23:45+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,73 @@
       </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[ファイル名に_smart_phoneをつけて複製]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2015/07/09/rename-file-name-for-jp-mobile/"/>
+        <updated>2015-07-09T12:09:42+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2015/07/09/rename-file-name-for-jp-mobile</id>
+        <content type="html"><![CDATA[<p>スマートフォンサイトの表示に<a href="https://github.com/jpmobile/jpmobile">jpmobile</a>を使ってます。<br/>
+これはこのようにApplicationcontrollerとかに書くと</p>
+
+<pre><code class="ruby">class ApplicationController &lt; ActionController::Base
+  include Jpmobile::ViewSelector
+end 
+</code></pre>
+
+<!-- more -->
+
+
+<p>PCからのアクセスの場合にはindex.html.erbを表示し<br/>
+スマートフォンからのアクセスの場合にはindex_smart_phone.html.erbを表示してくれるという機能を使っています。</p>
+
+<p>今回先にPCサイトがあり、それのスマフォサイトを作るにあたってPCのファイルを上記命名規則に則ってコピーする必要があったのでスクリプト書きました。</p>
+
+<pre><code class="ruby convert_smartphone_name">#! /usr/bin/env ruby
+require 'fileutils'
+
+def print_green(str)
+  puts "\e[32m#{str}\e[0m"
+end
+
+def print_red(str)
+  puts "\e[31m#{str}\e[0m"
+end
+
+def print_yellow(str)
+  puts "\e[33m#{str}\e[0m"
+end
+
+if ARGV[0].nil?
+  print_red "対象ディレクトリへのパスを指定してください"
+end
+
+Dir.glob('*').each do |file|
+  next if FileTest::directory?(file)
+  dest = file.split(".").inject(String.new) do |str, chunk|
+    if chunk == "html"
+      str &lt;&lt; "_smart_phone"
+    end
+
+    if str == ""
+      str &lt;&lt; "#{chunk}"
+    else
+      str &lt;&lt; ".#{chunk}"
+    end
+  end
+
+  print_yellow "convert #{file} to #{dest}"
+  FileUtils.cp(file, dest)
+end
+
+print_green "done."
+</code></pre>
+
+<p>これを実行可能なところにおいて、chmod +xで実行可能にしてもらって、<br/>
+convert_smartphone_name [対象ディレクトリのパス]<br/>
+とかってやれば対象ディレクトリ内のファイルが全部_smart_phone付きでコピーされるはずです。</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[ckeditorのスタイルにカスタムスタイル追加する方法]]></title>
@@ -218,65 +285,6 @@ end
 </code></pre>
 
 <p>これでmember?がtrueを返さない(本登録前のユーザ)はパスワードの検証処理をスキップできるようになります。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[モデルのattributeに変更がなくてもnested_attribute_forを使っているモデルでcallbackを発生させる]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2015/05/25/force-occur-callbacks/"/>
-        <updated>2015-05-25T16:15:38+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2015/05/25/force-occur-callbacks</id>
-        <content type="html"><![CDATA[<p>任意の条件でnested_attribute_forの対象の保存処理を走らせる方法です</p>
-
-<p>ファイルのアップロード用のモデルを作っていて<code>ActionDispatch::Http::UploadedFile</code>を一旦attr_accessorのアクセサで受けたあとcallbackでファイル名やファイルサイズをmodelクラスの該当のカラムに設定するという処理を書いておりました。</p>
-
-<p>ファイルは可変にアップロードしたかったのでこのモデルの親モデルから参照するようにして、nested_attribute_forで親モデル更新時に一緒に更新するようにします。</p>
-
-<pre><code class="ruby">class Oya &lt; ActiveRecord::Base
-  has_many :files, dependent: :destroy
-
-  accepts_nested_attributes_for :files, allow_destroy: true
-end
-</code></pre>
-
-<pre><code class="ruby">class File &lt; ActiveRecord::Base
-  attr_accessor :file
-end
-</code></pre>
-
-<!-- more -->
-
-
-<p>いらない情報ですが、一応モデルクラスFileモデルの参照先のテーブルfilesテーブルはこんな感じです。
-<code>ruby
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  `oya_id` int(11) NOT NULL,
-  `data_file_name` varchar(255) DEFAULT NULL,
-  `data_content_type` varchar(255) DEFAULT NULL,
-  `data_file_size` int(11) DEFAULT NULL,
-</code></p>
-
-<p>新規登録の時は良かったんですが、親モデル保存時にnested_attribute_forの対象のモデルクラスのsave(auto_save)やcallbackを走らせるかどうかは実際にデータベースに登録されているカラムの値に変化があったかで決定されているようです(たぶん)</p>
-
-<p>そのため変更時にはformからはfileというアクセサに設定する値のみ飛んでくるような作りだとauto_saveが動かずFileクラスの更新処理が走りませんでした。</p>
-
-<p>そのためchanged_for_autosave?をオーバーライドすることで独自に変更判定を行いcallback並びにauto saveが動くようにします。</p>
-
-<pre><code class="ruby">class File &lt; ActiveRecord::Base
-  attr_accessor :file
-
-  def changed_for_autosave?
-    if file.present?
-      return true
-    end
-    super
-  end
-end
-</code></pre>
-
-<p>知ってると簡単ですが、知らないとはまりますね。</p>
 ]]></content>
     </entry>
     

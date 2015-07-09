@@ -4,7 +4,7 @@
     <title><![CDATA[Category: ruby | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/ruby/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2015-06-24T15:09:22+09:00</updated>
+    <updated>2015-07-09T12:23:45+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,73 @@
       </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[ファイル名に_smart_phoneをつけて複製]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2015/07/09/rename-file-name-for-jp-mobile/"/>
+        <updated>2015-07-09T12:09:42+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2015/07/09/rename-file-name-for-jp-mobile</id>
+        <content type="html"><![CDATA[<p>スマートフォンサイトの表示に<a href="https://github.com/jpmobile/jpmobile">jpmobile</a>を使ってます。<br/>
+これはこのようにApplicationcontrollerとかに書くと</p>
+
+<pre><code class="ruby">class ApplicationController &lt; ActionController::Base
+  include Jpmobile::ViewSelector
+end 
+</code></pre>
+
+<!-- more -->
+
+
+<p>PCからのアクセスの場合にはindex.html.erbを表示し<br/>
+スマートフォンからのアクセスの場合にはindex_smart_phone.html.erbを表示してくれるという機能を使っています。</p>
+
+<p>今回先にPCサイトがあり、それのスマフォサイトを作るにあたってPCのファイルを上記命名規則に則ってコピーする必要があったのでスクリプト書きました。</p>
+
+<pre><code class="ruby convert_smartphone_name">#! /usr/bin/env ruby
+require 'fileutils'
+
+def print_green(str)
+  puts "\e[32m#{str}\e[0m"
+end
+
+def print_red(str)
+  puts "\e[31m#{str}\e[0m"
+end
+
+def print_yellow(str)
+  puts "\e[33m#{str}\e[0m"
+end
+
+if ARGV[0].nil?
+  print_red "対象ディレクトリへのパスを指定してください"
+end
+
+Dir.glob('*').each do |file|
+  next if FileTest::directory?(file)
+  dest = file.split(".").inject(String.new) do |str, chunk|
+    if chunk == "html"
+      str &lt;&lt; "_smart_phone"
+    end
+
+    if str == ""
+      str &lt;&lt; "#{chunk}"
+    else
+      str &lt;&lt; ".#{chunk}"
+    end
+  end
+
+  print_yellow "convert #{file} to #{dest}"
+  FileUtils.cp(file, dest)
+end
+
+print_green "done."
+</code></pre>
+
+<p>これを実行可能なところにおいて、chmod +xで実行可能にしてもらって、<br/>
+convert_smartphone_name [対象ディレクトリのパス]<br/>
+とかってやれば対象ディレクトリ内のファイルが全部_smart_phone付きでコピーされるはずです。</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[ckeditorのスタイルにカスタムスタイル追加する方法]]></title>
@@ -218,112 +285,6 @@ end
 </code></pre>
 
 <p>これでmember?がtrueを返さない(本登録前のユーザ)はパスワードの検証処理をスキップできるようになります。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[deep_rejectが欲しくてrefinementsで実装しようとした話]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2015/05/26/deep-reject/"/>
-        <updated>2015-05-26T19:03:54+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2015/05/26/deep-reject</id>
-        <content type="html"><![CDATA[<p>再帰的に条件判定を行うrejectが欲しくなりました。<br/>
-こういう動きです。</p>
-
-<pre><code class="ruby">[1,2].deep_reject{|val| val == 1 }  # =&gt; [2]
-
-[1,2, [1,2,3]].deep_reject{|val| val == 1 } # =&gt; [2, [2, 3]]
-
-[1, 2, {a: "a", b: "b" }].deep_reject{|key, val| key == :a } # =&gt; [1, 2, {:b=&gt;"b"}]
-
-[1, 2, {a: "a", b: "b", c: {a: "c", c: "d"} }].deep_reject{|key, val| key == :a } 
-# =&gt; [1, 2, {:b=&gt;"b", :c=&gt;{:c=&gt;"d"}}]
-</code></pre>
-
-<p>かなり便利そうです。</p>
-
-<!-- more -->
-
-
-<p>refinmetsで実装してみます。</p>
-
-<pre><code class="ruby">  module HashEx
-    refine Hash do
-      def deep_reject(&amp;block)
-        self.each_with_object({}) do |(k, v), result|
-          unless block.call(k, v)
-            if v.is_a?(Hash)
-              result[k] = v.deep_reject(&amp;block)
-            else
-              result[k] = v
-            end
-          end
-        end
-      end
-    end
-  end
-
-  module ArrayEx
-    refine Array do
-      def deep_reject(&amp;block)
-        self.each_with_object([]) do |v, result|
-          unless block.call(v)
-            if v.is_a?(Array)
-              result &lt;&lt; v.deep_reject(&amp;block)
-            elsif v.is_a?(Hash)
-              result &lt;&lt; v.deep_reject(&amp;block) # 呼べない！
-            else
-              result &lt;&lt; v
-            end
-          end
-        end
-      end
-    end
-  end
-</code></pre>
-
-<p>ですがこれを
-<code>ruby
-using ArrayEx
-using HashEx
-</code></p>
-
-<p>と読み込んで使おうとしたところ残念ながら配列の中にハッシュが紛れ込んでいるようなケースだとArrayExのdeep_rejectからHashExのdeep_rejectが参照できず思った通りの結果になりませんでした。<br/>
-refinementsはかなり厳密なスコープで動くようです。</p>
-
-<p>まぁあったら有意義なメソッドだしいいかということで結局オープンクラスで実装しました。</p>
-
-<pre><code class="ruby">class Array
-  def deep_reject(&amp;block)
-    self.each_with_object([]) do |v, result|
-      unless block.call(v)
-        if v.is_a?(Array)
-          result &lt;&lt; v.deep_reject(&amp;block)
-        elsif v.is_a?(Hash)
-          result &lt;&lt; v.deep_reject(&amp;block)
-        else
-          result &lt;&lt; v
-        end
-      end
-    end
-  end
-end
-
-class Hash
-  def deep_reject(&amp;block)
-    self.each_with_object({}) do |(k, v), result|
-      unless block.call(k, v)
-        if v.is_a?(Hash)
-          result[k] = v.deep_reject(&amp;block)
-        elsif v.is_a?(Array)
-          result[k] = v.deep_reject(&amp;block)
-        else
-          result[k] = v
-        end
-      end
-    end
-  end
-end
-</code></pre>
 ]]></content>
     </entry>
     

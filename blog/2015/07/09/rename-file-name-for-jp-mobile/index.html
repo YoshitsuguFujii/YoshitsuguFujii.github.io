@@ -9,13 +9,13 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>文字列に二つ以上の同一指定文字が使われているかどうか？ - なんとなく日々徒然と</title>
+        <title>ファイル名に_smart_phoneをつけて複製 - なんとなく日々徒然と</title>
         <meta name="author" content="Yoshitsugu Fujii">
         
         <meta name="description" content="ruby rails French Bulldog surfing aqualist">
         
         <meta name="viewport" content="width=device-width">
-        <link rel="canonical" href="http://yoshitsugufujii.github.io/blog/2013/01/08/20130108134910">
+        <link rel="canonical" href="http://yoshitsugufujii.github.io/blog/2015/07/09/rename-file-name-for-jp-mobile">
 
         <link href='http://fonts.googleapis.com/css?family=Droid+Serif:400,400italic' rel='stylesheet' type='text/css'>
         <link href="http://fonts.googleapis.com/css?family=Droid+Sans" rel="stylesheet" type="text/css">
@@ -78,7 +78,7 @@
                     <article class="article article--single">
     <header class="article__header">
     
-        <h1 class="article__title">文字列に二つ以上の同一指定文字が使われているかどうか？</h1>
+        <h1 class="article__title">ファイル名に_smart_phoneをつけて複製</h1>
     
 
     
@@ -90,7 +90,7 @@
 
 
 
-    <time class="article__date pull-left" datetime="2013-01-08T13:49:00+09:00" pubdate><i class="fa fa-calendar"></i> Jan 8th, 2013</time>
+    <time class="article__date pull-left" datetime="2015-07-09T12:09:42+09:00" pubdate><i class="fa fa-calendar"></i> Jul 9th, 2015</time>
 
 
 
@@ -105,6 +105,8 @@
             
                 <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
             
+                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
+            
         
         </ul>
     </div>
@@ -118,26 +120,108 @@
 
 
 
-    <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+    <p>スマートフォンサイトの表示に<a href="https://github.com/jpmobile/jpmobile">jpmobile</a>を使ってます。<br/>
+これはこのようにApplicationcontrollerとかに書くと</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ApplicationController</span> <span class="o">&lt;</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">Jpmobile</span><span class="o">::</span><span class="no">ViewSelector</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<!-- more -->
+
+
+<p>PCからのアクセスの場合にはindex.html.erbを表示し<br/>
+スマートフォンからのアクセスの場合にはindex_smart_phone.html.erbを表示してくれるという機能を使っています。</p>
+
+<p>今回先にPCサイトがあり、それのスマフォサイトを作るにあたってPCのファイルを上記命名規則に則ってコピーする必要があったのでスクリプト書きました。</p>
+
+<figure class='code'><figcaption><span>convert_smartphone_name</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">str</span> <span class="o">=</span> <span class="s2">&quot;@123@56&quot;</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1">#! /usr/bin/env ruby</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;fileutils&#39;</span>
 </span><span class='line'>
-</span><span class='line'><span class="n">str</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;@&quot;</span><span class="p">)</span> <span class="c1">#=&gt; 0</span>
-</span><span class='line'><span class="n">str</span><span class="o">.</span><span class="n">rindex</span><span class="p">(</span><span class="s2">&quot;@&quot;</span><span class="p">)</span> <span class="c1">#=&gt;4</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">print_green</span><span class="p">(</span><span class="n">str</span><span class="p">)</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;</span><span class="se">\e</span><span class="s2">[32m</span><span class="si">#{</span><span class="n">str</span><span class="si">}</span><span class="se">\e</span><span class="s2">[0m&quot;</span>
+</span><span class='line'><span class="k">end</span>
 </span><span class='line'>
-</span><span class='line'><span class="n">str</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;@&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="n">str</span><span class="o">.</span><span class="n">rindex</span><span class="p">(</span><span class="s2">&quot;@&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">print_red</span><span class="p">(</span><span class="n">str</span><span class="p">)</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;</span><span class="se">\e</span><span class="s2">[31m</span><span class="si">#{</span><span class="n">str</span><span class="si">}</span><span class="se">\e</span><span class="s2">[0m&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">print_yellow</span><span class="p">(</span><span class="n">str</span><span class="p">)</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;</span><span class="se">\e</span><span class="s2">[33m</span><span class="si">#{</span><span class="n">str</span><span class="si">}</span><span class="se">\e</span><span class="s2">[0m&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="no">ARGV</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">nil?</span>
+</span><span class='line'>  <span class="n">print_red</span> <span class="s2">&quot;対象ディレクトリへのパスを指定してください&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Dir</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;*&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">file</span><span class="o">|</span>
+</span><span class='line'>  <span class="k">next</span> <span class="k">if</span> <span class="no">FileTest</span><span class="o">::</span><span class="n">directory?</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">dest</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="nb">String</span><span class="o">.</span><span class="n">new</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">str</span><span class="p">,</span> <span class="n">chunk</span><span class="o">|</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">chunk</span> <span class="o">==</span> <span class="s2">&quot;html&quot;</span>
+</span><span class='line'>      <span class="n">str</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;_smart_phone&quot;</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="n">str</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span>
+</span><span class='line'>      <span class="n">str</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">chunk</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="n">str</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;.</span><span class="si">#{</span><span class="n">chunk</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">print_yellow</span> <span class="s2">&quot;convert </span><span class="si">#{</span><span class="n">file</span><span class="si">}</span><span class="s2"> to </span><span class="si">#{</span><span class="n">dest</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="no">FileUtils</span><span class="o">.</span><span class="n">cp</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">dest</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">print_green</span> <span class="s2">&quot;done.&quot;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>左からと右からの指定文字の位置を調べて違ってたら、同じ文字が二回使われているねというだけのロジック。</p>
-
-<p>僕は文系ロジックと勝手に命名しているロジックがあります。<br/>
-どういったのが文系ロジック？と聞かれると困りますが。なんかにおいです。<br/>
-上記は文系ロジックっぽいかなと思うのですが。どうでしょうか？</p>
+<p>これを実行可能なところにおいて、chmod +xで実行可能にしてもらって、<br/>
+convert_smartphone_name [対象ディレクトリのパス]<br/>
+とかってやれば対象ディレクトリ内のファイルが全部_smart_phone付きでコピーされるはずです。</p>
 
 
 
@@ -160,7 +244,7 @@
 </li>
 
       <li class="twitter">
-<a class="twitter-share-button" href="https://twitter.com/share?text=文字列に二つ以上の同一指定文字が使われているかどうか？ by @YoshitsuguFujii&url=http://yoshitsugufujii.github.io/blog/2013/01/08/20130108134910/"> Tweet </a>
+<a class="twitter-share-button" href="https://twitter.com/share?text=ファイル名に_smart_phoneをつけて複製 by @YoshitsuguFujii&url=http://yoshitsugufujii.github.io/blog/2015/07/09/rename-file-name-for-jp-mobile/"> Tweet </a>
 <script>
   window.twttr=(function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return;js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);t._e=[];t.ready=function(f){t._e.push(f);};return t;}(document,"script","twitter-wjs"));
 </script>
@@ -366,8 +450,8 @@
     
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://yoshitsugufujii.github.io/blog/2013/01/08/20130108134910/';
-        var disqus_url = 'http://yoshitsugufujii.github.io/blog/2013/01/08/20130108134910/';
+        var disqus_identifier = 'http://yoshitsugufujii.github.io/blog/2015/07/09/rename-file-name-for-jp-mobile/';
+        var disqus_url = 'http://yoshitsugufujii.github.io/blog/2015/07/09/rename-file-name-for-jp-mobile/';
         var disqus_script = 'embed.js';
     
     (function () {
