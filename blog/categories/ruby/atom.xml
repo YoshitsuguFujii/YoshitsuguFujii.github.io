@@ -4,7 +4,7 @@
     <title><![CDATA[Category: ruby | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/ruby/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2015-07-09T12:23:45+09:00</updated>
+    <updated>2015-07-14T20:35:25+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,41 @@
       </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[Axlsxでセルのなかのテキストに部分的にスタイルを当てる]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2015/07/14/partially-change-string-style-in-cell-with-axlsx/"/>
+        <updated>2015-07-14T20:28:04+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2015/07/14/partially-change-string-style-in-cell-with-axlsx</id>
+        <content type="html"><![CDATA[<p>Axlsxでセルの中の文字にスタイルをあてる方法です 。<br/>
+Axlsx::RichTextを使います。<br/>
+太字、斜体、打ち消し戦、アンダーライン、色変更に対応しております。</p>
+
+<!-- more -->
+
+
+<pre><code class="ruby">p = Axlsx::Package.new
+p.use_shared_strings = true
+wb = p.workbook
+wrap_text = wb.styles.add_style({:alignment =&gt; {:horizontal =&gt; :center, :vertical =&gt; :center, :wrap_text =&gt; true}}  )
+rt = Axlsx::RichText.new
+rt.add_run('I\'m bold, ', :b =&gt; true)
+rt.add_run('I\'m italic, ', :i =&gt; true)
+rt.add_run('I\'m strike' + "\n", :strike =&gt; true)
+rt.add_run('I\'m bold, italic and strike' + "\n", :b =&gt; true, :i =&gt; true, :strike =&gt; true)
+rt.add_run('I\'m style-less :D')
+rt.add_run('underlined and red.', :u =&gt; :double, :color =&gt; 'FF0000')
+wb.add_worksheet(:name =&gt; "RichText") do | sheet |
+sheet.add_row [rt], :style =&gt; wrap_text
+end
+p.serialize 'rich_text.xlsx'
+</code></pre>
+
+<p><img src="/images/blog/2015-07-14%2020.30.19.png" alt="完成イメージ" /></p>
+
+<p>Axlsxなんでもできますね！</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[ファイル名に_smart_phoneをつけて複製]]></title>
@@ -218,73 +253,6 @@ end
 <a href="https://github.com/YoshitsuguFujii/light_stalking">light_stalking</a></p>
 
 <p>このGEMは思いつきで作って実際に使ってないので色々と問題ありそうですが、default_url_optionsを使うことでurlの最大長にひっかからない範囲で色々なことができそうという一例になるんじゃないかと思いました。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[Deviseで特定の条件のみパスワードの検証をスキップする]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2015/06/08/devise-skip-password-check/"/>
-        <updated>2015-06-08T12:35:01+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2015/06/08/devise-skip-password-check</id>
-        <content type="html"><![CDATA[<pre><code class="ruby">#開発環境  
-rails 4.2.1  
-devise 3.4.1  
-</code></pre>
-
-<p>deviseを使っていて、ユーザモデルに仮登録状態を作りたいと思います。<br/>
-仮登録の段階ではパスワードはまだ要求されず。<br/>
-最後の最後でパスワードを設定して本会員登録完了といったフローです。</p>
-
-<p>deviseでは対象モデルに<code>devise :validatable</code>に設定している場合はメールアドレスやパスワードの検証が走ります。<br/>
-今回はパスワード以外のチェックはやってほしいため<code>:validatable</code>の宣言を外すだけではダメです。</p>
-
-<!-- more -->
-
-
-<p>deviseの以下のソースを見てみます</p>
-
-<pre><code class="ruby lib/devise/models/validatable.rb">def self.included(base)
-  base.extend ClassMethods
-  assert_validations_api!(base)
-
-  base.class_eval do
-    validates_presence_of   :email, if: :email_required?
-    validates_uniqueness_of :email, allow_blank: true, if: :email_changed?
-    validates_format_of     :email, with: email_regexp, allow_blank: true, if: :email_changed?
-
-    validates_presence_of     :password, if: :password_required?
-    validates_confirmation_of :password, if: :password_required?
-    validates_length_of       :password, within: password_length, allow_blank: true
-  end
-end
-</code></pre>
-
-<p>パスワードの検証をするかどうかはpassword_required?で判定しています。
-判定メソッドはこんな感じです。</p>
-
-<pre><code class="ruby">def password_required?
-  !persisted? || !password.nil? || !password_confirmation.nil?
-end
-</code></pre>
-
-<p>これを対象のモデルでオーバーライドします。</p>
-
-<pre><code class="ruby">class User &lt; ActiveRecord::Base
-
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
-
-  def password_required?
-    if member?
-      !persisted? || !password.nil? || !password_confirmation.nil?
-    else
-      false
-    end
-  end
-end
-</code></pre>
-
-<p>これでmember?がtrueを返さない(本登録前のユーザ)はパスワードの検証処理をスキップできるようになります。</p>
 ]]></content>
     </entry>
     

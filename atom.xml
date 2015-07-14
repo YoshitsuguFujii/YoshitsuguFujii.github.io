@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2015-07-09T12:23:45+09:00</updated>
+    <updated>2015-07-14T20:35:25+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,59 @@
     </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[Axlsxでセルのなかのテキストに部分的にスタイルを当てる]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2015/07/14/partially-change-string-style-in-cell-with-axlsx/"/>
+        <updated>2015-07-14T20:28:04+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2015/07/14/partially-change-string-style-in-cell-with-axlsx</id>
+        <content type="html"><![CDATA[<p>Axlsxでセルの中の文字にスタイルをあてる方法です 。<br/>
+Axlsx::RichTextを使います。<br/>
+太字、斜体、打ち消し戦、アンダーライン、色変更に対応しております。</p>
+
+<!-- more -->
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">p</span> <span class="o">=</span> <span class="no">Axlsx</span><span class="o">::</span><span class="no">Package</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="nb">p</span><span class="o">.</span><span class="n">use_shared_strings</span> <span class="o">=</span> <span class="kp">true</span>
+</span><span class='line'><span class="n">wb</span> <span class="o">=</span> <span class="nb">p</span><span class="o">.</span><span class="n">workbook</span>
+</span><span class='line'><span class="n">wrap_text</span> <span class="o">=</span> <span class="n">wb</span><span class="o">.</span><span class="n">styles</span><span class="o">.</span><span class="n">add_style</span><span class="p">({</span><span class="ss">:alignment</span> <span class="o">=&gt;</span> <span class="p">{</span><span class="ss">:horizontal</span> <span class="o">=&gt;</span> <span class="ss">:center</span><span class="p">,</span> <span class="ss">:vertical</span> <span class="o">=&gt;</span> <span class="ss">:center</span><span class="p">,</span> <span class="ss">:wrap_text</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">}}</span>  <span class="p">)</span>
+</span><span class='line'><span class="n">rt</span> <span class="o">=</span> <span class="no">Axlsx</span><span class="o">::</span><span class="no">RichText</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">rt</span><span class="o">.</span><span class="n">add_run</span><span class="p">(</span><span class="s1">&#39;I\&#39;m bold, &#39;</span><span class="p">,</span> <span class="ss">:b</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">)</span>
+</span><span class='line'><span class="n">rt</span><span class="o">.</span><span class="n">add_run</span><span class="p">(</span><span class="s1">&#39;I\&#39;m italic, &#39;</span><span class="p">,</span> <span class="ss">:i</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">)</span>
+</span><span class='line'><span class="n">rt</span><span class="o">.</span><span class="n">add_run</span><span class="p">(</span><span class="s1">&#39;I\&#39;m strike&#39;</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="ss">:strike</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">)</span>
+</span><span class='line'><span class="n">rt</span><span class="o">.</span><span class="n">add_run</span><span class="p">(</span><span class="s1">&#39;I\&#39;m bold, italic and strike&#39;</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="ss">:b</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">,</span> <span class="ss">:i</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">,</span> <span class="ss">:strike</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">)</span>
+</span><span class='line'><span class="n">rt</span><span class="o">.</span><span class="n">add_run</span><span class="p">(</span><span class="s1">&#39;I\&#39;m style-less :D&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="n">rt</span><span class="o">.</span><span class="n">add_run</span><span class="p">(</span><span class="s1">&#39;underlined and red.&#39;</span><span class="p">,</span> <span class="ss">:u</span> <span class="o">=&gt;</span> <span class="ss">:double</span><span class="p">,</span> <span class="ss">:color</span> <span class="o">=&gt;</span> <span class="s1">&#39;FF0000&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="n">wb</span><span class="o">.</span><span class="n">add_worksheet</span><span class="p">(</span><span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s2">&quot;RichText&quot;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span> <span class="n">sheet</span> <span class="o">|</span>
+</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">add_row</span> <span class="o">[</span><span class="n">rt</span><span class="o">]</span><span class="p">,</span> <span class="ss">:style</span> <span class="o">=&gt;</span> <span class="n">wrap_text</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'><span class="nb">p</span><span class="o">.</span><span class="n">serialize</span> <span class="s1">&#39;rich_text.xlsx&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="http://yoshitsugufujii.github.io/images/blog/2015-07-14%2020.30.19.png" alt="完成イメージ" /></p>
+
+<p>Axlsxなんでもできますね！</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[ファイル名に_smart_phoneをつけて複製]]></title>
@@ -1717,76 +1770,6 @@ confirm_relations以外の値はacts_as_paranoidで渡すものと同じもの�
 
 <p>親のレコードが消された時に連動してdependent: :destroyとかの指定で消える場合は、親のレコードってdestroyed_by_associationに格納されるんですね。<br/>
 今回のコードを書いてて初めて知りました。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[開発環境(development)で問題なかったのにdeployしようとしたらprecompileでこける。]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2015/03/12/invalid-css-after/"/>
-        <updated>2015-03-12T23:58:19+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2015/03/12/invalid-css-after</id>
-        <content type="html"><![CDATA[<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rake aborted!
-</span><span class='line'>Sass::SyntaxError: Invalid CSS after "...idth: Infinity%": expected expression (e.g. 1px, bold), was "; }"
-</span><span class='line'>  (in /var/www/hogehoge/app/assets/stylesheets/fuga/fuga.css.scss)
-</span><span class='line'>(sass):12</span></code></pre></td></tr></table></div></figure>
-
-
-<p>見た目にも問題なさそうだし、念のため<a href="https://github.com/causes/scss-lint">scss-lint</a>とかも通してみたけど問題なさそう。</p>
-
-<!-- more -->
-
-
-<p></p>
-
-<p>原因究明のためちょっとずつソースを削ってはコンパイルを繰り返したところ、
-compile errorになっていた原因はここにありました。
-わかりますか？</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='scss'><span class='line'><span class="nv">$colNums</span><span class="o">:</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">6</span><span class="o">,</span> <span class="mi">7</span><span class="o">,</span> <span class="mi">8</span><span class="o">,</span> <span class="mi">9</span><span class="o">,</span> <span class="mi">10</span><span class="p">;</span>
-</span><span class='line'><span class="k">@each</span> <span class="err">$</span><span class="nt">colNum</span> <span class="nt">in</span> <span class="err">$</span><span class="nt">colNums</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">&amp;</span><span class="nc">.col-</span><span class="si">#{</span><span class="nv">$colNum</span><span class="si">}</span><span class="p">{</span>
-</span><span class='line'>    <span class="na">width</span><span class="o">:</span> <span class="mi">100</span><span class="kt">%</span> <span class="o">/</span> <span class="nv">$colNum</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>エラー文言がsyntax error的なので構文エラーな箇所を必死に探していました。
-結局0で割ってるからというどうしようもないミスでした。
-結果こうなりました。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='scss'><span class='line'><span class="nv">$colNums</span><span class="o">:</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">6</span><span class="o">,</span> <span class="mi">7</span><span class="o">,</span> <span class="mi">8</span><span class="o">,</span> <span class="mi">9</span><span class="o">,</span> <span class="mi">10</span><span class="p">;</span>
-</span><span class='line'><span class="k">@each</span> <span class="err">$</span><span class="nt">colNum</span> <span class="nt">in</span> <span class="err">$</span><span class="nt">colNums</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">&amp;</span><span class="nc">.col-</span><span class="si">#{</span><span class="nv">$colNum</span><span class="si">}</span><span class="p">{</span>
-</span><span class='line'>    <span class="k">@if</span> <span class="nv">$colNum</span> <span class="o">==</span> <span class="mi">0</span><span class="p">{</span>
-</span><span class='line'>      <span class="na">width</span><span class="o">:</span> <span class="mi">100</span><span class="kt">%</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span><span class="k">@else</span><span class="p">{</span>
-</span><span class='line'>      <span class="na">width</span><span class="o">:</span> <span class="p">(</span><span class="mi">100</span><span class="kt">%</span> <span class="o">/</span> <span class="nv">$colNum</span><span class="p">);</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
 ]]></content>
     </entry>
     

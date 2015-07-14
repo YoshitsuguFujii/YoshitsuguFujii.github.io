@@ -9,13 +9,13 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>Rails Engineを使った開発 - なんとなく日々徒然と</title>
+        <title>Axlsxでセルのなかのテキストに部分的にスタイルを当てる - なんとなく日々徒然と</title>
         <meta name="author" content="Yoshitsugu Fujii">
         
         <meta name="description" content="ruby rails French Bulldog surfing aqualist">
         
         <meta name="viewport" content="width=device-width">
-        <link rel="canonical" href="http://yoshitsugufujii.github.io/blog/2015/05/19/develop-with-rails-engine">
+        <link rel="canonical" href="http://yoshitsugufujii.github.io/blog/2015/07/14/partially-change-string-style-in-cell-with-axlsx">
 
         <link href='http://fonts.googleapis.com/css?family=Droid+Serif:400,400italic' rel='stylesheet' type='text/css'>
         <link href="http://fonts.googleapis.com/css?family=Droid+Sans" rel="stylesheet" type="text/css">
@@ -78,7 +78,7 @@
                     <article class="article article--single">
     <header class="article__header">
     
-        <h1 class="article__title">Rails Engineを使った開発</h1>
+        <h1 class="article__title">Axlsxでセルのなかのテキストに部分的にスタイルを当てる</h1>
     
 
     
@@ -90,7 +90,7 @@
 
 
 
-    <time class="article__date pull-left" datetime="2015-05-19T13:09:58+09:00" pubdate><i class="fa fa-calendar"></i> May 19th, 2015</time>
+    <time class="article__date pull-left" datetime="2015-07-14T20:28:04+09:00" pubdate><i class="fa fa-calendar"></i> Jul 14th, 2015</time>
 
 
 
@@ -105,7 +105,11 @@
             
                 <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
             
-                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
+                <li><a class='category' href='/blog/categories/gem/'>gem</a></li>
+            
+                <li><a class='category' href='/blog/categories/axlsx/'>axlsx</a></li>
+            
+                <li><a class='category' href='/blog/categories/excel/'>excel</a></li>
             
         
         </ul>
@@ -120,33 +124,51 @@
 
 
 
-    <p>一つ前に携わったプロジェクトではサブシステムがたくさんあり、それぞれがrailsで構築されていて共通処理やmodelはrails engineにあつめられ各システムで参照しておりました。</p>
-
-<p>今までgemのコードリーディングをする時にしか意識していなかったrails engineですが(deviseとかとか)、結構便利だということを今更ながら実感し、最近は共有処理をengineに書き出してそれを参照するようにしています。</p>
-
-<p>クックパッドさんでも共通部分をengineに集めているようです。<br/>
-<a href="http://techlife.cookpad.com/entry/2015/04/06/155940">新規サービスの管理画面を短期間で見栄え良く実装する</a></p>
-
-<p>ドリコムさんでは複数のengineを組み合わせてシステムを作っているようです。<br/>
-<a href="http://blog.onk.ninja/2014/12/02/mountable_engine.html">Mountable Engine だらけの Rails アプリ開発</a></p>
+    <p>Axlsxでセルの中の文字にスタイルをあてる方法です 。<br/>
+Axlsx::RichTextを使います。<br/>
+太字、斜体、打ち消し戦、アンダーライン、色変更に対応しております。</p>
 
 <!-- more -->
 
 
-<p>でも完全に共通に作ろうとすると色々考えなきゃいけないから工数がかかっちゃうんじゃないかと懸念があるかもしれません。<br/>
-でも最初はそこまで共通化する必要もないのではないのかと思います。</p>
 
-<p>git使っていれば、システムの納品段階でengineのブランチを切るなりタグを打つなりして機能を固定してしまえばいいのです。<br/>
-そうすれば、今後engineに修正が加わってもGemfileで該当のブランチまたはタグを見るようにすれば問題なく納品段階のengineのコードでシステムは動き続けます。<br/>
-その後時間をおいてゆっくりとプロジェクトに依存したコードを共通化していけばいいのです。</p>
 
-<p>これを応用してめったにやらない処理であんまり入れなたくないような機能や、<br/>
-モンキーパッチなども参照元のプロジェクト単位でengineをカスタマイズして導入することもできます。</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">p</span> <span class="o">=</span> <span class="no">Axlsx</span><span class="o">::</span><span class="no">Package</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="nb">p</span><span class="o">.</span><span class="n">use_shared_strings</span> <span class="o">=</span> <span class="kp">true</span>
+</span><span class='line'><span class="n">wb</span> <span class="o">=</span> <span class="nb">p</span><span class="o">.</span><span class="n">workbook</span>
+</span><span class='line'><span class="n">wrap_text</span> <span class="o">=</span> <span class="n">wb</span><span class="o">.</span><span class="n">styles</span><span class="o">.</span><span class="n">add_style</span><span class="p">({</span><span class="ss">:alignment</span> <span class="o">=&gt;</span> <span class="p">{</span><span class="ss">:horizontal</span> <span class="o">=&gt;</span> <span class="ss">:center</span><span class="p">,</span> <span class="ss">:vertical</span> <span class="o">=&gt;</span> <span class="ss">:center</span><span class="p">,</span> <span class="ss">:wrap_text</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">}}</span>  <span class="p">)</span>
+</span><span class='line'><span class="n">rt</span> <span class="o">=</span> <span class="no">Axlsx</span><span class="o">::</span><span class="no">RichText</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">rt</span><span class="o">.</span><span class="n">add_run</span><span class="p">(</span><span class="s1">&#39;I\&#39;m bold, &#39;</span><span class="p">,</span> <span class="ss">:b</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">)</span>
+</span><span class='line'><span class="n">rt</span><span class="o">.</span><span class="n">add_run</span><span class="p">(</span><span class="s1">&#39;I\&#39;m italic, &#39;</span><span class="p">,</span> <span class="ss">:i</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">)</span>
+</span><span class='line'><span class="n">rt</span><span class="o">.</span><span class="n">add_run</span><span class="p">(</span><span class="s1">&#39;I\&#39;m strike&#39;</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="ss">:strike</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">)</span>
+</span><span class='line'><span class="n">rt</span><span class="o">.</span><span class="n">add_run</span><span class="p">(</span><span class="s1">&#39;I\&#39;m bold, italic and strike&#39;</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="ss">:b</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">,</span> <span class="ss">:i</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">,</span> <span class="ss">:strike</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">)</span>
+</span><span class='line'><span class="n">rt</span><span class="o">.</span><span class="n">add_run</span><span class="p">(</span><span class="s1">&#39;I\&#39;m style-less :D&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="n">rt</span><span class="o">.</span><span class="n">add_run</span><span class="p">(</span><span class="s1">&#39;underlined and red.&#39;</span><span class="p">,</span> <span class="ss">:u</span> <span class="o">=&gt;</span> <span class="ss">:double</span><span class="p">,</span> <span class="ss">:color</span> <span class="o">=&gt;</span> <span class="s1">&#39;FF0000&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="n">wb</span><span class="o">.</span><span class="n">add_worksheet</span><span class="p">(</span><span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s2">&quot;RichText&quot;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span> <span class="n">sheet</span> <span class="o">|</span>
+</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">add_row</span> <span class="o">[</span><span class="n">rt</span><span class="o">]</span><span class="p">,</span> <span class="ss">:style</span> <span class="o">=&gt;</span> <span class="n">wrap_text</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'><span class="nb">p</span><span class="o">.</span><span class="n">serialize</span> <span class="s1">&#39;rich_text.xlsx&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p>そして共通化した処理を書くことはいつもより有益なことをしてる気持ちで仕事ができるので楽しいです。<br/>
-engine固有の仕組みや書き方もあって最初は中々辛い部分もありますが、
-engineを使ったことのない方は決まり切った処理をコピぺで過去のプロジェクトから持ってくるのではなく、
-その処理をengineに書き出してそれをプロジェクトから参照してみてはいかがでしょうか？</p>
+
+<p><img src="/images/blog/2015-07-14%2020.30.19.png" alt="完成イメージ" /></p>
+
+<p>Axlsxなんでもできますね！</p>
 
 
 
@@ -169,7 +191,7 @@ engineを使ったことのない方は決まり切った処理をコピぺで�
 </li>
 
       <li class="twitter">
-<a class="twitter-share-button" href="https://twitter.com/share?text=Rails Engineを使った開発 by @YoshitsuguFujii&url=http://yoshitsugufujii.github.io/blog/2015/05/19/develop-with-rails-engine/"> Tweet </a>
+<a class="twitter-share-button" href="https://twitter.com/share?text=Axlsxでセルのなかのテキストに部分的にスタイルを当てる by @YoshitsuguFujii&url=http://yoshitsugufujii.github.io/blog/2015/07/14/partially-change-string-style-in-cell-with-axlsx/"> Tweet </a>
 <script>
   window.twttr=(function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return;js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);t._e=[];t.ready=function(f){t._e.push(f);};return t;}(document,"script","twitter-wjs"));
 </script>
@@ -375,8 +397,8 @@ engineを使ったことのない方は決まり切った処理をコピぺで�
     
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://yoshitsugufujii.github.io/blog/2015/05/19/develop-with-rails-engine/';
-        var disqus_url = 'http://yoshitsugufujii.github.io/blog/2015/05/19/develop-with-rails-engine/';
+        var disqus_identifier = 'http://yoshitsugufujii.github.io/blog/2015/07/14/partially-change-string-style-in-cell-with-axlsx/';
+        var disqus_url = 'http://yoshitsugufujii.github.io/blog/2015/07/14/partially-change-string-style-in-cell-with-axlsx/';
         var disqus_script = 'embed.js';
     
     (function () {
