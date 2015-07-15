@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2015-07-14T20:35:25+09:00</updated>
+    <updated>2015-07-15T17:05:56+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,52 @@
     </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[ckeditorのテーブルのデフォルト値を変更]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2015/07/15/ckeditor-table-width/"/>
+        <updated>2015-07-15T16:56:33+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2015/07/15/ckeditor-table-width</id>
+        <content type="html"><![CDATA[<p>相変わらず使わせてもらってます。<a href="https://github.com/galetahub/ckeditor">ckeditor</a><br/>
+デフォルトでテーブルのサイズが500pxとなっておりますが、スマートフォンでも表示する必要がありこれを100%にしたくてしらべました。<br/>
+ついでに邪魔なのでborderとcellspacingの値も0にしちゃいましょう。</p>
+
+<!-- more -->
+
+
+
+
+<figure class='code'><figcaption><span>app/assets/javascripts/ckeditor/config.js</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">CKEDITOR</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span> <span class="s1">&#39;dialogDefinition&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">ev</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">dialogName</span> <span class="o">=</span> <span class="nx">ev</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">name</span><span class="p">;</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">dialogDefinition</span> <span class="o">=</span> <span class="nx">ev</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">definition</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span> <span class="nx">dialogName</span> <span class="o">==</span> <span class="s1">&#39;table&#39;</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="kd">var</span> <span class="nx">info</span> <span class="o">=</span> <span class="nx">dialogDefinition</span><span class="p">.</span><span class="nx">getContents</span><span class="p">(</span> <span class="s1">&#39;info&#39;</span> <span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="nx">info</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="s1">&#39;txtWidth&#39;</span> <span class="p">)[</span> <span class="s1">&#39;default&#39;</span> <span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;100%&#39;</span><span class="p">;</span>
+</span><span class='line'>        <span class="nx">info</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="s1">&#39;txtBorder&#39;</span> <span class="p">)[</span> <span class="s1">&#39;default&#39;</span> <span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;0&#39;</span><span class="p">;</span>
+</span><span class='line'>        <span class="nx">info</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="s1">&#39;txtCellSpace&#39;</span> <span class="p">)[</span> <span class="s1">&#39;default&#39;</span> <span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;0&#39;</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>テーブルダイアログが初期値で幅100%、枠線の幅0、セル内余白0になっているのが確認できます。<br/>
+<img src="http://yoshitsugufujii.github.io/images/blog/2015-07-15%2017.00.59.png" alt="完成イメージ" /></p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[Axlsxでセルのなかのテキストに部分的にスタイルを当てる]]></title>
@@ -1506,270 +1552,6 @@ engineを使ったことのない方は決まり切った処理をコピぺで�
 <p>入力大変でしたけど、ちょっとした小遣いと思えば大きいですね。<br/>
 いったいいくら帰ってくるの？とか夫と妻どちらで申請したらいいの？<br/>
 と悩んでいる方がいらっしゃったら実際にWEBから入力してみて、最後に表示される金額を見て決めてみたらいいんではないでしょうか？</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[関連先が存在していたら論理削除、関連先が存在していなかったら物理削除]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2015/03/13/real-delete-discreetly/"/>
-        <updated>2015-03-13T22:21:31+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2015/03/13/real-delete-discreetly</id>
-        <content type="html"><![CDATA[<p>という内容のものが業務で必要になり、処理を書きましたが勘違いでそんな仕様はどこにもなくお蔵入りになってしまって悔しいので
-ここでさらします。</p>
-
-<p>Gistではここに置いてあります。<br/>
-<a href="https://gist.github.com/YoshitsuguFujii/e86d1f208a594ae4effa">real_delete_discreetly</a></p>
-
-<!-- more -->
-
-
-<p></p>
-
-<p>本体です</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">RealDeleteDiscreetly</span>
-</span><span class='line'>  <span class="kp">extend</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">Concern</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">delete_discreetly</span>
-</span><span class='line'>    <span class="n">relation_exist</span> <span class="o">=</span> <span class="kp">false</span>
-</span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">confirm_relations</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">confirm_relation</span><span class="o">|</span>
-</span><span class='line'>      <span class="k">if</span> <span class="n">destroyed_by_association</span>
-</span><span class='line'>        <span class="k">if</span> <span class="n">destroyed_by_association</span><span class="o">.</span><span class="n">active_record</span> <span class="o">==</span> <span class="n">confirm_relation</span><span class="o">.</span><span class="n">to_s</span><span class="o">.</span><span class="n">classify</span><span class="o">.</span><span class="n">constantize</span>
-</span><span class='line'>          <span class="n">relation_exist</span> <span class="o">=</span> <span class="kp">false</span>
-</span><span class='line'>          <span class="k">break</span>
-</span><span class='line'>        <span class="k">end</span>
-</span><span class='line'>      <span class="k">else</span>
-</span><span class='line'>        <span class="k">if</span> <span class="n">reflection</span> <span class="o">=</span> <span class="nb">self</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">reflections</span><span class="o">[</span><span class="n">confirm_relation</span><span class="o">].</span><span class="n">presence</span>
-</span><span class='line'>          <span class="n">send_method</span> <span class="o">=</span> <span class="k">case</span> <span class="n">reflection</span><span class="o">.</span><span class="n">macro</span>
-</span><span class='line'>                    <span class="k">when</span> <span class="ss">:has_many</span>
-</span><span class='line'>                      <span class="ss">:exists?</span>
-</span><span class='line'>                    <span class="k">else</span>
-</span><span class='line'>                      <span class="ss">:present?</span>
-</span><span class='line'>                    <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>          <span class="k">if</span> <span class="nb">send</span><span class="p">(</span><span class="n">confirm_relation</span><span class="p">)</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">send_method</span><span class="p">)</span>
-</span><span class='line'>            <span class="n">relation_exist</span> <span class="o">=</span> <span class="kp">true</span>
-</span><span class='line'>            <span class="k">break</span>
-</span><span class='line'>          <span class="k">end</span>
-</span><span class='line'>        <span class="k">else</span>
-</span><span class='line'>          <span class="k">raise</span> <span class="no">ArgumentError</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">confirm_relation</span><span class="si">}</span><span class="s2"> is not Reflection&quot;</span>
-</span><span class='line'>        <span class="k">end</span>
-</span><span class='line'>      <span class="k">end</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">unless</span> <span class="n">relation_exist</span>
-</span><span class='line'>      <span class="nb">self</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">delete_all!</span><span class="p">(</span><span class="nb">self</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">primary_key</span><span class="o">.</span><span class="n">to_sym</span> <span class="o">=&gt;</span> <span class="nb">id</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">module</span> <span class="nn">ClassMethods</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">real_delete_discreetly</span><span class="p">(</span><span class="n">options</span> <span class="o">=</span> <span class="p">{})</span>
-</span><span class='line'>      <span class="n">class_attribute</span> <span class="ss">:confirm_relations</span>
-</span><span class='line'>      <span class="nb">self</span><span class="o">.</span><span class="n">confirm_relations</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="ss">:confirm_relations</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="n">acts_as_paranoid</span> <span class="n">options</span>
-</span><span class='line'>      <span class="n">after_destroy</span> <span class="ss">:delete_discreetly</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>論理削除部分はact_as_paranoidに依存しています。<br/>
-このソースはlibなどのオートロードの対象となるディレクトリに置く想定です。</p>
-
-<p>該当のモデルでreal_delete_discreetlyすると<br/>
-関連先が存在していたら論理削除、関連先が存在していなかったら物理削除<br/>
-という動きをするようになるはずです。</p>
-
-<p>こんな書き方になります。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">UserProfile</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
-</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:user</span>
-</span><span class='line'>  <span class="n">real_delete_discreetly</span> <span class="ss">column</span><span class="p">:</span> <span class="ss">:del_flg</span><span class="p">,</span> <span class="ss">column_type</span><span class="p">:</span> <span class="s1">&#39;boolean&#39;</span><span class="p">,</span> <span class="ss">confirm_relations</span><span class="p">:</span> <span class="o">[</span><span class="ss">:user</span><span class="o">]</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>こうするとuserが存在する場合は論理削除。<br/>
-userレコードが存在しない場合は物理削除になります。<br/>
-confirm_relations以外の値はacts_as_paranoidで渡すものと同じものが指定できます。<br/>
-今回の例では論理削除のカラムをデフォルトのdeleted_atじゃなくてdelete_flagで見ている例ですね。</p>
-
-<p>rspecも書くつもりだったので各モデルで使えるshared_exampleもあります。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">shared_examples_for</span> <span class="s1">&#39;real delete discreetly&#39;</span> <span class="k">do</span> <span class="o">|</span><span class="n">opts</span><span class="o">|</span>
-</span><span class='line'>  <span class="n">let</span><span class="p">(</span><span class="ss">:base_instance</span><span class="p">)</span> <span class="p">{</span> <span class="n">opts</span><span class="o">[</span><span class="ss">:base_instance</span><span class="o">]</span> <span class="p">}</span>
-</span><span class='line'>  <span class="n">let</span><span class="p">(</span><span class="ss">:confirm_relations</span><span class="p">)</span> <span class="p">{</span> <span class="n">opts</span><span class="o">[</span><span class="ss">:confirm_relations</span><span class="o">]</span> <span class="p">}</span>
-</span><span class='line'>  <span class="n">let</span><span class="p">(</span><span class="ss">:paranoid_column</span><span class="p">)</span> <span class="p">{</span> <span class="n">opts</span><span class="o">[</span><span class="ss">:paranoid_column</span><span class="o">]</span> <span class="o">||</span> <span class="ss">:delete_flag</span> <span class="p">}</span>
-</span><span class='line'>  <span class="n">let</span><span class="p">(</span><span class="ss">:paranoid_column_type</span><span class="p">)</span> <span class="p">{</span> <span class="n">opts</span><span class="o">[</span><span class="ss">:paranoid_column_type</span><span class="o">]</span> <span class="o">||</span> <span class="ss">:boolean</span> <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">before</span> <span class="k">do</span>
-</span><span class='line'>    <span class="vi">@model</span> <span class="o">=</span> <span class="n">base_instance</span><span class="o">.</span><span class="n">dup</span>
-</span><span class='line'>    <span class="vi">@model</span><span class="o">.</span><span class="n">save</span>
-</span><span class='line'>    <span class="k">case</span> <span class="n">paranoid_column_type</span><span class="o">.</span><span class="n">to_sym</span>
-</span><span class='line'>    <span class="k">when</span> <span class="ss">:boolean</span>
-</span><span class='line'>      <span class="vi">@from</span> <span class="o">=</span> <span class="kp">false</span>
-</span><span class='line'>      <span class="vi">@to</span> <span class="o">=</span> <span class="kp">true</span>
-</span><span class='line'>    <span class="k">else</span>
-</span><span class='line'>      <span class="n">time</span> <span class="o">=</span> <span class="no">Time</span><span class="o">.</span><span class="n">now</span>
-</span><span class='line'>      <span class="no">Time</span><span class="o">.</span><span class="n">stub</span><span class="p">(</span><span class="ss">:now</span><span class="p">)</span><span class="o">.</span><span class="n">and_return</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
-</span><span class='line'>      <span class="vi">@from</span> <span class="o">=</span> <span class="kp">nil</span>
-</span><span class='line'>      <span class="vi">@to</span> <span class="o">=</span> <span class="n">time</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">context</span> <span class="s1">&#39;relation exists&#39;</span> <span class="k">do</span>
-</span><span class='line'>    <span class="n">before</span> <span class="k">do</span>
-</span><span class='line'>      <span class="n">confirm_relation</span> <span class="o">=</span> <span class="n">confirm_relations</span><span class="o">.</span><span class="n">first</span>
-</span><span class='line'>      <span class="k">case</span> <span class="vi">@model</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">reflections</span><span class="o">[</span><span class="n">confirm_relation</span><span class="o">].</span><span class="n">macro</span>
-</span><span class='line'>      <span class="k">when</span> <span class="ss">:has_many</span>
-</span><span class='line'>        <span class="vi">@model</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">confirm_relation</span><span class="p">)</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="ss">:build</span><span class="p">)</span>
-</span><span class='line'>      <span class="k">else</span>
-</span><span class='line'>        <span class="vi">@model</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">&quot;build_</span><span class="si">#{</span><span class="n">confirm_relation</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span class='line'>      <span class="k">end</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">it</span> <span class="s1">&#39;soft deleted&#39;</span> <span class="k">do</span>
-</span><span class='line'>      <span class="n">expect</span> <span class="p">{</span> <span class="vi">@model</span><span class="o">.</span><span class="n">destroy</span> <span class="p">}</span><span class="o">.</span><span class="n">to</span> <span class="n">change</span> <span class="p">{</span> <span class="vi">@model</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">paranoid_column</span><span class="p">)</span> <span class="p">}</span><span class="o">.</span><span class="n">from</span><span class="p">(</span><span class="vi">@from</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="vi">@to</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">it</span> <span class="s1">&#39;not real deleted&#39;</span> <span class="k">do</span>
-</span><span class='line'>      <span class="n">expect</span> <span class="p">{</span> <span class="vi">@model</span><span class="o">.</span><span class="n">destroy</span> <span class="p">}</span><span class="o">.</span><span class="n">to</span> <span class="n">change</span><span class="p">(</span><span class="vi">@model</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">unscoped</span><span class="p">,</span> <span class="ss">:count</span><span class="p">)</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">context</span> <span class="s1">&#39;when relation not exists&#39;</span> <span class="k">do</span>
-</span><span class='line'>    <span class="n">it</span> <span class="s1">&#39;real deleted&#39;</span> <span class="k">do</span>
-</span><span class='line'>      <span class="n">expect</span> <span class="p">{</span> <span class="vi">@model</span><span class="o">.</span><span class="n">destroy</span> <span class="p">}</span><span class="o">.</span><span class="n">to</span> <span class="n">change</span><span class="p">(</span><span class="vi">@model</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">unscoped</span><span class="p">,</span> <span class="ss">:count</span><span class="p">)</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>これをspec_helperなどからrequireするなり読み込めるようにしてもらって<br/>
-対象のモデルで</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;rails_helper&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">RSpec</span><span class="o">.</span><span class="n">describe</span> <span class="no">UserProfile</span><span class="p">,</span> <span class="ss">type</span><span class="p">:</span> <span class="ss">:model</span> <span class="k">do</span>
-</span><span class='line'> <span class="n">include_examples</span> <span class="s1">&#39;real delete discreetly&#39;</span><span class="p">,</span>
-</span><span class='line'> <span class="ss">base_instance</span><span class="p">:</span> <span class="no">UserProfile</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="ss">user_id</span><span class="p">:</span> <span class="n">nil_or_exist_id</span><span class="p">),</span>
-</span><span class='line'> <span class="ss">confirm_relations</span><span class="p">:</span> <span class="o">[</span><span class="ss">:user</span><span class="o">]</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>とかやると論理削除と物理削除のテストが走ります。<br/>
-ただ冒頭でも述べた通りお蔵入りしたのでちゃんと動くかどうか細かい所までは見きれていないです。
-何かの参考になれば幸いです。</p>
-
-<p>親のレコードが消された時に連動してdependent: :destroyとかの指定で消える場合は、親のレコードってdestroyed_by_associationに格納されるんですね。<br/>
-今回のコードを書いてて初めて知りました。</p>
 ]]></content>
     </entry>
     

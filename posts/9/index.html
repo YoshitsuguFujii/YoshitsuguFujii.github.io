@@ -82,6 +82,75 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2013/02/25/20130225111601/">powとpowderを使おうとしたら、ずっと接続中で何も表示されなかった</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2013-02-25T11:16:00+09:00" pubdate><i class="fa fa-calendar"></i> Feb 25th, 2013</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>という現象</p>
+
+<p>powのログを見てみる。<br/>
+場所は  $HOME/Library/Logs/Pow/apps/your  _appname.log</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">[</span><span class="no">Wed</span> <span class="no">Feb</span> <span class="mi">20</span> <span class="mi">2013</span> <span class="mi">17</span><span class="p">:</span><span class="mi">35</span><span class="p">:</span><span class="mi">57</span> <span class="no">GMT</span><span class="o">+</span><span class="mi">0900</span> <span class="p">(</span><span class="no">JST</span><span class="p">)</span><span class="o">]</span> <span class="no">DEBUG</span> <span class="n">nack</span> <span class="n">worker</span> <span class="mi">2833</span> <span class="n">spawned</span>
+</span><span class='line'><span class="o">[</span><span class="no">Wed</span> <span class="no">Feb</span> <span class="mi">20</span> <span class="mi">2013</span> <span class="mi">17</span><span class="p">:</span><span class="mi">35</span><span class="p">:</span><span class="mi">57</span> <span class="no">GMT</span><span class="o">+</span><span class="mi">0900</span> <span class="p">(</span><span class="no">JST</span><span class="p">)</span><span class="o">]</span> <span class="no">WARNING</span> <span class="no">Could</span> <span class="ow">not</span> <span class="n">find</span> <span class="n">i18n</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">6</span><span class="o">.</span><span class="mi">1</span> <span class="k">in</span> <span class="n">any</span> <span class="n">of</span> <span class="n">the</span> <span class="n">sources</span>
+</span><span class='line'><span class="o">[</span><span class="no">Wed</span> <span class="no">Feb</span> <span class="mi">20</span> <span class="mi">2013</span> <span class="mi">17</span><span class="p">:</span><span class="mi">35</span><span class="p">:</span><span class="mi">57</span> <span class="no">GMT</span><span class="o">+</span><span class="mi">0900</span> <span class="p">(</span><span class="no">JST</span><span class="p">)</span><span class="o">]</span> <span class="no">WARNING</span> <span class="no">Try</span> <span class="n">running</span> <span class="sb">`bundle install`</span><span class="o">.</span>
+</span><span class='line'><span class="o">[</span><span class="no">Wed</span> <span class="no">Feb</span> <span class="mi">20</span> <span class="mi">2013</span> <span class="mi">17</span><span class="p">:</span><span class="mi">35</span><span class="p">:</span><span class="mi">57</span> <span class="no">GMT</span><span class="o">+</span><span class="mi">0900</span> <span class="p">(</span><span class="no">JST</span><span class="p">)</span><span class="o">]</span> <span class="no">DEBUG</span> <span class="n">nack</span> <span class="n">worker</span> <span class="n">exited</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>むむ？ないって言われてる。と思ってアプリのルートみたら、.rvmrcおいてなかった。<br/>
+置いてみたら直りましたというひどいミス・・・</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2013/02/22/20130222113319/">ruby-1.9.3-p385入れたら、libyaml入れてと言われてしまった。</a>
         </h1>
     
@@ -881,67 +950,6 @@ pluginを書きました。</p>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2012/11/15/20121115151548/">dump format error</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2012-11-15T15:15:00+09:00" pubdate><i class="fa fa-calendar"></i> Nov 15th, 2012</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/rails/'>rails</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>自社サービスで二つのスマフォ用webアプリでsession共有して行き来している時にdump
-format errorとなって落ちることがあった。<br/>
-一度発生すると、F5押してもずっとdump format error。</p>
-
-<p>原因はsessionにあることまでは色々なサイトを見ているうちにわかったんだけど、どこもブラウザのクッキー削除とかの解決方法しかなかった。</p>
-
-<p>原因を追っていたら、うちの場合はmemcache-clientでデータをマーシャルロードしている時に落ちていることがわかった。<br/>
-んで、ロードする前のデータ見てたらflashの文字が見えたので、flashを使わなくしたらなんか解決したっぽい。</p>
-
-<p>なんか煮えきらない日記ですが、誰か困ってたらやってみるといいかもしれないです。</p>
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -1005,6 +1013,10 @@ format errorとなって落ちることがあった。<br/>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2015/07/15/ckeditor-table-width/">ckeditorのテーブルのデフォルト値を変更</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2015/07/14/partially-change-string-style-in-cell-with-axlsx/">Axlsxでセルのなかのテキストに部分的にスタイルを当てる</a>
         </li>
         
@@ -1018,10 +1030,6 @@ format errorとなって落ちることがあった。<br/>
         
         <li class="post">
             <a href="/blog/2015/06/11/simple-form-error-full-message/">simple_formで表示されるエラーをfull_messagesのものにする</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2015/06/10/append-user-id-to-url/">railsでuser_idをurlに付与して引き回す方法</a>
         </li>
         
     </ul>
