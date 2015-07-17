@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2015-07-15T17:05:56+09:00</updated>
+    <updated>2015-07-17T13:57:18+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,53 @@
     </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[Bootstrap FileInputで日本語の文字が表示されない]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2015/07/17/bootstrap-file-input-for-japanese/"/>
+        <updated>2015-07-17T13:46:05+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2015/07/17/bootstrap-file-input-for-japanese</id>
+        <content type="html"><![CDATA[<p>今の案件で<a href="http://plugins.krajee.com/file-input">Bootstrap FileInput</a>を使っていますが、日本語(2byte文字)が含まれるファイルを選択した場合ファイル名から日本語部分が消えるという現象が発生しました。</p>
+
+<p><a href="https://github.com/kartik-v/bootstrap-fileinput/blob/master/js/fileinput.js#L496">https://github.com/kartik-v/bootstrap-fileinput/blob/master/js/fileinput.js#L496</a><br/>
+ここを見る限りslugCallbackというメソッドを宣言時のoptionに渡してあげるといけそうです。</p>
+
+<!-- more -->
+
+
+<p>すいません。coffeescriptです。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.upload_file&#39;</span><span class="p">).</span><span class="nx">fileinput</span>
+</span><span class='line'>  <span class="nx">showPreview</span><span class="o">:</span> <span class="kc">false</span>
+</span><span class='line'>  <span class="nx">maxFileCount</span><span class="o">:</span> <span class="mi">1</span>
+</span><span class='line'>  <span class="nx">browseClass</span><span class="o">:</span> <span class="s1">&#39;btn btn-info fileinput-browse-button&#39;</span>
+</span><span class='line'>  <span class="nx">browseIcon</span><span class="o">:</span> <span class="s1">&#39;&#39;</span>
+</span><span class='line'>  <span class="nx">browseLabel</span><span class="o">:</span> <span class="s1">&#39; ファイル選択&#39;</span>
+</span><span class='line'>  <span class="nx">showRemove</span><span class="o">:</span> <span class="kc">false</span>
+</span><span class='line'>  <span class="nx">showUpload</span><span class="o">:</span> <span class="kc">false</span>
+</span><span class='line'>  <span class="nx">slugCallback</span><span class="o">:</span>
+</span><span class='line'>    <span class="p">(</span><span class="nx">text</span><span class="p">)</span><span class="o">-&gt;</span>
+</span><span class='line'>      <span class="err">#</span><span class="nx">isEmpty</span><span class="p">(</span><span class="nx">text</span><span class="p">)</span> <span class="o">?</span> <span class="s1">&#39;&#39;</span> <span class="o">:</span> <span class="nx">text</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="sr">/(\\|\/)/g</span><span class="p">).</span><span class="nx">pop</span><span class="p">().</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/[^\w\-.\\\/ ]+/g</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">);</span>
+</span><span class='line'>      <span class="nx">text</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="sr">/(\\|\/)/g</span><span class="p">).</span><span class="nx">pop</span><span class="p">()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>これで日本語も表示できるようになりました。<br/>
+<img src="http://yoshitsugufujii.github.io/images/blog/2015-07-17%2013.52.17.png" alt="完成イメージ" /></p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[ckeditorのテーブルのデフォルト値を変更]]></title>
@@ -1520,38 +1567,6 @@ engineを使ったことのない方は決まり切った処理をコピぺで�
 
 
 <p>状況に応じて書き換えながらになると思いますが、よかったら使ってみてください。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[はじめて医療費控除を申告してみたよ]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2015/03/16/iryohi-koujo/"/>
-        <updated>2015-03-16T21:07:30+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2015/03/16/iryohi-koujo</id>
-        <content type="html"><![CDATA[<p>医療費控除。</p>
-
-<p>薄々は知っていたけどそんなに病院にお金を使うこともなく、領収書と取っといたりするのも面倒なのであまり意識したことはなかったのですが、<br/>
-去年はエクストルージョンという歯の処置を保険適用外(15万弱しました)でやったりとかなりお金を使ったので今回は医療費控除を請求してみることにしました。</p>
-
-<p>郵送で申し込みます。</p>
-
-<!-- more -->
-
-
-<p></p>
-
-<p><a href="https://www.keisan.nta.go.jp/h26/ta_top.htm#bsctrl">国税局</a>のシステムから入力していくと最終的にPDFができあがるのでこちらを印刷して郵送します。<br/>
-医療費控除は特に難しいことはなく、ページを順次入力していったらすんなりできました。</p>
-
-<p>ちなみに私は住宅減税で所得税は全額還付されており、住民税に充当される分が軽減されるとかよくわらかなかったので妻で申請することにしました。<br/>
-個人個人ではなく同じ家に住む人をまとめて対象とできるので私のを合算した金額を妻が請求するといったことが可能なんですね。</p>
-
-<p>ちなみに国税局のHP金額をうちこんでいくと最後に実際に還付される金額が画面上で表示されます。<br/>
-去年は病院に172000円使いました。還付で6080円ほど戻ってくるようです。</p>
-
-<p>入力大変でしたけど、ちょっとした小遣いと思えば大きいですね。<br/>
-いったいいくら帰ってくるの？とか夫と妻どちらで申請したらいいの？<br/>
-と悩んでいる方がいらっしゃったら実際にWEBから入力してみて、最後に表示される金額を見て決めてみたらいいんではないでしょうか？</p>
 ]]></content>
     </entry>
     
