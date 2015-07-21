@@ -82,6 +82,92 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2015/03/18/increment-in-file/">ファイル内の特定の行の数値をインクリメントする</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2015-03-18T12:00:03+09:00" pubdate><i class="fa fa-calendar"></i> Mar 18th, 2015</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <div class="article__content clearfix">
+        <p>yamlファイルの特定の数字をインクリメントしたくてスクリプトを書きました。
+データとしてはこんな感じです。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">data_one</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">col_num</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">1</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">hoge</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">options</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">fuga</span>
+</span><span class='line'><span class="l-Scalar-Plain">data_two</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">col_num</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">1</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">foo</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">options</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">baa</span>
+</span><span class='line'><span class="l-Scalar-Plain">data_three</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">col_num</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">1</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">foofoo</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">options</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">baabaa</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+
+        <a class="btn pull-right" href="/blog/2015/03/18/increment-in-file/">Read on &rarr;</a>
+    </div>
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2015/03/16/iryohi-koujo/">はじめて医療費控除を申告してみたよ</a>
         </h1>
     
@@ -779,82 +865,6 @@ Rails.cache.delete(&lsquo;キー名&rsquo;)でできる。</p>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2014/12/26/20141226142144/">関連を保存時に削除する</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2014-12-26T14:21:00+09:00" pubdate><i class="fa fa-calendar"></i> Dec 26th, 2014</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>saveした時に削除したいときは対象のレコードに対して</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">accepts_nested_attributes_for</span> <span class="p">:</span><span class="err">対象のアソシエーション</span><span class="p">,</span> <span class="ss">allow_destroy</span><span class="p">:</span> <span class="kp">true</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>で宣言してから、</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">parent</span><span class="o">.</span><span class="n">childs</span><span class="o">.</span><span class="n">first</span><span class="o">.</span><span class="n">mark_for_destruction</span> <span class="c1"># 削除したいレコードに削除のマークをつける</span>
-</span><span class='line'><span class="n">parent</span><span class="o">.</span><span class="n">childs</span><span class="o">.</span><span class="n">save</span> <span class="c1"># =&gt; childsのfirstのものか削除される。</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>で削除される。<br/>
-ちなみにsave時にこれを削除してねってマークしたかは</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">parent</span><span class="o">.</span><span class="n">childs</span><span class="o">.</span><span class="n">first</span><span class="o">.</span><span class="n">marked_for_destruction?</span> <span class="c1"># =&gt; true</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>で確認できる。</p>
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -918,6 +928,10 @@ Rails.cache.delete(&lsquo;キー名&rsquo;)でできる。</p>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2015/07/21/pckeditor_add_plugin/">railsでckeditorにplugin追加</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2015/07/17/bootstrap-file-input-for-japanese/">Bootstrap FileInputで日本語の文字が表示されない</a>
         </li>
         
@@ -931,10 +945,6 @@ Rails.cache.delete(&lsquo;キー名&rsquo;)でできる。</p>
         
         <li class="post">
             <a href="/blog/2015/07/09/rename-file-name-for-jp-mobile/">ファイル名に_smart_phoneをつけて複製</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2015/06/24/ckeditor-customer-style/">ckeditorのスタイルにカスタムスタイル追加する方法</a>
         </li>
         
     </ul>

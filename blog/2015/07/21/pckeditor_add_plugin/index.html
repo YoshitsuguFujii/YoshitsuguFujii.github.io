@@ -1,0 +1,478 @@
+<!doctype html>
+    <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+    <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+    <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+    <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+
+    
+      
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>railsでckeditorにplugin追加 - なんとなく日々徒然と</title>
+        <meta name="author" content="Yoshitsugu Fujii">
+        
+        <meta name="description" content="ruby rails French Bulldog surfing aqualist">
+        
+        <meta name="viewport" content="width=device-width">
+        <link rel="canonical" href="http://yoshitsugufujii.github.io/blog/2015/07/21/pckeditor_add_plugin">
+
+        <link href='http://fonts.googleapis.com/css?family=Droid+Serif:400,400italic' rel='stylesheet' type='text/css'>
+        <link href="http://fonts.googleapis.com/css?family=Droid+Sans" rel="stylesheet" type="text/css">
+
+        
+        <link href="/favicon.png" rel="icon">
+        <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet">
+        <link href="/atom.xml" rel="alternate" title="なんとなく日々徒然と" type="application/atom+xml">
+    </head>
+
+
+    <body >
+
+        <header id="header">
+    <div class="row">
+    <div class="col-xs-12 col-sm-8 col-md-4">
+        <a href="/" class="site-title">なんとなく日々徒然と</a>
+    </div>
+    <div class="col-xs-12 col-sm-4 col-md-8">
+        <nav>
+    <input type="checkbox" id="toggle">
+    <label for="toggle" class="toggle" data-open="Main Menu" data-close="Close Menu"></label>
+    <ul class="menu">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/profile/">Profile</a></li>
+</ul>
+
+</nav>
+
+    </div>
+</div>
+
+</header>
+
+
+        <div id="main-content">
+
+            <!--[if lte IE 9]>
+<div class="row upgrade-row">
+    <div class="col-lg-12">
+        <div class="upgrade">
+            <i class="upgrade__icon fa fa-warning"></i>
+            <h1 class="upgrade__title h6">Ohnoes!</h1>
+            <p class="upgrade__text">
+                Unfortunately, certain parts of this site may not display correctly in your version of Internet Explorer!<br>
+                If possible, you should consider <a href="http://browsehappy.com/">upgrading your browser</a>.
+            </p>
+        </div>
+    </div>
+</div>
+<!-- <![endif]-->
+
+
+            
+
+            <div class="row top-xs center-sm center-md center-lg site-wrapper">
+                
+                <div class="col-xs-12 col-sm-10 col-md-8 col-lg-8">
+                
+                    <article class="article article--single">
+    <header class="article__header">
+    
+        <h1 class="article__title">railsでckeditorにplugin追加</h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2015-07-21T10:33:15+09:00" pubdate><i class="fa fa-calendar"></i> Jul 21st, 2015</time>
+
+
+
+
+            
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>ckeditorで作成したinputがsubmitした時にemptyだったらエラーを出したい。<br/>
+いろいろ検索しましたが有用な情報がなく、inputにCKEDITOR.stylesSet.addでクラスを設定する方法もうまくいかず、若干途方に暮れましたが、プラグイン<a href="http://ckeditor.com/addon/html5validation">html5validation</a>をいれることで対応することにしました。</p>
+
+<p>導入手順です。</p>
+
+<!-- more -->
+
+
+<p><a href="http://ckeditor.com/addon/html5validation">ここ</a>のページからDownloadを押してダウンロードします。<br/>
+落としたzipを解凍して、app/assets/javascripts/ckeditor/pluginsディレクトリを作成して解凍したディレクトリごと放り込みます。</p>
+
+<p>次に日本語化します。<br/>
+app/assets/javascripts/ckeditor/plugins/html5validation/langにja.jsを作ります。<br/>
+中身はこんな感じですかね。</p>
+
+<figure class='code'><figcaption><span>app/assets/javascripts/ckeditor/plugins/html5validation/lang/ja.js</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="cm">/*</span>
+</span><span class='line'><span class="cm">Copyright (c) 2015, Total Web Services. All rights reserved.</span>
+</span><span class='line'><span class="cm">*/</span>
+</span><span class='line'><span class="nx">CKEDITOR</span><span class="p">.</span><span class="nx">plugins</span><span class="p">.</span><span class="nx">setLang</span><span class="p">(</span><span class="s1">&#39;html5validation&#39;</span><span class="p">,</span> <span class="s1">&#39;ja&#39;</span><span class="p">,</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">patternLabel</span><span class="o">:</span> <span class="s1">&#39;検証パターン&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">requiredLabel</span><span class="o">:</span> <span class="s1">&#39;必須?&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">validationTabTitle</span><span class="o">:</span> <span class="s1">&#39;値の検証&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">novalidateLabel</span><span class="o">:</span> <span class="s1">&#39;HTML5 Validationを無効にする&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">sampleTwitterUsername</span><span class="o">:</span>  <span class="s1">&#39;ツイッターユーザ名のサンプル: ^[A-Za-z0-9_]{1,15}$&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">samplePhonePattern</span><span class="o">:</span> <span class="s1">&#39;アメリカの電話番号のサンプル: \d{3}[\-]\d{3}[\-]\d{4}&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">sampleZipCode</span><span class="o">:</span> <span class="s1">&#39;&lt;p&gt;アメリカの住所のサンプル: (\d{5}([\-]\d{4})?)&lt;/p&gt;&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">html5patternLink</span><span class="o">:</span> <span class="s1">&#39;&lt;p&gt;他のHTML5 Validation patterns を探す &lt;a href=&quot;http://html5pattern.com/&quot; title=&quot;HTML5 Pattern&quot;&gt;html5pattern.com&lt;/a&gt;&lt;/p&gt;&#39;</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>次に言語を追加します。<br/>
+app/assets/javascripts/ckeditor/plugins/html5validation/plugin.jsを開いて8行目のlangにjaを足します。</p>
+
+<figure class='code'><figcaption><span>app/assets/javascripts/ckeditor/plugins/html5validation/plugin.js</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm"> * @license Copyright (c) 2015, Total Web Services. All rights reserved.</span>
+</span><span class='line'><span class="cm"> */</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="nx">CKEDITOR</span><span class="p">.</span><span class="nx">plugins</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;html5validation&#39;</span><span class="p">,</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">icons</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">lang</span><span class="o">:</span> <span class="s1">&#39;ja,en,fr,es,ru,it&#39;</span><span class="p">,</span> <span class="c1">// ここにjaを追加</span>
+</span><span class='line'>  <span class="nx">init</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">editor</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">lang</span> <span class="o">=</span> <span class="nx">editor</span><span class="p">.</span><span class="nx">lang</span><span class="p">.</span><span class="nx">html5validation</span><span class="p">;</span>
+</span><span class='line'>    <span class="nx">editor</span><span class="p">.</span><span class="nx">filter</span><span class="p">.</span><span class="nx">allow</span><span class="p">(</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">textarea</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">attributes</span><span class="o">:</span> <span class="s1">&#39;required,pattern&#39;</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">propertiesOnly</span><span class="o">:</span> <span class="kc">true</span>
+</span><span class='line'>       <span class="p">},</span>
+</span><span class='line'>       <span class="nx">input</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">attributes</span><span class="o">:</span> <span class="s1">&#39;required,pattern&#39;</span><span class="p">,</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>次にconfig.jsに追記します。</p>
+
+<figure class='code'><figcaption><span>app/assets/javascripts/ckeditor/config.js</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">CKEDITOR</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">extraPlugins</span> <span class="o">=</span> <span class="s1">&#39;html5validation&#39;</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>他にも追加したいpluginがある場合はカンマ区切りで指定するみたいです。<br/>
+これで準備は完成です。ckeditorでformを作ろうとするか、既存のformを選択して右クリックしてフォームのプロパティで<br/>
+必須が設定できるようになっているかと思います</p>
+
+<p><img src="/images/blog/2015-07-21_2.png" alt="完成イメージ" /></p>
+
+<p><img src="/images/blog/2015-07-21.png" alt="完成イメージ" /></p>
+
+
+
+</article>
+
+
+  <div class="share social_box clearfix">
+    <ul class="social">
+      
+  <li class="pocket">
+    <a data-pocket-label="pocket" data-pocket-count="horizontal" class="pocket-btn" data-lang="en"></a>
+    <script type="text/javascript">!function(d,i){if(!d.getElementById(i)){var j=d.createElement("script");j.id=i;j.src="https://widgets.getpocket.com/v1/j/btn.js?v=1";var w=d.getElementById(i);d.body.appendChild(j);}}(document,"pocket-btn-js");</script>
+  </li>
+
+
+
+      <li class="hatena">
+  <a href="http://b.hatena.ne.jp/entry/yoshitsugufujii.github.io/" class="hatena-bookmark-button" data-hatena-bookmark-title="なんとなく日々徒然と" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加"><img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a>
+  <script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+</li>
+
+      <li class="twitter">
+<a class="twitter-share-button" href="https://twitter.com/share?text=railsでckeditorにplugin追加 by @YoshitsuguFujii&url=http://yoshitsugufujii.github.io/blog/2015/07/21/pckeditor_add_plugin/"> Tweet </a>
+<script>
+  window.twttr=(function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return;js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);t._e=[];t.ready=function(f){t._e.push(f);};return t;}(document,"script","twitter-wjs"));
+</script>
+</li>
+
+      <li class="facebook">
+  <div class="fb-like" data-href="http://yoshitsugufujii.github.io/" data-layout="button_count" data-action="like" data-show-faces="true" data-share="false"></div>
+  <div id="fb-root"></div>
+  <script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/ja_JP/sdk.js#xfbml=1&version=v2.0";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));</script>
+</li>
+
+    </ul>
+  </div>
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- GitfubPage -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-7039502723411845"
+     data-ad-slot="5600809613"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+<section id="disqus">
+    <h1 class="disqus__title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+
+
+                </div>
+
+                
+                <aside class="sidebar col-xs-12 col-md-4 col-lg-4">
+                    <div class="row">
+
+    
+
+    
+  <section class="social col-xs-12 col-sm-6 col-md-12">
+    <h1>Site Search</h1>
+    <form action="https://www.google.com/search" method="get">
+      <div class="input-prepend">
+        <input type="hidden" name="sitesearch" value="yoshitsugufujii.github.io">
+        <span class="add-on"><i class="fa fa-search"></i></span>
+        <input class="search-query" type="text" name="q" results="0" placeholder="Search"/>
+      </div>
+    </form>
+  </section>
+
+
+
+    
+<section class="social col-xs-12 col-sm-6 col-md-12">
+    <h1>
+        Follow me!
+    </h1>
+    <ul class="unstyled">
+        
+        
+        
+        <li><a class="facebook" href="//facebook.com/fujiiyoshitsugu"><i class="fa fa-facebook-square"></i> Facebook</a></li>
+        <li><a class="github" href="//github.com/YoshitsuguFujii"><i class="fa fa-github"></i> Github</a></li>
+        
+        
+        
+        
+        
+        
+        
+        <li><a class="twitter" href="//twitter.com/YoshitsuguFujii"><i class="fa fa-twitter"></i> Twitter</a></li>
+        
+    </ul>
+</section>
+
+
+
+    <section id="recent-posts" class="col-xs-12 col-sm-6 col-md-12">
+    <h1>Recent Posts</h1>
+    <ul class="divided">
+        
+        <li class="post">
+            <a href="/blog/2015/07/21/pckeditor_add_plugin/">railsでckeditorにplugin追加</a>
+        </li>
+        
+        <li class="post">
+            <a href="/blog/2015/07/17/bootstrap-file-input-for-japanese/">Bootstrap FileInputで日本語の文字が表示されない</a>
+        </li>
+        
+        <li class="post">
+            <a href="/blog/2015/07/15/ckeditor-table-width/">ckeditorのテーブルのデフォルト値を変更</a>
+        </li>
+        
+        <li class="post">
+            <a href="/blog/2015/07/14/partially-change-string-style-in-cell-with-axlsx/">Axlsxでセルのなかのテキストに部分的にスタイルを当てる</a>
+        </li>
+        
+        <li class="post">
+            <a href="/blog/2015/07/09/rename-file-name-for-jp-mobile/">ファイル名に_smart_phoneをつけて複製</a>
+        </li>
+        
+    </ul>
+</section>
+
+<section id="github-repos" class="col-xs-12 col-sm-6 col-md-12">
+    <h1>
+        GitHub Repos
+        
+        <small class="pull-right">
+            <a class="btn" href="//github.com/YoshitsuguFujii" title="@YoshitsuguFujii on GitHub" target="_blank">
+                <i class="fa fa-external-link"></i>
+            </a>
+        </small>
+        
+    </h1>
+    <ul id="gh_repos" class="divided">
+        <li class="loading">
+            <i class="fa fa-spinner fa-spin"></i>
+        </li>
+    </ul>
+</section>
+
+
+
+
+
+<section id="twitter-timeline" class="col-xs-12 col-sm-6 col-md-12">
+    <h1>
+        Latest Tweets
+        
+        <small class="pull-right">
+            <a class="btn" href="//twitter.com/YoshitsuguFujii" title="@YoshitsuguFujii on Twitter" target="_blank">
+                <i class="fa fa-external-link"></i>
+            </a>
+        </small>
+        
+    </h1>
+
+    <a class="twitter-timeline" data-dnt="true" href="//twitter.com/YoshitsuguFujii"  data-widget-id="574397323830132736"  data-link-color="#049cdb" data-tweet-limit="" data-chrome="noheader nofooter transparent noscrollbar">Tweets by @YoshitsuguFujii</a>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+</section>
+
+
+
+</div>
+
+                </aside>
+                
+            </div>
+        </div>
+
+        
+
+    
+    
+
+
+
+
+<footer class="footer">
+    <div class="row middle-xs">
+        
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <p class="footer__copyright">
+    All content copyright Yoshitsugu Fujii.<br>
+    Code under <a href="//github.com/coogie/oscailte/blob/master/README.md">MIT Licence</a>.
+</p>
+
+        </div>
+        
+        
+    </div>
+</footer>
+
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+<script src="//crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script>
+<script defer src="/javascripts/octopress.js"></script>
+
+
+<script>
+    var _gaq=[['_setAccount','UA-16496422-4'],['_trackPageview']];
+    (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+    g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+    s.parentNode.insertBefore(g,s)}(document,'script'));
+</script>
+
+
+
+<script>
+    var disqus_shortname = 'yoshitsugufujii';
+    
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://yoshitsugufujii.github.io/blog/2015/07/21/pckeditor_add_plugin/';
+        var disqus_url = 'http://yoshitsugufujii.github.io/blog/2015/07/21/pckeditor_add_plugin/';
+        var disqus_script = 'embed.js';
+    
+    (function () {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+<script>
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'YoshitsuguFujii',
+            count: 3,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+</script>
+<script src="/javascripts/github.js"></script>
+
+
+
+
+
+
+
+    </body>
+
+</html>
