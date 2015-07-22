@@ -3,7 +3,7 @@ layout: post
 title: "railsでckeditorにplugin追加"
 date: 2015-07-21 10:33:15 +0900
 comments: true
-categories: 
+categories: [ruby,ruby on rails,ckeditor]
 ---
 
 ckeditorで作成したinputがsubmitした時にemptyだったらエラーを出したい。  

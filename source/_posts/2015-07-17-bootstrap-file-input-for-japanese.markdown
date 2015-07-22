@@ -3,7 +3,7 @@ layout: post
 title: "Bootstrap FileInputで日本語の文字が表示されない"
 date: 2015-07-17 13:46:05 +0900
 comments: true
-categories: 
+categories: [ruby,ruby on rails]
 ---
 
 今の案件で[Bootstrap FileInput](http://plugins.krajee.com/file-input)を使っていますが、日本語(2byte文字)が含まれるファイルを選択した場合ファイル名から日本語部分が消えるという現象が発生しました。  
