@@ -82,6 +82,74 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2012/06/14/20120614151703/">xxx_pathからurlを取りたい</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2012-06-14T15:17:00+09:00" pubdate><i class="fa fa-calendar"></i> Jun 14th, 2012</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/rails/'>rails</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>通常使ってたらあんまりないのかもしれないけど。</p>
+
+<p>libとかでxxx  _path(rake routesで一番左にでるやつ)のurlを取りたいとき。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Rails</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">routes</span><span class="o">.</span><span class="n">url_helpers</span><span class="o">.</span><span class="n">xxx_path</span><span class="p">(</span><span class="vi">@user</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>で取れる。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Rails</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">routes</span><span class="o">.</span><span class="n">url_helpers</span><span class="o">.</span><span class="n">user_register_shop_staffs_path</span><span class="p">(</span><span class="n">shop</span><span class="p">)</span> <span class="c1"># =&gt; &quot;/shops/1/staffs/user_register&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2012/06/12/20120612172917/">jpmobileでredirect_toした時にflashが取得できない</a>
         </h1>
     
@@ -691,91 +759,6 @@ rails 3.0.5</p>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2012/02/29/20120229114012/">before_filterのメソッドを引数付きで呼びだしたいよね</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2012-02-29T11:40:00+09:00" pubdate><i class="fa fa-calendar"></i> Feb 29th, 2012</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/rails/'>rails</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>そんなあなたに。</p>
-
-<p>ruby 1.9.2<br/>
-rails 3.0.5</p>
-
-<p>で確認しました。</p>
-
-<p><a href="http://www.ruby-forum.com/topic/102047">ここ</a>を参考にしました。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">before_filter</span> <span class="ss">:display_list</span><span class="p">,</span> <span class="ss">:only</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="s1">&#39;top&#39;</span><span class="o">]</span> <span class="k">do</span> <span class="o">|</span><span class="n">controller</span><span class="o">|</span>
-</span><span class='line'>  <span class="n">controller</span><span class="o">.</span><span class="n">display_list</span><span class="p">(</span><span class="s1">&#39;index&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">def</span> <span class="nf">display_list</span><span class="p">(</span><span class="n">list</span><span class="p">)</span>
-</span><span class='line'> <span class="nb">p</span> <span class="n">list</span> <span class="c1">#=&gt; &#39;index&#39;</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>ちなみにこれでも動きました。でもなんかこの書き方怖い。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">before_filter</span> <span class="s2">&quot;display_list(&#39;index&#39;)&quot;</span><span class="o">.</span><span class="n">to_sym</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -839,6 +822,10 @@ rails 3.0.5</p>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2015/07/22/ckeditor-big-width-800px-even/">railsでckeditorを使った場合、横幅大きい画像が800pxになってしまう現象</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2015/07/21/pckeditor_add_plugin/">railsでckeditorにplugin追加</a>
         </li>
         
@@ -852,10 +839,6 @@ rails 3.0.5</p>
         
         <li class="post">
             <a href="/blog/2015/07/14/partially-change-string-style-in-cell-with-axlsx/">Axlsxでセルのなかのテキストに部分的にスタイルを当てる</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2015/07/09/rename-file-name-for-jp-mobile/">ファイル名に_smart_phoneをつけて複製</a>
         </li>
         
     </ul>

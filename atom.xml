@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2015-07-21T10:43:40+09:00</updated>
+    <updated>2015-07-22T12:16:33+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,42 @@
     </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[railsでckeditorを使った場合、横幅大きい画像が800pxになってしまう現象]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2015/07/22/ckeditor-big-width-800px-even/"/>
+        <updated>2015-07-22T12:08:58+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2015/07/22/ckeditor-big-width-800px-even</id>
+        <content type="html"><![CDATA[<p><a href="https://github.com/galetahub/ckeditor">ckeditor</a>でサイズの大きい画像(800px以上の幅の画像)が一様に800pxになってしまう問題。<br/>
+gemのckeditorで</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>rails generate ckeditor:install --orm<span class="o">=</span>active_record --backend<span class="o">=</span>carrierwavea
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>とかやってそのままデフォで使うと画像の最大サイズが800pxになります。</p>
+
+<!-- more -->
+
+
+<p></p>
+
+<p>なんでかなーと思って調べてみたら、画像のサイズは生成されるcarrierwaveのuploaderクラスのversion contentの値を使うらしくここが800がデフォルトになっているからでした。<br/>
+<a href="https://github.com/galetahub/ckeditor/blob/master/lib/generators/ckeditor/templates/base/carrierwave/uploaders/ckeditor_picture_uploader.rb#L39">ckeditor_picture_uploader.rb#L39</a></p>
+
+<p>ここの値を変更することで800px制限を解除できます。私は2400pxとかやって逃げました。</p>
+
+<figure class='code'><figcaption><span>app/uploaders/ckeditor_picture_uploader.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">version</span> <span class="ss">:content</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">process</span> <span class="ss">resize_to_limit</span><span class="p">:</span> <span class="o">[</span><span class="mi">2400</span><span class="p">,</span> <span class="mi">2400</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[railsでckeditorにplugin追加]]></title>
@@ -1456,67 +1492,6 @@ engineを使ったことのない方は決まり切った処理をコピぺで�
 <p><img src="http://yoshitsugufujii.github.io/images/for_post/20150321_011205565_iOS.jpg"></p>
 
 <p>何か記念品を贈りたくなったらまた利用しようと思います。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[重複している画像ファイルを削除(rubyで)]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2015/03/20/delete-duplicated-file/"/>
-        <updated>2015-03-20T17:27:16+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2015/03/20/delete-duplicated-file</id>
-        <content type="html"><![CDATA[<p>重複しているファイルを削除します。</p>
-
-<figure class='code'><figcaption><span>delete_duplicate_file.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;digest/md5&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">file_hash</span> <span class="o">=</span> <span class="no">ARGV</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="no">Hash</span><span class="o">.</span><span class="n">new</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="nb">hash</span><span class="p">,</span> <span class="n">file</span><span class="o">|</span>
-</span><span class='line'>              <span class="nb">hash</span><span class="o">[</span><span class="n">file</span><span class="o">]</span> <span class="o">=</span> <span class="no">Digest</span><span class="o">::</span><span class="no">MD5</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">)</span>
-</span><span class='line'>              <span class="nb">hash</span>
-</span><span class='line'>            <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">duplicated_md5</span> <span class="o">=</span> <span class="n">file_hash</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">sort</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="no">Hash</span><span class="o">.</span><span class="n">new</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">file_count</span><span class="p">,</span> <span class="n">md5</span><span class="o">|</span>
-</span><span class='line'>                   <span class="n">file_count</span><span class="o">[</span><span class="n">md5</span><span class="o">]</span> <span class="o">=</span> <span class="n">file_hash</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">md5</span><span class="p">)</span>
-</span><span class='line'>                   <span class="n">file_count</span>
-</span><span class='line'>                 <span class="k">end</span><span class="o">.</span><span class="n">select</span> <span class="k">do</span> <span class="o">|</span><span class="n">md5</span><span class="p">,</span> <span class="n">count</span><span class="o">|</span>
-</span><span class='line'>                   <span class="n">count</span> <span class="o">&gt;</span> <span class="mi">1</span>
-</span><span class='line'>                 <span class="k">end</span><span class="o">.</span><span class="n">keys</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">duplicated_md5</span><span class="o">.</span><span class="n">map</span> <span class="k">do</span> <span class="o">|</span><span class="n">file_md5</span><span class="o">|</span>
-</span><span class='line'>  <span class="c1"># 削除ではなく重複したファイルを他のディレクトリに退避したい場合などはここを変えてください。</span>
-</span><span class='line'>  <span class="no">File</span><span class="o">.</span><span class="n">unlink</span> <span class="n">file_hash</span><span class="o">.</span><span class="n">invert</span><span class="o">[</span><span class="n">file_md5</span><span class="o">]</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<!-- more -->
-
-
-<p>使い方</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>ruby delete_duplicate_file.rb ./*
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>引数でブロブ渡したら勝手に展開されて渡されてきたので、そのままプログラム内で参照しちゃったけどひょっとしたらzshだけかも(?)<br/>
-もっとうまく書けるような気もするけど体力不足の今日の私の脳みそではこれが限界。</p>
 ]]></content>
     </entry>
     

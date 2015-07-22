@@ -4,7 +4,7 @@
     <title><![CDATA[Category: ckeditor | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/ckeditor/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2015-07-21T10:43:40+09:00</updated>
+    <updated>2015-07-22T12:16:33+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,122 @@
       </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[railsでckeditorを使った場合、横幅大きい画像が800pxになってしまう現象]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2015/07/22/ckeditor-big-width-800px-even/"/>
+        <updated>2015-07-22T12:08:58+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2015/07/22/ckeditor-big-width-800px-even</id>
+        <content type="html"><![CDATA[<p><a href="https://github.com/galetahub/ckeditor">ckeditor</a>でサイズの大きい画像(800px以上の幅の画像)が一様に800pxになってしまう問題。<br/>
+gemのckeditorで</p>
+
+<pre><code class="sh">rails generate ckeditor:install --orm=active_record --backend=carrierwavea  
+</code></pre>
+
+<p>とかやってそのままデフォで使うと画像の最大サイズが800pxになります。</p>
+
+<!-- more -->
+
+
+<p></p>
+
+<p>なんでかなーと思って調べてみたら、画像のサイズは生成されるcarrierwaveのuploaderクラスのversion contentの値を使うらしくここが800がデフォルトになっているからでした。<br/>
+<a href="https://github.com/galetahub/ckeditor/blob/master/lib/generators/ckeditor/templates/base/carrierwave/uploaders/ckeditor_picture_uploader.rb#L39">ckeditor_picture_uploader.rb#L39</a></p>
+
+<p>ここの値を変更することで800px制限を解除できます。私は2400pxとかやって逃げました。</p>
+
+<pre><code class="ruby app/uploaders/ckeditor_picture_uploader.rb">  version :content do
+    process resize_to_limit: [2400, 2400]
+  end
+</code></pre>
+]]></content>
+    </entry>
+    
+    <entry>
+        <title type="html"><![CDATA[railsでckeditorにplugin追加]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2015/07/21/pckeditor_add_plugin/"/>
+        <updated>2015-07-21T10:33:15+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2015/07/21/pckeditor_add_plugin</id>
+        <content type="html"><![CDATA[<p>ckeditorで作成したinputがsubmitした時にemptyだったらエラーを出したい。<br/>
+いろいろ検索しましたが有用な情報がなく、inputにCKEDITOR.stylesSet.addでクラスを設定する方法もうまくいかず、若干途方に暮れましたが、プラグイン<a href="http://ckeditor.com/addon/html5validation">html5validation</a>をいれることで対応することにしました。</p>
+
+<p>導入手順です。</p>
+
+<!-- more -->
+
+
+<p><a href="http://ckeditor.com/addon/html5validation">ここ</a>のページからDownloadを押してダウンロードします。<br/>
+落としたzipを解凍して、app/assets/javascripts/ckeditor/pluginsディレクトリを作成して解凍したディレクトリごと放り込みます。</p>
+
+<p>次に日本語化します。<br/>
+app/assets/javascripts/ckeditor/plugins/html5validation/langにja.jsを作ります。<br/>
+中身はこんな感じですかね。</p>
+
+<pre><code class="js app/assets/javascripts/ckeditor/plugins/html5validation/lang/ja.js">/*
+Copyright (c) 2015, Total Web Services. All rights reserved.
+*/
+CKEDITOR.plugins.setLang('html5validation', 'ja', {
+  patternLabel: '検証パターン',
+  requiredLabel: '必須?',
+  validationTabTitle: '値の検証',
+  novalidateLabel: 'HTML5 Validationを無効にする',
+  sampleTwitterUsername:  'ツイッターユーザ名のサンプル: ^[A-Za-z0-9_]{1,15}$',
+  samplePhonePattern: 'アメリカの電話番号のサンプル: \d{3}[\-]\d{3}[\-]\d{4}',
+  sampleZipCode: '&lt;p&gt;アメリカの住所のサンプル: (\d{5}([\-]\d{4})?)&lt;/p&gt;',
+  html5patternLink: '&lt;p&gt;他のHTML5 Validation patterns を探す &lt;a href="http://html5pattern.com/" title="HTML5 Pattern"&gt;html5pattern.com&lt;/a&gt;&lt;/p&gt;'
+});
+</code></pre>
+
+<p>次に言語を追加します。<br/>
+app/assets/javascripts/ckeditor/plugins/html5validation/plugin.jsを開いて8行目のlangにjaを足します。<br/>
+<figure class='code'><figcaption><span>app/assets/javascripts/ckeditor/plugins/html5validation/plugin.js</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="err">/&lt;em&gt;*</span>
+</span><span class='line'> <span class="o">*</span> <span class="err">@</span><span class="nx">license</span> <span class="nx">Copyright</span> <span class="o">&amp;</span><span class="nx">copy</span><span class="p">;</span> <span class="mi">2015</span><span class="p">,</span> <span class="nx">Total</span> <span class="nx">Web</span> <span class="nx">Services</span><span class="p">.</span> <span class="nx">All</span> <span class="nx">rights</span> <span class="nx">reserved</span><span class="p">.</span>
+</span><span class='line'> <span class="o">&lt;</span><span class="sr">/em&gt;/</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="nx">CKEDITOR</span><span class="p">.</span><span class="nx">plugins</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="nx">html5validation</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;,</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">icons</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">lang</span><span class="o">:</span> <span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="nx">ja</span><span class="p">,</span><span class="nx">en</span><span class="p">,</span><span class="nx">fr</span><span class="p">,</span><span class="nx">es</span><span class="p">,</span><span class="nx">ru</span><span class="p">,</span><span class="nx">it</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;,</span> <span class="c1">// ここにjaを追加</span>
+</span><span class='line'>  <span class="nx">init</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">editor</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">lang</span> <span class="o">=</span> <span class="nx">editor</span><span class="p">.</span><span class="nx">lang</span><span class="p">.</span><span class="nx">html5validation</span><span class="p">;</span>
+</span><span class='line'>    <span class="nx">editor</span><span class="p">.</span><span class="nx">filter</span><span class="p">.</span><span class="nx">allow</span><span class="p">(</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">textarea</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">attributes</span><span class="o">:</span> <span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="nx">required</span><span class="p">,</span><span class="nx">pattern</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;,</span>
+</span><span class='line'>        <span class="nx">propertiesOnly</span><span class="o">:</span> <span class="kc">true</span>
+</span><span class='line'>       <span class="p">},</span>
+</span><span class='line'>       <span class="nx">input</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">attributes</span><span class="o">:</span> <span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="nx">required</span><span class="p">,</span><span class="nx">pattern</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;,</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p>次にconfig.jsに追記します。</p>
+
+<pre><code class="js app/assets/javascripts/ckeditor/config.js">CKEDITOR.config.extraPlugins = 'html5validation';
+</code></pre>
+
+<p>他にも追加したいpluginがある場合はカンマ区切りで指定するみたいです。<br/>
+これで準備は完成です。ckeditorでformを作ろうとするか、既存のformを選択して右クリックしてフォームのプロパティで<br/>
+必須が設定できるようになっているかと思います</p>
+
+<p><img src="/images/blog/2015-07-21_2.png" alt="完成イメージ" /></p>
+
+<p><img src="/images/blog/2015-07-21.png" alt="完成イメージ" /></p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[ckeditorのテーブルのデフォルト値を変更]]></title>
