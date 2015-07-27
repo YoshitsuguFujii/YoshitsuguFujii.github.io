@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2015-07-22T12:16:33+09:00</updated>
+    <updated>2015-07-27T18:46:39+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,73 @@
     </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[Axlsxで縦書き]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2015/07/27/orientation-xlvertical-with-axlsx/"/>
+        <updated>2015-07-27T18:19:53+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2015/07/27/orientation-xlvertical-with-axlsx</id>
+        <content type="html"><![CDATA[<p>Axlsxでセルの内容を縦書きにする方法がわかったので日記に記します。<br/>
+セルに角度を付ける方法は見つかったんですが、縦書きにする方法が全然見つからずかなりはまりました。</p>
+
+<!-- more -->
+
+
+<p>VBAだと縦書きはこう設定できますね。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="n">Range</span><span class="p">(</span><span class="s">&quot;D2&quot;</span><span class="p">).</span><span class="n">Orientation</span> <span class="o">=</span> <span class="n">xlVertical</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>色々と調べて、xlVerticalの値である-4166をセットしていしてみたりしましたがなかなかうまくゆかず。<br/>
+色々と検索して、最終的にcellXfsというキーワードからなぜか<a href="http://bbs.wankuma.com/index.cgi?mode=al2&amp;namber=5358&amp;KLOG=15">C# vb.netの質問掲示板</a>で発見しましした(圧倒的感謝!)<br/>
+textRotationを255を指定すればいけるそうです。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;axlsx&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">package</span> <span class="o">=</span> <span class="no">Axlsx</span><span class="o">::</span><span class="no">Package</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">sheet</span> <span class="o">=</span> <span class="n">package</span><span class="o">.</span><span class="n">workbook</span><span class="o">.</span><span class="n">add_worksheet</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="s1">&#39;lists&#39;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">vertical_text</span> <span class="o">=</span> <span class="n">sheet</span><span class="o">.</span><span class="n">styles</span><span class="o">.</span><span class="n">add_style</span><span class="p">(</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>      <span class="ss">alignment</span><span class="p">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="ss">horizontal</span><span class="p">:</span> <span class="ss">:center</span><span class="p">,</span>
+</span><span class='line'>        <span class="ss">vertical</span><span class="p">:</span> <span class="ss">:center</span> <span class="p">,</span>
+</span><span class='line'>        <span class="ss">textRotation</span><span class="p">:</span> <span class="mi">255</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="o">[</span><span class="s1">&#39;とっても長いテキスト&#39;</span><span class="p">,</span> <span class="s1">&#39;短いテキスト&#39;</span><span class="o">]</span><span class="p">,</span> <span class="ss">style</span><span class="p">:</span> <span class="n">vertical_text</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">package</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="s1">&#39;test.xlsx&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>できないのかもと本気で諦めかけていたので出来た時には変な声がでてしまいました。</p>
+
+<p><img src="http://yoshitsugufujii.github.io/images/blog/2015-07-27.png" alt="Axlsx Orientaion xlVertical" /></p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[railsでckeditorを使った場合、横幅大きい画像が800pxになってしまう現象]]></title>
@@ -1468,30 +1535,6 @@ engineを使ったことのない方は決まり切った処理をコピぺで�
 便利ですね！デモでは選択した内容をalert表示しています</p>
 
 <p>チェックボックスじゃなくてどうしてもプルダウンでやりたい人はよかったら使ってみてください。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[今日 嫁にホワイトデーのお返しをしたよ]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2015/03/21/mouse-pad/"/>
-        <updated>2015-03-21T12:16:35+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2015/03/21/mouse-pad</id>
-        <content type="html"><![CDATA[<p>嫁のホワイトデーのお返しがようやく届きました。</p>
-
-<p>かわいいマウスパッドというリクエストでしたが、探したけどかわいいマウスパッドがあまりなくどうしたものかと思ってましたが、
-商品を自由にカスタマイズできる <a href="http://www.zazzle.co.jp">Zazzle</a>というサービスがとても良さそうだったのでこれを利用しました。</p>
-
-<p>オーダーが3月9日。銀行振込も同日に行いました。<br/>
-振込確認したので作りますメールが12日にきて、13日に発送しますメールがきました。<br/>
-アメリカからの発送なので少し日数がたった3月16日に家に届きました。<br/>
-でも実際には仕事で受け取れず、受け取ったのは今日です(^^;)</p>
-
-<p>こんな感じのマウスパッドが届きました！
-素晴らしい出来！</p>
-
-<p><img src="http://yoshitsugufujii.github.io/images/for_post/20150321_011205565_iOS.jpg"></p>
-
-<p>何か記念品を贈りたくなったらまた利用しようと思います。</p>
 ]]></content>
     </entry>
     
