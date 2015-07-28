@@ -4,7 +4,7 @@
     <title><![CDATA[Category: gem | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/gem/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2015-07-27T18:46:39+09:00</updated>
+    <updated>2015-07-28T19:22:44+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,109 @@
       </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[Axlsxでセルの中の斜線を引く]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2015/07/28/axlsx-diagonal-border/"/>
+        <updated>2015-07-28T18:55:24+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2015/07/28/axlsx-diagonal-border</id>
+        <content type="html"><![CDATA[<p>またまた中々見つけられなかったテクニック。<br/>
+セルの内部に斜線をひくです。</p>
+
+<p>連日の調査で疲れます。</p>
+
+<!-- more -->
+
+
+<p>さくっと結論です。<br/>
+edgesにdiagonalを指定して、diagonal_upかdiagonal_downにtrueを指定するです。<br/>
+edgesにdiagonalを指定しろなんてどこにも書いてなかったので大変でした。</p>
+
+<p>コードにするとこうです。</p>
+
+<pre><code class="ruby">require 'axlsx'
+
+package = Axlsx::Package.new
+sheet = package.workbook.add_worksheet(name: 'lists')
+
+diagonal_up = sheet.styles.add_style(
+                              {
+                               :border =&gt; {
+                                 :edges =&gt; [:diagonal],
+                                 :color =&gt; "000000",
+                                 :style =&gt; :thin,
+                                 diagonal_up: true
+                               }
+                              }
+                            )
+diagonal_down = sheet.styles.add_style(
+                              {
+                               :border =&gt; {
+                                 :edges =&gt; [:diagonal],
+                                 :color =&gt; "000000",
+                                 :style =&gt; :thin,
+                                 diagonal_down: true
+                                }
+                              }
+                            )
+
+diagonal_both = sheet.styles.add_style(
+                              {
+                               :border =&gt; {
+                                 :edges =&gt; [:diagonal],
+                                 :color =&gt; "000000",
+                                 :style =&gt; :thin,
+                                 diagonal_down: true,
+                                 diagonal_up: true
+                               }
+                              }
+                            )
+
+
+sheet.add_row(['斜線1'], style: diagonal_up)
+sheet.add_row([''])
+sheet.add_row(['斜線2'], style: diagonal_down)
+sheet.add_row([''])
+sheet.add_row(['斜線3'], style: diagonal_both)
+
+package.serialize('test.xlsx')
+</code></pre>
+
+<p><img src="/images/blog/2015-07-28.png" alt="Axlsx border diagonal" /></p>
+
+<p>もしくはこれでもいけます。</p>
+
+<pre><code class="ruby">require 'axlsx'
+
+package = Axlsx::Package.new
+sheet = package.workbook.add_worksheet(name: 'lists')
+
+diagonal_style = sheet.styles.add_style(
+                              {
+                               :border =&gt; {
+                                 :edges =&gt; [:left, :right],
+                                 :color =&gt; "000000",
+                                 :style =&gt; :thin 
+                               }
+                              }
+                            )
+
+br = package.workbook.styles.borders[package.workbook.styles.cellXfs[diagonal_style].borderId]
+br.diagonalUp = true
+br.diagonalDown = true
+br.prs &lt;&lt; Axlsx::BorderPr.new(
+  name: :diagonal,
+  color: Axlsx::Color.new(rgb: '000000'),
+  style: :thin,
+)
+
+
+sheet.add_row(['斜め線をひく'], style: diagonal_style)
+
+package.serialize('test.xlsx')
+</code></pre>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[Axlsxで縦書き]]></title>
@@ -229,51 +332,6 @@ sheet.sheet  _protection.password<br/>
 
 <p>困ったときはインタラクティブにどんなメソッドがあるかどんな値が設定されているか確認しながら<br/>
 試しながらやることで問題が解決できるというのは素晴らしいと思いました。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[Axlsを使ってExcelでリスト（ドロップダウンするやつ）を作る]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2014/10/30/20141030155750/"/>
-        <updated>2014-10-30T15:57:00+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2014/10/30/20141030155750</id>
-        <content type="html"><![CDATA[<p>業務でエクセルを使うことになったので調べてました。</p>
-
-<p>↓Qiitaの素晴らしいまとめ<br/>
-RailsでExcelを扱うGemまとめ<br/>
-<a href="http://qiita.com/Kta-M/items/02a2c41c5624f75498aa">http://qiita.com/Kta-M/items/02a2c41c5624f75498aa</a></p>
-
-<p>↓情報はこの辺を見ました<br/>
-<a href="http://stackoverflow.com/questions/17320645/axlsx-building-dynamic-columns">http://stackoverflow.com/questions/17320645/axlsx-building-dynamic-columns</a></p>
-
-<p>あまりエクセルのリストを作成する情報がなかったので書いておきます。</p>
-
-<pre><code class="ruby">require 'axlsx'
-package = Axlsx::Package.new
-sheet = package.workbook.add_worksheet(name: 'lists')
-
-sheet.add_row(['品名', '単価', '数量', '計'])
-sheet.add_row(['にんじん',    80, 1,      '=B2*C2'])
-sheet.add_row(['たまねぎ',    50, 2,      '=B3*C3'])
-sheet.add_row(['じゃがいも',  40, 2,      '=B4*C4'])
-sheet.add_row(['牛肉',       200, 1,      '=B5*C5'])
-sheet.add_row(['カレー粉',   150, 1,      '=B6*C6'])
-sheet.add_row(['',            '', '総計', '=SUM(D2:D6)'])
-
-sheet.add_data_validation("A10", {
-  :type =&gt; :list,
-  :formula1 =&gt; 'A2:A6',
-  :showDropDown =&gt; false,
-  :showErrorMessage =&gt; true,
-  :errorTitle =&gt; '',
-  :error =&gt; 'リストから選んで下さい',
-  :errorStyle =&gt; :stop,
-  :showInputMessage =&gt; true,
-  :promptTitle =&gt; 'カレー具材',
-  :prompt =&gt; 'カレーの具材を選んで下さい。'})
-
-package.serialize('test.xlsx')
-</code></pre>
 ]]></content>
     </entry>
     
