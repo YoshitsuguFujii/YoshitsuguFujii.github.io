@@ -82,6 +82,256 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2015/08/27/vagrant-mysql/">Vagrantを使って5分でmysqlサーバー構築</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2015-08-27T15:42:59+09:00" pubdate><i class="fa fa-calendar"></i> Aug 27th, 2015</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/vagrant/'>vagrant</a></li>
+            
+                <li><a class='category' href='/blog/categories/mysql/'>mysql</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>普段はほぼモノシリックなサービスしか開発していないんだけど、去年の暮れぐらいからちょくちょく関わらせている案件がマイクロサービスで、新しい人が入るということで構築手順のまとめがてらVagrant + Itamaeで環境構築してみた。</p>
+
+<p>複数サーバーインスタンスを立ち上げて、各サーバーから一つのmysqlに接続できたらいいな。 (この構成ならdockerでやれという話もあるけど。先にvagrantを勉強してみたかったので）</p>
+
+<p>とりあえず192.168.55.55で接続可能なmysqlのvagrant(なんていうんだろう。dockerだとコンテナに相当するやつ)を作成してみます。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>vagrant init
+</span><span class='line'>vagrant plugin install vagrant-itamae</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>vagrant init</code>して作成されたVagrantfileを編集します。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># -*- mode: ruby -*-</span>
+</span><span class='line'><span class="c1"># vi: set ft=ruby :</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Vagrant</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">box</span> <span class="o">=</span> <span class="s2">&quot;centos65&quot;</span>
+</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">box_url</span> <span class="o">=</span> <span class="s2">&quot;https://github.com/2creatives/vagrant-centos/releases/download/v6.5.3/centos65-x86_64-20140116.box&quot;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">define</span> <span class="s2">&quot;db&quot;</span> <span class="k">do</span> <span class="o">|</span><span class="n">db</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">hostname</span> <span class="o">=</span> <span class="s2">&quot;db&quot;</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">network</span> <span class="ss">:private_network</span><span class="p">,</span> <span class="ss">ip</span><span class="p">:</span> <span class="s2">&quot;192.168.55.55&quot;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">provision</span> <span class="ss">:itamae</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+</span><span class='line'>      <span class="n">config</span><span class="o">.</span><span class="n">sudo</span> <span class="o">=</span> <span class="kp">true</span>
+</span><span class='line'>      <span class="n">config</span><span class="o">.</span><span class="n">recipes</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;./recipe.rb&#39;</span><span class="o">]</span>
+</span><span class='line'>      <span class="n">config</span><span class="o">.</span><span class="n">json</span> <span class="o">=</span> <span class="s1">&#39;./node.json&#39;</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">ssh</span><span class="o">.</span><span class="n">forward_agent</span> <span class="o">=</span> <span class="kp">true</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Itameのレシピ<br/>
+Vagrantfileと同じディレクトリにrecipe.rbという名称でおきます。</p>
+
+<figure class='code'><figcaption><span>recipe.rb </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">package</span> <span class="s2">&quot;epel-release&quot;</span>
+</span><span class='line'><span class="n">package</span> <span class="s2">&quot;gcc&quot;</span>
+</span><span class='line'><span class="n">package</span> <span class="s2">&quot;openssl-devel&quot;</span>
+</span><span class='line'><span class="n">package</span> <span class="s2">&quot;libyaml-devel&quot;</span>
+</span><span class='line'><span class="n">package</span> <span class="s2">&quot;readline-devel&quot;</span>
+</span><span class='line'><span class="n">package</span> <span class="s2">&quot;zlib-devel&quot;</span>
+</span><span class='line'><span class="n">package</span> <span class="s2">&quot;vim&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># mysql</span>
+</span><span class='line'><span class="n">package</span> <span class="s1">&#39;http://dev.mysql.com/get/mysql-community-release-el6-5.noarch.rpm&#39;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">not_if</span> <span class="s1">&#39;rpm -q mysql-community-release-el6-5&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="sx">%w( mysql-community-server mysql-community-devel )</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">pkg</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">package</span> <span class="n">pkg</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">utf8mb4_settting</span> <span class="o">=</span> <span class="o">&lt;&lt;</span><span class="sh">&quot;</span><span class="no">EOS</span><span class="sh">&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sh">[mysqld]</span>
+</span><span class='line'><span class="sh">character-set-server = utf8mb4</span>
+</span><span class='line'><span class="sh">character-set-client-handshake  = FALSE</span>
+</span><span class='line'><span class="sh">character_set_server            = utf8mb4</span>
+</span><span class='line'><span class="sh">collation_server                = utf8mb4_unicode_ci</span>
+</span><span class='line'><span class="sh">innodb_file_format = Barracuda</span>
+</span><span class='line'><span class="sh">innodb_file_per_table = 1</span>
+</span><span class='line'><span class="sh">innodb_large_prefix</span>
+</span><span class='line'>
+</span><span class='line'><span class="sh">[client]</span>
+</span><span class='line'><span class="sh">default-character-set=utf8mb4</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">EOS</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">execute</span> <span class="s2">&quot;set db charset to utf8mb4&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">command</span> <span class="o">&lt;&lt;-</span><span class="no">EOF</span>
+</span><span class='line'><span class="sh">    echo &#39;#{utf8mb4_settting}&#39; &gt;&gt; /etc/my.cnf</span>
+</span><span class='line'><span class="no">  EOF</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">service</span> <span class="s1">&#39;mysqld&#39;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">action</span> <span class="o">[</span><span class="ss">:start</span><span class="p">,</span> <span class="ss">:enable</span><span class="o">]</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">execute</span> <span class="s2">&quot;allow remote host access&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="c1"># MySQLにリモートホストから接続できるようにする</span>
+</span><span class='line'>  <span class="n">command</span> <span class="s2">&quot;mysql -e </span><span class="se">\&quot;</span><span class="s2">grant all privileges on *.* to root@&#39;192.168.%&#39;</span><span class="se">\&quot;</span><span class="s2">&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>レシピから参照するnode<br/>
+これもVagrantfileと同じ場所にnode.jsonという名前でおきます。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="s2">&quot;mysql&quot;</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>    <span class="s2">&quot;password&quot;</span><span class="o">:</span> <span class="s2">&quot;&quot;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>そしたらvagrantを起動しましょう。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>vagrant up
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>無事に起動したらItamaeで環境構築です。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>vagrant provision
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>無事に終了したらホストから接続してみます。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>mysql -uroot -h 192.168.55.55
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>で繋がれば完成です。</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2015/07/28/axlsx-diagonal-border/">Axlsxでセルの中の斜線を引く</a>
         </h1>
     
@@ -662,78 +912,6 @@ WYSIWYGエディタの<a href="http://ckeditor.com/demo">ckeditor</a>がすご�
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2015/06/11/simple-form-error-full-message/">simple_formで表示されるエラーをfull_messagesのものにする</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2015-06-11T14:30:19+09:00" pubdate><i class="fa fa-calendar"></i> Jun 11th, 2015</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
-            
-                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <div class="article__content clearfix">
-        <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1">#開発環境</span>
-</span><span class='line'><span class="n">rails</span> <span class="p">(</span><span class="mi">4</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">1</span><span class="p">)</span>
-</span><span class='line'><span class="n">simple_form</span> <span class="p">(</span><span class="mi">3</span><span class="o">.</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>simple_formをそのまま使うとエラー発生時のエラーの表示がfull_messageではなく、object.errors[:name]みたいにした時の値しか表示してくれない。</p>
-
-<p>こんな感じ。<br/>
-<img src="/images/blog/simple_form_error2015-06-10.png" alt="normal error" /></p>
-
-<p>ちょっとこれだとあんまりなのでfull_messageでメッセージを表示したい</p>
-
-
-        <a class="btn pull-right" href="/blog/2015/06/11/simple-form-error-full-message/">Read on &rarr;</a>
-    </div>
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -795,6 +973,10 @@ WYSIWYGエディタの<a href="http://ckeditor.com/demo">ckeditor</a>がすご�
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2015/08/27/vagrant-mysql/">Vagrantを使って5分でmysqlサーバー構築</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2015/07/28/axlsx-diagonal-border/">Axlsxでセルの中の斜線を引く</a>
         </li>
         
@@ -808,10 +990,6 @@ WYSIWYGエディタの<a href="http://ckeditor.com/demo">ckeditor</a>がすご�
         
         <li class="post">
             <a href="/blog/2015/07/21/pckeditor_add_plugin/">railsでckeditorにplugin追加</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2015/07/17/bootstrap-file-input-for-japanese/">Bootstrap FileInputで日本語の文字が表示されない</a>
         </li>
         
     </ul>
