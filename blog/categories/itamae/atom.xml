@@ -4,7 +4,7 @@
     <title><![CDATA[Category: itamae | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/itamae/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2015-08-27T15:58:38+09:00</updated>
+    <updated>2015-08-31T12:22:13+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -23,6 +23,9 @@
 <p>複数サーバーインスタンスを立ち上げて、各サーバーから一つのmysqlに接続できたらいいな。 (この構成ならdockerでやれという話もあるけど。先にvagrantを勉強してみたかったので）</p>
 
 <p>とりあえず192.168.55.55で接続可能なmysqlのvagrant(なんていうんだろう。dockerだとコンテナに相当するやつ)を作成してみます。</p>
+
+<!-- more -->
+
 
 <pre><code>vagrant init
 vagrant plugin install vagrant-itamae
