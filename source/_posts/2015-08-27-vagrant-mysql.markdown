@@ -12,6 +12,8 @@ categories: [vagrant, mysql, itamae]
   
 とりあえず192.168.55.55で接続可能なmysqlのvagrant(なんていうんだろう。dockerだとコンテナに相当するやつ)を作成してみます。
   
+<!-- more -->
+  
 ```
 vagrant init
 vagrant plugin install vagrant-itamae
