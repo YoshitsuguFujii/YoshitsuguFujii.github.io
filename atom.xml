@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2015-08-31T12:22:13+09:00</updated>
+    <updated>2015-09-04T20:37:23+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,239 @@
     </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[Go言語を使ってローカルマシンに簡易botを作ってSlackに投稿]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2015/09/04/golang-bot-for-slack/"/>
+        <updated>2015-09-04T17:17:58+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2015/09/04/golang-bot-for-slack</id>
+        <content type="html"><![CDATA[<p>Goを勉強がてら使いながら簡易slackbotを作ってみました。<br/>
+slackにデフォルトで用意されているslackbotってお願いしますをキーに登録すると、「お願いします]
+とか「お願いします。」(句読点入り)は反応してくれるけど。 「よろしくお願いします。」みたいに単語をつなげると反応してくれない。</p>
+
+<p>単純に単語が含まれるかだけで反応してくれればいいのに・・・</p>
+
+<p>ということもありお手製slackbotをつくってみました。<br/>
+自分のPCでプログラムを動かし、slackで投稿があった際にはOutgoing WebHooksで投稿内容を取得してBotとして返信したいと思います。</p>
+
+<p>slack → ローカルmacのbot → slack</p>
+
+<p>の流れです。</p>
+
+<!-- more -->
+
+
+<p>まずは外から自分のmacを見つけてもらうためにngrokにトンネルしてもらいましょう。<br/>
+ngrokの設定とか概要はこちらを見てださい。<br/>
+<a href="http://qiita.com/kitaro729/items/44214f9f81d3ebda58bd">ngrokを使用してローカル環境を外部に公開する</a><br/>
+普段から最高にお世話になっているサービスです。</p>
+
+<p>Slackの設定です。WebでSlackを開き左のMenuからIntegrationsを選びAll Servicesタブの中からOutgoing WebHooksを選択します。<br/>
+新規作成画面のURL(s)にngrokで接続できるurlを設定します。<br/>
+channelは新規でtestを。<br/>
+Customeize NameにはBotが発言した時の名前が、Cutomize IconにはBotが発言した時のアイコンが設定できます。</p>
+
+<p>これでslackの設定は完了です。</p>
+
+<p>次にgoのプロググラムを動かします。<br/>
+もしgoがインストールされてなかったらここ見るといいです。<br/>
+<a href="http://qiita.com/morisuke/items/ce04479c1b26d83f4fe3">Golang開発環境 3分クッキング</a><br/>
+あとyamlを使うのでyamlのライブラリもいれます。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>go get gopkg.in/yaml.v2</span></code></pre></td></tr></table></div></figure>
+
+
+<p>goのソースはこんな感じ</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+</pre></td><td class='code'><pre><code class='go'><span class='line'><span class="kn">package</span> <span class="nx">main</span>
+</span><span class='line'>
+</span><span class='line'><span class="kn">import</span> <span class="p">(</span>
+</span><span class='line'>  <span class="s">&quot;fmt&quot;</span>
+</span><span class='line'>  <span class="s">&quot;gopkg.in/yaml.v2&quot;</span>
+</span><span class='line'>  <span class="s">&quot;io/ioutil&quot;</span>
+</span><span class='line'>  <span class="s">&quot;math/rand&quot;</span>
+</span><span class='line'>  <span class="s">&quot;net/http&quot;</span>
+</span><span class='line'>  <span class="s">&quot;strings&quot;</span>
+</span><span class='line'>  <span class="s">&quot;time&quot;</span>
+</span><span class='line'><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">const</span> <span class="nx">WordTable</span> <span class="p">=</span> <span class="s">&quot;word.yml&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">var</span> <span class="nx">p</span> <span class="p">=</span> <span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">func</span> <span class="nx">Serve</span><span class="p">(</span><span class="nx">w</span> <span class="nx">http</span><span class="p">.</span><span class="nx">ResponseWriter</span><span class="p">,</span> <span class="nx">r</span> <span class="o">*</span><span class="nx">http</span><span class="p">.</span><span class="nx">Request</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">if</span> <span class="nx">r</span><span class="p">.</span><span class="nx">Method</span> <span class="o">==</span> <span class="s">&quot;POST&quot;</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">text</span> <span class="o">:=</span> <span class="nx">r</span><span class="p">.</span><span class="nx">FormValue</span><span class="p">(</span><span class="s">&quot;text&quot;</span><span class="p">)</span>
+</span><span class='line'>      <span class="nx">user_name</span> <span class="o">:=</span> <span class="nx">r</span><span class="p">.</span><span class="nx">FormValue</span><span class="p">(</span><span class="s">&quot;user_name&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="k">if</span> <span class="nx">user_name</span> <span class="o">!=</span> <span class="s">&quot;slackbot&quot;</span> <span class="p">{</span>
+</span><span class='line'>          <span class="nx">p</span><span class="p">(</span><span class="s">&quot;user_name:&quot;</span><span class="p">,</span> <span class="nx">user_name</span><span class="p">)</span>
+</span><span class='line'>          <span class="nx">return_text</span> <span class="o">:=</span> <span class="nx">detect_word</span><span class="p">(</span><span class="nx">text</span><span class="p">)</span>
+</span><span class='line'>          <span class="nx">fmt</span><span class="p">.</span><span class="nx">Fprintf</span><span class="p">(</span><span class="nx">w</span><span class="p">,</span> <span class="s">&quot;{\&quot;text\&quot;: \&quot;%s\&quot;}&quot;</span><span class="p">,</span> <span class="nx">return_text</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">func</span> <span class="nx">getWordTable</span><span class="p">()</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">][]</span><span class="kt">string</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">buf</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">ioutil</span><span class="p">.</span><span class="nx">ReadFile</span><span class="p">(</span><span class="nx">WordTable</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">m</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">][]</span><span class="kt">string</span><span class="p">)</span>
+</span><span class='line'>  <span class="nx">err</span> <span class="p">=</span> <span class="nx">yaml</span><span class="p">.</span><span class="nx">Unmarshal</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span> <span class="o">&amp;</span><span class="nx">m</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">return</span> <span class="nx">m</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">func</span> <span class="nx">keys</span><span class="p">(</span><span class="nx">words</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">][]</span><span class="kt">string</span><span class="p">)</span> <span class="p">[]</span><span class="kt">string</span> <span class="p">{</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">keys</span> <span class="p">[]</span><span class="kt">string</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">for</span> <span class="nx">key</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">words</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">keys</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">keys</span><span class="p">,</span> <span class="nx">key</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nx">keys</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">func</span> <span class="nx">detect_word</span><span class="p">(</span><span class="nx">post_text</span> <span class="kt">string</span><span class="p">)</span> <span class="p">(</span><span class="nx">bot_message</span> <span class="kt">string</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">dict</span> <span class="o">:=</span> <span class="nx">getWordTable</span><span class="p">()</span>  <span class="c1">// 設定を取得</span>
+</span><span class='line'>  <span class="nx">word_keys</span> <span class="o">:=</span> <span class="nx">keys</span><span class="p">(</span><span class="nx">dict</span><span class="p">)</span> <span class="c1">// キーのみ抽出</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">suggestion</span> <span class="p">[]</span><span class="kt">string</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="nx">word_keys</span><span class="p">);</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">if</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">Contains</span><span class="p">(</span><span class="nx">post_text</span><span class="p">,</span> <span class="nx">word_keys</span><span class="p">[</span><span class="nx">i</span><span class="p">])</span> <span class="p">{</span>
+</span><span class='line'>          <span class="nx">suggestion</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">suggestion</span><span class="p">,</span> <span class="nx">dict</span><span class="p">[</span><span class="nx">word_keys</span><span class="p">[</span><span class="nx">i</span><span class="p">]]</span><span class="o">...</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nx">suggestion</span><span class="p">)</span> <span class="p">&gt;</span> <span class="mi">0</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">rand</span><span class="p">.</span><span class="nx">Seed</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Now</span><span class="p">().</span><span class="nx">UnixNano</span><span class="p">())</span>
+</span><span class='line'>      <span class="nx">bot_message</span> <span class="p">=</span> <span class="nx">suggestion</span><span class="p">[</span><span class="nx">rand</span><span class="p">.</span><span class="nx">Intn</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nx">suggestion</span><span class="p">))]</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nx">bot_message</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">func</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">http</span><span class="p">.</span><span class="nx">HandleFunc</span><span class="p">(</span><span class="s">&quot;/&quot;</span><span class="p">,</span> <span class="nx">Serve</span><span class="p">)</span>
+</span><span class='line'>  <span class="nx">http</span><span class="p">.</span><span class="nx">ListenAndServe</span><span class="p">(</span><span class="s">&quot;:8080&quot;</span><span class="p">,</span> <span class="kc">nil</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>プログラムの中でソースと同一ディレクトリにあるword.ymlを読み出しています。<br/>
+これはslackでの発言と反応をまとめたyamlファイルです。<br/>
+発言にひっかけたい文字列をキーに、反応を配列形式で設定します。<br/>
+こんな感じです。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">お願いします</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">こちらこそよろしく頼む</span>
+</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">えーっ、やだよ</span>
+</span><span class='line'><span class="l-Scalar-Plain">よろしいでしょうか</span><span class="p-Indicator">:</span> <span class="nl">&amp;yoro</span>
+</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">許さん</span>
+</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">金による</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">いいですか</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="nv">*yoro</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>では<code>fresh</code>起動しましょう。<br/>
+testチャンネルでつぶやいてみます。</p>
+
+<p><img src="http://yoshitsugufujii.github.io/images/blog/2015-09-04.png" alt="slackbot" /></p>
+
+<p>おお、できました！<br/>
+ゴルーチンとかチャネルとかまだあんまりよくわかってないので引き続き勉強していきたいと思います。</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[VagrantとItamaeを使って5分でmysqlサーバー構築]]></title>
@@ -1716,64 +1949,6 @@ engineを使ったことのない方は決まり切った処理をコピぺで�
 
 <p>これでctrl+jで下に、ctrl+kで上に移動するようになっているはずです。
 簡単！</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[Railsでbootswatch導入(with rails assets)]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2015/04/16/bootswatch-with-rails-assets/"/>
-        <updated>2015-04-16T11:01:57+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2015/04/16/bootswatch-with-rails-assets</id>
-        <content type="html"><![CDATA[<p>管理画面を作るにあたって<a href="http://getbootstrap.com/">bootstrap</a>だけで1から作るのもしんどかったので、フリーのbootstrap用テンプレート<a href="https://bootswatch.com/">bootswatch</a>を使って管理画面を作ってみたいと思います。</p>
-
-<p>導入には以下4パターンがあるかと思います。</p>
-
-<ol>
-<li><a href="https://github.com/maxim/bootswatch-rails">bootswatch-rails</a>などのGemを使う</li>
-<li>bowerで入れる</li>
-<li>rails-assetsで入れる</li>
-<li>サイトからダウンロードしてassets下に配置する</li>
-</ol>
-
-
-<p>今回はrails-assetsで導入してみました。</p>
-
-<!-- more -->
-
-
-<p><a href="https://rails-assets.org/">Rails Assets</a>で検索するといくつか候補が出てきます。<br/>
-今回はrails-assets-bootswatch-sassを使ってみます</p>
-
-<figure class='code'><figcaption><span>Gemfile</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">source</span> <span class="s1">&#39;https://rails-assets.org&#39;</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;rails-assets-bootstrap-sass-official&#39;</span>
-</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;rails-assets-bootswatch-sass&#39;</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>そしてapplication.cssをapplication.css.scssにリネームして以下を追加です。</p>
-
-<figure class='code'><figcaption><span>app/assets/stylesheets/application.css.scss</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='css'><span class='line'><span class="o">$</span><span class="nt">icon-font-path</span><span class="o">:</span> <span class="s2">&quot;bootstrap-sass-official/&quot;</span><span class="o">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@import</span> <span class="s2">&quot;bootstrap-sass-official&quot;</span><span class="p">;</span>
-</span><span class='line'><span class="k">@import</span> <span class="s2">&quot;bootswatch-sass/flatly/variables&quot;</span><span class="p">;</span>
-</span><span class='line'><span class="k">@import</span> <span class="s2">&quot;bootswatch-sass/flatly/bootswatch&quot;</span><span class="p">;</span>
-</span><span class='line'><span class="k">@import</span> <span class="s2">&quot;bootswatch-sass/flatly/bootstrap&quot;</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>これでサイトがbootswatchのテーマが適用された状態(今回はフラットデザインのflatlyを選びました)となります。
-簡単ですね。</p>
 ]]></content>
     </entry>
     

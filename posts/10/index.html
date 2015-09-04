@@ -82,6 +82,99 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2013/02/12/20130212155915/">httpリクエストを投げまくれるRuby製のCLIツール作ってみました</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2013-02-12T15:59:00+09:00" pubdate><i class="fa fa-calendar"></i> Feb 12th, 2013</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p><a href="http://qiita.com/items/96f2c57111b1162f80f1">Rubyでサブコマンド付きのコマンドを簡単に書けるThor</a>を見て勉強がてらに作ってみました。</p>
+
+<p>コマンドラインから指定したURLやPORTに任意のデータをつけてGET POST PUT
+DELETEを指定回数分投げることができるGemを作りました。<br/>
+負荷をかけたい時とか、APIで同一のコンテンツを複数作成する時とかというニッチなユースケースに使うといいんではないでしょうか。</p>
+
+<p>rubyはthreadプログラムを書いても、ネイティブスレッドの実行は一つという状態になってしまうようなので。<br/>
+いい感じに並列処理を実行してくれるparallelというGemを使っています。</p>
+
+<p><a href="http://subtech.g.hatena.ne.jp/secondlife/20110927/1317123109">Rubyで並列実行処理を簡単に書く</a></p>
+
+<p>使い方です。</p>
+
+<p>インストール</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="n">install</span> <span class="n">http_machinegun</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>使ってみる</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># 一回だけgetリクエスト発行</span>
+</span><span class='line'><span class="n">http_machinegun</span> <span class="n">fire</span> <span class="o">-</span><span class="n">u</span> <span class="ss">http</span><span class="p">:</span><span class="sr">//</span><span class="n">localhost</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># 80番ポートにabcdeという文字列のpostリクエストを10回とばす</span>
+</span><span class='line'><span class="n">http_machinegun</span> <span class="n">fire</span> <span class="o">-</span><span class="n">u</span> <span class="ss">http</span><span class="p">:</span><span class="sr">//</span><span class="n">localhost</span> <span class="o">-</span><span class="nb">p</span> <span class="mi">80</span> <span class="o">-</span><span class="n">t</span> <span class="mi">10</span>  <span class="o">-</span><span class="n">d</span> <span class="n">abcde</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>特に実際に使う場面があって作ったわけではないので、抜けとか多いかもしれません。<br/>
+改善ポイントとか教えてもらえると嬉しいです。<br/>
+あと出力される内容に微妙に変な改行が入ってしまうのは何故だろうorz</p>
+
+<p>ソースはこちら<br/>
+<a href="https://github.com/YoshitsuguFujii/http_machinegun">YoshitsuguFujii/http  _machinegun ?
+GitHub</a></p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2013/01/11/20130111123918/">compassをこっそりと自社サービスで使ってみる</a>
         </h1>
     
@@ -853,65 +946,6 @@ callerと書けば、どこから呼ばれたのかがわかる。</p>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2012/07/25/20120725140729/">Railsでアプリケーション名が取りたい場合</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2012-07-25T14:07:00+09:00" pubdate><i class="fa fa-calendar"></i> Jul 25th, 2012</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/rails/'>rails</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>こうすると取れる</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Rails</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">parent_name</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -975,6 +1009,10 @@ callerと書けば、どこから呼ばれたのかがわかる。</p>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2015/09/04/golang-bot-for-slack/">Go言語を使ってローカルマシンに簡易botを作ってSlackに投稿</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2015/08/27/vagrant-mysql/">VagrantとItamaeを使って5分でmysqlサーバー構築</a>
         </li>
         
@@ -988,10 +1026,6 @@ callerと書けば、どこから呼ばれたのかがわかる。</p>
         
         <li class="post">
             <a href="/blog/2015/07/22/ckeditor-big-width-800px-even/">railsでckeditorを使った場合、横幅大きい画像が800pxになってしまう現象</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2015/07/21/pckeditor_add_plugin/">railsでckeditorにplugin追加</a>
         </li>
         
     </ul>

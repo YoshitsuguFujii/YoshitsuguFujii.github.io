@@ -82,6 +82,102 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2012/02/02/20120202115905/">tail -fをDBの特定のテーブルに対して行う方法</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2012-02-02T11:59:00+09:00" pubdate><i class="fa fa-calendar"></i> Feb 2nd, 2012</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/linux/'>linux</a></li>
+            
+                <li><a class='category' href='/blog/categories/sql/'>sql</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>風です。tail -f風。</p>
+
+<p>前にwatchコマンドについて書いた。</p>
+
+<p><a href="http://d.hatena.ne.jp/gogo_sakura/20120131/1327978457">watchコマンド  ~ログとかファイル監視する時とかは何も考えずにtail -f
+ファイル名としちゃう人へ</a></p>
+
+<p>の追記的なもの。</p>
+
+<p>開発中ってマスタ系のテーブルは空にしないけど、トランザクション系のテーブルはテスト前に空にすることが多い。</p>
+
+<p>んでデータ登録する作業する度に、なんていうのか知らんけど。SQLブラウザ?(common
+sqlとか SI Object Browserとか)っていうんでしょうか<br/>
+で、select文書いておいて一々executeボタンを押す。</p>
+
+<p>このexecuteが対した手間じゃないけど、毎回押すとめんどいし、意外に時間もかかる。</p>
+
+<p>そこでこの間紹介したwatchで2秒起きにselectしちゃえばいいよねってお話。<br/>
+しかも変更部分ハイライトすれば、追加したレコードも一目瞭然。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">watch</span> <span class="o">-</span><span class="n">d</span><span class="o">=</span><span class="n">cumulative</span> <span class="s1">&#39;mysql -u root --password=  db_name -e &quot;select * from XXX_table;&quot;&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>で、どうでしょうか。<br/>
+難点は差分ハイライト表示している時に、desc指定すると差分拾えないこと。</p>
+
+<p>だいたい自分は１０秒起きに、毎回差分拾ってます。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">watch</span> <span class="o">-</span><span class="n">d</span> <span class="o">-</span><span class="n">n</span> <span class="mi">10</span> <span class="s1">&#39;mysql -u root --password=  db_name -e &quot;select * from XXX_table;&quot;&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ちなみに今モデル監視してログ作成する処理書いているんだけど。<br/>
+登録作業していないのに、意図しないタイミングでレコードが増えていることがあって、そういう場合にも一定間隔でselect投げるようになるので<br/>
+ウィンドウ並べて操作していれば、すぐに察知できる。</p>
+
+<p>ちなみにrailsでモデルのログ機能作るのであれば<br/>
+<a href="https://github.com/collectiveidea/acts_as_audited">acts  <em>as  </em>audited</a></p>
+
+<p>つかうといいよ。</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2012/02/01/20120201121635/">if文をずらずら書かないために</a>
         </h1>
     
@@ -1107,108 +1203,6 @@ jQuery Mobileも使ってます。</p>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2012/01/20/20120120123309/">Nヶ月前の月を求める</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2012-01-20T12:33:00+09:00" pubdate><i class="fa fa-calendar"></i> Jan 20th, 2012</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>またまたRubyネタ。</p>
-
-<p>Rails抜きでNヶ月前の月から今日までの月を求める必要があったので考えてみました。</p>
-
-<p>すっごい遠回りして考えてるかもしれません。</p>
-
-<p>rubyの配列はインデックスにマイナスを指定することができます。<br/>
-その場合、参照する先は後ろから数えた値となります。</p>
-
-<p>今日のコードはirbだけで試せます。<br/>
-REPL最高。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="o">]</span>
-</span><span class='line'><span class="n">a</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="c1"># =&gt; 1</span>
-</span><span class='line'><span class="n">a</span><span class="o">[-</span><span class="mi">1</span><span class="o">]</span> <span class="c1"># =&gt; 3</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>とりあえずNは３として、今月を含めて3ヶ月前を求めるには</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">month</span> <span class="o">=</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">12</span><span class="o">]</span>
-</span><span class='line'><span class="n">month</span><span class="o">[</span><span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="o">.</span><span class="n">month</span><span class="o">-</span><span class="mi">3</span><span class="o">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>1月ならば11月が帰ってきます。<br/>
-2月ならば12月。3月なら1月となります。</p>
-
-<p>インデックスは０始まりなのでそのあたりを考慮しないとあかんですね。</p>
-
-<p>以上です。と書こうとしたけど、3ヶ月前から今日までの月でしたね。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="mi">3</span><span class="o">.</span><span class="n">times</span><span class="p">{</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="nb">p</span> <span class="n">month</span><span class="o">[</span><span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="o">.</span><span class="n">month</span><span class="o">-</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span> <span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>先ほど述べたようにインデックスが0始まりなので-1してます。<br/>
-配列で欲しいなら</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="mi">3</span><span class="o">.</span><span class="n">times</span><span class="o">.</span><span class="n">map</span><span class="p">{</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="nb">p</span> <span class="n">month</span><span class="o">[</span><span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="o">.</span><span class="n">month</span><span class="o">-</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span> <span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>かなぁ？</p>
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -1272,6 +1266,10 @@ REPL最高。</p>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2015/09/04/golang-bot-for-slack/">Go言語を使ってローカルマシンに簡易botを作ってSlackに投稿</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2015/08/27/vagrant-mysql/">VagrantとItamaeを使って5分でmysqlサーバー構築</a>
         </li>
         
@@ -1285,10 +1283,6 @@ REPL最高。</p>
         
         <li class="post">
             <a href="/blog/2015/07/22/ckeditor-big-width-800px-even/">railsでckeditorを使った場合、横幅大きい画像が800pxになってしまう現象</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2015/07/21/pckeditor_add_plugin/">railsでckeditorにplugin追加</a>
         </li>
         
     </ul>

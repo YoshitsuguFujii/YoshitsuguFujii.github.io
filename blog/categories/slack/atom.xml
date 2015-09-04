@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+    <title><![CDATA[Category: slack | なんとなく日々徒然と]]></title>
+    <link href="http://yoshitsugufujii.github.io/blog/categories/slack/atom.xml" rel="self"/>
+    <link href="http://yoshitsugufujii.github.io/"/>
+    <updated>2015-09-04T20:37:23+09:00</updated>
+    <id>http://yoshitsugufujii.github.io/</id>
+    <author>
+        <name><![CDATA[Yoshitsugu Fujii]]></name>
+        
+      </author>
+    <generator uri="http://octopress.org/">Octopress</generator>
+
+    
+    <entry>
+        <title type="html"><![CDATA[Go言語を使ってローカルマシンに簡易botを作ってSlackに投稿]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2015/09/04/golang-bot-for-slack/"/>
+        <updated>2015-09-04T17:17:58+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2015/09/04/golang-bot-for-slack</id>
+        <content type="html"><![CDATA[<p>Goを勉強がてら使いながら簡易slackbotを作ってみました。<br/>
+slackにデフォルトで用意されているslackbotってお願いしますをキーに登録すると、「お願いします]
+とか「お願いします。」(句読点入り)は反応してくれるけど。 「よろしくお願いします。」みたいに単語をつなげると反応してくれない。</p>
+
+<p>単純に単語が含まれるかだけで反応してくれればいいのに・・・</p>
+
+<p>ということもありお手製slackbotをつくってみました。<br/>
+自分のPCでプログラムを動かし、slackで投稿があった際にはOutgoing WebHooksで投稿内容を取得してBotとして返信したいと思います。</p>
+
+<p>slack → ローカルmacのbot → slack</p>
+
+<p>の流れです。</p>
+
+<!-- more -->
+
+
+<p>まずは外から自分のmacを見つけてもらうためにngrokにトンネルしてもらいましょう。<br/>
+ngrokの設定とか概要はこちらを見てださい。<br/>
+<a href="http://qiita.com/kitaro729/items/44214f9f81d3ebda58bd">ngrokを使用してローカル環境を外部に公開する</a><br/>
+普段から最高にお世話になっているサービスです。</p>
+
+<p>Slackの設定です。WebでSlackを開き左のMenuからIntegrationsを選びAll Servicesタブの中からOutgoing WebHooksを選択します。<br/>
+新規作成画面のURL(s)にngrokで接続できるurlを設定します。<br/>
+channelは新規でtestを。<br/>
+Customeize NameにはBotが発言した時の名前が、Cutomize IconにはBotが発言した時のアイコンが設定できます。</p>
+
+<p>これでslackの設定は完了です。</p>
+
+<p>次にgoのプロググラムを動かします。<br/>
+もしgoがインストールされてなかったらここ見るといいです。<br/>
+<a href="http://qiita.com/morisuke/items/ce04479c1b26d83f4fe3">Golang開発環境 3分クッキング</a><br/>
+あとyamlを使うのでyamlのライブラリもいれます。</p>
+
+<pre><code>go get gopkg.in/yaml.v2
+</code></pre>
+
+<p>goのソースはこんな感じ
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+</pre></td><td class='code'><pre><code class='go'><span class='line'><span class="kn">package</span> <span class="nx">main</span><span class="p">&lt;</span><span class="o">/</span><span class="nx">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="nx">p</span><span class="p">&gt;</span><span class="kn">import</span> <span class="p">(</span>
+</span><span class='line'>    <span class="o">&amp;</span><span class="nx">ldquo</span><span class="p">;</span><span class="nx">fmt</span><span class="o">&amp;</span><span class="nx">rdquo</span><span class="p">;</span>
+</span><span class='line'>    <span class="o">&amp;</span><span class="nx">ldquo</span><span class="p">;</span><span class="nx">gopkg</span><span class="p">.</span><span class="nx">in</span><span class="o">/</span><span class="nx">yaml</span><span class="p">.</span><span class="nx">v2</span><span class="o">&amp;</span><span class="nx">rdquo</span><span class="p">;</span>
+</span><span class='line'>    <span class="o">&amp;</span><span class="nx">ldquo</span><span class="p">;</span><span class="nx">io</span><span class="o">/</span><span class="nx">ioutil</span><span class="o">&amp;</span><span class="nx">rdquo</span><span class="p">;</span>
+</span><span class='line'>    <span class="o">&amp;</span><span class="nx">ldquo</span><span class="p">;</span><span class="nx">math</span><span class="o">/</span><span class="nx">rand</span><span class="o">&amp;</span><span class="nx">rdquo</span><span class="p">;</span>
+</span><span class='line'>    <span class="o">&amp;</span><span class="nx">ldquo</span><span class="p">;</span><span class="nx">net</span><span class="o">/</span><span class="nx">http</span><span class="o">&amp;</span><span class="nx">rdquo</span><span class="p">;</span>
+</span><span class='line'>    <span class="o">&amp;</span><span class="nx">ldquo</span><span class="p">;</span><span class="nx">strings</span><span class="o">&amp;</span><span class="nx">rdquo</span><span class="p">;</span>
+</span><span class='line'>    <span class="o">&amp;</span><span class="nx">ldquo</span><span class="p">;</span><span class="nx">time</span><span class="o">&amp;</span><span class="nx">rdquo</span><span class="p">;</span>
+</span><span class='line'><span class="p">)&lt;</span><span class="o">/</span><span class="nx">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="nx">p</span><span class="p">&gt;</span><span class="kd">const</span> <span class="nx">WordTable</span> <span class="p">=</span> <span class="o">&amp;</span><span class="nx">ldquo</span><span class="p">;</span><span class="nx">word</span><span class="p">.</span><span class="nx">yml</span><span class="o">&amp;</span><span class="nx">rdquo</span><span class="p">;&lt;</span><span class="o">/</span><span class="nx">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="nx">p</span><span class="p">&gt;</span><span class="kd">var</span> <span class="nx">p</span> <span class="p">=</span> <span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">&lt;</span><span class="o">/</span><span class="nx">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="nx">p</span><span class="p">&gt;</span><span class="kd">func</span> <span class="nx">Serve</span><span class="p">(</span><span class="nx">w</span> <span class="nx">http</span><span class="p">.</span><span class="nx">ResponseWriter</span><span class="p">,</span> <span class="nx">r</span> <span class="o">*</span><span class="nx">http</span><span class="p">.</span><span class="nx">Request</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="nx">r</span><span class="p">.</span><span class="nx">Method</span> <span class="o">==</span> <span class="o">&amp;</span><span class="nx">ldquo</span><span class="p">;</span><span class="nx">POST</span><span class="o">&amp;</span><span class="nx">rdquo</span><span class="p">;</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">text</span> <span class="o">:=</span> <span class="nx">r</span><span class="p">.</span><span class="nx">FormValue</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">ldquo</span><span class="p">;</span><span class="nx">text</span><span class="o">&amp;</span><span class="nx">rdquo</span><span class="p">;)</span>
+</span><span class='line'>        <span class="nx">user_name</span> <span class="o">:=</span> <span class="nx">r</span><span class="p">.</span><span class="nx">FormValue</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">ldquo</span><span class="p">;</span><span class="nx">user_name</span><span class="o">&amp;</span><span class="nx">rdquo</span><span class="p">;)&lt;</span><span class="o">/</span><span class="nx">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="nx">pre</span><span class="p">&gt;&lt;</span><span class="nx">code</span><span class="p">&gt;</span>    <span class="k">if</span> <span class="nx">user_name</span> <span class="o">!=</span> <span class="s">&quot;slackbot&quot;</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">p</span><span class="p">(</span><span class="s">&quot;user_name:&quot;</span><span class="p">,</span> <span class="nx">user_name</span><span class="p">)</span>
+</span><span class='line'>        <span class="nx">return_text</span> <span class="o">:=</span> <span class="nx">detect_word</span><span class="p">(</span><span class="nx">text</span><span class="p">)</span>
+</span><span class='line'>        <span class="nx">fmt</span><span class="p">.</span><span class="nx">Fprintf</span><span class="p">(</span><span class="nx">w</span><span class="p">,</span> <span class="s">&quot;{\&quot;text\&quot;: \&quot;%s\&quot;}&quot;</span><span class="p">,</span> <span class="nx">return_text</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="p">&lt;</span><span class="o">/</span><span class="nx">code</span><span class="p">&gt;&lt;</span><span class="o">/</span><span class="nx">pre</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="nx">p</span><span class="p">&gt;}&lt;</span><span class="o">/</span><span class="nx">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="nx">p</span><span class="p">&gt;</span><span class="kd">func</span> <span class="nx">getWordTable</span><span class="p">()</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">][]</span><span class="kt">string</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">buf</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">ioutil</span><span class="p">.</span><span class="nx">ReadFile</span><span class="p">(</span><span class="nx">WordTable</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}&lt;</span><span class="o">/</span><span class="nx">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="nx">pre</span><span class="p">&gt;&lt;</span><span class="nx">code</span><span class="p">&gt;</span><span class="nx">m</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">][]</span><span class="kt">string</span><span class="p">)</span>
+</span><span class='line'><span class="nx">err</span> <span class="p">=</span> <span class="nx">yaml</span><span class="p">.</span><span class="nx">Unmarshal</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span> <span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span><span class="nx">m</span><span class="p">)</span>
+</span><span class='line'><span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">return</span> <span class="nx">m</span>
+</span><span class='line'><span class="p">&lt;</span><span class="o">/</span><span class="nx">code</span><span class="p">&gt;&lt;</span><span class="o">/</span><span class="nx">pre</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="nx">p</span><span class="p">&gt;}&lt;</span><span class="o">/</span><span class="nx">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="nx">p</span><span class="p">&gt;</span><span class="kd">func</span> <span class="nx">keys</span><span class="p">(</span><span class="nx">words</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">][]</span><span class="kt">string</span><span class="p">)</span> <span class="p">[]</span><span class="kt">string</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">keys</span> <span class="p">[]</span><span class="kt">string</span><span class="p">&lt;</span><span class="o">/</span><span class="nx">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="nx">pre</span><span class="p">&gt;&lt;</span><span class="nx">code</span><span class="p">&gt;</span><span class="k">for</span> <span class="nx">key</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">words</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">keys</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">keys</span><span class="p">,</span> <span class="nx">key</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">return</span> <span class="nx">keys</span>
+</span><span class='line'><span class="p">&lt;</span><span class="o">/</span><span class="nx">code</span><span class="p">&gt;&lt;</span><span class="o">/</span><span class="nx">pre</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="nx">p</span><span class="p">&gt;}&lt;</span><span class="o">/</span><span class="nx">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="nx">p</span><span class="p">&gt;</span><span class="kd">func</span> <span class="nx">detect_word</span><span class="p">(</span><span class="nx">post_text</span> <span class="kt">string</span><span class="p">)</span> <span class="p">(</span><span class="nx">bot_message</span> <span class="kt">string</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">dict</span> <span class="o">:=</span> <span class="nx">getWordTable</span><span class="p">()</span>  <span class="c1">// 設定を取得</span>
+</span><span class='line'>    <span class="nx">word_keys</span> <span class="o">:=</span> <span class="nx">keys</span><span class="p">(</span><span class="nx">dict</span><span class="p">)</span> <span class="c1">// キーのみ抽出</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">suggestion</span> <span class="p">[]</span><span class="kt">string</span><span class="p">&lt;</span><span class="o">/</span><span class="nx">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="nx">pre</span><span class="p">&gt;&lt;</span><span class="nx">code</span><span class="p">&gt;</span><span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&amp;</span><span class="nx">lt</span><span class="p">;</span> <span class="nb">len</span><span class="p">(</span><span class="nx">word_keys</span><span class="p">);</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">Contains</span><span class="p">(</span><span class="nx">post_text</span><span class="p">,</span> <span class="nx">word_keys</span><span class="p">[</span><span class="nx">i</span><span class="p">])</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">suggestion</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">suggestion</span><span class="p">,</span> <span class="nx">dict</span><span class="p">[</span><span class="nx">word_keys</span><span class="p">[</span><span class="nx">i</span><span class="p">]]</span><span class="o">...</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nx">suggestion</span><span class="p">)</span> <span class="o">&amp;</span><span class="nx">gt</span><span class="p">;</span> <span class="mi">0</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">rand</span><span class="p">.</span><span class="nx">Seed</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Now</span><span class="p">().</span><span class="nx">UnixNano</span><span class="p">())</span>
+</span><span class='line'>    <span class="nx">bot_message</span> <span class="p">=</span> <span class="nx">suggestion</span><span class="p">[</span><span class="nx">rand</span><span class="p">.</span><span class="nx">Intn</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nx">suggestion</span><span class="p">))]</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">return</span> <span class="nx">bot_message</span>
+</span><span class='line'><span class="p">&lt;</span><span class="o">/</span><span class="nx">code</span><span class="p">&gt;&lt;</span><span class="o">/</span><span class="nx">pre</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="nx">p</span><span class="p">&gt;}&lt;</span><span class="o">/</span><span class="nx">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="nx">p</span><span class="p">&gt;</span><span class="kd">func</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">http</span><span class="p">.</span><span class="nx">HandleFunc</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">ldquo</span><span class="p">;</span><span class="o">/&amp;</span><span class="nx">rdquo</span><span class="p">;,</span> <span class="nx">Serve</span><span class="p">)</span>
+</span><span class='line'>    <span class="nx">http</span><span class="p">.</span><span class="nx">ListenAndServe</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">ldquo</span><span class="p">;:</span><span class="mi">8080</span><span class="o">&amp;</span><span class="nx">rdquo</span><span class="p">;,</span> <span class="kc">nil</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p>プログラムの中でソースと同一ディレクトリにあるword.ymlを読み出しています。<br/>
+これはslackでの発言と反応をまとめたyamlファイルです。<br/>
+発言にひっかけたい文字列をキーに、反応を配列形式で設定します。<br/>
+こんな感じです。</p>
+
+<pre><code class="yaml">お願いします:
+  - こちらこそよろしく頼む
+  - えーっ、やだよ
+よろしいでしょうか: &amp;yoro
+  - 許さん
+  - 金による
+
+いいですか:
+  *yoro
+</code></pre>
+
+<p>では<code>fresh</code>起動しましょう。<br/>
+testチャンネルでつぶやいてみます。</p>
+
+<p><img src="/images/blog/2015-09-04.png" alt="slackbot" /></p>
+
+<p>おお、できました！<br/>
+ゴルーチンとかチャネルとかまだあんまりよくわかってないので引き続き勉強していきたいと思います。</p>
+]]></content>
+    </entry>
+    
+</feed>
