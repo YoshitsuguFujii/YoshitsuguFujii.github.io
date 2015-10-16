@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+    <title><![CDATA[Category: faraday | なんとなく日々徒然と]]></title>
+    <link href="http://yoshitsugufujii.github.io/blog/categories/faraday/atom.xml" rel="self"/>
+    <link href="http://yoshitsugufujii.github.io/"/>
+    <updated>2015-10-16T17:51:33+09:00</updated>
+    <id>http://yoshitsugufujii.github.io/</id>
+    <author>
+        <name><![CDATA[Yoshitsugu Fujii]]></name>
+        
+      </author>
+    <generator uri="http://octopress.org/">Octopress</generator>
+
+    
+    <entry>
+        <title type="html"><![CDATA[FaradayとHttpartyでクッキーを付与したい場合]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2015/10/16/set-cookie-with-faraday-or-httparty/"/>
+        <updated>2015-10-16T17:33:25+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2015/10/16/set-cookie-with-faraday-or-httparty</id>
+        <content type="html"><![CDATA[<p>同一ドメインなんだけどホスト名が違うシステムがあり、WEBサーバーからApiサーバーへjsonを取得するべくgetリクエストを投げる。<br/>
+その際にWEBサーバーでログイン時に発行されたクッキーをリクエストに付与してapiサーバーではそのクッキーからユーザを特定するような処理が必要になった。</p>
+
+<p>FaradayとHttpartyでクッキーを付与する方法を調べた。</p>
+
+<h2>Faraday</h2>
+
+<p><a href="https://github.com/miyagawa/faraday-cookie_jar">miyagawa/faraday-cookie_jar</a>というクッキーをよしなに扱ってくれるみたいですが、特に使わなくてもいけました。</p>
+
+<pre><code class="ruby">client = Faraday.new 'http://example.com/api/list' do |b|
+  b.request :json
+  b.request :url_encoded
+  b.adapter Faraday.default_adapter
+end
+
+res = client.get '' do |req|
+  req.headers['Cookie'] = request.headers["HTTP_COOKIE"]
+end
+
+puts res.body
+</code></pre>
+
+<h2>Httparty</h2>
+
+<pre><code class="ruby">include HTTParty
+
+self.default_cookies.add_cookies(cookies.to_h)
+res = self.get('http://example.com/api/list')
+p res.inspect
+</code></pre>
+
+<p>お手軽ですね!</p>
+]]></content>
+    </entry>
+    
+</feed>

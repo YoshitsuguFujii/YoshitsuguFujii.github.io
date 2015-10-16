@@ -4,7 +4,7 @@
     <title><![CDATA[Category: ruby | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/ruby/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2015-09-04T20:37:23+09:00</updated>
+    <updated>2015-10-16T17:51:33+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,46 @@
       </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[FaradayとHttpartyでクッキーを付与したい場合]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2015/10/16/set-cookie-with-faraday-or-httparty/"/>
+        <updated>2015-10-16T17:33:25+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2015/10/16/set-cookie-with-faraday-or-httparty</id>
+        <content type="html"><![CDATA[<p>同一ドメインなんだけどホスト名が違うシステムがあり、WEBサーバーからApiサーバーへjsonを取得するべくgetリクエストを投げる。<br/>
+その際にWEBサーバーでログイン時に発行されたクッキーをリクエストに付与してapiサーバーではそのクッキーからユーザを特定するような処理が必要になった。</p>
+
+<p>FaradayとHttpartyでクッキーを付与する方法を調べた。</p>
+
+<h2>Faraday</h2>
+
+<p><a href="https://github.com/miyagawa/faraday-cookie_jar">miyagawa/faraday-cookie_jar</a>というクッキーをよしなに扱ってくれるみたいですが、特に使わなくてもいけました。</p>
+
+<pre><code class="ruby">client = Faraday.new 'http://example.com/api/list' do |b|
+  b.request :json
+  b.request :url_encoded
+  b.adapter Faraday.default_adapter
+end
+
+res = client.get '' do |req|
+  req.headers['Cookie'] = request.headers["HTTP_COOKIE"]
+end
+
+puts res.body
+</code></pre>
+
+<h2>Httparty</h2>
+
+<pre><code class="ruby">include HTTParty
+
+self.default_cookies.add_cookies(cookies.to_h)
+res = self.get('http://example.com/api/list')
+p res.inspect
+</code></pre>
+
+<p>お手軽ですね!</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[Axlsxでセルの中の斜線を引く]]></title>
@@ -275,39 +315,6 @@ app/assets/javascripts/ckeditor/plugins/html5validation/plugin.jsを開いて8�
 <p><img src="/images/blog/2015-07-21_2.png" alt="完成イメージ" /></p>
 
 <p><img src="/images/blog/2015-07-21.png" alt="完成イメージ" /></p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[Bootstrap FileInputで日本語の文字が表示されない]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2015/07/17/bootstrap-file-input-for-japanese/"/>
-        <updated>2015-07-17T13:46:05+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2015/07/17/bootstrap-file-input-for-japanese</id>
-        <content type="html"><![CDATA[<p>今の案件で<a href="http://plugins.krajee.com/file-input">Bootstrap FileInput</a>を使っていますが、日本語(2byte文字)が含まれるファイルを選択した場合ファイル名から日本語部分が消えるという現象が発生しました。</p>
-
-<p><a href="https://github.com/kartik-v/bootstrap-fileinput/blob/master/js/fileinput.js#L496">https://github.com/kartik-v/bootstrap-fileinput/blob/master/js/fileinput.js#L496</a><br/>
-ここを見る限りslugCallbackというメソッドを宣言時のoptionに渡してあげるといけそうです。</p>
-
-<!-- more -->
-
-
-<p>すいません。coffeescriptです。
-<code>js
-$('.upload_file').fileinput
-  showPreview: false
-  maxFileCount: 1
-  browseClass: 'btn btn-info fileinput-browse-button'
-  browseIcon: ''
-  browseLabel: ' ファイル選択'
-  showRemove: false
-  showUpload: false
-  slugCallback:
-    (text)-&gt;
-      text.split(/(\\|\/)/g).pop()
-</code></p>
-
-<p>これで日本語も表示できるようになりました。<br/>
-<img src="/images/blog/2015-07-17%2013.52.17.png" alt="完成イメージ" /></p>
 ]]></content>
     </entry>
     

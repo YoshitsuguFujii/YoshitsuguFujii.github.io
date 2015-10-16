@@ -4,7 +4,7 @@
     <title><![CDATA[Category: ruby on rails | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/ruby-on-rails/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2015-09-04T20:37:23+09:00</updated>
+    <updated>2015-10-16T17:51:33+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,46 @@
       </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[FaradayとHttpartyでクッキーを付与したい場合]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2015/10/16/set-cookie-with-faraday-or-httparty/"/>
+        <updated>2015-10-16T17:33:25+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2015/10/16/set-cookie-with-faraday-or-httparty</id>
+        <content type="html"><![CDATA[<p>同一ドメインなんだけどホスト名が違うシステムがあり、WEBサーバーからApiサーバーへjsonを取得するべくgetリクエストを投げる。<br/>
+その際にWEBサーバーでログイン時に発行されたクッキーをリクエストに付与してapiサーバーではそのクッキーからユーザを特定するような処理が必要になった。</p>
+
+<p>FaradayとHttpartyでクッキーを付与する方法を調べた。</p>
+
+<h2>Faraday</h2>
+
+<p><a href="https://github.com/miyagawa/faraday-cookie_jar">miyagawa/faraday-cookie_jar</a>というクッキーをよしなに扱ってくれるみたいですが、特に使わなくてもいけました。</p>
+
+<pre><code class="ruby">client = Faraday.new 'http://example.com/api/list' do |b|
+  b.request :json
+  b.request :url_encoded
+  b.adapter Faraday.default_adapter
+end
+
+res = client.get '' do |req|
+  req.headers['Cookie'] = request.headers["HTTP_COOKIE"]
+end
+
+puts res.body
+</code></pre>
+
+<h2>Httparty</h2>
+
+<pre><code class="ruby">include HTTParty
+
+self.default_cookies.add_cookies(cookies.to_h)
+res = self.get('http://example.com/api/list')
+p res.inspect
+</code></pre>
+
+<p>お手軽ですね!</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[railsでckeditorを使った場合、横幅大きい画像が800pxになってしまう現象]]></title>
@@ -190,73 +230,6 @@ $('.upload_file').fileinput
 
 <p>テーブルダイアログが初期値で幅100%、枠線の幅0、セル内余白0になっているのが確認できます。<br/>
 <img src="/images/blog/2015-07-15%2017.00.59.png" alt="完成イメージ" /></p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[ファイル名に_smart_phoneをつけて複製]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2015/07/09/rename-file-name-for-jp-mobile/"/>
-        <updated>2015-07-09T12:09:42+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2015/07/09/rename-file-name-for-jp-mobile</id>
-        <content type="html"><![CDATA[<p>スマートフォンサイトの表示に<a href="https://github.com/jpmobile/jpmobile">jpmobile</a>を使ってます。<br/>
-これはこのようにApplicationcontrollerとかに書くと</p>
-
-<pre><code class="ruby">class ApplicationController &lt; ActionController::Base
-  include Jpmobile::ViewSelector
-end 
-</code></pre>
-
-<!-- more -->
-
-
-<p>PCからのアクセスの場合にはindex.html.erbを表示し<br/>
-スマートフォンからのアクセスの場合にはindex_smart_phone.html.erbを表示してくれるという機能を使っています。</p>
-
-<p>今回先にPCサイトがあり、それのスマフォサイトを作るにあたってPCのファイルを上記命名規則に則ってコピーする必要があったのでスクリプト書きました。</p>
-
-<pre><code class="ruby convert_smartphone_name">#! /usr/bin/env ruby
-require 'fileutils'
-
-def print_green(str)
-  puts "\e[32m#{str}\e[0m"
-end
-
-def print_red(str)
-  puts "\e[31m#{str}\e[0m"
-end
-
-def print_yellow(str)
-  puts "\e[33m#{str}\e[0m"
-end
-
-if ARGV[0].nil?
-  print_red "対象ディレクトリへのパスを指定してください"
-end
-
-Dir.glob('*').each do |file|
-  next if FileTest::directory?(file)
-  dest = file.split(".").inject(String.new) do |str, chunk|
-    if chunk == "html"
-      str &lt;&lt; "_smart_phone"
-    end
-
-    if str == ""
-      str &lt;&lt; "#{chunk}"
-    else
-      str &lt;&lt; ".#{chunk}"
-    end
-  end
-
-  print_yellow "convert #{file} to #{dest}"
-  FileUtils.cp(file, dest)
-end
-
-print_green "done."
-</code></pre>
-
-<p>これを実行可能なところにおいて、chmod +xで実行可能にしてもらって、<br/>
-convert_smartphone_name [対象ディレクトリのパス]<br/>
-とかってやれば対象ディレクトリ内のファイルが全部_smart_phone付きでコピーされるはずです。</p>
 ]]></content>
     </entry>
     

@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2015-09-04T20:37:23+09:00</updated>
+    <updated>2015-10-16T17:51:33+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,64 @@
     </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[FaradayとHttpartyでクッキーを付与したい場合]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2015/10/16/set-cookie-with-faraday-or-httparty/"/>
+        <updated>2015-10-16T17:33:25+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2015/10/16/set-cookie-with-faraday-or-httparty</id>
+        <content type="html"><![CDATA[<p>同一ドメインなんだけどホスト名が違うシステムがあり、WEBサーバーからApiサーバーへjsonを取得するべくgetリクエストを投げる。<br/>
+その際にWEBサーバーでログイン時に発行されたクッキーをリクエストに付与してapiサーバーではそのクッキーからユーザを特定するような処理が必要になった。</p>
+
+<p>FaradayとHttpartyでクッキーを付与する方法を調べた。</p>
+
+<h2>Faraday</h2>
+
+<p><a href="https://github.com/miyagawa/faraday-cookie_jar">miyagawa/faraday-cookie_jar</a>というクッキーをよしなに扱ってくれるみたいですが、特に使わなくてもいけました。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">client</span> <span class="o">=</span> <span class="no">Faraday</span><span class="o">.</span><span class="n">new</span> <span class="s1">&#39;http://example.com/api/list&#39;</span> <span class="k">do</span> <span class="o">|</span><span class="n">b</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">b</span><span class="o">.</span><span class="n">request</span> <span class="ss">:json</span>
+</span><span class='line'>  <span class="n">b</span><span class="o">.</span><span class="n">request</span> <span class="ss">:url_encoded</span>
+</span><span class='line'>  <span class="n">b</span><span class="o">.</span><span class="n">adapter</span> <span class="no">Faraday</span><span class="o">.</span><span class="n">default_adapter</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get</span> <span class="s1">&#39;&#39;</span> <span class="k">do</span> <span class="o">|</span><span class="n">req</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">req</span><span class="o">.</span><span class="n">headers</span><span class="o">[</span><span class="s1">&#39;Cookie&#39;</span><span class="o">]</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">headers</span><span class="o">[</span><span class="s2">&quot;HTTP_COOKIE&quot;</span><span class="o">]</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">puts</span> <span class="n">res</span><span class="o">.</span><span class="n">body</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Httparty</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="kp">include</span> <span class="no">HTTParty</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">self</span><span class="o">.</span><span class="n">default_cookies</span><span class="o">.</span><span class="n">add_cookies</span><span class="p">(</span><span class="n">cookies</span><span class="o">.</span><span class="n">to_h</span><span class="p">)</span>
+</span><span class='line'><span class="n">res</span> <span class="o">=</span> <span class="nb">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;http://example.com/api/list&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="nb">p</span> <span class="n">res</span><span class="o">.</span><span class="n">inspect</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>お手軽ですね!</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[Go言語を使ってローカルマシンに簡易botを作ってSlackに投稿]]></title>
@@ -1903,52 +1961,6 @@ engineを使ったことのない方は決まり切った処理をコピぺで�
 
 
 <p>非常にいいですね。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[pecoでctrl+jとctrl+kで上下移動]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2015/04/20/peco-selectup-selectdown/"/>
-        <updated>2015-04-20T19:31:45+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2015/04/20/peco-selectup-selectdown</id>
-        <content type="html"><![CDATA[<p>pecoをランチャーとして使っているのですが、<br/>
-メニューを呼び出した後ホームポジションから手を離して矢印キーに指を運ぶのが嫌でctrl+jとctrl+kで移動できないかと思っていたら会社の人にやり方を教えてもらいできました。</p>
-
-<p>具体的にはpecoの<a href="https://github.com/peco/peco#keymaps">キーマップ</a>を使います</p>
-
-<!-- more -->
-
-
-<p>keymap設定用にconfig.jsonを作成します。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">cd</span> ~/
-</span><span class='line'>mkdir .peco
-</span><span class='line'>vim ~/.peco/config.json
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>以下の内容で保存します。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="nt">&quot;Keymap&quot;</span><span class="p">:</span> <span class="p">{</span>
-</span><span class='line'>        <span class="nt">&quot;C-j&quot;</span><span class="p">:</span> <span class="s2">&quot;peco.SelectDown&quot;</span><span class="p">,</span>
-</span><span class='line'>        <span class="nt">&quot;C-k&quot;</span><span class="p">:</span> <span class="s2">&quot;peco.SelectUp&quot;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>これでctrl+jで下に、ctrl+kで上に移動するようになっているはずです。
-簡単！</p>
 ]]></content>
     </entry>
     
