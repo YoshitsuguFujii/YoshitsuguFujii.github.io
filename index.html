@@ -128,57 +128,15 @@
 
 
 
-    <p>同一ドメインなんだけどホスト名が違うシステムがあり、WEBサーバーからApiサーバーへjsonを取得するべくgetリクエストを投げる。<br/>
+    <div class="article__content clearfix">
+        <p>同一ドメインなんだけどホスト名が違うシステムがあり、WEBサーバーからApiサーバーへjsonを取得するべくgetリクエストを投げる。<br/>
 その際にWEBサーバーでログイン時に発行されたクッキーをリクエストに付与してapiサーバーではそのクッキーからユーザを特定するような処理が必要になった。</p>
 
 <p>FaradayとHttpartyでクッキーを付与する方法を調べた。</p>
 
-<h2>Faraday</h2>
 
-<p><a href="https://github.com/miyagawa/faraday-cookie_jar">miyagawa/faraday-cookie_jar</a>というクッキーをよしなに扱ってくれるみたいですが、特に使わなくてもいけました。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">client</span> <span class="o">=</span> <span class="no">Faraday</span><span class="o">.</span><span class="n">new</span> <span class="s1">&#39;http://example.com/api/list&#39;</span> <span class="k">do</span> <span class="o">|</span><span class="n">b</span><span class="o">|</span>
-</span><span class='line'>  <span class="n">b</span><span class="o">.</span><span class="n">request</span> <span class="ss">:json</span>
-</span><span class='line'>  <span class="n">b</span><span class="o">.</span><span class="n">request</span> <span class="ss">:url_encoded</span>
-</span><span class='line'>  <span class="n">b</span><span class="o">.</span><span class="n">adapter</span> <span class="no">Faraday</span><span class="o">.</span><span class="n">default_adapter</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get</span> <span class="s1">&#39;&#39;</span> <span class="k">do</span> <span class="o">|</span><span class="n">req</span><span class="o">|</span>
-</span><span class='line'>  <span class="n">req</span><span class="o">.</span><span class="n">headers</span><span class="o">[</span><span class="s1">&#39;Cookie&#39;</span><span class="o">]</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">headers</span><span class="o">[</span><span class="s2">&quot;HTTP_COOKIE&quot;</span><span class="o">]</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="nb">puts</span> <span class="n">res</span><span class="o">.</span><span class="n">body</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Httparty</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="kp">include</span> <span class="no">HTTParty</span>
-</span><span class='line'>
-</span><span class='line'><span class="nb">self</span><span class="o">.</span><span class="n">default_cookies</span><span class="o">.</span><span class="n">add_cookies</span><span class="p">(</span><span class="n">cookies</span><span class="o">.</span><span class="n">to_h</span><span class="p">)</span>
-</span><span class='line'><span class="n">res</span> <span class="o">=</span> <span class="nb">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;http://example.com/api/list&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="nb">p</span> <span class="n">res</span><span class="o">.</span><span class="n">inspect</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>お手軽ですね!</p>
-
+        <a class="btn pull-right" href="/blog/2015/10/16/set-cookie-with-faraday-or-httparty/">Read on &rarr;</a>
+    </div>
 
 
         </article>
