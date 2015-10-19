@@ -4,7 +4,7 @@
     <title><![CDATA[Category: ruby on rails | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/ruby-on-rails/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2015-10-16T17:54:45+09:00</updated>
+    <updated>2015-10-19T18:31:13+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -53,6 +53,16 @@ p res.inspect
 </code></pre>
 
 <p>お手軽ですね!</p>
+
+<h3>2015年10月19日追記</h3>
+
+<p>Httpartyのヘッダに乗せるタイプ</p>
+
+<pre><code class="ruby">include HTTParty
+
+res = self.get('http://example.com/api/list', headers: "Cookie" =&gt; request.headers["HTTP_COOKIE"])
+p res.inspect
+</code></pre>
 ]]></content>
     </entry>
     
