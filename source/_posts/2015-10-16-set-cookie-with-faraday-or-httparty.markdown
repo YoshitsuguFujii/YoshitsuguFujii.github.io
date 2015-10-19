@@ -42,3 +42,13 @@ p res.inspect
   
 お手軽ですね!
 
+### 2015年10月19日追記
+
+Httpartyのヘッダに乗せるタイプ  
+  
+```ruby
+include HTTParty
+
+res = self.get('http://example.com/api/list', headers: "Cookie" => request.headers["HTTP_COOKIE"])
+p res.inspect
+```
