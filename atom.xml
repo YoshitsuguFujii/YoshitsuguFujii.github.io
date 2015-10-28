@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2015-10-19T18:31:13+09:00</updated>
+    <updated>2015-10-28T21:25:00+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,147 @@
     </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[i18nで例えば大人と子供で文言を変えたい場合]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2015/10/28/inject-identifier-from-context/"/>
+        <updated>2015-10-28T20:41:26+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2015/10/28/inject-identifier-from-context</id>
+        <content type="html"><![CDATA[<p>条件に応じて文言を変えたい場合があると思います。<br/>
+例えば大人と子供で文言を変えたい場合とかですかね。<br/>
+ログインユーザが大人の場合は大人料金と表示し、子供の場合は子供料金と表示するようにします。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;% if current_user.adult? %&gt;
+</span><span class='line'>  大人料金
+</span><span class='line'>&lt;% else %&gt;
+</span><span class='line'>  子供料金
+</span><span class='line'>&lt;% end %&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>これが一箇所ならいいですが、たくさん出現するとつらいですね。helperにまとめたりするのでしょうか。<br/>
+こういった文言だけのif文分岐がviewに大量に出現するとコード量も増え非常に見ずらく、またhelperに乱立してしまうのは避けたいですね。</p>
+
+<p>そこで自動でi18nの読み込み先を条件に応じて読み替えたいと思います</p>
+
+<p>ついでにjpmobile使用してviewをpcとスマフォで切り替えている場合に<br/>
+lazy lookup記法時にスマフォページでsmart_phoneがついているlocaleを探してしまうのを防ぎます。</p>
+
+<!-- more -->
+
+
+<p>config/initializers/switch_translation_helper.rbを作ります。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">SwitchTranslationHelper</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">translate</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">options</span> <span class="o">=</span> <span class="p">{})</span>
+</span><span class='line'>    <span class="n">prefix</span> <span class="o">=</span> <span class="n">current_user</span><span class="o">.</span><span class="n">adult?</span> <span class="p">?</span> <span class="s2">&quot;adult&quot;</span> <span class="p">:</span> <span class="s2">&quot;child&quot;</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">smart_phone?</span>
+</span><span class='line'>      <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">start_with?</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="vi">@virtual_path</span><span class="o">.</span><span class="n">end_with?</span><span class="p">(</span><span class="s2">&quot;_smart_phone&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="vi">@virtual_path</span><span class="o">.</span><span class="n">gsub!</span><span class="p">(</span><span class="s2">&quot;_smart_phone&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="c1"># jpmobileが付与する_smart_phoneを削除</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="n">prefix</span><span class="o">.</span><span class="n">present?</span>
+</span><span class='line'>      <span class="n">key</span> <span class="o">=</span> <span class="n">scope_key_by_partial</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">key</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">prefix</span><span class="si">}</span><span class="s2">.</span><span class="si">#{</span><span class="n">key</span><span class="si">}</span><span class="s2">&quot;</span> <span class="c1"># 先頭にkeyを差し込む </span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">super</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">options</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+</span><span class='line'><span class="k">module</span> <span class="nn">ActionView</span>
+</span><span class='line'>  <span class="k">module</span> <span class="nn">Helpers</span>
+</span><span class='line'>    <span class="k">module</span> <span class="nn">TranslationHelper</span>
+</span><span class='line'>      <span class="n">prepend</span> <span class="no">SwitchTranslationHelper</span>
+</span><span class='line'>      <span class="k">alias</span> <span class="ss">:t</span> <span class="ss">:translate</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上記の(A)でActionView::Helpers::TranslationHelperを再オープンしてprependでSwitchTranslationHelperを差し込みます。<br/>
+これでメソッド呼び出しの順序がSwitchTranslationHelperのtransalteメソッドの方が先に呼ばれるようになります。<br/>
+aliasは呼ばれたクロージャ的な動きで呼ばれた段階のメソッドが固定されるようなので再度SwitchTranslationHelperのメソッドを向くように設定しなおしています。</p>
+
+<p>transalateメソッドではキーの先頭に大人ならadult、子供ならchildを挿入します。<br/>
+またlazy lookup(先頭に.がついている呼びだし)時に<em>smart_phoneが含まれるview内の場合では<br/>
+pcもスマフォも同一の文言を使いたいのでキーから</em>smart_phoneを削除しています。
+次にja.ymlを作ります。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">ja</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="c1"># 大人の設定</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">adult</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">price</span><span class="p-Indicator">:</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">show</span><span class="p-Indicator">:</span>
+</span><span class='line'>        <span class="l-Scalar-Plain">fee</span><span class="p-Indicator">:</span> <span class="s">&quot;大人料金&quot;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># 子供の設定</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">child</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">price</span><span class="p-Indicator">:</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">show</span><span class="p-Indicator">:</span>
+</span><span class='line'>        <span class="l-Scalar-Plain">fee</span><span class="p-Indicator">:</span> <span class="s">&quot;子供料金&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>これでpriceコントローラのshowアクションのテンプレート内で</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">t(&quot;.fee&quot;)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>とかすると、ユーザが大人の場合は大人料金。<br/>
+ユーザが子供の場合は子供料金と表示されます。</p>
+
+<p>prefixの条件を変えることで読込先をうまく切り替えることができますね。</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[FaradayとHttpartyでクッキーを付与したい場合]]></title>
@@ -1875,110 +2016,6 @@ application.jsで<code>//= require jquery_nested_form</code>の後に以下の�
 engine固有の仕組みや書き方もあって最初は中々辛い部分もありますが、
 engineを使ったことのない方は決まり切った処理をコピぺで過去のプロジェクトから持ってくるのではなく、
 その処理をengineに書き出してそれをプロジェクトから参照してみてはいかがでしょうか？</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[Railsでbootstrap datetimepickerを日本語化しつつ導入(with rails assets)]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2015/04/22/bootstrap-datetimepicker/"/>
-        <updated>2015-04-22T21:52:21+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2015/04/22/bootstrap-datetimepicker</id>
-        <content type="html"><![CDATA[<p>普段はよく<a href="https://github.com/eternicode/bootstrap-datepicker">bootstrap-datepicker</a>を使うのですが、
-今回の案件では時刻まで絞り込みたいというお話だったのでdatetimepickerを導入してみました。</p>
-
-<p>こちらを使います。かなり高機能な上に日本語化まで対応できる優れもの。<br/>
-<a href="http://eonasdan.github.io/bootstrap-datetimepicker/">Eonasdan/bootstrap-datetimepicker</a></p>
-
-<p>デモを見るだけでもワクワクしますね。<br/>
-<a href="http://eonasdan.github.io/bootstrap-datetimepicker/Installing/">入れ方</a>もたくさん用意されていていいですね。<br/>
-今回もrails-assetsで導入します。</p>
-
-<!-- more -->
-
-
-
-
-<figure class='code'><figcaption><span>Gemfile</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">source</span> <span class="s1">&#39;https://rails-assets.org&#39;</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;rails-assets-bootstrap-sass-official&#39;</span>
-</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;rails-assets-eonasdan-bootstrap-datetimepicker&#39;</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>bundle install</code>したら次はapp/assets/javascripts/application.jsに以下を記述。<br/>
-日本語化する場合はmomentも一緒にいれます。</p>
-
-<figure class='code'><figcaption><span>app/assets/javascripts/application.js</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="c1">//= require bootstrap-sass-official</span>
-</span><span class='line'><span class="c1">//= require moment</span>
-</span><span class='line'><span class="c1">//= require moment/locale/ja</span>
-</span><span class='line'><span class="c1">//= require eonasdan-bootstrap-datetimepicker</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>最後にcssの読み込み</p>
-
-<figure class='code'><figcaption><span>app/assets/stylesheets/application.css.scss</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='css'><span class='line'><span class="k">@import</span> <span class="s2">&quot;bootstrap-sass-official&quot;</span><span class="p">;</span>
-</span><span class='line'><span class="k">@import</span> <span class="s2">&quot;eonasdan-bootstrap-datetimepicker&quot;</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>これで設定は終了です。<br/>
-あとはhtmlで</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;input</span> <span class="na">class=</span><span class="s">&quot;datetimepicker form-control&quot;</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span><span class="nt">&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>とかやって</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='js'><span class='line'>  <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.datetimepicker&quot;</span><span class="p">).</span><span class="nx">datetimepicker</span><span class="p">({</span>
-</span><span class='line'>    <span class="nx">format</span><span class="o">:</span> <span class="s2">&quot;YYYY/MM/DD HH:mm&quot;</span><span class="p">,</span>
-</span><span class='line'>    <span class="nx">showClear</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-</span><span class='line'>    <span class="nx">showClose</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-</span><span class='line'>    <span class="nx">locale</span><span class="o">:</span> <span class="s1">&#39;ja&#39;</span>
-</span><span class='line'>   <span class="p">});</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>とかやると日本語かされた時刻も選択可能なカレンダーがいい感じに表示されるはずです。</p>
-
-<h3>2014/04/25追記</h3>
-
-<p>ちなみに書式設定をいじれば時刻選択なしの日付のみのdatepickerとしても使えます。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='js'><span class='line'>  <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.datepicker&quot;</span><span class="p">).</span><span class="nx">datetimepicker</span><span class="p">({</span>
-</span><span class='line'>    <span class="nx">format</span><span class="o">:</span> <span class="s2">&quot;YYYY/MM/DD&quot;</span><span class="p">,</span>
-</span><span class='line'>    <span class="nx">showClear</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-</span><span class='line'>    <span class="nx">showClose</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-</span><span class='line'>    <span class="nx">locale</span><span class="o">:</span> <span class="s1">&#39;ja&#39;</span>
-</span><span class='line'>   <span class="p">});</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>非常にいいですね。</p>
 ]]></content>
     </entry>
     

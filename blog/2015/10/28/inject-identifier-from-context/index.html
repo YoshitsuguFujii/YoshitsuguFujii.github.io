@@ -9,13 +9,13 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>論理削除指定のモデルをhas_manyで参照し、かつnested_attributes_forにallow_destroyを指定するも物理削除になる。 - なんとなく日々徒然と</title>
+        <title>i18nで例えば大人と子供で文言を変えたい場合 - なんとなく日々徒然と</title>
         <meta name="author" content="Yoshitsugu Fujii">
         
         <meta name="description" content="ruby rails French Bulldog surfing aqualist">
         
         <meta name="viewport" content="width=device-width">
-        <link rel="canonical" href="http://yoshitsugufujii.github.io/blog/2014/12/07/20141207173028">
+        <link rel="canonical" href="http://yoshitsugufujii.github.io/blog/2015/10/28/inject-identifier-from-context">
 
         <link href='http://fonts.googleapis.com/css?family=Droid+Serif:400,400italic' rel='stylesheet' type='text/css'>
         <link href="http://fonts.googleapis.com/css?family=Droid+Sans" rel="stylesheet" type="text/css">
@@ -78,7 +78,7 @@
                     <article class="article article--single">
     <header class="article__header">
     
-        <h1 class="article__title">論理削除指定のモデルをhas_manyで参照し、かつnested_attributes_forにallow_destroyを指定するも物理削除になる。</h1>
+        <h1 class="article__title">i18nで例えば大人と子供で文言を変えたい場合</h1>
     
 
     
@@ -90,7 +90,7 @@
 
 
 
-    <time class="article__date pull-left" datetime="2014-12-07T17:30:00+09:00" pubdate><i class="fa fa-calendar"></i> Dec 7th, 2014</time>
+    <time class="article__date pull-left" datetime="2015-10-28T20:41:26+09:00" pubdate><i class="fa fa-calendar"></i> Oct 28th, 2015</time>
 
 
 
@@ -103,7 +103,9 @@
         
 
             
-                <li><a class='category' href='/blog/categories/rails/'>rails</a></li>
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
             
         
         </ul>
@@ -118,83 +120,34 @@
 
 
 
-    <p>環境はこちら<br/>
-activerecord(4.1.6)<br/>
-rails4  <em>acts  </em>as  _paranoid (0.1.4)</p>
+    <p>条件に応じて文言を変えたい場合があると思います。<br/>
+例えば大人と子供で文言を変えたい場合とかですかね。<br/>
+ログインユーザが大人の場合は大人料金と表示し、子供の場合は子供料金と表示するようにします。</p>
 
-<p>has  <em>manyのリレーション先でacts  </em>as  <em>paranoid指定しているのですが、<br/>
-nested  </em>attributes  <em>for リレーション先, allow  </em>destroy : true<br/>
-で何故か物理削除になっていまったので調べてみました。</p>
-
-<p>結論としては</p>
-
-<p>lib/active  <em>record/associations/has  </em>many  <em>association.rb<br/>
-の112行目で<br/>
-records.each(&amp;:destroy!)<br/>
-とdestroy!で消していて、acts  </em>as  _paranoidのdestroy!は物理削除になるためでした。</p>
-
-<p>何故destroyに!がついているのか
-上記が定義されているdelete  <em>recordsメソッドを遡ってみます。<br/>
-delete  </em>recordsメソッドはlib/active  <em>record/associations/collection  </em>association.rb<br/>
-のremove  _recordsの中で呼ばれています(ソースでは492行目)</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="c1"># lib/active_record/associations/collection_association.rb</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">remove_records</span><span class="p">(</span><span class="n">existing_records</span><span class="p">,</span> <span class="n">records</span><span class="p">,</span> <span class="nb">method</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">records</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">record</span><span class="o">|</span> <span class="n">callback</span><span class="p">(</span><span class="ss">:before_remove</span><span class="p">,</span> <span class="n">record</span><span class="p">)</span> <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">delete_records</span><span class="p">(</span><span class="n">existing_records</span><span class="p">,</span> <span class="nb">method</span><span class="p">)</span> <span class="k">if</span> <span class="n">existing_records</span><span class="o">.</span><span class="n">any?</span>
-</span><span class='line'>    <span class="n">records</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">record</span><span class="o">|</span> <span class="n">target</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">record</span><span class="p">)</span> <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">records</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">record</span><span class="o">|</span> <span class="n">callback</span><span class="p">(</span><span class="ss">:after_remove</span><span class="p">,</span> <span class="n">record</span><span class="p">)</span> <span class="p">}</span>
-</span><span class='line'>  <span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;% if current_user.adult? %&gt;
+</span><span class='line'>  大人料金
+</span><span class='line'>&lt;% else %&gt;
+</span><span class='line'>  子供料金
+</span><span class='line'>&lt;% end %&gt;</span></code></pre></td></tr></table></div></figure>
 
 
-<p>んでこれはどこで呼ばれるかというとここで呼ばれています(ソースでは485行目)</p>
+<p>これが一箇所ならいいですが、たくさん出現するとつらいですね。helperにまとめたりするのでしょうか。<br/>
+こういった文言だけのif文分岐がviewに大量に出現するとコード量も増え非常に見ずらく、またhelperに乱立してしまうのは避けたいですね。</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="c1"># lib/active_record/associations/collection_association.rb</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">delete_or_destroy</span><span class="p">(</span><span class="n">records</span><span class="p">,</span> <span class="nb">method</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">records</span> <span class="o">=</span> <span class="n">records</span><span class="o">.</span><span class="n">flatten</span>
-</span><span class='line'>    <span class="n">records</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">record</span><span class="o">|</span> <span class="n">raise_on_type_mismatch!</span><span class="p">(</span><span class="n">record</span><span class="p">)</span> <span class="p">}</span>
-</span><span class='line'>    <span class="n">existing_records</span> <span class="o">=</span> <span class="n">records</span><span class="o">.</span><span class="n">reject</span> <span class="p">{</span> <span class="o">|</span><span class="n">r</span><span class="o">|</span> <span class="n">r</span><span class="o">.</span><span class="n">new_record?</span> <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">if</span> <span class="n">existing_records</span><span class="o">.</span><span class="n">empty?</span>
-</span><span class='line'>      <span class="n">remove_records</span><span class="p">(</span><span class="n">existing_records</span><span class="p">,</span> <span class="n">records</span><span class="p">,</span> <span class="nb">method</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">else</span>
-</span><span class='line'>      <span class="n">transaction</span> <span class="p">{</span> <span class="n">remove_records</span><span class="p">(</span><span class="n">existing_records</span><span class="p">,</span> <span class="n">records</span><span class="p">,</span> <span class="nb">method</span><span class="p">)</span> <span class="p">}</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>そこで自動でi18nの読み込み先を条件に応じて読み替えたいと思います</p>
+
+<p>ついでにjpmobile使用してviewをpcとスマフォで切り替えている場合に<br/>
+lazy lookup記法時にスマフォページでsmart_phoneがついているlocaleを探してしまうのを防ぎます。</p>
+
+<!-- more -->
 
 
-<p>transactionで囲まれています。<br/>
-ということでdestroyに失敗した時にロールバックするために!をつけているようです。</p>
-
-<p>なのでparanoidのdestroy!をalias  <em>method  </em>chainで物理削除にしてしまうか。<br/>
-上記のrecords.each(&amp;:destroy!)をなんとか書き換えてあげると治りそうですね。</p>
-
-<p>今回はこうやって直しました。</p>
+<p>config/initializers/switch_translation_helper.rbを作ります。</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -214,31 +167,92 @@ delete  </em>recordsメソッドはlib/active  <em>record/associations/collectio
 <span class='line-number'>16</span>
 <span class='line-number'>17</span>
 <span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">ActiveRecord</span>
-</span><span class='line'>  <span class="k">module</span> <span class="nn">Associations</span>
-</span><span class='line'>    <span class="k">module</span> <span class="nn">HasManyAssociationPatch</span>
-</span><span class='line'>      <span class="k">def</span> <span class="nf">delete_records</span><span class="p">(</span><span class="n">records</span><span class="p">,</span> <span class="nb">method</span><span class="p">)</span>
-</span><span class='line'>        <span class="k">if</span> <span class="nb">method</span> <span class="o">==</span> <span class="ss">:destroy</span>
-</span><span class='line'>          <span class="n">records</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">record</span><span class="o">|</span>
-</span><span class='line'>            <span class="k">raise</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">ActiveRecordError</span> <span class="k">unless</span> <span class="n">record</span><span class="o">.</span><span class="n">destroy</span>
-</span><span class='line'>          <span class="k">end</span>
-</span><span class='line'>          <span class="n">update_counter</span><span class="p">(</span><span class="o">-</span><span class="n">records</span><span class="o">.</span><span class="n">length</span><span class="p">)</span> <span class="k">unless</span> <span class="n">inverse_updates_counter_cache?</span>
-</span><span class='line'>        <span class="k">else</span>
-</span><span class='line'>          <span class="k">super</span>
-</span><span class='line'>        <span class="k">end</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">SwitchTranslationHelper</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">translate</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">options</span> <span class="o">=</span> <span class="p">{})</span>
+</span><span class='line'>    <span class="n">prefix</span> <span class="o">=</span> <span class="n">current_user</span><span class="o">.</span><span class="n">adult?</span> <span class="p">?</span> <span class="s2">&quot;adult&quot;</span> <span class="p">:</span> <span class="s2">&quot;child&quot;</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">smart_phone?</span>
+</span><span class='line'>      <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">start_with?</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="vi">@virtual_path</span><span class="o">.</span><span class="n">end_with?</span><span class="p">(</span><span class="s2">&quot;_smart_phone&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="vi">@virtual_path</span><span class="o">.</span><span class="n">gsub!</span><span class="p">(</span><span class="s2">&quot;_smart_phone&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="c1"># jpmobileが付与する_smart_phoneを削除</span>
 </span><span class='line'>      <span class="k">end</span>
 </span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="n">prefix</span><span class="o">.</span><span class="n">present?</span>
+</span><span class='line'>      <span class="n">key</span> <span class="o">=</span> <span class="n">scope_key_by_partial</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">key</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">prefix</span><span class="si">}</span><span class="s2">.</span><span class="si">#{</span><span class="n">key</span><span class="si">}</span><span class="s2">&quot;</span> <span class="c1"># 先頭にkeyを差し込む </span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">super</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">options</span><span class="p">)</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'><span class="k">end</span>
 </span><span class='line'>
-</span><span class='line'><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Associations</span><span class="o">::</span><span class="no">HasManyAssociation</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="ss">:prepend</span><span class="p">,</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Associations</span><span class="o">::</span><span class="no">HasManyAssociationPatch</span><span class="p">)</span>
+</span><span class='line'><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+</span><span class='line'><span class="k">module</span> <span class="nn">ActionView</span>
+</span><span class='line'>  <span class="k">module</span> <span class="nn">Helpers</span>
+</span><span class='line'>    <span class="k">module</span> <span class="nn">TranslationHelper</span>
+</span><span class='line'>      <span class="n">prepend</span> <span class="no">SwitchTranslationHelper</span>
+</span><span class='line'>      <span class="k">alias</span> <span class="ss">:t</span> <span class="ss">:translate</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>今回ソース読んでいて知ったんですけど、has  <em>manyって削除する時に<br/>
-before  </em>remove<br/>
-after  _remove<br/>
-ってコールバックが発生するんですね。知らなかった。</p>
+<p>上記の(A)でActionView::Helpers::TranslationHelperを再オープンしてprependでSwitchTranslationHelperを差し込みます。<br/>
+これでメソッド呼び出しの順序がSwitchTranslationHelperのtransalteメソッドの方が先に呼ばれるようになります。<br/>
+aliasは呼ばれたクロージャ的な動きで呼ばれた段階のメソッドが固定されるようなので再度SwitchTranslationHelperのメソッドを向くように設定しなおしています。</p>
+
+<p>transalateメソッドではキーの先頭に大人ならadult、子供ならchildを挿入します。<br/>
+またlazy lookup(先頭に.がついている呼びだし)時に<em>smart_phoneが含まれるview内の場合では<br/>
+pcもスマフォも同一の文言を使いたいのでキーから</em>smart_phoneを削除しています。
+次にja.ymlを作ります。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">ja</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="c1"># 大人の設定</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">adult</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">price</span><span class="p-Indicator">:</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">show</span><span class="p-Indicator">:</span>
+</span><span class='line'>        <span class="l-Scalar-Plain">fee</span><span class="p-Indicator">:</span> <span class="s">&quot;大人料金&quot;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># 子供の設定</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">child</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">price</span><span class="p-Indicator">:</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">show</span><span class="p-Indicator">:</span>
+</span><span class='line'>        <span class="l-Scalar-Plain">fee</span><span class="p-Indicator">:</span> <span class="s">&quot;子供料金&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>これでpriceコントローラのshowアクションのテンプレート内で</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">t(&quot;.fee&quot;)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>とかすると、ユーザが大人の場合は大人料金。<br/>
+ユーザが子供の場合は子供料金と表示されます。</p>
+
+<p>prefixの条件を変えることで読込先をうまく切り替えることができますね。</p>
 
 
 
@@ -261,7 +275,7 @@ after  _remove<br/>
 </li>
 
       <li class="twitter">
-<a class="twitter-share-button" href="https://twitter.com/share?text=論理削除指定のモデルをhas_manyで参照し、かつnested_attributes_forにallow_destroyを指定するも物理削除になる。 by @YoshitsuguFujii&url=http://yoshitsugufujii.github.io/blog/2014/12/07/20141207173028/"> Tweet </a>
+<a class="twitter-share-button" href="https://twitter.com/share?text=i18nで例えば大人と子供で文言を変えたい場合 by @YoshitsuguFujii&url=http://yoshitsugufujii.github.io/blog/2015/10/28/inject-identifier-from-context/"> Tweet </a>
 <script>
   window.twttr=(function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return;js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);t._e=[];t.ready=function(f){t._e.push(f);};return t;}(document,"script","twitter-wjs"));
 </script>
@@ -467,8 +481,8 @@ after  _remove<br/>
     
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://yoshitsugufujii.github.io/blog/2014/12/07/20141207173028/';
-        var disqus_url = 'http://yoshitsugufujii.github.io/blog/2014/12/07/20141207173028/';
+        var disqus_identifier = 'http://yoshitsugufujii.github.io/blog/2015/10/28/inject-identifier-from-context/';
+        var disqus_url = 'http://yoshitsugufujii.github.io/blog/2015/10/28/inject-identifier-from-context/';
         var disqus_script = 'embed.js';
     
     (function () {

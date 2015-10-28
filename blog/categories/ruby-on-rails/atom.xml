@@ -4,7 +4,7 @@
     <title><![CDATA[Category: ruby on rails | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/ruby-on-rails/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2015-10-19T18:31:13+09:00</updated>
+    <updated>2015-10-28T21:25:00+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,98 @@
       </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[i18nで例えば大人と子供で文言を変えたい場合]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2015/10/28/inject-identifier-from-context/"/>
+        <updated>2015-10-28T20:41:26+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2015/10/28/inject-identifier-from-context</id>
+        <content type="html"><![CDATA[<p>条件に応じて文言を変えたい場合があると思います。<br/>
+例えば大人と子供で文言を変えたい場合とかですかね。<br/>
+ログインユーザが大人の場合は大人料金と表示し、子供の場合は子供料金と表示するようにします。</p>
+
+<pre><code>&lt;% if current_user.adult? %&gt;
+  大人料金
+&lt;% else %&gt;
+  子供料金
+&lt;% end %&gt;
+</code></pre>
+
+<p>これが一箇所ならいいですが、たくさん出現するとつらいですね。helperにまとめたりするのでしょうか。<br/>
+こういった文言だけのif文分岐がviewに大量に出現するとコード量も増え非常に見ずらく、またhelperに乱立してしまうのは避けたいですね。</p>
+
+<p>そこで自動でi18nの読み込み先を条件に応じて読み替えたいと思います</p>
+
+<p>ついでにjpmobile使用してviewをpcとスマフォで切り替えている場合に<br/>
+lazy lookup記法時にスマフォページでsmart_phoneがついているlocaleを探してしまうのを防ぎます。</p>
+
+<!-- more -->
+
+
+<p>config/initializers/switch_translation_helper.rbを作ります。</p>
+
+<pre><code class="ruby">module SwitchTranslationHelper
+  def translate(key, options = {})
+    prefix = current_user.adult? ? "adult" : "child"
+    if request.smart_phone?
+      if key.start_with?(".") &amp;&amp; @virtual_path.end_with?("_smart_phone")
+        @virtual_path.gsub!("_smart_phone", "") # jpmobileが付与する_smart_phoneを削除
+      end
+    end
+
+    if prefix.present?
+      key = scope_key_by_partial(key)
+      key = "#{prefix}.#{key}" # 先頭にkeyを差し込む 
+    end
+
+    super(key, options)
+  end
+end
+
+(A)
+module ActionView
+  module Helpers
+    module TranslationHelper
+      prepend SwitchTranslationHelper
+      alias :t :translate
+    end
+  end
+end
+</code></pre>
+
+<p>上記の(A)でActionView::Helpers::TranslationHelperを再オープンしてprependでSwitchTranslationHelperを差し込みます。<br/>
+これでメソッド呼び出しの順序がSwitchTranslationHelperのtransalteメソッドの方が先に呼ばれるようになります。<br/>
+aliasは呼ばれたクロージャ的な動きで呼ばれた段階のメソッドが固定されるようなので再度SwitchTranslationHelperのメソッドを向くように設定しなおしています。</p>
+
+<p>transalateメソッドではキーの先頭に大人ならadult、子供ならchildを挿入します。<br/>
+またlazy lookup(先頭に.がついている呼びだし)時に<em>smart_phoneが含まれるview内の場合では<br/>
+pcもスマフォも同一の文言を使いたいのでキーから</em>smart_phoneを削除しています。
+次にja.ymlを作ります。</p>
+
+<pre><code class="yml">ja:
+  # 大人の設定
+  adult:
+    price:
+      show:
+        fee: "大人料金"
+
+  # 子供の設定
+  child:
+    price:
+      show:
+        fee: "子供料金"
+</code></pre>
+
+<p>これでpriceコントローラのshowアクションのテンプレート内で
+<code>
+t(".fee")
+</code>
+とかすると、ユーザが大人の場合は大人料金。<br/>
+ユーザが子供の場合は子供料金と表示されます。</p>
+
+<p>prefixの条件を変えることで読込先をうまく切り替えることができますね。</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[FaradayとHttpartyでクッキーを付与したい場合]]></title>
@@ -212,37 +304,6 @@ $('.upload_file').fileinput
 
 <p>これで日本語も表示できるようになりました。<br/>
 <img src="/images/blog/2015-07-17%2013.52.17.png" alt="完成イメージ" /></p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[ckeditorのテーブルのデフォルト値を変更]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2015/07/15/ckeditor-table-width/"/>
-        <updated>2015-07-15T16:56:33+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2015/07/15/ckeditor-table-width</id>
-        <content type="html"><![CDATA[<p>相変わらず使わせてもらってます。<a href="https://github.com/galetahub/ckeditor">ckeditor</a><br/>
-デフォルトでテーブルのサイズが500pxとなっておりますが、スマートフォンでも表示する必要がありこれを100%にしたくてしらべました。<br/>
-ついでに邪魔なのでborderとcellspacingの値も0にしちゃいましょう。</p>
-
-<!-- more -->
-
-
-<pre><code class="js app/assets/javascripts/ckeditor/config.js">CKEDITOR.on( 'dialogDefinition', function( ev ) {
-    var dialogName = ev.data.name;
-    var dialogDefinition = ev.data.definition;
-
-    if ( dialogName == 'table' ) {
-        var info = dialogDefinition.getContents( 'info' );
-
-        info.get( 'txtWidth' )[ 'default' ] = '100%';
-        info.get( 'txtBorder' )[ 'default' ] = '0';
-        info.get( 'txtCellSpace' )[ 'default' ] = '0';
-    }
-});
-</code></pre>
-
-<p>テーブルダイアログが初期値で幅100%、枠線の幅0、セル内余白0になっているのが確認できます。<br/>
-<img src="/images/blog/2015-07-15%2017.00.59.png" alt="完成イメージ" /></p>
 ]]></content>
     </entry>
     

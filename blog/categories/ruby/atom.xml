@@ -4,7 +4,7 @@
     <title><![CDATA[Category: ruby | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/ruby/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2015-10-19T18:31:13+09:00</updated>
+    <updated>2015-10-28T21:25:00+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,98 @@
       </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[i18nで例えば大人と子供で文言を変えたい場合]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2015/10/28/inject-identifier-from-context/"/>
+        <updated>2015-10-28T20:41:26+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2015/10/28/inject-identifier-from-context</id>
+        <content type="html"><![CDATA[<p>条件に応じて文言を変えたい場合があると思います。<br/>
+例えば大人と子供で文言を変えたい場合とかですかね。<br/>
+ログインユーザが大人の場合は大人料金と表示し、子供の場合は子供料金と表示するようにします。</p>
+
+<pre><code>&lt;% if current_user.adult? %&gt;
+  大人料金
+&lt;% else %&gt;
+  子供料金
+&lt;% end %&gt;
+</code></pre>
+
+<p>これが一箇所ならいいですが、たくさん出現するとつらいですね。helperにまとめたりするのでしょうか。<br/>
+こういった文言だけのif文分岐がviewに大量に出現するとコード量も増え非常に見ずらく、またhelperに乱立してしまうのは避けたいですね。</p>
+
+<p>そこで自動でi18nの読み込み先を条件に応じて読み替えたいと思います</p>
+
+<p>ついでにjpmobile使用してviewをpcとスマフォで切り替えている場合に<br/>
+lazy lookup記法時にスマフォページでsmart_phoneがついているlocaleを探してしまうのを防ぎます。</p>
+
+<!-- more -->
+
+
+<p>config/initializers/switch_translation_helper.rbを作ります。</p>
+
+<pre><code class="ruby">module SwitchTranslationHelper
+  def translate(key, options = {})
+    prefix = current_user.adult? ? "adult" : "child"
+    if request.smart_phone?
+      if key.start_with?(".") &amp;&amp; @virtual_path.end_with?("_smart_phone")
+        @virtual_path.gsub!("_smart_phone", "") # jpmobileが付与する_smart_phoneを削除
+      end
+    end
+
+    if prefix.present?
+      key = scope_key_by_partial(key)
+      key = "#{prefix}.#{key}" # 先頭にkeyを差し込む 
+    end
+
+    super(key, options)
+  end
+end
+
+(A)
+module ActionView
+  module Helpers
+    module TranslationHelper
+      prepend SwitchTranslationHelper
+      alias :t :translate
+    end
+  end
+end
+</code></pre>
+
+<p>上記の(A)でActionView::Helpers::TranslationHelperを再オープンしてprependでSwitchTranslationHelperを差し込みます。<br/>
+これでメソッド呼び出しの順序がSwitchTranslationHelperのtransalteメソッドの方が先に呼ばれるようになります。<br/>
+aliasは呼ばれたクロージャ的な動きで呼ばれた段階のメソッドが固定されるようなので再度SwitchTranslationHelperのメソッドを向くように設定しなおしています。</p>
+
+<p>transalateメソッドではキーの先頭に大人ならadult、子供ならchildを挿入します。<br/>
+またlazy lookup(先頭に.がついている呼びだし)時に<em>smart_phoneが含まれるview内の場合では<br/>
+pcもスマフォも同一の文言を使いたいのでキーから</em>smart_phoneを削除しています。
+次にja.ymlを作ります。</p>
+
+<pre><code class="yml">ja:
+  # 大人の設定
+  adult:
+    price:
+      show:
+        fee: "大人料金"
+
+  # 子供の設定
+  child:
+    price:
+      show:
+        fee: "子供料金"
+</code></pre>
+
+<p>これでpriceコントローラのshowアクションのテンプレート内で
+<code>
+t(".fee")
+</code>
+とかすると、ユーザが大人の場合は大人料金。<br/>
+ユーザが子供の場合は子供料金と表示されます。</p>
+
+<p>prefixの条件を変えることで読込先をうまく切り替えることができますね。</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[FaradayとHttpartyでクッキーを付与したい場合]]></title>
@@ -242,92 +334,6 @@ gemのckeditorで</p>
     process resize_to_limit: [2400, 2400]
   end
 </code></pre>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[railsでckeditorにplugin追加]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2015/07/21/pckeditor_add_plugin/"/>
-        <updated>2015-07-21T10:33:15+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2015/07/21/pckeditor_add_plugin</id>
-        <content type="html"><![CDATA[<p>ckeditorで作成したinputがsubmitした時にemptyだったらエラーを出したい。<br/>
-いろいろ検索しましたが有用な情報がなく、inputにCKEDITOR.stylesSet.addでクラスを設定する方法もうまくいかず、若干途方に暮れましたが、プラグイン<a href="http://ckeditor.com/addon/html5validation">html5validation</a>をいれることで対応することにしました。</p>
-
-<p>導入手順です。</p>
-
-<!-- more -->
-
-
-<p><a href="http://ckeditor.com/addon/html5validation">ここ</a>のページからDownloadを押してダウンロードします。<br/>
-落としたzipを解凍して、app/assets/javascripts/ckeditor/pluginsディレクトリを作成して解凍したディレクトリごと放り込みます。</p>
-
-<p>次に日本語化します。<br/>
-app/assets/javascripts/ckeditor/plugins/html5validation/langにja.jsを作ります。<br/>
-中身はこんな感じですかね。</p>
-
-<pre><code class="js app/assets/javascripts/ckeditor/plugins/html5validation/lang/ja.js">/*
-Copyright (c) 2015, Total Web Services. All rights reserved.
-*/
-CKEDITOR.plugins.setLang('html5validation', 'ja', {
-  patternLabel: '検証パターン',
-  requiredLabel: '必須?',
-  validationTabTitle: '値の検証',
-  novalidateLabel: 'HTML5 Validationを無効にする',
-  sampleTwitterUsername:  'ツイッターユーザ名のサンプル: ^[A-Za-z0-9_]{1,15}$',
-  samplePhonePattern: 'アメリカの電話番号のサンプル: \d{3}[\-]\d{3}[\-]\d{4}',
-  sampleZipCode: '&lt;p&gt;アメリカの住所のサンプル: (\d{5}([\-]\d{4})?)&lt;/p&gt;',
-  html5patternLink: '&lt;p&gt;他のHTML5 Validation patterns を探す &lt;a href="http://html5pattern.com/" title="HTML5 Pattern"&gt;html5pattern.com&lt;/a&gt;&lt;/p&gt;'
-});
-</code></pre>
-
-<p>次に言語を追加します。<br/>
-app/assets/javascripts/ckeditor/plugins/html5validation/plugin.jsを開いて8行目のlangにjaを足します。<br/>
-<figure class='code'><figcaption><span>app/assets/javascripts/ckeditor/plugins/html5validation/plugin.js</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="err">/&lt;em&gt;*</span>
-</span><span class='line'> <span class="o">*</span> <span class="err">@</span><span class="nx">license</span> <span class="nx">Copyright</span> <span class="o">&amp;</span><span class="nx">copy</span><span class="p">;</span> <span class="mi">2015</span><span class="p">,</span> <span class="nx">Total</span> <span class="nx">Web</span> <span class="nx">Services</span><span class="p">.</span> <span class="nx">All</span> <span class="nx">rights</span> <span class="nx">reserved</span><span class="p">.</span>
-</span><span class='line'> <span class="o">&lt;</span><span class="sr">/em&gt;/</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="nx">CKEDITOR</span><span class="p">.</span><span class="nx">plugins</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="nx">html5validation</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;,</span> <span class="p">{</span>
-</span><span class='line'>  <span class="nx">icons</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
-</span><span class='line'>  <span class="nx">lang</span><span class="o">:</span> <span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="nx">ja</span><span class="p">,</span><span class="nx">en</span><span class="p">,</span><span class="nx">fr</span><span class="p">,</span><span class="nx">es</span><span class="p">,</span><span class="nx">ru</span><span class="p">,</span><span class="nx">it</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;,</span> <span class="c1">// ここにjaを追加</span>
-</span><span class='line'>  <span class="nx">init</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">editor</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="kd">var</span> <span class="nx">lang</span> <span class="o">=</span> <span class="nx">editor</span><span class="p">.</span><span class="nx">lang</span><span class="p">.</span><span class="nx">html5validation</span><span class="p">;</span>
-</span><span class='line'>    <span class="nx">editor</span><span class="p">.</span><span class="nx">filter</span><span class="p">.</span><span class="nx">allow</span><span class="p">(</span> <span class="p">{</span>
-</span><span class='line'>      <span class="nx">textarea</span><span class="o">:</span> <span class="p">{</span>
-</span><span class='line'>        <span class="nx">attributes</span><span class="o">:</span> <span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="nx">required</span><span class="p">,</span><span class="nx">pattern</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;,</span>
-</span><span class='line'>        <span class="nx">propertiesOnly</span><span class="o">:</span> <span class="kc">true</span>
-</span><span class='line'>       <span class="p">},</span>
-</span><span class='line'>       <span class="nx">input</span><span class="o">:</span> <span class="p">{</span>
-</span><span class='line'>        <span class="nx">attributes</span><span class="o">:</span> <span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="nx">required</span><span class="p">,</span><span class="nx">pattern</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;,</span>
-</span></code></pre></td></tr></table></div></figure></p>
-
-<p>次にconfig.jsに追記します。</p>
-
-<pre><code class="js app/assets/javascripts/ckeditor/config.js">CKEDITOR.config.extraPlugins = 'html5validation';
-</code></pre>
-
-<p>他にも追加したいpluginがある場合はカンマ区切りで指定するみたいです。<br/>
-これで準備は完成です。ckeditorでformを作ろうとするか、既存のformを選択して右クリックしてフォームのプロパティで<br/>
-必須が設定できるようになっているかと思います</p>
-
-<p><img src="/images/blog/2015-07-21_2.png" alt="完成イメージ" /></p>
-
-<p><img src="/images/blog/2015-07-21.png" alt="完成イメージ" /></p>
 ]]></content>
     </entry>
     
