@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2015-10-28T21:32:48+09:00</updated>
+    <updated>2015-10-28T21:35:53+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -28,9 +28,9 @@
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 </pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%</span> <span class="k">if</span> <span class="n">current_user</span><span class="o">.</span><span class="n">adult?</span> <span class="cp">%&gt;</span><span class="x"></span>
-</span><span class='line'><span class="x">  大人料金</span>
+</span><span class='line'><span class="x">  &lt;span&gt;大人料金&lt;/span&gt;</span>
 </span><span class='line'><span class="cp">&lt;%</span> <span class="k">else</span> <span class="cp">%&gt;</span><span class="x"></span>
-</span><span class='line'><span class="x">  子供料金</span>
+</span><span class='line'><span class="x">  &lt;span&gt;子供料金&lt;/span&gt;</span>
 </span><span class='line'><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
 </span></code></pre></td></tr></table></div></figure>
 
@@ -146,7 +146,7 @@ pcもスマフォも同一の文言を使いたいのでキーから</em>smart_p
 <p>これでpriceコントローラのshowアクションのテンプレート内で</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">t(&quot;.fee&quot;)</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">t</span><span class="p">(</span><span class="s2">&quot;.fee&quot;</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x"></span>
 </span></code></pre></td></tr></table></div></figure>
 
 

@@ -4,7 +4,7 @@
     <title><![CDATA[Category: ruby on rails | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/ruby-on-rails/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2015-10-28T21:32:48+09:00</updated>
+    <updated>2015-10-28T21:35:53+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -23,9 +23,9 @@
 ログインユーザが大人の場合は大人料金と表示し、子供の場合は子供料金と表示するようにします。</p>
 
 <pre><code class="erb">&lt;% if current_user.adult? %&gt;
-  大人料金
+  &lt;span&gt;大人料金&lt;/span&gt;
 &lt;% else %&gt;
-  子供料金
+  &lt;span&gt;子供料金&lt;/span&gt;
 &lt;% end %&gt;
 </code></pre>
 
@@ -98,7 +98,7 @@ pcもスマフォも同一の文言を使いたいのでキーから</em>smart_p
 
 <p>これでpriceコントローラのshowアクションのテンプレート内で
 <code>erb
-t(".fee")
+&lt;%= t(".fee") %&gt;
 </code>
 とすると、ユーザが大人の場合は大人料金。<br/>
 ユーザが子供の場合は子供料金と表示されます。</p>
