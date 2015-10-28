@@ -82,7 +82,7 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
-            <a href="/blog/2015/10/28/inject-identifier-from-context/">i18nで例えば大人と子供で文言を変えたい場合</a>
+            <a href="/blog/2015/10/28/inject-identifier-from-context/">Inject Identifier From Context</a>
         </h1>
     
 
@@ -129,19 +129,21 @@
 例えば大人と子供で文言を変えたい場合とかですかね。<br/>
 ログインユーザが大人の場合は大人料金と表示し、子供の場合は子供料金と表示するようにします。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;% if current_user.adult? %&gt;
-</span><span class='line'>  大人料金
-</span><span class='line'>&lt;% else %&gt;
-</span><span class='line'>  子供料金
-</span><span class='line'>&lt;% end %&gt;</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%</span> <span class="k">if</span> <span class="n">current_user</span><span class="o">.</span><span class="n">adult?</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  大人料金</span>
+</span><span class='line'><span class="cp">&lt;%</span> <span class="k">else</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  子供料金</span>
+</span><span class='line'><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
 
 
-<p>これが一箇所ならいいですが、たくさん出現するとつらいですね。helperにまとめたりするのでしょうか。<br/>
+<p>これが一箇所ならいいですが、たくさん出現するとつらいですね。<br/>
+helperにまとめたりするのでしょうか。<br/>
 こういった文言だけのif文分岐がviewに大量に出現するとコード量も増え非常に見ずらく、またhelperに乱立してしまうのは避けたいですね。</p>
 
 <p>そこで自動でi18nの読み込み先を条件に応じて読み替えたいと思います</p>
@@ -804,7 +806,7 @@ gemのckeditorで</p>
     <ul class="divided">
         
         <li class="post">
-            <a href="/blog/2015/10/28/inject-identifier-from-context/">i18nで例えば大人と子供で文言を変えたい場合</a>
+            <a href="/blog/2015/10/28/inject-identifier-from-context/">Inject Identifier From Context</a>
         </li>
         
         <li class="post">

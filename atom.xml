@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2015-10-28T21:25:00+09:00</updated>
+    <updated>2015-10-28T21:32:48+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -14,7 +14,7 @@
 
     
     <entry>
-        <title type="html"><![CDATA[i18nで例えば大人と子供で文言を変えたい場合]]></title>
+        <title type="html"><![CDATA[Inject Identifier From Context]]></title>
         <link href="http://yoshitsugufujii.github.io/blog/2015/10/28/inject-identifier-from-context/"/>
         <updated>2015-10-28T20:41:26+09:00</updated>
         <id>http://yoshitsugufujii.github.io/blog/2015/10/28/inject-identifier-from-context</id>
@@ -22,19 +22,21 @@
 例えば大人と子供で文言を変えたい場合とかですかね。<br/>
 ログインユーザが大人の場合は大人料金と表示し、子供の場合は子供料金と表示するようにします。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;% if current_user.adult? %&gt;
-</span><span class='line'>  大人料金
-</span><span class='line'>&lt;% else %&gt;
-</span><span class='line'>  子供料金
-</span><span class='line'>&lt;% end %&gt;</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%</span> <span class="k">if</span> <span class="n">current_user</span><span class="o">.</span><span class="n">adult?</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  大人料金</span>
+</span><span class='line'><span class="cp">&lt;%</span> <span class="k">else</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  子供料金</span>
+</span><span class='line'><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
 
 
-<p>これが一箇所ならいいですが、たくさん出現するとつらいですね。helperにまとめたりするのでしょうか。<br/>
+<p>これが一箇所ならいいですが、たくさん出現するとつらいですね。<br/>
+helperにまとめたりするのでしょうか。<br/>
 こういった文言だけのif文分岐がviewに大量に出現するとコード量も増え非常に見ずらく、またhelperに乱立してしまうのは避けたいですね。</p>
 
 <p>そこで自動でi18nの読み込み先を条件に応じて読み替えたいと思います</p>
@@ -85,7 +87,7 @@ lazy lookup記法時にスマフォページでsmart_phoneがついているloca
 </span><span class='line'>
 </span><span class='line'>    <span class="k">if</span> <span class="n">prefix</span><span class="o">.</span><span class="n">present?</span>
 </span><span class='line'>      <span class="n">key</span> <span class="o">=</span> <span class="n">scope_key_by_partial</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
-</span><span class='line'>      <span class="n">key</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">prefix</span><span class="si">}</span><span class="s2">.</span><span class="si">#{</span><span class="n">key</span><span class="si">}</span><span class="s2">&quot;</span> <span class="c1"># 先頭にkeyを差し込む </span>
+</span><span class='line'>      <span class="n">key</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">prefix</span><span class="si">}</span><span class="s2">.</span><span class="si">#{</span><span class="n">key</span><span class="si">}</span><span class="s2">&quot;</span> <span class="c1"># 先頭にprefixを差し込む </span>
 </span><span class='line'>    <span class="k">end</span>
 </span><span class='line'>
 </span><span class='line'>    <span class="k">super</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">options</span><span class="p">)</span>
@@ -110,7 +112,8 @@ aliasは呼ばれたクロージャ的な動きで呼ばれた段階のメソッ
 
 <p>transalateメソッドではキーの先頭に大人ならadult、子供ならchildを挿入します。<br/>
 またlazy lookup(先頭に.がついている呼びだし)時に<em>smart_phoneが含まれるview内の場合では<br/>
-pcもスマフォも同一の文言を使いたいのでキーから</em>smart_phoneを削除しています。
+pcもスマフォも同一の文言を使いたいのでキーから</em>smart_phoneを削除しています。<br/>
+その後superを読んで元のRailsのi18nの流れへ戻しています。<br/>
 次にja.ymlを作ります。</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -143,11 +146,11 @@ pcもスマフォも同一の文言を使いたいのでキーから</em>smart_p
 <p>これでpriceコントローラのshowアクションのテンプレート内で</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">t(&quot;.fee&quot;)</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">t(&quot;.fee&quot;)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>とかすると、ユーザが大人の場合は大人料金。<br/>
+<p>とすると、ユーザが大人の場合は大人料金。<br/>
 ユーザが子供の場合は子供料金と表示されます。</p>
 
 <p>prefixの条件を変えることで読込先をうまく切り替えることができますね。</p>

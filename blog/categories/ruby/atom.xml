@@ -4,7 +4,7 @@
     <title><![CDATA[Category: ruby | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/ruby/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2015-10-28T21:25:00+09:00</updated>
+    <updated>2015-10-28T21:32:48+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -14,7 +14,7 @@
 
     
     <entry>
-        <title type="html"><![CDATA[i18nで例えば大人と子供で文言を変えたい場合]]></title>
+        <title type="html"><![CDATA[Inject Identifier From Context]]></title>
         <link href="http://yoshitsugufujii.github.io/blog/2015/10/28/inject-identifier-from-context/"/>
         <updated>2015-10-28T20:41:26+09:00</updated>
         <id>http://yoshitsugufujii.github.io/blog/2015/10/28/inject-identifier-from-context</id>
@@ -22,14 +22,15 @@
 例えば大人と子供で文言を変えたい場合とかですかね。<br/>
 ログインユーザが大人の場合は大人料金と表示し、子供の場合は子供料金と表示するようにします。</p>
 
-<pre><code>&lt;% if current_user.adult? %&gt;
+<pre><code class="erb">&lt;% if current_user.adult? %&gt;
   大人料金
 &lt;% else %&gt;
   子供料金
 &lt;% end %&gt;
 </code></pre>
 
-<p>これが一箇所ならいいですが、たくさん出現するとつらいですね。helperにまとめたりするのでしょうか。<br/>
+<p>これが一箇所ならいいですが、たくさん出現するとつらいですね。<br/>
+helperにまとめたりするのでしょうか。<br/>
 こういった文言だけのif文分岐がviewに大量に出現するとコード量も増え非常に見ずらく、またhelperに乱立してしまうのは避けたいですね。</p>
 
 <p>そこで自動でi18nの読み込み先を条件に応じて読み替えたいと思います</p>
@@ -53,7 +54,7 @@ lazy lookup記法時にスマフォページでsmart_phoneがついているloca
 
     if prefix.present?
       key = scope_key_by_partial(key)
-      key = "#{prefix}.#{key}" # 先頭にkeyを差し込む 
+      key = "#{prefix}.#{key}" # 先頭にprefixを差し込む 
     end
 
     super(key, options)
@@ -77,7 +78,8 @@ aliasは呼ばれたクロージャ的な動きで呼ばれた段階のメソッ
 
 <p>transalateメソッドではキーの先頭に大人ならadult、子供ならchildを挿入します。<br/>
 またlazy lookup(先頭に.がついている呼びだし)時に<em>smart_phoneが含まれるview内の場合では<br/>
-pcもスマフォも同一の文言を使いたいのでキーから</em>smart_phoneを削除しています。
+pcもスマフォも同一の文言を使いたいのでキーから</em>smart_phoneを削除しています。<br/>
+その後superを読んで元のRailsのi18nの流れへ戻しています。<br/>
 次にja.ymlを作ります。</p>
 
 <pre><code class="yml">ja:
@@ -95,10 +97,10 @@ pcもスマフォも同一の文言を使いたいのでキーから</em>smart_p
 </code></pre>
 
 <p>これでpriceコントローラのshowアクションのテンプレート内で
-<code>
+<code>erb
 t(".fee")
 </code>
-とかすると、ユーザが大人の場合は大人料金。<br/>
+とすると、ユーザが大人の場合は大人料金。<br/>
 ユーザが子供の場合は子供料金と表示されます。</p>
 
 <p>prefixの条件を変えることで読込先をうまく切り替えることができますね。</p>
