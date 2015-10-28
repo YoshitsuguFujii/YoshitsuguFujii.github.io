@@ -9,7 +9,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>Inject Identifier From Context - なんとなく日々徒然と</title>
+        <title>i18nで例えば大人と子供で文言を変えたい場合 - なんとなく日々徒然と</title>
         <meta name="author" content="Yoshitsugu Fujii">
         
         <meta name="description" content="ruby rails French Bulldog surfing aqualist">
@@ -78,7 +78,7 @@
                     <article class="article article--single">
     <header class="article__header">
     
-        <h1 class="article__title">Inject Identifier From Context</h1>
+        <h1 class="article__title">i18nで例えば大人と子供で文言を変えたい場合</h1>
     
 
     
@@ -213,8 +213,7 @@ lazy lookup記法時にスマフォページでsmart_phoneがついているloca
 aliasは呼ばれたクロージャ的な動きで呼ばれた段階のメソッドが固定されるようなので再度SwitchTranslationHelperのメソッドを向くように設定しなおしています。</p>
 
 <p>transalateメソッドではキーの先頭に大人ならadult、子供ならchildを挿入します。<br/>
-またlazy lookup(先頭に.がついている呼びだし)時に<em>smart_phoneが含まれるview内の場合では<br/>
-pcもスマフォも同一の文言を使いたいのでキーから</em>smart_phoneを削除しています。<br/>
+またlazy lookup(先頭に.がついている呼びだし)時に<em>smart_phoneが含まれるview内の場合ではpcもスマフォも同一の文言を使いたいのでキーから</em>smart_phoneを削除しています。<br/>
 その後superを読んで元のRailsのi18nの流れへ戻しています。<br/>
 次にja.ymlを作ります。</p>
 
@@ -278,7 +277,7 @@ pcもスマフォも同一の文言を使いたいのでキーから</em>smart_p
 </li>
 
       <li class="twitter">
-<a class="twitter-share-button" href="https://twitter.com/share?text=Inject Identifier From Context by @YoshitsuguFujii&url=http://yoshitsugufujii.github.io/blog/2015/10/28/inject-identifier-from-context/"> Tweet </a>
+<a class="twitter-share-button" href="https://twitter.com/share?text=i18nで例えば大人と子供で文言を変えたい場合 by @YoshitsuguFujii&url=http://yoshitsugufujii.github.io/blog/2015/10/28/inject-identifier-from-context/"> Tweet </a>
 <script>
   window.twttr=(function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return;js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);t._e=[];t.ready=function(f){t._e.push(f);};return t;}(document,"script","twitter-wjs"));
 </script>
@@ -372,7 +371,7 @@ pcもスマフォも同一の文言を使いたいのでキーから</em>smart_p
     <ul class="divided">
         
         <li class="post">
-            <a href="/blog/2015/10/28/inject-identifier-from-context/">Inject Identifier From Context</a>
+            <a href="/blog/2015/10/28/inject-identifier-from-context/">i18nで例えば大人と子供で文言を変えたい場合</a>
         </li>
         
         <li class="post">
