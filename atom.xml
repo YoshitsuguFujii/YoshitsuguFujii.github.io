@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2015-10-28T21:46:37+09:00</updated>
+    <updated>2015-11-10T20:41:53+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,519 @@
     </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[Go言語を使ってローカルマシン上でbotを動かしSlackでtodo管理をする]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2015/11/10/slack-todo-bot/"/>
+        <updated>2015-11-10T20:29:05+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2015/11/10/slack-todo-bot</id>
+        <content type="html"><![CDATA[<p>前回の続編です。</p>
+
+<p><a href="http://yoshitsugufujii.github.io/blog/2015/09/04/golang-bot-for-slack/">Go言語を使ってローカルマシンに簡易botを作ってSlackに投稿</a></p>
+
+<p>botを使ったtodo機能をslackに付与するべくgoのコードを書いてみました。</p>
+
+<p><code>todo コマンド</code></p>
+
+<p>という感じでつぶやくと、</p>
+
+<p>チャンネル毎にtodoリストが管理できるようにしたいと思います。<br/>
+dbがなくても動くようにファイルに保存します。</p>
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">操作</th>
+<th style="text-align:left;">コマンド</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">追加</td>
+<td style="text-align:left;"> add 追加したいテキスト </td>
+</tr>
+<tr>
+<td style="text-align:left;">削除</td>
+<td style="text-align:left;"> del 削除したいテキスト </td>
+</tr>
+<tr>
+<td style="text-align:left;">一覧</td>
+<td style="text-align:left;"> list </td>
+</tr>
+<tr>
+<td style="text-align:left;">全削除</td>
+<td style="text-align:left;"> clear </td>
+</tr>
+</tbody>
+</table>
+
+
+<p>こんな感じで動きます。</p>
+
+<p><img src="http://yoshitsugufujii.github.io/images/blog/todo_bot_sample.gif" alt="todobot" /></p>
+
+<p>便利そうですね！</p>
+
+<!-- more -->
+
+
+<p>まずはslacbot.goにmainの処理を書いていきます。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+</pre></td><td class='code'><pre><code class='go'><span class='line'><span class="kn">package</span> <span class="nx">main</span>
+</span><span class='line'>
+</span><span class='line'><span class="kn">import</span> <span class="p">(</span>
+</span><span class='line'>  <span class="s">&quot;./todo_list&quot;</span>
+</span><span class='line'>  <span class="s">&quot;fmt&quot;</span>
+</span><span class='line'>  <span class="s">&quot;net/http&quot;</span>
+</span><span class='line'><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">var</span> <span class="nx">p</span> <span class="p">=</span> <span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">func</span> <span class="nx">todoListBot</span><span class="p">(</span><span class="nx">w</span> <span class="nx">http</span><span class="p">.</span><span class="nx">ResponseWriter</span><span class="p">,</span> <span class="nx">r</span> <span class="o">*</span><span class="nx">http</span><span class="p">.</span><span class="nx">Request</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">checkUser</span><span class="p">(</span><span class="nx">w</span><span class="p">,</span> <span class="nx">r</span><span class="p">,</span> <span class="kd">func</span><span class="p">(</span><span class="nx">text</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">channel_name</span> <span class="kt">string</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">return_text</span> <span class="o">:=</span> <span class="nx">todo</span><span class="p">.</span><span class="nx">Accept</span><span class="p">(</span><span class="nx">text</span><span class="p">,</span> <span class="nx">channel_name</span><span class="p">)</span>
+</span><span class='line'>      <span class="nx">fmt</span><span class="p">.</span><span class="nx">Fprintf</span><span class="p">(</span><span class="nx">w</span><span class="p">,</span> <span class="s">&quot;{\&quot;text\&quot;: \&quot;%s\&quot;}&quot;</span><span class="p">,</span> <span class="nx">return_text</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">})</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">func</span> <span class="nx">checkUser</span><span class="p">(</span><span class="nx">w</span> <span class="nx">http</span><span class="p">.</span><span class="nx">ResponseWriter</span><span class="p">,</span> <span class="nx">r</span> <span class="o">*</span><span class="nx">http</span><span class="p">.</span><span class="nx">Request</span><span class="p">,</span> <span class="nx">proc</span> <span class="kd">func</span><span class="p">(</span><span class="nx">text</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">channel_name</span> <span class="kt">string</span><span class="p">))</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">if</span> <span class="nx">r</span><span class="p">.</span><span class="nx">Method</span> <span class="o">==</span> <span class="s">&quot;POST&quot;</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">text</span> <span class="o">:=</span> <span class="nx">r</span><span class="p">.</span><span class="nx">FormValue</span><span class="p">(</span><span class="s">&quot;text&quot;</span><span class="p">)</span>
+</span><span class='line'>      <span class="nx">user_name</span> <span class="o">:=</span> <span class="nx">r</span><span class="p">.</span><span class="nx">FormValue</span><span class="p">(</span><span class="s">&quot;user_name&quot;</span><span class="p">)</span>
+</span><span class='line'>      <span class="nx">channel_name</span> <span class="o">:=</span> <span class="nx">r</span><span class="p">.</span><span class="nx">FormValue</span><span class="p">(</span><span class="s">&quot;channel_name&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="k">if</span> <span class="nx">user_name</span> <span class="o">!=</span> <span class="s">&quot;slackbot&quot;</span> <span class="p">{</span>
+</span><span class='line'>          <span class="nx">p</span><span class="p">(</span><span class="s">&quot;user_name:&quot;</span><span class="p">,</span> <span class="nx">user_name</span><span class="p">)</span>
+</span><span class='line'>          <span class="nx">p</span><span class="p">(</span><span class="s">&quot;channel_name:&quot;</span><span class="p">,</span> <span class="nx">channel_name</span><span class="p">)</span>
+</span><span class='line'>          <span class="nx">proc</span><span class="p">(</span><span class="nx">text</span><span class="p">,</span> <span class="nx">channel_name</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">func</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">http</span><span class="p">.</span><span class="nx">HandleFunc</span><span class="p">(</span><span class="s">&quot;/todo&quot;</span><span class="p">,</span> <span class="nx">todoListBot</span><span class="p">)</span>
+</span><span class='line'>  <span class="nx">http</span><span class="p">.</span><span class="nx">ListenAndServe</span><span class="p">(</span><span class="s">&quot;:8888&quot;</span><span class="p">,</span> <span class="kc">nil</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>続いて実装です。<br/>
+一段階層を下げます。<br/>
+todo_listというディレクトリを作ってそこにtodo.goを置きます。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+<span class='line-number'>123</span>
+<span class='line-number'>124</span>
+<span class='line-number'>125</span>
+<span class='line-number'>126</span>
+<span class='line-number'>127</span>
+<span class='line-number'>128</span>
+<span class='line-number'>129</span>
+<span class='line-number'>130</span>
+<span class='line-number'>131</span>
+<span class='line-number'>132</span>
+<span class='line-number'>133</span>
+<span class='line-number'>134</span>
+<span class='line-number'>135</span>
+<span class='line-number'>136</span>
+<span class='line-number'>137</span>
+<span class='line-number'>138</span>
+<span class='line-number'>139</span>
+<span class='line-number'>140</span>
+<span class='line-number'>141</span>
+<span class='line-number'>142</span>
+<span class='line-number'>143</span>
+<span class='line-number'>144</span>
+<span class='line-number'>145</span>
+<span class='line-number'>146</span>
+<span class='line-number'>147</span>
+<span class='line-number'>148</span>
+<span class='line-number'>149</span>
+<span class='line-number'>150</span>
+<span class='line-number'>151</span>
+<span class='line-number'>152</span>
+<span class='line-number'>153</span>
+<span class='line-number'>154</span>
+<span class='line-number'>155</span>
+<span class='line-number'>156</span>
+<span class='line-number'>157</span>
+<span class='line-number'>158</span>
+<span class='line-number'>159</span>
+<span class='line-number'>160</span>
+<span class='line-number'>161</span>
+<span class='line-number'>162</span>
+<span class='line-number'>163</span>
+<span class='line-number'>164</span>
+<span class='line-number'>165</span>
+<span class='line-number'>166</span>
+<span class='line-number'>167</span>
+<span class='line-number'>168</span>
+<span class='line-number'>169</span>
+<span class='line-number'>170</span>
+<span class='line-number'>171</span>
+<span class='line-number'>172</span>
+<span class='line-number'>173</span>
+<span class='line-number'>174</span>
+<span class='line-number'>175</span>
+<span class='line-number'>176</span>
+<span class='line-number'>177</span>
+<span class='line-number'>178</span>
+<span class='line-number'>179</span>
+<span class='line-number'>180</span>
+<span class='line-number'>181</span>
+<span class='line-number'>182</span>
+<span class='line-number'>183</span>
+<span class='line-number'>184</span>
+<span class='line-number'>185</span>
+<span class='line-number'>186</span>
+</pre></td><td class='code'><pre><code class='go'><span class='line'><span class="kn">package</span> <span class="nx">todo</span>
+</span><span class='line'>
+</span><span class='line'><span class="kn">import</span> <span class="p">(</span>
+</span><span class='line'>  <span class="s">&quot;../util&quot;</span>
+</span><span class='line'>  <span class="s">&quot;fmt&quot;</span>
+</span><span class='line'>  <span class="s">&quot;io/ioutil&quot;</span>
+</span><span class='line'>  <span class="s">&quot;log&quot;</span>
+</span><span class='line'>  <span class="s">&quot;os&quot;</span>
+</span><span class='line'>  <span class="s">&quot;strings&quot;</span>
+</span><span class='line'><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">const</span> <span class="nx">ADD</span> <span class="p">=</span> <span class="s">&quot;add&quot;</span>
+</span><span class='line'><span class="kd">const</span> <span class="nx">DEL</span> <span class="p">=</span> <span class="s">&quot;del&quot;</span>
+</span><span class='line'><span class="kd">const</span> <span class="nx">LIST</span> <span class="p">=</span> <span class="s">&quot;list&quot;</span>
+</span><span class='line'><span class="kd">const</span> <span class="nx">CLEAR</span> <span class="p">=</span> <span class="s">&quot;clear&quot;</span>
+</span><span class='line'><span class="kd">const</span> <span class="nx">STORE_DIR</span> <span class="p">=</span> <span class="s">&quot;todo_list/stored_files&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">var</span> <span class="nx">p</span> <span class="p">=</span> <span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">func</span> <span class="nx">Accept</span><span class="p">(</span><span class="nx">text</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">channel_name</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">string</span> <span class="p">{</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">command</span> <span class="kt">string</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">message</span> <span class="kt">string</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">rtn_text</span> <span class="kt">string</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="nx">validateParams</span><span class="p">(</span><span class="nx">text</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">command</span><span class="p">,</span> <span class="nx">message</span> <span class="p">=</span> <span class="nx">parseText</span><span class="p">(</span><span class="nx">text</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">return</span> <span class="s">&quot;入力されたパラメータが不正です→ &quot;</span> <span class="o">+</span> <span class="nx">text</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="nx">command</span> <span class="o">==</span> <span class="nx">ADD</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">rtn_text</span> <span class="p">=</span> <span class="nx">add</span><span class="p">(</span><span class="nx">channel_name</span><span class="p">,</span> <span class="nx">message</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="nx">command</span> <span class="o">==</span> <span class="nx">DEL</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">rtn_text</span> <span class="p">=</span> <span class="nx">del</span><span class="p">(</span><span class="nx">channel_name</span><span class="p">,</span> <span class="nx">message</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="nx">command</span> <span class="o">==</span> <span class="nx">LIST</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">rtn_text</span> <span class="p">=</span> <span class="nx">list</span><span class="p">(</span><span class="nx">channel_name</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="nx">command</span> <span class="o">==</span> <span class="nx">CLEAR</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">rtn_text</span> <span class="p">=</span> <span class="nx">clear</span><span class="p">(</span><span class="nx">channel_name</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">return</span> <span class="nx">rtn_text</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">func</span> <span class="nx">validateParams</span><span class="p">(</span><span class="nx">text</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">bool</span> <span class="p">{</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">command</span> <span class="kt">string</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nx">strings</span><span class="p">.</span><span class="nx">Split</span><span class="p">(</span><span class="nx">text</span><span class="p">,</span> <span class="s">&quot; &quot;</span><span class="p">))</span> <span class="p">&lt;</span> <span class="mi">2</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">return</span> <span class="kc">false</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">command</span> <span class="p">=</span> <span class="nx">getCommand</span><span class="p">(</span><span class="nx">text</span><span class="p">)</span>
+</span><span class='line'>  <span class="nx">correct_commands</span> <span class="o">:=</span> <span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="nx">ADD</span><span class="p">,</span> <span class="nx">LIST</span><span class="p">,</span> <span class="nx">DEL</span><span class="p">,</span> <span class="nx">CLEAR</span><span class="p">}</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">!</span><span class="nx">util</span><span class="p">.</span><span class="nx">Contains</span><span class="p">(</span><span class="nx">correct_commands</span><span class="p">,</span> <span class="nx">command</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">return</span> <span class="kc">false</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">return</span> <span class="kc">true</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">func</span> <span class="nx">parseText</span><span class="p">(</span><span class="nx">text</span> <span class="kt">string</span><span class="p">)</span> <span class="p">(</span><span class="nx">command</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">post_text</span> <span class="kt">string</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">command</span> <span class="p">=</span> <span class="nx">getCommand</span><span class="p">(</span><span class="nx">text</span><span class="p">)</span>
+</span><span class='line'>  <span class="nx">post_text</span> <span class="p">=</span> <span class="nx">getMessage</span><span class="p">(</span><span class="nx">text</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">return</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">func</span> <span class="nx">getTriggerWord</span><span class="p">(</span><span class="nx">text</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">string</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">Split</span><span class="p">(</span><span class="nx">text</span><span class="p">,</span> <span class="s">&quot; &quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">func</span> <span class="nx">getCommand</span><span class="p">(</span><span class="nx">text</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">string</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">Split</span><span class="p">(</span><span class="nx">text</span><span class="p">,</span> <span class="s">&quot; &quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">func</span> <span class="nx">getMessage</span><span class="p">(</span><span class="nx">text</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">string</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nx">strings</span><span class="p">.</span><span class="nx">Split</span><span class="p">(</span><span class="nx">text</span><span class="p">,</span> <span class="s">&quot; &quot;</span><span class="p">))</span> <span class="p">&gt;</span> <span class="mi">2</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">return</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">Split</span><span class="p">(</span><span class="nx">text</span><span class="p">,</span> <span class="s">&quot; &quot;</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
+</span><span class='line'>  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">return</span> <span class="s">&quot;&quot;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">func</span> <span class="nx">add</span><span class="p">(</span><span class="nx">channel_name</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">message</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">string</span> <span class="p">{</span>
+</span><span class='line'>  <span class="c1">// ディレクトリの作成</span>
+</span><span class='line'>  <span class="nx">err</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nx">MkdirAll</span><span class="p">(</span><span class="nx">STORE_DIR</span><span class="p">,</span> <span class="mo">0777</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">util</span><span class="p">.</span><span class="nx">Perror</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">file_path</span> <span class="o">:=</span> <span class="nx">getStoredPath</span><span class="p">(</span><span class="nx">channel_name</span><span class="p">)</span>
+</span><span class='line'>  <span class="c1">// ファイルがなかったら作る</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">!</span><span class="nx">util</span><span class="p">.</span><span class="nx">FileExists</span><span class="p">(</span><span class="nx">file_path</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">util</span><span class="p">.</span><span class="nx">CreateFile</span><span class="p">(</span><span class="nx">file_path</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="nx">f</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nx">OpenFile</span><span class="p">(</span><span class="nx">file_path</span><span class="p">,</span> <span class="nx">os</span><span class="p">.</span><span class="nx">O_APPEND</span><span class="p">|</span><span class="nx">os</span><span class="p">.</span><span class="nx">O_WRONLY</span><span class="p">,</span> <span class="mo">0600</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">return</span> <span class="s">&quot;ファイルのオープンに失敗しました&quot;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">defer</span> <span class="nx">f</span><span class="p">.</span><span class="nx">Close</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">message</span> <span class="p">=</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">Replace</span><span class="p">(</span><span class="nx">message</span><span class="p">,</span> <span class="s">&quot;\n&quot;</span><span class="p">,</span> <span class="s">&quot; &quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">if</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">f</span><span class="p">.</span><span class="nx">WriteString</span><span class="p">(</span><span class="nx">message</span> <span class="o">+</span> <span class="s">&quot;\n&quot;</span><span class="p">);</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">return</span> <span class="s">&quot;書き込みに失敗しました&quot;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">lines</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">getList</span><span class="p">(</span><span class="nx">file_path</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">return</span> <span class="s">&quot;登録に成功しました :wink: \n 現在のタスク \n- &quot;</span> <span class="o">+</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">Join</span><span class="p">(</span><span class="nx">lines</span><span class="p">,</span> <span class="s">&quot;\n- &quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">func</span> <span class="nx">list</span><span class="p">(</span><span class="nx">channel_name</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">string</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">file_path</span> <span class="o">:=</span> <span class="nx">getStoredPath</span><span class="p">(</span><span class="nx">channel_name</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="p">!</span><span class="nx">util</span><span class="p">.</span><span class="nx">FileExists</span><span class="p">(</span><span class="nx">file_path</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">return</span> <span class="s">&quot;まだ何も書き込まれていません&quot;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">lines</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">getList</span><span class="p">(</span><span class="nx">file_path</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">return</span> <span class="s">&quot;現在のタスクです。\n気張っていきましょー :kissing_heart: \n\n- &quot;</span> <span class="o">+</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">Join</span><span class="p">(</span><span class="nx">lines</span><span class="p">,</span> <span class="s">&quot;\n- &quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">func</span> <span class="nx">del</span><span class="p">(</span><span class="nx">channel_name</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">message</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">string</span> <span class="p">{</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">del_flg</span> <span class="kt">bool</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">new_lines</span> <span class="p">[]</span><span class="kt">string</span>
+</span><span class='line'>  <span class="nx">message</span> <span class="p">=</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">Replace</span><span class="p">(</span><span class="nx">message</span><span class="p">,</span> <span class="s">&quot;\n&quot;</span><span class="p">,</span> <span class="s">&quot; &quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</span><span class='line'>  <span class="nx">file_path</span> <span class="o">:=</span> <span class="nx">getStoredPath</span><span class="p">(</span><span class="nx">channel_name</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="p">!</span><span class="nx">util</span><span class="p">.</span><span class="nx">FileExists</span><span class="p">(</span><span class="nx">file_path</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">return</span> <span class="s">&quot;まだ何も書き込まれていません&quot;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">lines</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">util</span><span class="p">.</span><span class="nx">ReadLines</span><span class="p">(</span><span class="nx">file_path</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">log</span><span class="p">.</span><span class="nx">Fatalf</span><span class="p">(</span><span class="s">&quot;readLines: %s&quot;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="nx">lines</span><span class="p">);</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">if</span> <span class="nx">lines</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">==</span> <span class="nx">message</span> <span class="p">{</span>
+</span><span class='line'>          <span class="nx">del_flg</span> <span class="p">=</span> <span class="kc">true</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="k">if</span> <span class="nx">lines</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">!=</span> <span class="nx">message</span> <span class="p">{</span>
+</span><span class='line'>          <span class="nx">new_lines</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">new_lines</span><span class="p">,</span> <span class="nx">lines</span><span class="p">[</span><span class="nx">i</span><span class="p">])</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="nx">del_flg</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nx">new_lines</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span>
+</span><span class='line'>          <span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Remove</span><span class="p">(</span><span class="nx">file_path</span><span class="p">);</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span><span class='line'>              <span class="k">return</span> <span class="s">&quot;クリアに失敗しました&quot;</span>
+</span><span class='line'>          <span class="p">}</span>
+</span><span class='line'>      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>          <span class="nx">content</span> <span class="o">:=</span> <span class="p">[]</span><span class="nb">byte</span><span class="p">(</span><span class="nx">strings</span><span class="p">.</span><span class="nx">Join</span><span class="p">(</span><span class="nx">new_lines</span><span class="p">,</span> <span class="s">&quot;\n&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s">&quot;\n&quot;</span><span class="p">)</span>
+</span><span class='line'>          <span class="nx">ioutil</span><span class="p">.</span><span class="nx">WriteFile</span><span class="p">(</span><span class="nx">file_path</span><span class="p">,</span> <span class="nx">content</span><span class="p">,</span> <span class="mo">0600</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nx">new_lines</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span> <span class="p">{</span>
+</span><span class='line'>          <span class="nx">lines</span><span class="p">,</span> <span class="nx">_</span> <span class="p">=</span> <span class="nx">getList</span><span class="p">(</span><span class="nx">file_path</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>      <span class="k">return</span> <span class="s">&quot;削除に成功しました :neutral_face: \n 残りのタスク \n- &quot;</span> <span class="o">+</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">Join</span><span class="p">(</span><span class="nx">lines</span><span class="p">,</span> <span class="s">&quot;\n- &quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">return</span> <span class="s">&quot;一致するものが見つかりませんでした&quot;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">func</span> <span class="nx">clear</span><span class="p">(</span><span class="nx">channel_name</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">string</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">file_path</span> <span class="o">:=</span> <span class="nx">getStoredPath</span><span class="p">(</span><span class="nx">channel_name</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Remove</span><span class="p">(</span><span class="nx">file_path</span><span class="p">);</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">return</span> <span class="s">&quot;クリアに失敗しました&quot;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">return</span> <span class="s">&quot;クリアしました&quot;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">func</span> <span class="nx">getStoredPath</span><span class="p">(</span><span class="nx">channel_name</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">string</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nx">STORE_DIR</span> <span class="o">+</span> <span class="s">&quot;/&quot;</span> <span class="o">+</span> <span class="nx">channel_name</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">func</span> <span class="nx">getList</span><span class="p">(</span><span class="nx">file_path</span> <span class="kt">string</span><span class="p">)</span> <span class="p">([]</span><span class="kt">string</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">lines</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">util</span><span class="p">.</span><span class="nx">ReadLines</span><span class="p">(</span><span class="nx">file_path</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">log</span><span class="p">.</span><span class="nx">Fatalf</span><span class="p">(</span><span class="s">&quot;readLines: %s&quot;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">return</span> <span class="nx">lines</span><span class="p">,</span> <span class="nx">err</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[i18nで例えば大人と子供で文言を変えたい場合]]></title>
@@ -1983,41 +2496,6 @@ application.jsで<code>//= require jquery_nested_form</code>の後に以下の�
 
 
 <p>簡単でした。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[Rails Engineを使った開発]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2015/05/19/develop-with-rails-engine/"/>
-        <updated>2015-05-19T13:09:58+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2015/05/19/develop-with-rails-engine</id>
-        <content type="html"><![CDATA[<p>一つ前に携わったプロジェクトではサブシステムがたくさんあり、それぞれがrailsで構築されていて共通処理やmodelはrails engineにあつめられ各システムで参照しておりました。</p>
-
-<p>今までgemのコードリーディングをする時にしか意識していなかったrails engineですが(deviseとかとか)、結構便利だということを今更ながら実感し、最近は共有処理をengineに書き出してそれを参照するようにしています。</p>
-
-<p>クックパッドさんでも共通部分をengineに集めているようです。<br/>
-<a href="http://techlife.cookpad.com/entry/2015/04/06/155940">新規サービスの管理画面を短期間で見栄え良く実装する</a></p>
-
-<p>ドリコムさんでは複数のengineを組み合わせてシステムを作っているようです。<br/>
-<a href="http://blog.onk.ninja/2014/12/02/mountable_engine.html">Mountable Engine だらけの Rails アプリ開発</a></p>
-
-<!-- more -->
-
-
-<p>でも完全に共通に作ろうとすると色々考えなきゃいけないから工数がかかっちゃうんじゃないかと懸念があるかもしれません。<br/>
-でも最初はそこまで共通化する必要もないのではないのかと思います。</p>
-
-<p>git使っていれば、システムの納品段階でengineのブランチを切るなりタグを打つなりして機能を固定してしまえばいいのです。<br/>
-そうすれば、今後engineに修正が加わってもGemfileで該当のブランチまたはタグを見るようにすれば問題なく納品段階のengineのコードでシステムは動き続けます。<br/>
-その後時間をおいてゆっくりとプロジェクトに依存したコードを共通化していけばいいのです。</p>
-
-<p>これを応用してめったにやらない処理であんまり入れなたくないような機能や、<br/>
-モンキーパッチなども参照元のプロジェクト単位でengineをカスタマイズして導入することもできます。</p>
-
-<p>そして共通化した処理を書くことはいつもより有益なことをしてる気持ちで仕事ができるので楽しいです。<br/>
-engine固有の仕組みや書き方もあって最初は中々辛い部分もありますが、
-engineを使ったことのない方は決まり切った処理をコピぺで過去のプロジェクトから持ってくるのではなく、
-その処理をengineに書き出してそれをプロジェクトから参照してみてはいかがでしょうか？</p>
 ]]></content>
     </entry>
     

@@ -23,6 +23,7 @@
         
         <link href="/favicon.png" rel="icon">
         <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet">
+        <link href="/stylesheets/data-table.css" rel="stylesheet" type="text/css" />
         <link href="/atom.xml" rel="alternate" title="なんとなく日々徒然と" type="application/atom+xml">
     </head>
 
@@ -76,6 +77,79 @@
                 <div class="col-xs-12 col-sm-10 col-md-8 col-lg-8">
                 
                         
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
+            <a href="/blog/2014/07/31/20140731131925/">Facebookとのアプリの連携を解除する</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2014-07-31T13:19:00+09:00" pubdate><i class="fa fa-calendar"></i> Jul 31st, 2014</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/php/'>php</a></li>
+            
+                <li><a class='category' href='/blog/categories/facebook/'>facebook</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>調べてみたら自分所のDBからFacebookの情報を消すだけのものが多くて、大元のFacebookのアプリ設定から削除するのがあんまり載ってなかったようなきがするので</p>
+
+<p>以下の感じで、連携解除ができます。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vg">$facebook</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">Facebook</span><span class="p">(</span><span class="n">array</span><span class="p">(</span>
+</span><span class='line'><span class="s1">&#39;appId&#39;</span> <span class="o">=&gt;</span> <span class="err">アプリの</span><span class="n">app_id</span><span class="p">,</span>
+</span><span class='line'><span class="s1">&#39;secret&#39;</span> <span class="o">=&gt;</span> <span class="err">アプリの</span><span class="n">app_secret</span>
+</span><span class='line'><span class="p">));</span>
+</span><span class='line'>
+</span><span class='line'><span class="vg">$facebook</span><span class="o">-&gt;</span><span class="n">api</span><span class="p">(</span><span class="s2">&quot;/me/permissions&quot;</span><span class="p">,</span> <span class="s2">&quot;delete&quot;</span><span class="p">,</span> <span class="n">array</span><span class="p">(</span><span class="s1">&#39;access_token&#39;</span> <span class="o">=&gt;</span> <span class="err">ユーザーのアクセストークン</span><span class="p">));</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>珍しくPHPでした。</p>
+
+
+
+        </article>
+        <hr>
     
         
         <article class="article article--index">
@@ -1370,96 +1444,6 @@ CTRL + Z
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2013/12/11/20131211200817/">変数の初期化</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2013-12-11T20:08:00+09:00" pubdate><i class="fa fa-calendar"></i> Dec 11th, 2013</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>clearなんてあったんや。<br/>
-<a href="http://ref.xaio.jp/ruby/classes/array/clear">http://ref.xaio.jp/ruby/classes/array/clear</a></p>
-
-<p>今まで</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">array</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;hoge&quot;</span><span class="p">,</span> <span class="s2">&quot;fuga&quot;</span><span class="o">]</span>
-</span><span class='line'><span class="n">array</span> <span class="o">=</span> <span class="o">[]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>ってやってたのが、</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">array</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;hoge&quot;</span><span class="p">,</span> <span class="s2">&quot;fuga&quot;</span><span class="o">]</span>
-</span><span class='line'><span class="n">array</span><span class="o">.</span><span class="n">clear</span> <span class="c1"># =&gt; []</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>って書ける。より直感的ですね。</p>
-
-<p>ちなみに文字列もHashもあるみたいです。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">hash</span> <span class="o">=</span> <span class="p">{</span><span class="ss">hoge</span><span class="p">:</span> <span class="s2">&quot;fuga&quot;</span><span class="p">}</span>
-</span><span class='line'><span class="nb">hash</span><span class="o">.</span><span class="n">clear</span> <span class="c1"># {}</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">str</span> <span class="o">=</span> <span class="s2">&quot;fugafufa&quot;</span>
-</span><span class='line'><span class="n">str</span><span class="o">.</span><span class="n">clar</span> <span class="c1"># =&gt; &quot;&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>へー。</p>
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -1523,6 +1507,10 @@ CTRL + Z
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2015/11/10/slack-todo-bot/">Go言語を使ってローカルマシン上でbotを動かしSlackでtodo管理をする</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2015/10/28/inject-identifier-from-context/">i18nで例えば大人と子供で文言を変えたい場合</a>
         </li>
         
@@ -1536,10 +1524,6 @@ CTRL + Z
         
         <li class="post">
             <a href="/blog/2015/08/27/vagrant-mysql/">VagrantとItamaeを使って5分でmysqlサーバー構築</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2015/07/28/axlsx-diagonal-border/">Axlsxでセルの中の斜線を引く</a>
         </li>
         
     </ul>

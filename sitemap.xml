@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://yoshitsugufujii.github.io/blog/2015/11/10/slack-todo-bot/</loc>
+    <lastmod>2015-11-10T20:29:05+09:00</lastmod>
+  </url>
+  <url>
     <loc>http://yoshitsugufujii.github.io/blog/2015/10/28/inject-identifier-from-context/</loc>
     <lastmod>2015-10-28T20:41:26+09:00</lastmod>
   </url>
@@ -590,22 +594,22 @@
   </url>
   <url>
     <loc>http://yoshitsugufujii.github.io/blog/</loc>
-    <lastmod>2015-10-28T21:46:37+09:00</lastmod>
+    <lastmod>2015-11-10T20:41:53+09:00</lastmod>
   </url>
   <url>
     <loc>http://yoshitsugufujii.github.io/blog/archives/</loc>
-    <lastmod>2015-10-28T21:46:37+09:00</lastmod>
+    <lastmod>2015-11-10T20:41:53+09:00</lastmod>
   </url>
   <url>
     <loc>http://yoshitsugufujii.github.io/archives/</loc>
-    <lastmod>2015-10-28T21:46:37+09:00</lastmod>
+    <lastmod>2015-11-10T20:41:53+09:00</lastmod>
   </url>
   <url>
     <loc>http://yoshitsugufujii.github.io/</loc>
-    <lastmod>2015-10-28T21:46:37+09:00</lastmod>
+    <lastmod>2015-11-10T20:41:53+09:00</lastmod>
   </url>
   <url>
     <loc>http://yoshitsugufujii.github.io/profile/</loc>
-    <lastmod>2015-10-28T21:46:37+09:00</lastmod>
+    <lastmod>2015-11-10T20:41:53+09:00</lastmod>
   </url>
 </urlset>
