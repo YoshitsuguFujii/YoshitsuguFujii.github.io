@@ -1,0 +1,488 @@
+<!doctype html>
+    <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+    <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+    <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+    <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+
+    
+      
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>リーダブルコードを意識しながら普段気をつけていること(1) - なんとなく日々徒然と</title>
+        <meta name="author" content="Yoshitsugu Fujii">
+        
+        <meta name="description" content="ruby rails French Bulldog surfing aqualist">
+        
+        <meta name="viewport" content="width=device-width">
+        <link rel="canonical" href="http://yoshitsugufujii.github.io/blog/2015/11/18/readable-code-1">
+
+        <link href='http://fonts.googleapis.com/css?family=Droid+Serif:400,400italic' rel='stylesheet' type='text/css'>
+        <link href="http://fonts.googleapis.com/css?family=Droid+Sans" rel="stylesheet" type="text/css">
+
+        
+        <link href="/favicon.png" rel="icon">
+        <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet">
+        <link href="/stylesheets/data-table.css" rel="stylesheet" type="text/css" />
+        <link href="/atom.xml" rel="alternate" title="なんとなく日々徒然と" type="application/atom+xml">
+    </head>
+
+
+    <body >
+
+        <header id="header">
+    <div class="row">
+    <div class="col-xs-12 col-sm-8 col-md-4">
+        <a href="/" class="site-title">なんとなく日々徒然と</a>
+    </div>
+    <div class="col-xs-12 col-sm-4 col-md-8">
+        <nav>
+    <input type="checkbox" id="toggle">
+    <label for="toggle" class="toggle" data-open="Main Menu" data-close="Close Menu"></label>
+    <ul class="menu">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/profile/">Profile</a></li>
+</ul>
+
+</nav>
+
+    </div>
+</div>
+
+</header>
+
+
+        <div id="main-content">
+
+            <!--[if lte IE 9]>
+<div class="row upgrade-row">
+    <div class="col-lg-12">
+        <div class="upgrade">
+            <i class="upgrade__icon fa fa-warning"></i>
+            <h1 class="upgrade__title h6">Ohnoes!</h1>
+            <p class="upgrade__text">
+                Unfortunately, certain parts of this site may not display correctly in your version of Internet Explorer!<br>
+                If possible, you should consider <a href="http://browsehappy.com/">upgrading your browser</a>.
+            </p>
+        </div>
+    </div>
+</div>
+<!-- <![endif]-->
+
+
+            
+
+            <div class="row top-xs center-sm center-md center-lg site-wrapper">
+                
+                <div class="col-xs-12 col-sm-10 col-md-8 col-lg-8">
+                
+                    <article class="article article--single">
+    <header class="article__header">
+    
+        <h1 class="article__title">リーダブルコードを意識しながら普段気をつけていること(1)</h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2015-11-18T11:33:53+09:00" pubdate><i class="fa fa-calendar"></i> Nov 18th, 2015</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+
+            
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+                <li><a class='category' href='/blog/categories/readable-code/'>readable code</a></li>
+            
+        
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>初のシリーズもの。不定期開催します。<br/>
+普段コードを書く時にリーダブルなコードを書く時に気をつけていることです。<br/>
+思いついたら書いていきます。</p>
+
+<p>第１回目は</p>
+
+<p><strong>コンテキストを作る</strong></p>
+
+<!-- more -->
+
+
+<p>例えばcsvアップロード機能・ダウンロード機能を作ったときに以下のようなメソッドがあるとします。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Hoge</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">download</span>
+</span><span class='line'>    <span class="n">header</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">upload</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kp">private</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">header</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ここでのheaderメソッドはcsvダウンロード時にヘッダを作るメソッドとします。</p>
+
+<p>初めてソースを見た人はheaderメソッドを見ただけではそれがアップロードに使われるのかダウンロードに使われるのかわかりません。<br/>
+downloadメソッドもしくはuploadメソッドを読んではじめてどちらで使えるかわかるようになるかと思います。</p>
+
+<p>これを両方のメソッドを読まずにheaderメソッドがどこで必要とされているかを一発でわかるようにしたいと思います。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Hoge</span>
+</span><span class='line'>  <span class="k">module</span> <span class="nn">Download</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">download</span>
+</span><span class='line'>      <span class="n">header</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">header</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">module</span> <span class="nn">Upload</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">upload</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">Download</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">Upload</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>機能毎(あるいは関心ごと)にメソッドをmoduleを使って閉じ込めることで、<br/>
+headerメソッドがどこで必要となるか一発でわかるようになりました。</p>
+
+<p>またdownloadに不具合があった場合にはDownloadモジュールだけを読めばいいようになったため、読まなければいけないソースは格段に減ってコードリーディングする人の負担もだいぶ軽くなったのではないでしょうか？</p>
+
+<p>今回は簡単な例ということでclassの中にmoduleを書いてしまいましたが、<br/>
+moduleの処理が大きくなる場合にはもちろんファイル分割 &amp; 適切にクラス分割して記述するべきだと思います。</p>
+
+
+
+</article>
+
+
+  <div class="share social_box clearfix">
+    <ul class="social">
+      
+  <li class="pocket">
+    <a data-pocket-label="pocket" data-pocket-count="horizontal" class="pocket-btn" data-lang="en"></a>
+    <script type="text/javascript">!function(d,i){if(!d.getElementById(i)){var j=d.createElement("script");j.id=i;j.src="https://widgets.getpocket.com/v1/j/btn.js?v=1";var w=d.getElementById(i);d.body.appendChild(j);}}(document,"pocket-btn-js");</script>
+  </li>
+
+
+
+      <li class="hatena">
+  <a href="http://b.hatena.ne.jp/entry/yoshitsugufujii.github.io/" class="hatena-bookmark-button" data-hatena-bookmark-title="なんとなく日々徒然と" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加"><img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a>
+  <script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+</li>
+
+      <li class="twitter">
+<a class="twitter-share-button" href="https://twitter.com/share?text=リーダブルコードを意識しながら普段気をつけていること(1) by @YoshitsuguFujii&url=http://yoshitsugufujii.github.io/blog/2015/11/18/readable-code-1/"> Tweet </a>
+<script>
+  window.twttr=(function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return;js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);t._e=[];t.ready=function(f){t._e.push(f);};return t;}(document,"script","twitter-wjs"));
+</script>
+</li>
+
+      <li class="facebook">
+  <div class="fb-like" data-href="http://yoshitsugufujii.github.io/" data-layout="button_count" data-action="like" data-show-faces="true" data-share="false"></div>
+  <div id="fb-root"></div>
+  <script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/ja_JP/sdk.js#xfbml=1&version=v2.0";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));</script>
+</li>
+
+    </ul>
+  </div>
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- GitfubPage -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-7039502723411845"
+     data-ad-slot="5600809613"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+<section id="disqus">
+    <h1 class="disqus__title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+
+
+                </div>
+
+                
+                <aside class="sidebar col-xs-12 col-md-4 col-lg-4">
+                    <div class="row">
+
+    
+
+    
+  <section class="social col-xs-12 col-sm-6 col-md-12">
+    <h1>Site Search</h1>
+    <form action="https://www.google.com/search" method="get">
+      <div class="input-prepend">
+        <input type="hidden" name="sitesearch" value="yoshitsugufujii.github.io">
+        <span class="add-on"><i class="fa fa-search"></i></span>
+        <input class="search-query" type="text" name="q" results="0" placeholder="Search"/>
+      </div>
+    </form>
+  </section>
+
+
+
+    
+<section class="social col-xs-12 col-sm-6 col-md-12">
+    <h1>
+        Follow me!
+    </h1>
+    <ul class="unstyled">
+        
+        
+        
+        <li><a class="facebook" href="//facebook.com/fujiiyoshitsugu"><i class="fa fa-facebook-square"></i> Facebook</a></li>
+        <li><a class="github" href="//github.com/YoshitsuguFujii"><i class="fa fa-github"></i> Github</a></li>
+        
+        
+        
+        
+        
+        
+        
+        <li><a class="twitter" href="//twitter.com/YoshitsuguFujii"><i class="fa fa-twitter"></i> Twitter</a></li>
+        
+    </ul>
+</section>
+
+
+
+    <section id="recent-posts" class="col-xs-12 col-sm-6 col-md-12">
+    <h1>Recent Posts</h1>
+    <ul class="divided">
+        
+        <li class="post">
+            <a href="/blog/2015/11/18/readable-code-1/">リーダブルコードを意識しながら普段気をつけていること(1)</a>
+        </li>
+        
+        <li class="post">
+            <a href="/blog/2015/11/10/slack-todo-bot/">Go言語を使ってローカルマシン上でbotを動かしSlackでtodo管理をする</a>
+        </li>
+        
+        <li class="post">
+            <a href="/blog/2015/10/28/inject-identifier-from-context/">i18nで例えば大人と子供で文言を変えたい場合</a>
+        </li>
+        
+        <li class="post">
+            <a href="/blog/2015/10/16/set-cookie-with-faraday-or-httparty/">FaradayとHttpartyでクッキーを付与したい場合</a>
+        </li>
+        
+        <li class="post">
+            <a href="/blog/2015/09/04/golang-bot-for-slack/">Go言語を使ってローカルマシンに簡易botを作ってSlackに投稿</a>
+        </li>
+        
+    </ul>
+</section>
+
+<section id="github-repos" class="col-xs-12 col-sm-6 col-md-12">
+    <h1>
+        GitHub Repos
+        
+        <small class="pull-right">
+            <a class="btn" href="//github.com/YoshitsuguFujii" title="@YoshitsuguFujii on GitHub" target="_blank">
+                <i class="fa fa-external-link"></i>
+            </a>
+        </small>
+        
+    </h1>
+    <ul id="gh_repos" class="divided">
+        <li class="loading">
+            <i class="fa fa-spinner fa-spin"></i>
+        </li>
+    </ul>
+</section>
+
+
+
+
+
+<section id="twitter-timeline" class="col-xs-12 col-sm-6 col-md-12">
+    <h1>
+        Latest Tweets
+        
+        <small class="pull-right">
+            <a class="btn" href="//twitter.com/YoshitsuguFujii" title="@YoshitsuguFujii on Twitter" target="_blank">
+                <i class="fa fa-external-link"></i>
+            </a>
+        </small>
+        
+    </h1>
+
+    <a class="twitter-timeline" data-dnt="true" href="//twitter.com/YoshitsuguFujii"  data-widget-id="574397323830132736"  data-link-color="#049cdb" data-tweet-limit="" data-chrome="noheader nofooter transparent noscrollbar">Tweets by @YoshitsuguFujii</a>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+</section>
+
+
+
+</div>
+
+                </aside>
+                
+            </div>
+        </div>
+
+        
+
+    
+    
+
+
+
+
+<footer class="footer">
+    <div class="row middle-xs">
+        
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <p class="footer__copyright">
+    All content copyright Yoshitsugu Fujii.<br>
+    Code under <a href="//github.com/coogie/oscailte/blob/master/README.md">MIT Licence</a>.
+</p>
+
+        </div>
+        
+        
+    </div>
+</footer>
+
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+<script src="//crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script>
+<script defer src="/javascripts/octopress.js"></script>
+
+
+<script>
+    var _gaq=[['_setAccount','UA-16496422-4'],['_trackPageview']];
+    (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+    g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+    s.parentNode.insertBefore(g,s)}(document,'script'));
+</script>
+
+
+
+<script>
+    var disqus_shortname = 'yoshitsugufujii';
+    
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://yoshitsugufujii.github.io/blog/2015/11/18/readable-code-1/';
+        var disqus_url = 'http://yoshitsugufujii.github.io/blog/2015/11/18/readable-code-1/';
+        var disqus_script = 'embed.js';
+    
+    (function () {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+<script>
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'YoshitsuguFujii',
+            count: 3,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+</script>
+<script src="/javascripts/github.js"></script>
+
+
+
+
+
+
+
+    </body>
+
+</html>

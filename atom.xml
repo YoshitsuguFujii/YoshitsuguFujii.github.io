@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2015-11-10T20:41:53+09:00</updated>
+    <updated>2015-11-18T19:58:53+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,107 @@
     </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[リーダブルコードを意識しながら普段気をつけていること(1)]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2015/11/18/readable-code-1/"/>
+        <updated>2015-11-18T11:33:53+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2015/11/18/readable-code-1</id>
+        <content type="html"><![CDATA[<p>初のシリーズもの。不定期開催します。<br/>
+普段コードを書く時にリーダブルなコードを書く時に気をつけていることです。<br/>
+思いついたら書いていきます。</p>
+
+<p>第１回目は</p>
+
+<p><strong>コンテキストを作る</strong></p>
+
+<!-- more -->
+
+
+<p>例えばcsvアップロード機能・ダウンロード機能を作ったときに以下のようなメソッドがあるとします。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Hoge</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">download</span>
+</span><span class='line'>    <span class="n">header</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">upload</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kp">private</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">header</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ここでのheaderメソッドはcsvダウンロード時にヘッダを作るメソッドとします。</p>
+
+<p>初めてソースを見た人はheaderメソッドを見ただけではそれがアップロードに使われるのかダウンロードに使われるのかわかりません。<br/>
+downloadメソッドもしくはuploadメソッドを読んではじめてどちらで使えるかわかるようになるかと思います。</p>
+
+<p>これを両方のメソッドを読まずにheaderメソッドがどこで必要とされているかを一発でわかるようにしたいと思います。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Hoge</span>
+</span><span class='line'>  <span class="k">module</span> <span class="nn">Download</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">download</span>
+</span><span class='line'>      <span class="n">header</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">header</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">module</span> <span class="nn">Upload</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">upload</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">Download</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">Upload</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>機能毎(あるいは関心ごと)にメソッドをmoduleを使って閉じ込めることで、<br/>
+headerメソッドがどこで必要となるか一発でわかるようになりました。</p>
+
+<p>またdownloadに不具合があった場合にはDownloadモジュールだけを読めばいいようになったため、読まなければいけないソースは格段に減ってコードリーディングする人の負担もだいぶ軽くなったのではないでしょうか？</p>
+
+<p>今回は簡単な例ということでclassの中にmoduleを書いてしまいましたが、<br/>
+moduleの処理が大きくなる場合にはもちろんファイル分割 &amp; 適切にクラス分割して記述するべきだと思います。</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[Go言語を使ってローカルマシン上でbotを動かしSlackでtodo管理をする]]></title>
@@ -2394,108 +2495,6 @@ refinementsはかなり厳密なスコープで動くようです。</p>
 
 
 <p>知ってると簡単ですが、知らないとはまりますね。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[nested_formで下じゃなくて上に要素を追加したい場合]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2015/05/20/nested-form-add-field-to-top/"/>
-        <updated>2015-05-20T18:03:26+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2015/05/20/nested-form-add-field-to-top</id>
-        <content type="html"><![CDATA[<p>neste_formは可変なサイズの子要素を動的に追加できるGemです。</p>
-
-<p><a href="https://github.com/ryanb/nested_for://github.com/ryanb/nested_form">nested form</a></p>
-
-<p>いつも大変お世話になっておりますが、今回の案件で追加する先を指定したエレメントの下ではなく上に追加しなければいけなくなり対応しました。</p>
-
-<!-- more -->
-
-
-<p>バージョンは</p>
-
-<figure class='code'><figcaption><span>Gemfile.lock</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">nested_form</span> <span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">3</span><span class="o">.</span><span class="mi">2</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>での作業となります。</p>
-
-<p>ますnested_formで使われるjsを眺めるとそんなに長くない処理であることがわかります。<br/>
-その中で追加ボタンを押したときに要素を追加する部分はこの辺りになるようです。</p>
-
-<figure class='code'><figcaption><span>jquery_nested_form:55行目あたり</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">insertFields</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">content</span><span class="p">,</span> <span class="nx">assoc</span><span class="p">,</span> <span class="nx">link</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="kd">var</span> <span class="nx">target</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="nx">link</span><span class="p">).</span><span class="nx">data</span><span class="p">(</span><span class="s1">&#39;target&#39;</span><span class="p">);</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="nx">target</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">return</span> <span class="nx">$</span><span class="p">(</span><span class="nx">content</span><span class="p">).</span><span class="nx">appendTo</span><span class="p">(</span><span class="nx">$</span><span class="p">(</span><span class="nx">target</span><span class="p">));</span>
-</span><span class='line'>  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">return</span> <span class="nx">$</span><span class="p">(</span><span class="nx">content</span><span class="p">).</span><span class="nx">insertBefore</span><span class="p">(</span><span class="nx">link</span><span class="p">);</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">},</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>ここを上書きします。 <br/>
-application.jsで<code>//= require jquery_nested_form</code>の後に以下の処理を書いて上書きしちゃいましよう。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nb">window</span><span class="p">.</span><span class="nx">NestedFormEvents</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">insertFields</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">content</span><span class="p">,</span> <span class="nx">assoc</span><span class="p">,</span> <span class="nx">link</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="kd">var</span> <span class="nx">target</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="nx">link</span><span class="p">).</span><span class="nx">data</span><span class="p">(</span><span class="s1">&#39;target&#39;</span><span class="p">);</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="nx">$</span><span class="p">(</span><span class="nx">link</span><span class="p">).</span><span class="nx">data</span><span class="p">(</span><span class="s1">&#39;destination&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;prepend&quot;</span><span class="p">){</span>
-</span><span class='line'>    <span class="k">return</span> <span class="nx">$</span><span class="p">(</span><span class="nx">target</span><span class="p">).</span><span class="nx">prepend</span><span class="p">(</span><span class="nx">$</span><span class="p">(</span><span class="nx">content</span><span class="p">));</span>
-</span><span class='line'>  <span class="p">}</span><span class="k">else</span><span class="p">{</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="nx">target</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>      <span class="k">return</span> <span class="nx">$</span><span class="p">(</span><span class="nx">content</span><span class="p">).</span><span class="nx">appendTo</span><span class="p">(</span><span class="nx">$</span><span class="p">(</span><span class="nx">target</span><span class="p">));</span>
-</span><span class='line'>    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span><span class='line'>      <span class="k">return</span> <span class="nx">$</span><span class="p">(</span><span class="nx">content</span><span class="p">).</span><span class="nx">insertBefore</span><span class="p">(</span><span class="nx">link</span><span class="p">);</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>linkのdata-destination=prependで対象の要素の上にprependで追加されるイメージです。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;table id=&quot;tasks&quot;&gt;</span>
-</span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">fields_for</span> <span class="ss">:tasks</span><span class="p">,</span> <span class="ss">:wrapper</span> <span class="o">=&gt;</span> <span class="kp">false</span> <span class="k">do</span> <span class="o">|</span><span class="n">task_form</span><span class="o">|</span> <span class="cp">%&gt;</span><span class="x"></span>
-</span><span class='line'><span class="x">    &lt;tr class=&quot;fields&quot;&gt;</span>
-</span><span class='line'><span class="x">      &lt;td&gt;</span><span class="cp">&lt;%=</span> <span class="n">task_form</span><span class="o">.</span><span class="n">text_field</span> <span class="ss">:name</span> <span class="cp">%&gt;</span><span class="x">&lt;/td&gt;</span>
-</span><span class='line'><span class="x">      &lt;td&gt;</span><span class="cp">&lt;%=</span> <span class="n">task_form</span><span class="o">.</span><span class="n">link_to_remove</span> <span class="s2">&quot;Remove this task&quot;</span> <span class="cp">%&gt;</span><span class="x">&lt;/td&gt;</span>
-</span><span class='line'><span class="x">    &lt;/tr&gt;</span>
-</span><span class='line'><span class="x">  </span><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
-</span><span class='line'><span class="x">&lt;/table&gt;</span>
-</span><span class='line'><span class="x">&lt;p&gt;</span><span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">link_to_add</span> <span class="s2">&quot;Add a task&quot;</span><span class="p">,</span> <span class="ss">:tasks</span><span class="p">,</span> <span class="ss">:data</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">:target</span> <span class="o">=&gt;</span> <span class="s2">&quot;#tasks&quot;</span><span class="p">,</span> <span class="ss">:prepend</span> <span class="o">=&gt;</span> <span class="kp">true</span> <span class="p">}</span> <span class="cp">%&gt;</span><span class="x">&lt;/p&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>簡単でした。</p>
 ]]></content>
     </entry>
     

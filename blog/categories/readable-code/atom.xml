@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+    <title><![CDATA[Category: readable code | なんとなく日々徒然と]]></title>
+    <link href="http://yoshitsugufujii.github.io/blog/categories/readable-code/atom.xml" rel="self"/>
+    <link href="http://yoshitsugufujii.github.io/"/>
+    <updated>2015-11-18T19:58:53+09:00</updated>
+    <id>http://yoshitsugufujii.github.io/</id>
+    <author>
+        <name><![CDATA[Yoshitsugu Fujii]]></name>
+        
+      </author>
+    <generator uri="http://octopress.org/">Octopress</generator>
+
+    
+    <entry>
+        <title type="html"><![CDATA[リーダブルコードを意識しながら普段気をつけていること(1)]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2015/11/18/readable-code-1/"/>
+        <updated>2015-11-18T11:33:53+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2015/11/18/readable-code-1</id>
+        <content type="html"><![CDATA[<p>初のシリーズもの。不定期開催します。<br/>
+普段コードを書く時にリーダブルなコードを書く時に気をつけていることです。<br/>
+思いついたら書いていきます。</p>
+
+<p>第１回目は</p>
+
+<p><strong>コンテキストを作る</strong></p>
+
+<!-- more -->
+
+
+<p>例えばcsvアップロード機能・ダウンロード機能を作ったときに以下のようなメソッドがあるとします。</p>
+
+<pre><code class="ruby">class Hoge
+  def download
+    header
+  end
+
+  def upload
+  end
+
+  private
+  def header
+  end
+end
+</code></pre>
+
+<p>ここでのheaderメソッドはcsvダウンロード時にヘッダを作るメソッドとします。</p>
+
+<p>初めてソースを見た人はheaderメソッドを見ただけではそれがアップロードに使われるのかダウンロードに使われるのかわかりません。<br/>
+downloadメソッドもしくはuploadメソッドを読んではじめてどちらで使えるかわかるようになるかと思います。</p>
+
+<p>これを両方のメソッドを読まずにheaderメソッドがどこで必要とされているかを一発でわかるようにしたいと思います。</p>
+
+<pre><code class="ruby">class Hoge
+  module Download
+    def download
+      header
+    end
+
+    def header
+    end
+  end
+
+  module Upload
+    def upload
+    end
+  end
+
+  include Download
+  include Upload
+end
+</code></pre>
+
+<p>機能毎(あるいは関心ごと)にメソッドをmoduleを使って閉じ込めることで、<br/>
+headerメソッドがどこで必要となるか一発でわかるようになりました。</p>
+
+<p>またdownloadに不具合があった場合にはDownloadモジュールだけを読めばいいようになったため、読まなければいけないソースは格段に減ってコードリーディングする人の負担もだいぶ軽くなったのではないでしょうか？</p>
+
+<p>今回は簡単な例ということでclassの中にmoduleを書いてしまいましたが、<br/>
+moduleの処理が大きくなる場合にはもちろんファイル分割 &amp; 適切にクラス分割して記述するべきだと思います。</p>
+]]></content>
+    </entry>
+    
+</feed>
