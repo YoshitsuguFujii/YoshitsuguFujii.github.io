@@ -4,7 +4,7 @@
     <title><![CDATA[Category: ruby | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/ruby/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2015-11-18T19:58:53+09:00</updated>
+    <updated>2015-12-02T20:21:11+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,59 @@
       </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[リーダブルコードを意識しながら普段気をつけていること(2)]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2015/11/18/readable-code-2/"/>
+        <updated>2015-11-18T11:33:53+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2015/11/18/readable-code-2</id>
+        <content type="html"><![CDATA[<p>普段コードを書く時にリーダブルなコードを書く時に気をつけていることです。<br/>
+第１回目は<a href="http://yoshitsugufujii.github.io/blog/2015/11/18/readable-code-1/">コンテキストを作る</a>でした</p>
+
+<p>第２回目は</p>
+
+<p><strong>早めにパターンを潰す</strong></p>
+
+<!-- more -->
+
+
+<p>何かの処理を追うときおそらく上から順に処理を追って読んでいくと思います。</p>
+
+<p>読み進める中でユーザがタイプAのユーザだったらどうなのか、利用停止中のユーザだったらどうなるのかということがふと疑問に浮かんだりします。<br/>
+その際に読み手は頭の片隅にその疑問を一時格納していて、その処理が書かれているところまで気にしながら読み進むわけです。<br/>
+そうなると考慮されていない場合などは最後まで読まなければわかりません。</p>
+
+<p>この疑問を頭の片隅に仮置きしながらコードを読むのはかなりのエネルギーを使うし、ストレスだったりします(少なくとも僕は)<br/>
+しかもそれが複雑なシステムでいくつものパターンがある場合は気にしなきゃいけないパターンが膨大になります。</p>
+
+<p>なので読み手の負担にならないように、なるべくパターンは早い段階でリターンするといいですね。</p>
+
+<pre><code class="ruby">class User
+  def hard_work
+    return unless user.new_commer?
+    return unless user.project.burning?
+    return unless user.shachiku?
+
+    # 永遠と続くハードワークの長い記述
+    do_work(holiday: false)
+    do_work(holiday: false)
+    do_work(holiday: false)
+    do_work(holiday: false)
+    do_work(holiday: false)
+    do_work(holiday: false)
+    do_work(holiday: false)
+    do_work(holiday: false)
+    do_work(holiday: false)
+  end
+end
+</code></pre>
+
+<p>早い段階で新人と社畜とプロジェクトが炎上していない限りはハードワークは必要ないというのがわかりますね。 <br/>
+ないとメソッドの最後まで読まないと新人がハードワークしなきゃいけないのかとハラハラしなきゃいけなくなります。</p>
+
+<p>こういう書き方になれると、例えばどこかで新人が精神を病むような強烈な重労働を強いられているという不具合が上がってきた時にもhard_workメソッドは最初に新人はreturnしているので、すぐにここには不具合がないということもわかります。</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[リーダブルコードを意識しながら普段気をつけていること(1)]]></title>
@@ -328,52 +381,6 @@ sheet.add_row(['斜め線をひく'], style: diagonal_style)
 
 package.serialize('test.xlsx')
 </code></pre>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[Axlsxで縦書き]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2015/07/27/orientation-xlvertical-with-axlsx/"/>
-        <updated>2015-07-27T18:19:53+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2015/07/27/orientation-xlvertical-with-axlsx</id>
-        <content type="html"><![CDATA[<p>Axlsxでセルの内容を縦書きにする方法がわかったので日記に記します。<br/>
-セルに角度を付ける方法は見つかったんですが、縦書きにする方法が全然見つからずかなりはまりました。</p>
-
-<!-- more -->
-
-
-<p>VBAだと縦書きはこう設定できますね。</p>
-
-<pre><code class="vbnet">Range("D2").Orientation = xlVertical  
-</code></pre>
-
-<p>色々と調べて、xlVerticalの値である-4166をセットしていしてみたりしましたがなかなかうまくゆかず。<br/>
-色々と検索して、最終的にcellXfsというキーワードからなぜか<a href="http://bbs.wankuma.com/index.cgi?mode=al2&amp;namber=5358&amp;KLOG=15">C# vb.netの質問掲示板</a>で発見しましした(圧倒的感謝!)<br/>
-textRotationを255を指定すればいけるそうです。</p>
-
-<pre><code class="ruby">require 'axlsx'
-
-package = Axlsx::Package.new
-sheet = package.workbook.add_worksheet(name: 'lists')
-
-vertical_text = sheet.styles.add_style(
-    {
-      alignment: { 
-        horizontal: :center,
-        vertical: :center ,
-        textRotation: 255
-      }
-    }
-)
-
-sheet.add_row(['とっても長いテキスト', '短いテキスト'], style: vertical_text)
-
-package.serialize('test.xlsx')
-</code></pre>
-
-<p>できないのかもと本気で諦めかけていたので出来た時には変な声がでてしまいました。</p>
-
-<p><img src="/images/blog/2015-07-27.png" alt="Axlsx Orientaion xlVertical" /></p>
 ]]></content>
     </entry>
     

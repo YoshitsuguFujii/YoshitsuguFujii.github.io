@@ -9,13 +9,13 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>nilガードとifを組み合わせてみた - なんとなく日々徒然と</title>
+        <title>リーダブルコードを意識しながら普段気をつけていること(2) - なんとなく日々徒然と</title>
         <meta name="author" content="Yoshitsugu Fujii">
         
         <meta name="description" content="ruby rails French Bulldog surfing aqualist">
         
         <meta name="viewport" content="width=device-width">
-        <link rel="canonical" href="http://yoshitsugufujii.github.io/blog/2012/03/02/20120302132903">
+        <link rel="canonical" href="http://yoshitsugufujii.github.io/blog/2015/11/18/readable-code-2">
 
         <link href='http://fonts.googleapis.com/css?family=Droid+Serif:400,400italic' rel='stylesheet' type='text/css'>
         <link href="http://fonts.googleapis.com/css?family=Droid+Sans" rel="stylesheet" type="text/css">
@@ -79,7 +79,7 @@
                     <article class="article article--single">
     <header class="article__header">
     
-        <h1 class="article__title">nilガードとifを組み合わせてみた</h1>
+        <h1 class="article__title">リーダブルコードを意識しながら普段気をつけていること(2)</h1>
     
 
     
@@ -91,7 +91,7 @@
 
 
 
-    <time class="article__date pull-left" datetime="2012-03-02T13:29:00+09:00" pubdate><i class="fa fa-calendar"></i> Mar 2nd, 2012</time>
+    <time class="article__date pull-left" datetime="2015-11-18T11:33:53+09:00" pubdate><i class="fa fa-calendar"></i> Nov 18th, 2015</time>
 
 
 
@@ -106,6 +106,8 @@
             
                 <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
             
+                <li><a class='category' href='/blog/categories/readable-code/'>readable code</a></li>
+            
         
         </ul>
     </div>
@@ -119,7 +121,26 @@
 
 
 
-    <p>こんな風にかける。</p>
+    <p>普段コードを書く時にリーダブルなコードを書く時に気をつけていることです。<br/>
+第１回目は<a href="http://yoshitsugufujii.github.io/blog/2015/11/18/readable-code-1/">コンテキストを作る</a>でした</p>
+
+<p>第２回目は</p>
+
+<p><strong>早めにパターンを潰す</strong></p>
+
+<!-- more -->
+
+
+<p>何かの処理を追うときおそらく上から順に処理を追って読んでいくと思います。</p>
+
+<p>読み進める中でユーザがタイプAのユーザだったらどうなのか、利用停止中のユーザだったらどうなるのかということがふと疑問に浮かんだりします。<br/>
+その際に読み手は頭の片隅にその疑問を一時格納していて、その処理が書かれているところまで気にしながら読み進むわけです。<br/>
+そうなると考慮されていない場合などは最後まで読まなければわかりません。</p>
+
+<p>この疑問を頭の片隅に仮置きしながらコードを読むのはかなりのエネルギーを使うし、ストレスだったりします(少なくとも僕は)<br/>
+しかもそれが複雑なシステムでいくつものパターンがある場合は気にしなきゃいけないパターンが膨大になります。</p>
+
+<p>なので読み手の負担にならないように、なるべくパターンは早い段階でリターンするといいですね。</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -127,16 +148,43 @@
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">foo</span> <span class="o">=</span> <span class="kp">nil</span>
-</span><span class='line'><span class="n">foo</span> <span class="o">=</span> <span class="n">foo</span> <span class="o">||</span> <span class="k">if</span> <span class="p">(</span><span class="nb">rand</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">odd?</span>
-</span><span class='line'>               <span class="s2">&quot;foo&quot;</span>
-</span><span class='line'>             <span class="k">else</span>
-</span><span class='line'>               <span class="s2">&quot;fooooooooooooo&quot;</span>
-</span><span class='line'>             <span class="k">end</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">User</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">hard_work</span>
+</span><span class='line'>    <span class="k">return</span> <span class="k">unless</span> <span class="n">user</span><span class="o">.</span><span class="n">new_commer?</span>
+</span><span class='line'>    <span class="k">return</span> <span class="k">unless</span> <span class="n">user</span><span class="o">.</span><span class="n">project</span><span class="o">.</span><span class="n">burning?</span>
+</span><span class='line'>    <span class="k">return</span> <span class="k">unless</span> <span class="n">user</span><span class="o">.</span><span class="n">shachiku?</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1"># 永遠と続くハードワークの長い記述</span>
+</span><span class='line'>    <span class="n">do_work</span><span class="p">(</span><span class="ss">holiday</span><span class="p">:</span> <span class="kp">false</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">do_work</span><span class="p">(</span><span class="ss">holiday</span><span class="p">:</span> <span class="kp">false</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">do_work</span><span class="p">(</span><span class="ss">holiday</span><span class="p">:</span> <span class="kp">false</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">do_work</span><span class="p">(</span><span class="ss">holiday</span><span class="p">:</span> <span class="kp">false</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">do_work</span><span class="p">(</span><span class="ss">holiday</span><span class="p">:</span> <span class="kp">false</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">do_work</span><span class="p">(</span><span class="ss">holiday</span><span class="p">:</span> <span class="kp">false</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">do_work</span><span class="p">(</span><span class="ss">holiday</span><span class="p">:</span> <span class="kp">false</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">do_work</span><span class="p">(</span><span class="ss">holiday</span><span class="p">:</span> <span class="kp">false</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">do_work</span><span class="p">(</span><span class="ss">holiday</span><span class="p">:</span> <span class="kp">false</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>すごい。</p>
+<p>早い段階で新人と社畜とプロジェクトが炎上していない限りはハードワークは必要ないというのがわかりますね。 <br/>
+ないとメソッドの最後まで読まないと新人がハードワークしなきゃいけないのかとハラハラしなきゃいけなくなります。</p>
+
+<p>こういう書き方になれると、例えばどこかで新人が精神を病むような強烈な重労働を強いられているという不具合が上がってきた時にもhard_workメソッドは最初に新人はreturnしているので、すぐにここには不具合がないということもわかります。</p>
 
 
 
@@ -159,7 +207,7 @@
 </li>
 
       <li class="twitter">
-<a class="twitter-share-button" href="https://twitter.com/share?text=nilガードとifを組み合わせてみた by @YoshitsuguFujii&url=http://yoshitsugufujii.github.io/blog/2012/03/02/20120302132903/"> Tweet </a>
+<a class="twitter-share-button" href="https://twitter.com/share?text=リーダブルコードを意識しながら普段気をつけていること(2) by @YoshitsuguFujii&url=http://yoshitsugufujii.github.io/blog/2015/11/18/readable-code-2/"> Tweet </a>
 <script>
   window.twttr=(function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return;js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);t._e=[];t.ready=function(f){t._e.push(f);};return t;}(document,"script","twitter-wjs"));
 </script>
@@ -365,8 +413,8 @@
     
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://yoshitsugufujii.github.io/blog/2012/03/02/20120302132903/';
-        var disqus_url = 'http://yoshitsugufujii.github.io/blog/2012/03/02/20120302132903/';
+        var disqus_identifier = 'http://yoshitsugufujii.github.io/blog/2015/11/18/readable-code-2/';
+        var disqus_url = 'http://yoshitsugufujii.github.io/blog/2015/11/18/readable-code-2/';
         var disqus_script = 'embed.js';
     
     (function () {
