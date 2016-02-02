@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2016-01-22T19:34:48+09:00</updated>
+    <updated>2016-02-02T17:18:15+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,26 @@
     </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[RailsConfig(現Config)で読み込んでいるファイルのパスを得る]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2016/02/02/rails-config-check-load-files-path/"/>
+        <updated>2016-02-02T11:13:32+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2016/02/02/rails-config-check-load-files-path</id>
+        <content type="html"><![CDATA[<p>内部的にrails_envを書き換えたりしていて、rails_configの値がただしくRAILS_ENVの設定通りにファイルを読み込んでくれない事象が発生したので。</p>
+
+<p>rails_config (0.4.2)</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">irb</span><span class="p">(</span><span class="n">main</span><span class="p">):</span><span class="mo">014</span><span class="p">:</span><span class="mi">0</span><span class="o">&gt;</span> <span class="no">Settings</span><span class="o">.</span><span class="n">instance_variable_get</span><span class="p">(</span><span class="ss">:@config_sources</span><span class="p">)</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="o">[</span><span class="c1">#&lt;RailsConfig::Sources::YAMLSource:0x0055a28d40ab48 @path=&quot;Rails_rootへのパス/current/config/settings.yml&quot;&gt;, #&lt;RailsConfig::Sources::YAMLSource:0x0055a28d40aa30 @path=&quot;Rails_rootへのパス/current/config/settings/hoge.yml&quot;&gt;, #&lt;RailsConfig::Sources::YAMLSource:0x0055a28d40a9e0 @path=&quot;Rails_rootへのパス/current/config/environments/hoge.yml&quot;&gt;]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[jpmobileでPCでスマートフォンのビューを表示する場合]]></title>
@@ -2212,110 +2232,6 @@ WYSIWYGエディタの<a href="http://ckeditor.com/demo">ckeditor</a>がすご�
 <a href="https://github.com/YoshitsuguFujii/light_stalking">light_stalking</a></p>
 
 <p>このGEMは思いつきで作って実際に使ってないので色々と問題ありそうですが、default_url_optionsを使うことでurlの最大長にひっかからない範囲で色々なことができそうという一例になるんじゃないかと思いました。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[Deviseで特定の条件のみパスワードの検証をスキップする]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2015/06/08/devise-skip-password-check/"/>
-        <updated>2015-06-08T12:35:01+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2015/06/08/devise-skip-password-check</id>
-        <content type="html"><![CDATA[<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1">#開発環境  </span>
-</span><span class='line'><span class="n">rails</span> <span class="mi">4</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">1</span>
-</span><span class='line'><span class="n">devise</span> <span class="mi">3</span><span class="o">.</span><span class="mi">4</span><span class="o">.</span><span class="mi">1</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>deviseを使っていて、ユーザモデルに仮登録状態を作りたいと思います。<br/>
-仮登録の段階ではパスワードはまだ要求されず。<br/>
-最後の最後でパスワードを設定して本会員登録完了といったフローです。</p>
-
-<p>deviseでは対象モデルに<code>devise :validatable</code>に設定している場合はメールアドレスやパスワードの検証が走ります。<br/>
-今回はパスワード以外のチェックはやってほしいため<code>:validatable</code>の宣言を外すだけではダメです。</p>
-
-<!-- more -->
-
-
-<p>deviseの以下のソースを見てみます</p>
-
-<figure class='code'><figcaption><span>lib/devise/models/validatable.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">included</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">base</span><span class="o">.</span><span class="n">extend</span> <span class="no">ClassMethods</span>
-</span><span class='line'>  <span class="n">assert_validations_api!</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">base</span><span class="o">.</span><span class="n">class_eval</span> <span class="k">do</span>
-</span><span class='line'>    <span class="n">validates_presence_of</span>   <span class="ss">:email</span><span class="p">,</span> <span class="k">if</span><span class="p">:</span> <span class="ss">:email_required?</span>
-</span><span class='line'>    <span class="n">validates_uniqueness_of</span> <span class="ss">:email</span><span class="p">,</span> <span class="ss">allow_blank</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span> <span class="k">if</span><span class="p">:</span> <span class="ss">:email_changed?</span>
-</span><span class='line'>    <span class="n">validates_format_of</span>     <span class="ss">:email</span><span class="p">,</span> <span class="ss">with</span><span class="p">:</span> <span class="n">email_regexp</span><span class="p">,</span> <span class="ss">allow_blank</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span> <span class="k">if</span><span class="p">:</span> <span class="ss">:email_changed?</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">validates_presence_of</span>     <span class="ss">:password</span><span class="p">,</span> <span class="k">if</span><span class="p">:</span> <span class="ss">:password_required?</span>
-</span><span class='line'>    <span class="n">validates_confirmation_of</span> <span class="ss">:password</span><span class="p">,</span> <span class="k">if</span><span class="p">:</span> <span class="ss">:password_required?</span>
-</span><span class='line'>    <span class="n">validates_length_of</span>       <span class="ss">:password</span><span class="p">,</span> <span class="ss">within</span><span class="p">:</span> <span class="n">password_length</span><span class="p">,</span> <span class="ss">allow_blank</span><span class="p">:</span> <span class="kp">true</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>パスワードの検証をするかどうかはpassword_required?で判定しています。
-判定メソッドはこんな感じです。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">password_required?</span>
-</span><span class='line'>  <span class="o">!</span><span class="n">persisted?</span> <span class="o">||</span> <span class="o">!</span><span class="n">password</span><span class="o">.</span><span class="n">nil?</span> <span class="o">||</span> <span class="o">!</span><span class="n">password_confirmation</span><span class="o">.</span><span class="n">nil?</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>これを対象のモデルでオーバーライドします。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">devise</span> <span class="ss">:database_authenticatable</span><span class="p">,</span> <span class="ss">:registerable</span><span class="p">,</span>
-</span><span class='line'>         <span class="ss">:recoverable</span><span class="p">,</span> <span class="ss">:rememberable</span><span class="p">,</span> <span class="ss">:trackable</span><span class="p">,</span> <span class="ss">:validatable</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">password_required?</span>
-</span><span class='line'>    <span class="k">if</span> <span class="n">member?</span>
-</span><span class='line'>      <span class="o">!</span><span class="n">persisted?</span> <span class="o">||</span> <span class="o">!</span><span class="n">password</span><span class="o">.</span><span class="n">nil?</span> <span class="o">||</span> <span class="o">!</span><span class="n">password_confirmation</span><span class="o">.</span><span class="n">nil?</span>
-</span><span class='line'>    <span class="k">else</span>
-</span><span class='line'>      <span class="kp">false</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>これでmember?がtrueを返さない(本登録前のユーザ)はパスワードの検証処理をスキップできるようになります。</p>
 ]]></content>
     </entry>
     

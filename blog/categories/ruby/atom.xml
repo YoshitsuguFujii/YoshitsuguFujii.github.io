@@ -4,7 +4,7 @@
     <title><![CDATA[Category: ruby | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/ruby/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2016-01-22T19:34:48+09:00</updated>
+    <updated>2016-02-02T17:18:15+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,21 @@
       </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[RailsConfig(現Config)で読み込んでいるファイルのパスを得る]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2016/02/02/rails-config-check-load-files-path/"/>
+        <updated>2016-02-02T11:13:32+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2016/02/02/rails-config-check-load-files-path</id>
+        <content type="html"><![CDATA[<p>内部的にrails_envを書き換えたりしていて、rails_configの値がただしくRAILS_ENVの設定通りにファイルを読み込んでくれない事象が発生したので。</p>
+
+<p>rails_config (0.4.2)</p>
+
+<pre><code class="ruby">irb(main):014:0&gt; Settings.instance_variable_get(:@config_sources)
+=&gt; [#&lt;RailsConfig::Sources::YAMLSource:0x0055a28d40ab48 @path="Rails_rootへのパス/current/config/settings.yml"&gt;, #&lt;RailsConfig::Sources::YAMLSource:0x0055a28d40aa30 @path="Rails_rootへのパス/current/config/settings/hoge.yml"&gt;, #&lt;RailsConfig::Sources::YAMLSource:0x0055a28d40a9e0 @path="Rails_rootへのパス/current/config/environments/hoge.yml"&gt;]
+</code></pre>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[jpmobileでPCでスマートフォンのビューを表示する場合]]></title>
@@ -244,59 +259,6 @@ aliasは呼ばれたクロージャ的な動きで呼ばれた段階のメソッ
 ユーザが子供の場合は子供料金と表示されます。</p>
 
 <p>prefixの条件を変えることで読込先をうまく切り替えることができますね。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[FaradayとHttpartyでクッキーを付与したい場合]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2015/10/16/set-cookie-with-faraday-or-httparty/"/>
-        <updated>2015-10-16T17:33:25+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2015/10/16/set-cookie-with-faraday-or-httparty</id>
-        <content type="html"><![CDATA[<p>同一ドメインなんだけどホスト名が違うシステムがあり、WEBサーバーからApiサーバーへjsonを取得するべくgetリクエストを投げる。<br/>
-その際にWEBサーバーでログイン時に発行されたクッキーをリクエストに付与してapiサーバーではそのクッキーからユーザを特定するような処理が必要になった。</p>
-
-<p>FaradayとHttpartyでクッキーを付与する方法を調べた。</p>
-
-<!-- more -->
-
-
-<h2>Faraday</h2>
-
-<p><a href="https://github.com/miyagawa/faraday-cookie_jar">miyagawa/faraday-cookie_jar</a>というクッキーをよしなに扱ってくれるみたいですが、特に使わなくてもいけました。</p>
-
-<pre><code class="ruby">client = Faraday.new 'http://example.com/api/list' do |b|
-  b.request :json
-  b.request :url_encoded
-  b.adapter Faraday.default_adapter
-end
-
-res = client.get '' do |req|
-  req.headers['Cookie'] = request.headers["HTTP_COOKIE"]
-end
-
-puts res.body
-</code></pre>
-
-<h2>Httparty</h2>
-
-<pre><code class="ruby">include HTTParty
-
-self.default_cookies.add_cookies(cookies.to_h)
-res = self.get('http://example.com/api/list')
-p res.inspect
-</code></pre>
-
-<p>お手軽ですね!</p>
-
-<h3>2015年10月19日追記</h3>
-
-<p>Httpartyのヘッダに乗せるタイプ</p>
-
-<pre><code class="ruby">include HTTParty
-
-res = self.get('http://example.com/api/list', headers: "Cookie" =&gt; request.headers["HTTP_COOKIE"])
-p res.inspect
-</code></pre>
 ]]></content>
     </entry>
     
