@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+    <title><![CDATA[Category: cron | なんとなく日々徒然と]]></title>
+    <link href="http://yoshitsugufujii.github.io/blog/categories/cron/atom.xml" rel="self"/>
+    <link href="http://yoshitsugufujii.github.io/"/>
+    <updated>2016-02-03T10:46:05+09:00</updated>
+    <id>http://yoshitsugufujii.github.io/</id>
+    <author>
+        <name><![CDATA[Yoshitsugu Fujii]]></name>
+        
+      </author>
+    <generator uri="http://octopress.org/">Octopress</generator>
+
+    
+    <entry>
+        <title type="html"><![CDATA[Cronがutcで動いてる場合に]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2016/02/03/change-crons-timezone/"/>
+        <updated>2016-02-03T10:33:11+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2016/02/03/change-crons-timezone</id>
+        <content type="html"><![CDATA[<p>Centosでtimezoneの設定が日本時間にしているのにcronが指定時刻に動かず調べました。<br/>
+/var/log/cronを見るとログの時間が-9時間。<br/>
+JSTで動いてないっぽいです。</p>
+
+<p>以下のコマンドでcronのログの時刻も含めて治ります。</p>
+
+<!-- more -->
+
+
+<pre><code>cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
+service crond restart
+service rsyslog restart
+</code></pre>
+
+<p>itamaeのrecipeも修正</p>
+
+<pre><code class="ruby">execute "change time zone" do
+  user node[:user]
+  command &lt;&lt;-EOF
+    sudo cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
+  EOF
+  not_if "date | grep 'JST'"
+end
+
+# cronとlogにも反映(再起動)
+%w(crond rsyslog).each do |serv|
+  service serv do
+    action :restart
+  end
+end
+</code></pre>
+]]></content>
+    </entry>
+    
+</feed>

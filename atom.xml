@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2016-02-02T17:18:15+09:00</updated>
+    <updated>2016-02-03T10:46:05+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,67 @@
     </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[Cronがutcで動いてる場合に]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2016/02/03/change-crons-timezone/"/>
+        <updated>2016-02-03T10:33:11+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2016/02/03/change-crons-timezone</id>
+        <content type="html"><![CDATA[<p>Centosでtimezoneの設定が日本時間にしているのにcronが指定時刻に動かず調べました。<br/>
+/var/log/cronを見るとログの時間が-9時間。<br/>
+JSTで動いてないっぽいです。</p>
+
+<p>以下のコマンドでcronのログの時刻も含めて治ります。</p>
+
+<!-- more -->
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
+</span><span class='line'>service crond restart
+</span><span class='line'>service rsyslog restart</span></code></pre></td></tr></table></div></figure>
+
+
+<p>itamaeのrecipeも修正</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">execute</span> <span class="s2">&quot;change time zone&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">user</span> <span class="n">node</span><span class="o">[</span><span class="ss">:user</span><span class="o">]</span>
+</span><span class='line'>  <span class="n">command</span> <span class="o">&lt;&lt;-</span><span class="no">EOF</span>
+</span><span class='line'><span class="sh">    sudo cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime</span>
+</span><span class='line'><span class="no">  EOF</span>
+</span><span class='line'>  <span class="n">not_if</span> <span class="s2">&quot;date | grep &#39;JST&#39;&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># cronとlogにも反映(再起動)</span>
+</span><span class='line'><span class="sx">%w(crond rsyslog)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">serv</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">service</span> <span class="n">serv</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">action</span> <span class="ss">:restart</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[RailsConfig(現Config)で読み込んでいるファイルのパスを得る]]></title>
@@ -2177,61 +2238,6 @@ WYSIWYGエディタの<a href="http://ckeditor.com/demo">ckeditor</a>がすご�
 <p>するとこうなります。<br/>
 <img src="http://yoshitsugufujii.github.io/images/blog/simple_form_full_error2015-06-10.png" alt="full error" /><br/>
 いい感じですね。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[railsでuser_idをurlに付与して引き回す方法]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2015/06/10/append-user-id-to-url/"/>
-        <updated>2015-06-10T12:01:49+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2015/06/10/append-user-id-to-url</id>
-        <content type="html"><![CDATA[<p>特定のパラメータを常にurlに付与する方法です。</p>
-
-<p>urlにuser_idをクエリなどにふくめておくとgoogle analyticsとか使った時に、特定のユーザがどういうページにアクセスしたかわかりユーザの行動分析に使えたりします。</p>
-
-<p>なのでurlに自動でuser_id=[:user_id]の形式でアクセスしてるページのuser_idが付与されると非常に便利そうです。</p>
-
-<p>参考になったのはjpmobileのソースでした(docomo端末の場合にguidを自動付与したりしています)<br/>
-<a href="https://github.com/jpmobile/jpmobile/blob/master/lib/jpmobile/docomo_guid.rb">docomo_guid.rb</a></p>
-
-<!-- more -->
-
-
-<p>こうすれば自動でユーザーIDが設定されます。</p>
-
-<figure class='code'><figcaption><span>app/controller/application_controller.rb </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ApplicationController</span> <span class="o">&lt;</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">default_url_options</span>
-</span><span class='line'>    <span class="n">result</span> <span class="o">=</span> <span class="k">super</span> <span class="o">||</span> <span class="p">{}</span>
-</span><span class='line'>    <span class="k">if</span> <span class="n">current_user</span><span class="o">.</span><span class="n">present?</span>
-</span><span class='line'>      <span class="n">result</span><span class="o">.</span><span class="n">merge!</span><span class="p">(</span><span class="ss">user_id</span><span class="p">:</span> <span class="n">current_user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">else</span>
-</span><span class='line'>      <span class="n">result</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="ss">:user_id</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>    <span class="n">result</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>これでログインしていれば(上記だとcurrent_userが取れれば)<br/>
-<a href="http://localhost:3000/?user_id=6">http://localhost:3000/?user_id=6</a><br/>
-みたいに付与されるはずです。</p>
-
-<p>今やっている案件でこの処理が必要になったので思い出しながら書いてみましたが、以前これを利用して遷移前の履歴をurlに保持するgemを作ったことをふと思いだしました。<br/>
-<a href="https://github.com/YoshitsuguFujii/light_stalking">light_stalking</a></p>
-
-<p>このGEMは思いつきで作って実際に使ってないので色々と問題ありそうですが、default_url_optionsを使うことでurlの最大長にひっかからない範囲で色々なことができそうという一例になるんじゃないかと思いました。</p>
 ]]></content>
     </entry>
     
