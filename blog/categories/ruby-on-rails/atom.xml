@@ -4,7 +4,7 @@
     <title><![CDATA[Category: ruby on rails | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/ruby-on-rails/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2016-02-03T10:46:05+09:00</updated>
+    <updated>2016-02-18T12:59:04+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,70 @@
       </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[Rails 便利なテクニック その１]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2016/02/18/rails-tips-1/"/>
+        <updated>2016-02-18T11:33:58+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2016/02/18/rails-tips-1</id>
+        <content type="html"><![CDATA[<p>日常コード書いてて便利だなぁと思った技とかを思い出したら不定期に書いていきます。</p>
+
+<p>よくメニューをulとliを使ってタブで表示することがあると思います。<br/>
+例えばタブは以下の条件で表示されます</p>
+
+<ul>
+<li>ユーザの年齢が20歳以上なら表示するタブA</li>
+<li>ユーザの性別が男性なら表示するタブB</li>
+<li>ユーザの性別が女性なら表示するタブC</li>
+<li>ユーザの性別が男性でかつ20歳以上なら表示するタブD</li>
+</ul>
+
+
+<p>実装が終わって総合テストがはじまります。</p>
+
+<p>ここでチケットがあがってきます。</p>
+
+<p><strong>『タブが一つしか出力されない場合はタブを非表示にしてください。』</strong></p>
+
+<p>さてどうしましょう？</p>
+
+<!-- more -->
+
+
+<p>複雑なif文を組み合わせてタブが１つかでない条件を見つけ出して非表示にしますか？<br/>
+タブが増えたり条件が増えたりしたら大変な上に可読性悪そうですね。</p>
+
+<p>Railsには便利なcaptureというメソッドがあります。<br/>
+これはcaptureメソッドに与えられたブロックの出力内容を返すメソッドです。<br/>
+これを使うとシンプルに問題を解決できます。</p>
+
+<pre><code class="erb app/views/layout/tab.html.erb">&lt;% tab = capture do %&gt;
+  &lt;ul&gt;
+    &lt;% if user.age &gt;= 20 %&gt; 
+      &lt;li&gt;タブA&lt;/li&gt;
+    &lt;% end %&gt;
+
+    &lt;% if user.male? %&gt; 
+      &lt;li&gt;タブB&lt;/li&gt;
+    &lt;% end %&gt;
+
+    &lt;% if user.female? %&gt; 
+      &lt;li&gt;タブC&lt;/li&gt;
+    &lt;% end %&gt;
+
+    &lt;% if user.male? &amp;&amp; user.age &gt;= 20 %&gt; 
+      &lt;li&gt;タブD&lt;/li&gt;
+    &lt;% end %&gt;
+  &lt;/ul&gt;
+&lt;% end %&gt;
+
+&lt;% # tabが一個ならば表示しない %&gt;
+&lt;%= tab.scan("&lt;/li&gt;").count &gt; 1 ? tab : "" %&gt;
+</code></pre>
+
+<p>htmlを動的に組み立てる際にあれこれするよりも、出力されたhtmlをもとに処理するというケースの方が圧倒的にスマートなケースがあるので積極的に使っていきたいですね。</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[i18nで例えば大人と子供で文言を変えたい場合]]></title>
@@ -272,39 +336,6 @@ app/assets/javascripts/ckeditor/plugins/html5validation/plugin.jsを開いて8�
 <p><img src="/images/blog/2015-07-21_2.png" alt="完成イメージ" /></p>
 
 <p><img src="/images/blog/2015-07-21.png" alt="完成イメージ" /></p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[Bootstrap FileInputで日本語の文字が表示されない]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2015/07/17/bootstrap-file-input-for-japanese/"/>
-        <updated>2015-07-17T13:46:05+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2015/07/17/bootstrap-file-input-for-japanese</id>
-        <content type="html"><![CDATA[<p>今の案件で<a href="http://plugins.krajee.com/file-input">Bootstrap FileInput</a>を使っていますが、日本語(2byte文字)が含まれるファイルを選択した場合ファイル名から日本語部分が消えるという現象が発生しました。</p>
-
-<p><a href="https://github.com/kartik-v/bootstrap-fileinput/blob/master/js/fileinput.js#L496">https://github.com/kartik-v/bootstrap-fileinput/blob/master/js/fileinput.js#L496</a><br/>
-ここを見る限りslugCallbackというメソッドを宣言時のoptionに渡してあげるといけそうです。</p>
-
-<!-- more -->
-
-
-<p>すいません。coffeescriptです。
-<code>js
-$('.upload_file').fileinput
-  showPreview: false
-  maxFileCount: 1
-  browseClass: 'btn btn-info fileinput-browse-button'
-  browseIcon: ''
-  browseLabel: ' ファイル選択'
-  showRemove: false
-  showUpload: false
-  slugCallback:
-    (text)-&gt;
-      text.split(/(\\|\/)/g).pop()
-</code></p>
-
-<p>これで日本語も表示できるようになりました。<br/>
-<img src="/images/blog/2015-07-17%2013.52.17.png" alt="完成イメージ" /></p>
 ]]></content>
     </entry>
     
