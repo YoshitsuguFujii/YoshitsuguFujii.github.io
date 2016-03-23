@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+    <title><![CDATA[Category: angular | なんとなく日々徒然と]]></title>
+    <link href="http://yoshitsugufujii.github.io/blog/categories/angular/atom.xml" rel="self"/>
+    <link href="http://yoshitsugufujii.github.io/"/>
+    <updated>2016-03-23T12:44:40+09:00</updated>
+    <id>http://yoshitsugufujii.github.io/</id>
+    <author>
+        <name><![CDATA[Yoshitsugu Fujii]]></name>
+        
+      </author>
+    <generator uri="http://octopress.org/">Octopress</generator>
+
+    
+    <entry>
+        <title type="html"><![CDATA[[小ネタ]Railsを使っていてAngularのform validationだけしたい時]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2016/03/23/angular-with-rails-name-convention/"/>
+        <updated>2016-03-23T12:36:53+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2016/03/23/angular-with-rails-name-convention</id>
+        <content type="html"><![CDATA[<p>railsでシステムを作っていて、ここはゴリゴリ書くようなところじゃないけどformのvalidationだけangularの機能使いたくなったんですが。
+railsはname属性に[]を使うので、この場合のng-show内部の指定がわからなかったので備忘録も兼ねて。</p>
+
+<pre><code class="erb">form name="new_form"
+  input name="price[hoge]" ng-model="price" ng-pattern="/^([1-9]\\d*|0)(\\.\\d+)?$/" required="" type="text" /
+  span.text-error ng-show="newForm['price[hoge]'].$error.required"  ※
+  span.text-error ng-show="newForm['price[hoge]'].$error.pattern"  This is not a valid dollar.
+</code></pre>
+
+<p>formのnameに指定されいるものを[]とシングルクォートで囲むといけます。</p>
+]]></content>
+    </entry>
+    
+</feed>
