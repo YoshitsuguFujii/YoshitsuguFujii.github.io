@@ -83,6 +83,115 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2012/02/06/20120206164716/">構造体を使う</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2012-02-06T16:47:00+09:00" pubdate><i class="fa fa-calendar"></i> Feb 6th, 2012</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>rubyで構造体を使いたい時<br/>
+OpenStructが使える。<br/>
+属性は動的に作ってくれる。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;ostruct&#39;</span>
+</span><span class='line'><span class="n">user1</span>    <span class="o">=</span> <span class="no">OpenStruct</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">user2</span>   <span class="o">=</span> <span class="no">OpenStruct</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">user1</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'><span class="n">user1</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;hoge&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">user2</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="mi">2</span>
+</span><span class='line'><span class="n">user2</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;fuga&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">p</span> <span class="n">user1</span><span class="o">.</span><span class="n">id</span> <span class="c1">#=&gt; 1</span>
+</span><span class='line'><span class="nb">p</span> <span class="n">user1</span><span class="o">.</span><span class="n">name</span> <span class="c1">#=&gt; &#39;hoge&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">p</span> <span class="n">user2</span><span class="o">.</span><span class="n">id</span> <span class="c1">#=&gt; 2</span>
+</span><span class='line'><span class="nb">p</span> <span class="n">user2</span><span class="o">.</span><span class="n">name</span> <span class="c1">#=&gt; &#39;fuga&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">#Arrayにラップしちゃえば、options_from_collection_for_selectにも渡せる。</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;action_view&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;active_support/all&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kp">include</span> <span class="no">ActionView</span><span class="o">::</span><span class="no">Helpers</span><span class="o">::</span><span class="no">FormOptionsHelper</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">users</span> <span class="o">=</span> <span class="o">[</span><span class="n">user1</span><span class="p">,</span><span class="n">user2</span><span class="o">]</span>
+</span><span class='line'><span class="n">options_from_collection_for_select</span><span class="p">(</span><span class="n">users</span> <span class="p">,</span> <span class="s2">&quot;id&quot;</span> <span class="p">,</span><span class="s2">&quot;name&quot;</span><span class="p">)</span> <span class="c1">#=&gt; &quot;&lt;option value=  &quot;1  &quot;&gt;hoge&lt;/option&gt;  n&lt;option value=  &quot;2  &quot;&gt;fuga&lt;/option&gt;&quot; </span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>すばらしい</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2012/02/03/20120203114439/">youtubeに初投稿してみた</a>
         </h1>
     
@@ -1053,138 +1162,6 @@ Channelsを使用するためには、認証を受けること・channel名のpr
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2012/01/24/20120124115957/">同一の操作から呼ばれたかオブザーバで判定する方法</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2012-01-24T11:59:00+09:00" pubdate><i class="fa fa-calendar"></i> Jan 24th, 2012</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
-            
-                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>railsのobserverでユーザ情報とプロフィール情報を監視していて、<br/>
-例えば１つのフォームにユーザ情報とプロフィール情報の編集項目があった場合。</p>
-
-<p>after  <em>saveでフックした際には<br/>
-after  </em>saveは２回。それぞれのモデルで呼ばれる。</p>
-
-<p>んでその二つ呼ばれたafter  _saveが同じ処理で呼ばれたのかってわかんないと思っていた。</p>
-
-<p>先日入れたuserstampの処理がどうなっているのだろうかと見たら、<br/>
-ActionControllerのbefore  _filterでThread.currentにuserのIDを押し込んでいた。</p>
-
-<p>実際のソースは以下のとおり。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">stamper</span><span class="o">=</span><span class="p">(</span><span class="n">object</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">object_stamper</span> <span class="o">=</span> <span class="k">if</span> <span class="n">object</span><span class="o">.</span><span class="n">is_a?</span><span class="p">(</span><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">object</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="n">object</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">primary_key</span><span class="si">}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">to_sym</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">else</span>
-</span><span class='line'>    <span class="n">object</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>  <span class="no">Thread</span><span class="o">.</span><span class="n">current</span><span class="o">[</span><span class="s2">&quot;</span><span class="si">#{</span><span class="nb">self</span><span class="o">.</span><span class="n">to_s</span><span class="o">.</span><span class="n">downcase</span><span class="si">}</span><span class="s2">_</span><span class="si">#{</span><span class="nb">self</span><span class="o">.</span><span class="n">object_id</span><span class="si">}</span><span class="s2">_stamper&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="n">object_stamper</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>キーにはobject  <em>id(デフォルトではUserのobject  </em>id)使ってる。<br/>
-controller側で毎回Thread.currentに操作者のidを保存して、それをmodelで取り出している。</p>
-
-<p>んでobserverで同一の処理で呼ばれたのか判定する方法は。</p>
-
-<p>同じようにThread.currentに設定してるキーと値を任意の値にすれば良さそう。<br/>
-ActionControllerのbefore  <em>filterでキーはuserstampと同じようにobject  </em>idを使って、適当にkey  _とかprefixつけてみる。<br/>
-んで値はユニークな値を設定する。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">set_key</span>
-</span><span class='line'>  <span class="no">Thread</span><span class="o">.</span><span class="n">current</span><span class="o">[</span><span class="s2">&quot;key_</span><span class="si">#{</span><span class="no">User</span><span class="o">.</span><span class="n">object_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m%d%H%M%S&quot;</span><span class="p">)</span> <span class="c1">#ミリ秒まで含めた方がいいと思われ。</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>observerでは</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">observe</span> <span class="ss">:user</span><span class="p">,</span><span class="ss">:user_profile</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">def</span> <span class="nf">after_save</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">case</span> <span class="n">model</span>
-</span><span class='line'>  <span class="k">when</span> <span class="no">User</span>
-</span><span class='line'>    <span class="nb">p</span> <span class="no">Thread</span><span class="o">.</span><span class="n">current</span><span class="o">[</span><span class="s2">&quot;key_</span><span class="si">#{</span><span class="no">User</span><span class="o">.</span><span class="n">object_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="o">]</span>
-</span><span class='line'>  <span class="k">when</span> <span class="no">UserProfile</span>
-</span><span class='line'>    <span class="nb">p</span> <span class="no">Thread</span><span class="o">.</span><span class="n">current</span><span class="o">[</span><span class="s2">&quot;key_</span><span class="si">#{</span><span class="no">User</span><span class="o">.</span><span class="n">object_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="o">]</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>で同じ値が取得できた場合には同一の操作から呼ばれたものと考えられる。</p>
-
-<p>この方法は副作用とかどうなんだろう。<br/>
-そしてもっとスマートな方法はあるのだろうか・・・</p>
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -1248,6 +1225,10 @@ ActionControllerのbefore  <em>filterでキーはuserstampと同じようにobje
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2016/04/11/rails-dirty-mark-changed/">model.changesで強制的に変更したことにする方法</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2016/03/23/angular-with-rails-name-convention/">[小ネタ]Railsを使っていてAngularのform validationだけしたい時</a>
         </li>
         
@@ -1261,10 +1242,6 @@ ActionControllerのbefore  <em>filterでキーはuserstampと同じようにobje
         
         <li class="post">
             <a href="/blog/2016/02/03/change-crons-timezone/">Cronがutcで動いてる場合に</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2016/02/02/rails-config-check-load-files-path/">RailsConfig(現Config)で読み込んでいるファイルのパスを得る</a>
         </li>
         
     </ul>

@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2016-03-23T12:44:40+09:00</updated>
+    <updated>2016-04-11T18:39:22+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,45 @@
     </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[model.changesで強制的に変更したことにする方法]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2016/04/11/rails-dirty-mark-changed/"/>
+        <updated>2016-04-11T18:26:43+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2016/04/11/rails-dirty-mark-changed</id>
+        <content type="html"><![CDATA[<p>RailsのActiveModelのDirtyでは変更前、変更後、変更したかなどモデルクラスの新旧状態が取れる。<br/>
+<a href="http://qiita.com/kakkunpakkun/items/b286f789ca8590104ad1">http://qiita.com/kakkunpakkun/items/b286f789ca8590104ad1</a></p>
+
+<p>このdirtyを使って変更してないけど変更したことにしたい(observerを再実行したい時とか)に使える技</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">first</span>
+</span><span class='line'><span class="n">user</span><span class="o">.</span><span class="n">changes</span> <span class="c1"># =&gt; {}</span>
+</span><span class='line'><span class="n">user</span><span class="o">.</span><span class="n">created_at_will_change!</span> <span class="c1"># =&gt; =&gt; 2015-01-16 20:09:59 +0900</span>
+</span><span class='line'><span class="n">user</span><span class="o">.</span><span class="n">changes</span>
+</span><span class='line'><span class="c1"># =&gt; {</span>
+</span><span class='line'><span class="c1">#  &quot;created_at&quot; =&gt; [</span>
+</span><span class='line'><span class="c1">#    [0] 2015-01-16 20:09:59 +0900,</span>
+</span><span class='line'><span class="c1">#    [1] 2015-01-16 20:09:59 +0900</span>
+</span><span class='line'><span class="c1">#   ]</span>
+</span><span class='line'><span class="c1"># }</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>属性名_will_change!で新旧に同じ値が設定される。</p>
+
+<p>なんでこんなことやりたかったかっていうとobserverでuserのnameの値が変更されたらapiを叩く処理を書いていたのだけど、急遽全件apiを再実行する必要があり強制的にnameが変更されたことにしたかったため調べたらあったというお話</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[[小ネタ]Railsを使っていてAngularのform validationだけしたい時]]></title>
@@ -2108,59 +2147,6 @@ app/assets/javascripts/ckeditor/plugins/html5validation/plugin.jsを開いて8�
 
 <p>テーブルダイアログが初期値で幅100%、枠線の幅0、セル内余白0になっているのが確認できます。<br/>
 <img src="http://yoshitsugufujii.github.io/images/blog/2015-07-15%2017.00.59.png" alt="完成イメージ" /></p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[Axlsxでセルのなかのテキストに部分的にスタイルを当てる]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2015/07/14/partially-change-string-style-in-cell-with-axlsx/"/>
-        <updated>2015-07-14T20:28:04+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2015/07/14/partially-change-string-style-in-cell-with-axlsx</id>
-        <content type="html"><![CDATA[<p>Axlsxでセルの中の文字にスタイルをあてる方法です 。<br/>
-Axlsx::RichTextを使います。<br/>
-太字、斜体、打ち消し戦、アンダーライン、色変更に対応しております。</p>
-
-<!-- more -->
-
-
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">p</span> <span class="o">=</span> <span class="no">Axlsx</span><span class="o">::</span><span class="no">Package</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'><span class="nb">p</span><span class="o">.</span><span class="n">use_shared_strings</span> <span class="o">=</span> <span class="kp">true</span>
-</span><span class='line'><span class="n">wb</span> <span class="o">=</span> <span class="nb">p</span><span class="o">.</span><span class="n">workbook</span>
-</span><span class='line'><span class="n">wrap_text</span> <span class="o">=</span> <span class="n">wb</span><span class="o">.</span><span class="n">styles</span><span class="o">.</span><span class="n">add_style</span><span class="p">({</span><span class="ss">:alignment</span> <span class="o">=&gt;</span> <span class="p">{</span><span class="ss">:horizontal</span> <span class="o">=&gt;</span> <span class="ss">:center</span><span class="p">,</span> <span class="ss">:vertical</span> <span class="o">=&gt;</span> <span class="ss">:center</span><span class="p">,</span> <span class="ss">:wrap_text</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">}}</span>  <span class="p">)</span>
-</span><span class='line'><span class="n">rt</span> <span class="o">=</span> <span class="no">Axlsx</span><span class="o">::</span><span class="no">RichText</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'><span class="n">rt</span><span class="o">.</span><span class="n">add_run</span><span class="p">(</span><span class="s1">&#39;I\&#39;m bold, &#39;</span><span class="p">,</span> <span class="ss">:b</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">)</span>
-</span><span class='line'><span class="n">rt</span><span class="o">.</span><span class="n">add_run</span><span class="p">(</span><span class="s1">&#39;I\&#39;m italic, &#39;</span><span class="p">,</span> <span class="ss">:i</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">)</span>
-</span><span class='line'><span class="n">rt</span><span class="o">.</span><span class="n">add_run</span><span class="p">(</span><span class="s1">&#39;I\&#39;m strike&#39;</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="ss">:strike</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">)</span>
-</span><span class='line'><span class="n">rt</span><span class="o">.</span><span class="n">add_run</span><span class="p">(</span><span class="s1">&#39;I\&#39;m bold, italic and strike&#39;</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="ss">:b</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">,</span> <span class="ss">:i</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">,</span> <span class="ss">:strike</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">)</span>
-</span><span class='line'><span class="n">rt</span><span class="o">.</span><span class="n">add_run</span><span class="p">(</span><span class="s1">&#39;I\&#39;m style-less :D&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="n">rt</span><span class="o">.</span><span class="n">add_run</span><span class="p">(</span><span class="s1">&#39;underlined and red.&#39;</span><span class="p">,</span> <span class="ss">:u</span> <span class="o">=&gt;</span> <span class="ss">:double</span><span class="p">,</span> <span class="ss">:color</span> <span class="o">=&gt;</span> <span class="s1">&#39;FF0000&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="n">wb</span><span class="o">.</span><span class="n">add_worksheet</span><span class="p">(</span><span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s2">&quot;RichText&quot;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span> <span class="n">sheet</span> <span class="o">|</span>
-</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">add_row</span> <span class="o">[</span><span class="n">rt</span><span class="o">]</span><span class="p">,</span> <span class="ss">:style</span> <span class="o">=&gt;</span> <span class="n">wrap_text</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'><span class="nb">p</span><span class="o">.</span><span class="n">serialize</span> <span class="s1">&#39;rich_text.xlsx&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><img src="http://yoshitsugufujii.github.io/images/blog/2015-07-14%2020.30.19.png" alt="完成イメージ" /></p>
-
-<p>Axlsxなんでもできますね！</p>
 ]]></content>
     </entry>
     

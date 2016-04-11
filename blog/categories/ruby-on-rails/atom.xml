@@ -4,7 +4,7 @@
     <title><![CDATA[Category: ruby on rails | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/ruby-on-rails/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2016-03-23T12:44:40+09:00</updated>
+    <updated>2016-04-11T18:39:22+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,34 @@
       </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[model.changesで強制的に変更したことにする方法]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2016/04/11/rails-dirty-mark-changed/"/>
+        <updated>2016-04-11T18:26:43+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2016/04/11/rails-dirty-mark-changed</id>
+        <content type="html"><![CDATA[<p>RailsのActiveModelのDirtyでは変更前、変更後、変更したかなどモデルクラスの新旧状態が取れる。<br/>
+<a href="http://qiita.com/kakkunpakkun/items/b286f789ca8590104ad1">http://qiita.com/kakkunpakkun/items/b286f789ca8590104ad1</a></p>
+
+<p>このdirtyを使って変更してないけど変更したことにしたい(observerを再実行したい時とか)に使える技</p>
+
+<pre><code class="ruby">user = User.first
+user.changes # =&gt; {}
+user.created_at_will_change! # =&gt; =&gt; 2015-01-16 20:09:59 +0900
+user.changes 
+# =&gt; {
+#  "created_at" =&gt; [
+#    [0] 2015-01-16 20:09:59 +0900,
+#    [1] 2015-01-16 20:09:59 +0900
+#   ]
+# }
+</code></pre>
+
+<p>属性名_will_change!で新旧に同じ値が設定される。</p>
+
+<p>なんでこんなことやりたかったかっていうとobserverでuserのnameの値が変更されたらapiを叩く処理を書いていたのだけど、急遽全件apiを再実行する必要があり強制的にnameが変更されたことにしたかったため調べたらあったというお話</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[[小ネタ]Railsを使っていてAngularのform validationだけしたい時]]></title>
@@ -237,36 +265,6 @@ p res.inspect
 
 res = self.get('http://example.com/api/list', headers: "Cookie" =&gt; request.headers["HTTP_COOKIE"])
 p res.inspect
-</code></pre>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[railsでckeditorを使った場合、横幅大きい画像が800pxになってしまう現象]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2015/07/22/ckeditor-big-width-800px-even/"/>
-        <updated>2015-07-22T12:08:58+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2015/07/22/ckeditor-big-width-800px-even</id>
-        <content type="html"><![CDATA[<p><a href="https://github.com/galetahub/ckeditor">ckeditor</a>でサイズの大きい画像(800px以上の幅の画像)が一様に800pxになってしまう問題。<br/>
-gemのckeditorで</p>
-
-<pre><code class="sh">rails generate ckeditor:install --orm=active_record --backend=carrierwavea  
-</code></pre>
-
-<p>とかやってそのままデフォで使うと画像の最大サイズが800pxになります。</p>
-
-<!-- more -->
-
-
-<p></p>
-
-<p>なんでかなーと思って調べてみたら、画像のサイズは生成されるcarrierwaveのuploaderクラスのversion contentの値を使うらしくここが800がデフォルトになっているからでした。<br/>
-<a href="https://github.com/galetahub/ckeditor/blob/master/lib/generators/ckeditor/templates/base/carrierwave/uploaders/ckeditor_picture_uploader.rb#L39">ckeditor_picture_uploader.rb#L39</a></p>
-
-<p>ここの値を変更することで800px制限を解除できます。私は2400pxとかやって逃げました。</p>
-
-<pre><code class="ruby app/uploaders/ckeditor_picture_uploader.rb">  version :content do
-    process resize_to_limit: [2400, 2400]
-  end
 </code></pre>
 ]]></content>
     </entry>
