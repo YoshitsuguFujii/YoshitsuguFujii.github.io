@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2016-04-11T18:39:22+09:00</updated>
+    <updated>2016-04-27T12:10:32+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,35 @@
     </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[喉のリンパが腫れました]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2016/04/27/lymph-hareta/"/>
+        <updated>2016-04-27T11:58:10+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2016/04/27/lymph-hareta</id>
+        <content type="html"><![CDATA[<p>先週まで花粉症なのか喉がピリピリして咳もでて目が痒かったんですが、<br/>
+今週入って症状がピタッと止まったかと思いきや喉の右側のリンパが腫れ出しました。<br/>
+首に異物感がずっとあり鈍い痛みがあります。<br/>
+左向いてつば飲み込むと突っ張ったような痛みがずきりと走ります。</p>
+
+<!-- more -->
+
+
+<p>思い出せば一昨年も腫れて去年も軽かったんですが腫れました。<br/>
+そして同じ時期に腫れてます。</p>
+
+<p>リンパが腫れた原因はひょっとして花粉症？<br/>
+ということで病院に行きました。<br/>
+アレルギーでリンパが腫れることはあるが滅多にないとのこと。</p>
+
+<p>もし仮にアレルギーで腫れていた場合でも治療法はなく。<br/>
+おさまるまで耐えるしかないとのことでした。</p>
+
+<p>なのでリンパ節炎として処置しますとのことで抗生物質と炎症を抑える薬をもらいました。</p>
+
+<p>うーむ。辛い</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[model.changesで強制的に変更したことにする方法]]></title>
@@ -2101,52 +2130,6 @@ app/assets/javascripts/ckeditor/plugins/html5validation/plugin.jsを開いて8�
 
 <p>これで日本語も表示できるようになりました。<br/>
 <img src="http://yoshitsugufujii.github.io/images/blog/2015-07-17%2013.52.17.png" alt="完成イメージ" /></p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[ckeditorのテーブルのデフォルト値を変更]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2015/07/15/ckeditor-table-width/"/>
-        <updated>2015-07-15T16:56:33+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2015/07/15/ckeditor-table-width</id>
-        <content type="html"><![CDATA[<p>相変わらず使わせてもらってます。<a href="https://github.com/galetahub/ckeditor">ckeditor</a><br/>
-デフォルトでテーブルのサイズが500pxとなっておりますが、スマートフォンでも表示する必要がありこれを100%にしたくてしらべました。<br/>
-ついでに邪魔なのでborderとcellspacingの値も0にしちゃいましょう。</p>
-
-<!-- more -->
-
-
-
-
-<figure class='code'><figcaption><span>app/assets/javascripts/ckeditor/config.js</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">CKEDITOR</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span> <span class="s1">&#39;dialogDefinition&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">ev</span> <span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="kd">var</span> <span class="nx">dialogName</span> <span class="o">=</span> <span class="nx">ev</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">name</span><span class="p">;</span>
-</span><span class='line'>    <span class="kd">var</span> <span class="nx">dialogDefinition</span> <span class="o">=</span> <span class="nx">ev</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">definition</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span> <span class="nx">dialogName</span> <span class="o">==</span> <span class="s1">&#39;table&#39;</span> <span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="kd">var</span> <span class="nx">info</span> <span class="o">=</span> <span class="nx">dialogDefinition</span><span class="p">.</span><span class="nx">getContents</span><span class="p">(</span> <span class="s1">&#39;info&#39;</span> <span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="nx">info</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="s1">&#39;txtWidth&#39;</span> <span class="p">)[</span> <span class="s1">&#39;default&#39;</span> <span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;100%&#39;</span><span class="p">;</span>
-</span><span class='line'>        <span class="nx">info</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="s1">&#39;txtBorder&#39;</span> <span class="p">)[</span> <span class="s1">&#39;default&#39;</span> <span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;0&#39;</span><span class="p">;</span>
-</span><span class='line'>        <span class="nx">info</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="s1">&#39;txtCellSpace&#39;</span> <span class="p">)[</span> <span class="s1">&#39;default&#39;</span> <span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;0&#39;</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">});</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>テーブルダイアログが初期値で幅100%、枠線の幅0、セル内余白0になっているのが確認できます。<br/>
-<img src="http://yoshitsugufujii.github.io/images/blog/2015-07-15%2017.00.59.png" alt="完成イメージ" /></p>
 ]]></content>
     </entry>
     

@@ -83,6 +83,96 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2013/12/11/20131211200817/">変数の初期化</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2013-12-11T20:08:00+09:00" pubdate><i class="fa fa-calendar"></i> Dec 11th, 2013</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>clearなんてあったんや。<br/>
+<a href="http://ref.xaio.jp/ruby/classes/array/clear">http://ref.xaio.jp/ruby/classes/array/clear</a></p>
+
+<p>今まで</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">array</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;hoge&quot;</span><span class="p">,</span> <span class="s2">&quot;fuga&quot;</span><span class="o">]</span>
+</span><span class='line'><span class="n">array</span> <span class="o">=</span> <span class="o">[]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ってやってたのが、</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">array</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;hoge&quot;</span><span class="p">,</span> <span class="s2">&quot;fuga&quot;</span><span class="o">]</span>
+</span><span class='line'><span class="n">array</span><span class="o">.</span><span class="n">clear</span> <span class="c1"># =&gt; []</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>って書ける。より直感的ですね。</p>
+
+<p>ちなみに文字列もHashもあるみたいです。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">hash</span> <span class="o">=</span> <span class="p">{</span><span class="ss">hoge</span><span class="p">:</span> <span class="s2">&quot;fuga&quot;</span><span class="p">}</span>
+</span><span class='line'><span class="nb">hash</span><span class="o">.</span><span class="n">clear</span> <span class="c1"># {}</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">str</span> <span class="o">=</span> <span class="s2">&quot;fugafufa&quot;</span>
+</span><span class='line'><span class="n">str</span><span class="o">.</span><span class="n">clar</span> <span class="c1"># =&gt; &quot;&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>へー。</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2013/12/06/20131206131145/">複数選択のselectボックスの値をcoffeescriptで取り出してみる</a>
         </h1>
     
@@ -831,218 +921,6 @@ andをorにすると、どれかに一致するという条件になります。
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2013/10/28/20131028135346/">macをmarvericksにしたら、rails server動かなくなった</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2013-10-28T13:53:00+09:00" pubdate><i class="fa fa-calendar"></i> Oct 28th, 2013</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
-            
-                <li><a class='category' href='/blog/categories/marvericks/'>marvericks</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>色々と必要ないものとかもありそうだけど、やったこと全部書く</p>
-
-<p>なにはともかく<br/>
-xcodeのcommand line toolの入れなおし</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">xcode</span><span class="o">-</span><span class="nb">select</span> <span class="o">--</span><span class="n">install</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>んで、開発中のrailsディレクトリでrails serverしようとしたら動かない。<br/>
-とりあえず再bundle installしなおしてみる。</p>
-
-<p>nokogiriのインストールでlibxmlがどうこうってエラーでたから</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">~</span><span class="sr">/.rbenv/</span><span class="n">versions</span><span class="o">/</span><span class="mi">2</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">-</span><span class="n">p247</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">ruby</span><span class="o">/</span><span class="n">gems</span><span class="o">/</span><span class="mi">2</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">/</span><span class="n">gems</span><span class="o">/</span><span class="n">nokogiri</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">6</span><span class="o">.</span><span class="mi">0</span><span class="o">/</span><span class="n">ext</span><span class="o">/</span><span class="n">nokogiri</span><span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">i686</span><span class="o">-</span><span class="n">apple</span><span class="o">-</span><span class="n">darwin11</span><span class="o">/</span><span class="n">ports</span><span class="o">/</span><span class="n">libxml2</span><span class="o">/</span><span class="mi">2</span><span class="o">.</span><span class="mi">8</span><span class="o">.</span><span class="mi">0</span><span class="o">/</span><span class="n">libxml2</span><span class="o">-</span><span class="mi">2</span><span class="o">.</span><span class="mi">8</span><span class="o">.</span><span class="mi">0</span>
-</span><span class='line'><span class="n">sudo</span> <span class="n">make</span> <span class="n">clean</span>
-</span><span class='line'><span class="n">sudo</span> <span class="n">make</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>したらbundle installが成功。</p>
-
-<p>でもrails serverしたら</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Could</span> <span class="ow">not</span> <span class="n">find</span> <span class="n">libv8</span><span class="o">-</span><span class="mi">3</span><span class="o">.</span><span class="mi">11</span><span class="o">.</span><span class="mi">8</span><span class="o">.</span><span class="mi">17</span> <span class="k">in</span> <span class="n">any</span> <span class="n">of</span> <span class="n">the</span> <span class="n">sources</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>って出る。</p>
-
-<p>まず</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">brew</span> <span class="n">update</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>brew updateでこんなエラーが出た</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="ss">Error</span><span class="p">:</span> <span class="no">Failure</span> <span class="k">while</span> <span class="ss">executing</span><span class="p">:</span> <span class="n">git</span> <span class="n">pull</span> <span class="o">-</span><span class="n">q</span> <span class="n">origin</span> <span class="n">refs</span><span class="o">/</span><span class="n">heads</span><span class="o">/</span><span class="ss">master</span><span class="p">:</span><span class="n">refs</span><span class="o">/</span><span class="n">remotes</span><span class="o">/</span><span class="n">origin</span><span class="o">/</span><span class="n">master</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>pullできないみたいなので、ここを見つつ以下の様なことをやる。<br/>
-<a href="http://d.conma.me/entry/20120301/1330613125">http://d.conma.me/entry/20120301/1330613125</a></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">cd</span> <span class="sb">`brew --prefix`</span>
-</span><span class='line'><span class="n">git</span> <span class="n">reset</span> <span class="o">--</span><span class="n">hard</span> <span class="n">origin</span><span class="o">/</span><span class="n">master</span> <span class="c1">#=&gt; untrackファイルがあるからダメとか言われる</span>
-</span><span class='line'><span class="n">git</span> <span class="n">add</span> <span class="o">.</span>
-</span><span class='line'><span class="n">git</span> <span class="n">checkout</span> <span class="o">-</span><span class="n">f</span>
-</span><span class='line'><span class="n">git</span> <span class="n">reset</span> <span class="o">--</span><span class="n">hard</span> <span class="n">origin</span><span class="o">/</span><span class="n">master</span>
-</span><span class='line'><span class="n">brew</span> <span class="n">update</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>brew update成功</p>
-
-<p>んでここを見つつ以下を実行<br/>
-How to fix libv8 error from Gemfile on Mavericks?<br/>
-<a href="http://stackoverflow.com/questions/19568852/how-to-fix-libv8-error-from-gemfile-on-mavericks">http://stackoverflow.com/questions/19568852/how-to-fix-libv8-error-from-gemfile-on-mavericks</a></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="n">uninstall</span> <span class="n">libv8</span>
-</span><span class='line'><span class="n">brew</span> <span class="n">install</span> <span class="n">v8</span>
-</span><span class='line'><span class="n">gem</span> <span class="n">install</span> <span class="n">therubyracer</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>brew install v8が通らない・・・</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">==&gt;</span> <span class="no">Downloading</span> <span class="ss">https</span><span class="p">:</span><span class="sr">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">v8</span><span class="o">/</span><span class="n">v8</span><span class="o">/</span><span class="n">archive</span><span class="o">/</span><span class="mi">3</span><span class="o">.</span><span class="mi">19</span><span class="o">.</span><span class="mi">18</span><span class="o">.</span><span class="mi">4</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span>
-</span><span class='line'><span class="c1">######################################################################## 100.0%</span>
-</span><span class='line'><span class="o">==&gt;</span> <span class="n">make</span> <span class="n">dependencies</span>
-</span><span class='line'>            <span class="o">--</span><span class="n">revision</span> <span class="mi">1501</span>
-</span><span class='line'><span class="ss">dyld</span><span class="p">:</span> <span class="no">Library</span> <span class="ow">not</span> <span class="ss">loaded</span><span class="p">:</span> <span class="sr">/usr/</span><span class="n">local</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libsqlite3</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">8</span><span class="o">.</span><span class="mi">6</span><span class="o">.</span><span class="n">dylib</span>
-</span><span class='line'>  <span class="no">Referenced</span> <span class="ss">from</span><span class="p">:</span> <span class="sr">/usr/</span><span class="n">local</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">svn</span>
-</span><span class='line'>  <span class="ss">Reason</span><span class="p">:</span> <span class="n">image</span> <span class="ow">not</span> <span class="n">found</span>
-</span><span class='line'><span class="ss">make</span><span class="p">:</span> <span class="o">***</span> <span class="o">[</span><span class="n">dependencies</span><span class="o">]</span> <span class="no">Trace</span><span class="o">/</span><span class="no">BPT</span> <span class="nb">trap</span><span class="p">:</span> <span class="mi">5</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>また、エラー・・・</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">brew</span> <span class="n">rm</span> <span class="n">svn</span>
-</span><span class='line'><span class="n">brew</span> <span class="n">install</span> <span class="n">svn</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>んで再度</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">brew</span> <span class="n">install</span> <span class="n">v8</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>通った&hellip;</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">bundle</span> <span class="n">install</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>してから、</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rails</span> <span class="n">server</span>
-</span><span class='line'><span class="no">Could</span> <span class="ow">not</span> <span class="n">find</span> <span class="n">libv8</span><span class="o">-</span><span class="mi">3</span><span class="o">.</span><span class="mi">11</span><span class="o">.</span><span class="mi">8</span><span class="o">.</span><span class="mi">17</span> <span class="k">in</span> <span class="n">any</span> <span class="n">of</span> <span class="n">the</span> <span class="n">sources</span>
-</span><span class='line'><span class="no">Run</span> <span class="sb">`bundle install`</span> <span class="n">to</span> <span class="n">install</span> <span class="n">missing</span> <span class="n">gems</span><span class="o">.</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>あれ、ダメだ・・</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">bundle</span> <span class="nb">exec</span> <span class="n">rails</span> <span class="n">server</span>
-</span><span class='line'><span class="o">=&gt;</span> <span class="no">Booting</span> <span class="no">WEBrick</span>
-</span><span class='line'><span class="o">=&gt;</span> <span class="no">Rails</span> <span class="mi">3</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">13</span> <span class="n">application</span> <span class="n">starting</span> <span class="k">in</span> <span class="n">development</span> <span class="n">on</span> <span class="ss">http</span><span class="p">:</span><span class="sr">//</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">:</span><span class="mi">3000</span>
-</span><span class='line'><span class="o">=&gt;</span> <span class="no">Call</span> <span class="n">with</span> <span class="o">-</span><span class="n">d</span> <span class="n">to</span> <span class="n">detach</span>
-</span><span class='line'><span class="o">=&gt;</span> <span class="no">Ctrl</span><span class="o">-</span><span class="n">C</span> <span class="n">to</span> <span class="n">shutdown</span> <span class="n">server</span>
-</span><span class='line'><span class="o">[</span><span class="mi">2013</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">28</span> <span class="mi">13</span><span class="p">:</span><span class="mi">47</span><span class="p">:</span><span class="mi">46</span><span class="o">]</span> <span class="no">INFO</span>  <span class="no">WEBrick</span> <span class="mi">1</span><span class="o">.</span><span class="mi">3</span><span class="o">.</span><span class="mi">1</span>
-</span><span class='line'><span class="o">[</span><span class="mi">2013</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">28</span> <span class="mi">13</span><span class="p">:</span><span class="mi">47</span><span class="p">:</span><span class="mi">46</span><span class="o">]</span> <span class="no">INFO</span>  <span class="n">ruby</span> <span class="mi">2</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span> <span class="p">(</span><span class="mi">2013</span><span class="o">-</span><span class="mo">06</span><span class="o">-</span><span class="mi">27</span><span class="p">)</span> <span class="o">[</span><span class="n">x86_64</span><span class="o">-</span><span class="n">darwin12</span><span class="o">.</span><span class="mi">5</span><span class="o">.</span><span class="mi">0</span><span class="o">]</span>
-</span><span class='line'><span class="o">[</span><span class="mi">2013</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">28</span> <span class="mi">13</span><span class="p">:</span><span class="mi">47</span><span class="p">:</span><span class="mi">46</span><span class="o">]</span> <span class="no">INFO</span>  <span class="no">WEBrick</span><span class="o">::</span><span class="no">HTTPServer</span><span class="c1">#start: pid=16067 port=3000</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>ま、まぁいいか。</p>
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -1106,6 +984,10 @@ How to fix libv8 error from Gemfile on Mavericks?<br/>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2016/04/27/lymph-hareta/">喉のリンパが腫れました</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2016/04/11/rails-dirty-mark-changed/">model.changesで強制的に変更したことにする方法</a>
         </li>
         
@@ -1119,10 +1001,6 @@ How to fix libv8 error from Gemfile on Mavericks?<br/>
         
         <li class="post">
             <a href="/blog/2016/02/18/rails-tips-1/">Rails 便利なテクニック その１</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2016/02/03/change-crons-timezone/">Cronがutcで動いてる場合に</a>
         </li>
         
     </ul>
