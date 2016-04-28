@@ -83,6 +83,85 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2012/02/27/20120227112947/">instance_evalを引数つけて実行</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2012-02-27T11:29:00+09:00" pubdate><i class="fa fa-calendar"></i> Feb 27th, 2012</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>ruby1.9からです。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Foo</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span>
+</span><span class='line'>    <span class="vi">@v</span> <span class="o">=</span> <span class="mi">2</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">foo</span> <span class="o">=</span> <span class="no">Foo</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">foo</span><span class="o">.</span><span class="n">instance_exec</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">bar</span><span class="o">|</span>
+</span><span class='line'>  <span class="nb">p</span> <span class="vi">@v</span> <span class="o">*</span> <span class="n">bar</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'><span class="c1"># =&gt; 4</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2012/02/24/20120224111023/">sqlの実行。</a>
         </h1>
     
@@ -941,61 +1020,6 @@ alias 新しいメソッド名 古いメソッド名<br/>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2012/02/08/20120208173152/">悲しいお話</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2012-02-08T17:31:00+09:00" pubdate><i class="fa fa-calendar"></i> Feb 8th, 2012</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/yu/'>魚</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>昨日降りしきる雨の中灯油をもったまま玄関前でよろけた拍子に水鉢を踏み割ってしまい。</p>
-
-<p>地面に放り出された冬眠中の金魚とメダカを救出して、４５センチのグッピー水槽に移したら<br/>
-ノロノロでかわせずにグッピー♀にいじめられて冬眠からさめたばかりの金魚が死んでしまってとても悲しいのです。</p>
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -1059,6 +1083,10 @@ alias 新しいメソッド名 古いメソッド名<br/>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2016/04/28/you-should-take-a-loss/">あなたが損しなさいという文化</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2016/04/27/lymph-hareta/">喉のリンパが腫れました</a>
         </li>
         
@@ -1072,10 +1100,6 @@ alias 新しいメソッド名 古いメソッド名<br/>
         
         <li class="post">
             <a href="/blog/2016/03/18/stressful-working-tips-1/">どうしようもないお客さんとやってく方法</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2016/02/18/rails-tips-1/">Rails 便利なテクニック その１</a>
         </li>
         
     </ul>

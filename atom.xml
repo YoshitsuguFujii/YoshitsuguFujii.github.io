@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2016-04-27T12:10:32+09:00</updated>
+    <updated>2016-04-28T11:38:32+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,40 @@
     </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[あなたが損しなさいという文化]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2016/04/28/you-should-take-a-loss/"/>
+        <updated>2016-04-28T11:24:54+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2016/04/28/you-should-take-a-loss</id>
+        <content type="html"><![CDATA[<p>今日車を運転していたらこんな状況になりました。</p>
+
+<p>|　　　　　　|<br/>
+|　　　　　　|<br/>
+|　　　　　&mdash;<br/>
+|　　　　　|　<br/>
+|　　　　　|　<br/>
+|　対向車　|　<br/>
+|　　　　　|　<br/>
+|　　　　　|　<br/>
+|　　　　　|　<br/>
+|　自分車　|　<br/>
+|　　　　　|　<br/>
+|　　　　　&mdash;　<br/>
+|　　　　　　|　<br/>
+|　　　　　　|　</p>
+
+<!-- more -->
+
+
+<p>ちょうど道の狭いところでかちあってしまい、お互いバックすればすれ違うポイントがあるけれどという状況です。<br/>
+こういう場合は日本人はどちらかが損しなければならない場合は、自分が損をするという道徳観を子供の頃からすりこまれている気がします。</p>
+
+<p>民度の高さが話題にあがることがありますが、こういう道徳観というのは日本人を語る上での大事なファクターになるなぁと思いました。</p>
+
+<p>ちなみに今日は上記状況になったあとお互いが同時にバックするという状況になりました。</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[喉のリンパが腫れました]]></title>
@@ -2085,51 +2119,6 @@ app/assets/javascripts/ckeditor/plugins/html5validation/plugin.jsを開いて8�
 <p><img src="http://yoshitsugufujii.github.io/images/blog/2015-07-21_2.png" alt="完成イメージ" /></p>
 
 <p><img src="http://yoshitsugufujii.github.io/images/blog/2015-07-21.png" alt="完成イメージ" /></p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[Bootstrap FileInputで日本語の文字が表示されない]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2015/07/17/bootstrap-file-input-for-japanese/"/>
-        <updated>2015-07-17T13:46:05+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2015/07/17/bootstrap-file-input-for-japanese</id>
-        <content type="html"><![CDATA[<p>今の案件で<a href="http://plugins.krajee.com/file-input">Bootstrap FileInput</a>を使っていますが、日本語(2byte文字)が含まれるファイルを選択した場合ファイル名から日本語部分が消えるという現象が発生しました。</p>
-
-<p><a href="https://github.com/kartik-v/bootstrap-fileinput/blob/master/js/fileinput.js#L496">https://github.com/kartik-v/bootstrap-fileinput/blob/master/js/fileinput.js#L496</a><br/>
-ここを見る限りslugCallbackというメソッドを宣言時のoptionに渡してあげるといけそうです。</p>
-
-<!-- more -->
-
-
-<p>すいません。coffeescriptです。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.upload_file&#39;</span><span class="p">).</span><span class="nx">fileinput</span>
-</span><span class='line'>  <span class="nx">showPreview</span><span class="o">:</span> <span class="kc">false</span>
-</span><span class='line'>  <span class="nx">maxFileCount</span><span class="o">:</span> <span class="mi">1</span>
-</span><span class='line'>  <span class="nx">browseClass</span><span class="o">:</span> <span class="s1">&#39;btn btn-info fileinput-browse-button&#39;</span>
-</span><span class='line'>  <span class="nx">browseIcon</span><span class="o">:</span> <span class="s1">&#39;&#39;</span>
-</span><span class='line'>  <span class="nx">browseLabel</span><span class="o">:</span> <span class="s1">&#39; ファイル選択&#39;</span>
-</span><span class='line'>  <span class="nx">showRemove</span><span class="o">:</span> <span class="kc">false</span>
-</span><span class='line'>  <span class="nx">showUpload</span><span class="o">:</span> <span class="kc">false</span>
-</span><span class='line'>  <span class="nx">slugCallback</span><span class="o">:</span>
-</span><span class='line'>    <span class="p">(</span><span class="nx">text</span><span class="p">)</span><span class="o">-&gt;</span>
-</span><span class='line'>      <span class="nx">text</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="sr">/(\\|\/)/g</span><span class="p">).</span><span class="nx">pop</span><span class="p">()</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>これで日本語も表示できるようになりました。<br/>
-<img src="http://yoshitsugufujii.github.io/images/blog/2015-07-17%2013.52.17.png" alt="完成イメージ" /></p>
 ]]></content>
     </entry>
     
