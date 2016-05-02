@@ -4,7 +4,7 @@
     <title><![CDATA[Category: capistrano | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/capistrano/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2016-05-02T15:00:06+09:00</updated>
+    <updated>2016-05-02T15:10:51+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -39,7 +39,7 @@ installで入れるようなので、社内gitサーバーに置かれたgemを�
 <a href="https://github.com/rudionrails/capistrano-strategy-copy-bundled">rudionrails/capistrano-strategy-copy-bundled ?
 GitHub</a></p>
 
-<p>Gemfileにgem &lsquo;capistrano-strategy-copy-bundled&#8217;と書いてbundle install。</p>
+<p>Gemfileにgem &lsquo;capistrano-strategy-copy-bundled'と書いてbundle install。</p>
 
 <p>config/deploy.rb</p>
 
