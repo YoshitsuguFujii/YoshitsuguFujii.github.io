@@ -83,6 +83,123 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2012/06/15/20120615110211/">Array.wrapが便利な件</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2012-06-15T11:02:00+09:00" pubdate><i class="fa fa-calendar"></i> Jun 15th, 2012</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/rails/'>rails</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>好きです。Array.wrap<br/>
+ActiveSupportでArrayクラスで定義されてます。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">Array</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="s2">&quot;hoge&quot;</span><span class="p">)</span> <span class="c1">#=&gt; [&quot;hoge&quot;]</span>
+</span><span class='line'><span class="nb">Array</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="o">[</span><span class="s2">&quot;hoge&quot;</span><span class="o">]</span><span class="p">)</span> <span class="c1">#=&gt; [&quot;hoge&quot;]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>うんうん。いい。</p>
+
+<p>下のコードは適当に書いたので動かんかったらごめんなさい。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">has_one</span> <span class="ss">:lover</span>
+</span><span class='line'>  <span class="n">has_many</span> <span class="ss">:friends</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ってモデルがあったら</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">print_relations</span><span class="p">(</span><span class="n">lover_or_friends</span><span class="p">)</span>
+</span><span class='line'><span class="err">　　</span><span class="k">if</span> <span class="n">lover_or_friends</span><span class="o">.</span><span class="n">instance_of?</span><span class="p">(</span><span class="no">Lover</span><span class="p">)</span>
+</span><span class='line'><span class="err">　　</span>  <span class="nb">p</span> <span class="n">lover_or_friends</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="n">lover_or_friends</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">lover_or_friend</span><span class="o">|</span>
+</span><span class='line'>        <span class="nb">p</span> <span class="n">lover_or_friend</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>って、いちいち判定せずに。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">print_relations</span><span class="p">(</span><span class="n">lover_or_friends</span><span class="p">)</span>
+</span><span class='line'>    <span class="nb">Array</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="n">lover_or_friends</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">lover_or_friend</span><span class="o">|</span>
+</span><span class='line'>      <span class="nb">p</span> <span class="n">lover_or_friend</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>って、いっそArrayにしてしまって、回すとスッキリ</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2012/06/14/20120614151703/">xxx_pathからurlを取りたい</a>
         </h1>
     
@@ -691,75 +808,6 @@ rails 3.0.5</p>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2012/03/02/20120302132903/">nilガードとifを組み合わせてみた</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2012-03-02T13:29:00+09:00" pubdate><i class="fa fa-calendar"></i> Mar 2nd, 2012</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>こんな風にかける。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">foo</span> <span class="o">=</span> <span class="kp">nil</span>
-</span><span class='line'><span class="n">foo</span> <span class="o">=</span> <span class="n">foo</span> <span class="o">||</span> <span class="k">if</span> <span class="p">(</span><span class="nb">rand</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">odd?</span>
-</span><span class='line'>               <span class="s2">&quot;foo&quot;</span>
-</span><span class='line'>             <span class="k">else</span>
-</span><span class='line'>               <span class="s2">&quot;fooooooooooooo&quot;</span>
-</span><span class='line'>             <span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>すごい。</p>
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -823,6 +871,10 @@ rails 3.0.5</p>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2016/05/06/funabashi-sanbanse/">船橋三番瀬で潮干狩り</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2016/05/02/kojin-jigyo/">個人事業の始め方を読みました</a>
         </li>
         
@@ -836,10 +888,6 @@ rails 3.0.5</p>
         
         <li class="post">
             <a href="/blog/2016/04/27/lymph-hareta/">喉のリンパが腫れました</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2016/04/11/rails-dirty-mark-changed/">model.changesで強制的に変更したことにする方法</a>
         </li>
         
     </ul>

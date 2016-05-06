@@ -83,6 +83,73 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2015/03/21/mouse-pad/">今日 嫁にホワイトデーのお返しをしたよ</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2015-03-21T12:16:35+09:00" pubdate><i class="fa fa-calendar"></i> Mar 21st, 2015</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/self/'>self</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>嫁のホワイトデーのお返しがようやく届きました。</p>
+
+<p>かわいいマウスパッドというリクエストでしたが、探したけどかわいいマウスパッドがあまりなくどうしたものかと思ってましたが、
+商品を自由にカスタマイズできる <a href="http://www.zazzle.co.jp">Zazzle</a>というサービスがとても良さそうだったのでこれを利用しました。</p>
+
+<p>オーダーが3月9日。銀行振込も同日に行いました。<br/>
+振込確認したので作りますメールが12日にきて、13日に発送しますメールがきました。<br/>
+アメリカからの発送なので少し日数がたった3月16日に家に届きました。<br/>
+でも実際には仕事で受け取れず、受け取ったのは今日です(^^;)</p>
+
+<p>こんな感じのマウスパッドが届きました！
+素晴らしい出来！</p>
+
+<p><img src="/images/for_post/20150321_011205565_iOS.jpg"></p>
+
+<p>何か記念品を贈りたくなったらまた利用しようと思います。</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2015/03/20/delete-duplicated-file/">重複している画像ファイルを削除(rubyで)</a>
         </h1>
     
@@ -795,102 +862,6 @@ fomula  _valueを設定しましょう</p>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2015/02/17/20150217112514/">trueとfalseにrefinmentsを使ってメソッド追加</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2015-02-17T11:25:00+09:00" pubdate><i class="fa fa-calendar"></i> Feb 17th, 2015</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>Rubyでモデルの値がtrueの場合は○。falseの場合は空文字を表示するメソッドが欲しかったのでrefimentsを使って実装したかったけどなかなかうまくいかない。<br/>
-trueはインスタンスだと思うんだけど何か普通のインスタンスと違うのだろうか。</p>
-
-<p>試行錯誤は省いて結論としてはこうしたらできました.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">BooleanEx</span>
-</span><span class='line'>  <span class="n">refine</span> <span class="no">TrueClass</span> <span class="k">do</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nc">true</span><span class="o">.</span><span class="nf">to_circle</span>
-</span><span class='line'>      <span class="s2">&quot;○&quot;</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">refine</span> <span class="no">FalseClass</span> <span class="k">do</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nc">false</span><span class="o">.</span><span class="nf">to_circle</span>
-</span><span class='line'>      <span class="s2">&quot;&quot;</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">using</span> <span class="no">BooleanEx</span>
-</span><span class='line'>
-</span><span class='line'><span class="kp">true</span><span class="o">.</span><span class="n">to_circle</span> <span class="c1"># =&gt; &quot;○&quot;</span>
-</span><span class='line'><span class="kp">false</span><span class="o">.</span><span class="n">to_circle</span> <span class="c1"># =&gt; &quot;&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -954,6 +925,10 @@ trueはインスタンスだと思うんだけど何か普通のインスタン�
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2016/05/06/funabashi-sanbanse/">船橋三番瀬で潮干狩り</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2016/05/02/kojin-jigyo/">個人事業の始め方を読みました</a>
         </li>
         
@@ -967,10 +942,6 @@ trueはインスタンスだと思うんだけど何か普通のインスタン�
         
         <li class="post">
             <a href="/blog/2016/04/27/lymph-hareta/">喉のリンパが腫れました</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2016/04/11/rails-dirty-mark-changed/">model.changesで強制的に変更したことにする方法</a>
         </li>
         
     </ul>
