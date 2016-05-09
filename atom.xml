@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2016-05-06T19:12:00+09:00</updated>
+    <updated>2016-05-09T10:53:01+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,46 @@
     </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[csvなどで多重配列を縦横を入れ替える(行列切り替え)]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2016/05/09/ruby-transpose/"/>
+        <updated>2016-05-09T10:51:15+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2016/05/09/ruby-transpose</id>
+        <content type="html"><![CDATA[<p>小ネタです。<br/>
+Csvファイルなどで行列を切り替えて出力したい場合はtransposeが便利です。</p>
+
+<!-- more -->
+
+
+<p></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">csv</span><span class="o">.</span><span class="n">each</span><span class="p">{</span><span class="o">|</span><span class="n">row</span><span class="o">|</span> <span class="nb">p</span> <span class="n">row</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'><span class="n">csv</span> <span class="o">=</span> <span class="o">[[</span><span class="s2">&quot;user_name&quot;</span><span class="p">,</span> <span class="s2">&quot;age&quot;</span><span class="p">,</span> <span class="s2">&quot;gender&quot;</span><span class="o">]</span><span class="p">,</span> <span class="o">[</span><span class="s2">&quot;藤井&quot;</span><span class="p">,</span> <span class="s2">&quot;36&quot;</span><span class="p">,</span> <span class="s2">&quot;men&quot;</span><span class="o">]]</span>
+</span><span class='line'><span class="n">csv</span><span class="o">.</span><span class="n">each</span><span class="p">{</span><span class="o">|</span><span class="n">row</span><span class="o">|</span> <span class="nb">p</span> <span class="n">row</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'><span class="c1"># =&gt; &quot;user_name,age,gender&quot;  </span>
+</span><span class='line'><span class="c1"># =&gt; &quot;藤井,36,men&quot;  </span>
+</span><span class='line'>
+</span><span class='line'><span class="n">csv</span><span class="o">.</span><span class="n">transpose</span><span class="o">.</span><span class="n">each</span><span class="p">{</span><span class="o">|</span><span class="n">row</span><span class="o">|</span> <span class="nb">p</span> <span class="n">row</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'><span class="c1"># =&gt; &quot;user_name,藤井&quot;  </span>
+</span><span class='line'><span class="c1"># =&gt; &quot;age,36&quot;  </span>
+</span><span class='line'><span class="c1"># =&gt; &quot;gender,men&quot;  </span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[船橋三番瀬で潮干狩り]]></title>
@@ -1929,185 +1969,6 @@ Vagrantfileと同じディレクトリにrecipe.rbという名称でおきます
 
 
 <p>で繋がれば完成です。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[Axlsxでセルの中の斜線を引く]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2015/07/28/axlsx-diagonal-border/"/>
-        <updated>2015-07-28T18:55:24+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2015/07/28/axlsx-diagonal-border</id>
-        <content type="html"><![CDATA[<p>またまた中々見つけられなかったテクニック。<br/>
-セルの内部に斜線をひくです。</p>
-
-<p>連日の調査で疲れます。</p>
-
-<!-- more -->
-
-
-<p>さくっと結論です。<br/>
-edgesにdiagonalを指定して、diagonal_upかdiagonal_downにtrueを指定するです。<br/>
-edgesにdiagonalを指定しろなんてどこにも書いてなかったので大変でした。</p>
-
-<p>コードにするとこうです。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;axlsx&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">package</span> <span class="o">=</span> <span class="no">Axlsx</span><span class="o">::</span><span class="no">Package</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'><span class="n">sheet</span> <span class="o">=</span> <span class="n">package</span><span class="o">.</span><span class="n">workbook</span><span class="o">.</span><span class="n">add_worksheet</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="s1">&#39;lists&#39;</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">diagonal_up</span> <span class="o">=</span> <span class="n">sheet</span><span class="o">.</span><span class="n">styles</span><span class="o">.</span><span class="n">add_style</span><span class="p">(</span>
-</span><span class='line'>                              <span class="p">{</span>
-</span><span class='line'>                               <span class="ss">:border</span> <span class="o">=&gt;</span> <span class="p">{</span>
-</span><span class='line'>                                 <span class="ss">:edges</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:diagonal</span><span class="o">]</span><span class="p">,</span>
-</span><span class='line'>                                 <span class="ss">:color</span> <span class="o">=&gt;</span> <span class="s2">&quot;000000&quot;</span><span class="p">,</span>
-</span><span class='line'>                                 <span class="ss">:style</span> <span class="o">=&gt;</span> <span class="ss">:thin</span><span class="p">,</span>
-</span><span class='line'>                                 <span class="ss">diagonal_up</span><span class="p">:</span> <span class="kp">true</span>
-</span><span class='line'>                               <span class="p">}</span>
-</span><span class='line'>                              <span class="p">}</span>
-</span><span class='line'>                            <span class="p">)</span>
-</span><span class='line'><span class="n">diagonal_down</span> <span class="o">=</span> <span class="n">sheet</span><span class="o">.</span><span class="n">styles</span><span class="o">.</span><span class="n">add_style</span><span class="p">(</span>
-</span><span class='line'>                              <span class="p">{</span>
-</span><span class='line'>                               <span class="ss">:border</span> <span class="o">=&gt;</span> <span class="p">{</span>
-</span><span class='line'>                                 <span class="ss">:edges</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:diagonal</span><span class="o">]</span><span class="p">,</span>
-</span><span class='line'>                                 <span class="ss">:color</span> <span class="o">=&gt;</span> <span class="s2">&quot;000000&quot;</span><span class="p">,</span>
-</span><span class='line'>                                 <span class="ss">:style</span> <span class="o">=&gt;</span> <span class="ss">:thin</span><span class="p">,</span>
-</span><span class='line'>                                 <span class="ss">diagonal_down</span><span class="p">:</span> <span class="kp">true</span>
-</span><span class='line'>                                <span class="p">}</span>
-</span><span class='line'>                              <span class="p">}</span>
-</span><span class='line'>                            <span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">diagonal_both</span> <span class="o">=</span> <span class="n">sheet</span><span class="o">.</span><span class="n">styles</span><span class="o">.</span><span class="n">add_style</span><span class="p">(</span>
-</span><span class='line'>                              <span class="p">{</span>
-</span><span class='line'>                               <span class="ss">:border</span> <span class="o">=&gt;</span> <span class="p">{</span>
-</span><span class='line'>                                 <span class="ss">:edges</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:diagonal</span><span class="o">]</span><span class="p">,</span>
-</span><span class='line'>                                 <span class="ss">:color</span> <span class="o">=&gt;</span> <span class="s2">&quot;000000&quot;</span><span class="p">,</span>
-</span><span class='line'>                                 <span class="ss">:style</span> <span class="o">=&gt;</span> <span class="ss">:thin</span><span class="p">,</span>
-</span><span class='line'>                                 <span class="ss">diagonal_down</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span>
-</span><span class='line'>                                 <span class="ss">diagonal_up</span><span class="p">:</span> <span class="kp">true</span>
-</span><span class='line'>                               <span class="p">}</span>
-</span><span class='line'>                              <span class="p">}</span>
-</span><span class='line'>                            <span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="o">[</span><span class="s1">&#39;斜線1&#39;</span><span class="o">]</span><span class="p">,</span> <span class="ss">style</span><span class="p">:</span> <span class="n">diagonal_up</span><span class="p">)</span>
-</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="o">[</span><span class="s1">&#39;&#39;</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="o">[</span><span class="s1">&#39;斜線2&#39;</span><span class="o">]</span><span class="p">,</span> <span class="ss">style</span><span class="p">:</span> <span class="n">diagonal_down</span><span class="p">)</span>
-</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="o">[</span><span class="s1">&#39;&#39;</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="o">[</span><span class="s1">&#39;斜線3&#39;</span><span class="o">]</span><span class="p">,</span> <span class="ss">style</span><span class="p">:</span> <span class="n">diagonal_both</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">package</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="s1">&#39;test.xlsx&#39;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><img src="http://yoshitsugufujii.github.io/images/blog/2015-07-28.png" alt="Axlsx border diagonal" /></p>
-
-<p>もしくはこれでもいけます。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;axlsx&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">package</span> <span class="o">=</span> <span class="no">Axlsx</span><span class="o">::</span><span class="no">Package</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'><span class="n">sheet</span> <span class="o">=</span> <span class="n">package</span><span class="o">.</span><span class="n">workbook</span><span class="o">.</span><span class="n">add_worksheet</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="s1">&#39;lists&#39;</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">diagonal_style</span> <span class="o">=</span> <span class="n">sheet</span><span class="o">.</span><span class="n">styles</span><span class="o">.</span><span class="n">add_style</span><span class="p">(</span>
-</span><span class='line'>                              <span class="p">{</span>
-</span><span class='line'>                               <span class="ss">:border</span> <span class="o">=&gt;</span> <span class="p">{</span>
-</span><span class='line'>                                 <span class="ss">:edges</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:left</span><span class="p">,</span> <span class="ss">:right</span><span class="o">]</span><span class="p">,</span>
-</span><span class='line'>                                 <span class="ss">:color</span> <span class="o">=&gt;</span> <span class="s2">&quot;000000&quot;</span><span class="p">,</span>
-</span><span class='line'>                                 <span class="ss">:style</span> <span class="o">=&gt;</span> <span class="ss">:thin</span>
-</span><span class='line'>                               <span class="p">}</span>
-</span><span class='line'>                              <span class="p">}</span>
-</span><span class='line'>                            <span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">br</span> <span class="o">=</span> <span class="n">package</span><span class="o">.</span><span class="n">workbook</span><span class="o">.</span><span class="n">styles</span><span class="o">.</span><span class="n">borders</span><span class="o">[</span><span class="n">package</span><span class="o">.</span><span class="n">workbook</span><span class="o">.</span><span class="n">styles</span><span class="o">.</span><span class="n">cellXfs</span><span class="o">[</span><span class="n">diagonal_style</span><span class="o">].</span><span class="n">borderId</span><span class="o">]</span>
-</span><span class='line'><span class="n">br</span><span class="o">.</span><span class="n">diagonalUp</span> <span class="o">=</span> <span class="kp">true</span>
-</span><span class='line'><span class="n">br</span><span class="o">.</span><span class="n">diagonalDown</span> <span class="o">=</span> <span class="kp">true</span>
-</span><span class='line'><span class="n">br</span><span class="o">.</span><span class="n">prs</span> <span class="o">&lt;&lt;</span> <span class="no">Axlsx</span><span class="o">::</span><span class="no">BorderPr</span><span class="o">.</span><span class="n">new</span><span class="p">(</span>
-</span><span class='line'>  <span class="nb">name</span><span class="p">:</span> <span class="ss">:diagonal</span><span class="p">,</span>
-</span><span class='line'>  <span class="ss">color</span><span class="p">:</span> <span class="no">Axlsx</span><span class="o">::</span><span class="no">Color</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">rgb</span><span class="p">:</span> <span class="s1">&#39;000000&#39;</span><span class="p">),</span>
-</span><span class='line'>  <span class="ss">style</span><span class="p">:</span> <span class="ss">:thin</span><span class="p">,</span>
-</span><span class='line'><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="o">[</span><span class="s1">&#39;斜め線をひく&#39;</span><span class="o">]</span><span class="p">,</span> <span class="ss">style</span><span class="p">:</span> <span class="n">diagonal_style</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">package</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="s1">&#39;test.xlsx&#39;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
 ]]></content>
     </entry>
     

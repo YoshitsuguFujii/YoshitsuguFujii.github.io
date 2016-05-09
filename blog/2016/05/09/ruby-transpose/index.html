@@ -9,13 +9,13 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>vimでファイルのブックマーク - なんとなく日々徒然と</title>
+        <title>csvなどで多重配列を縦横を入れ替える(行列切り替え) - なんとなく日々徒然と</title>
         <meta name="author" content="Yoshitsugu Fujii">
         
         <meta name="description" content="千葉県市川市在住のサファーもどきが書くRubyとRuby on Railsが多めの技術系ブログ。たまに別言語のこととかも書きます">
         
         <meta name="viewport" content="width=device-width">
-        <link rel="canonical" href="http://yoshitsugufujii.github.io/blog/2013/11/20/20131120192300">
+        <link rel="canonical" href="http://yoshitsugufujii.github.io/blog/2016/05/09/ruby-transpose">
 
         <link href='http://fonts.googleapis.com/css?family=Droid+Serif:400,400italic' rel='stylesheet' type='text/css'>
         <link href="http://fonts.googleapis.com/css?family=Droid+Sans" rel="stylesheet" type="text/css">
@@ -79,7 +79,7 @@
                     <article class="article article--single">
     <header class="article__header">
     
-        <h1 class="article__title">vimでファイルのブックマーク</h1>
+        <h1 class="article__title">csvなどで多重配列を縦横を入れ替える(行列切り替え)</h1>
     
 
     
@@ -91,7 +91,7 @@
 
 
 
-    <time class="article__date pull-left" datetime="2013-11-20T19:23:00+09:00" pubdate><i class="fa fa-calendar"></i> Nov 20th, 2013</time>
+    <time class="article__date pull-left" datetime="2016-05-09T10:51:15+09:00" pubdate><i class="fa fa-calendar"></i> May 9th, 2016</time>
 
 
 
@@ -104,7 +104,7 @@
         
 
             
-                <li><a class='category' href='/blog/categories/vim/'>vim</a></li>
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
             
         
         </ul>
@@ -119,32 +119,38 @@
 
 
 
-    <p>vimを使っていて。<br/>
-ディレクトリはUniteBookmarkAdd使ってブックマークしてましたが。</p>
+    <p>小ネタです。<br/>
+Csvファイルなどで行列を切り替えて出力したい場合はtransposeが便利です。</p>
 
-<p>集中的にある機能のみを重点的に編集する時に、ファイルのブックマークしたくて調べたらあった。<br/>
-しかもデフォルトの機能っぽい。</p>
+<!-- more -->
 
-<p>Hack   #16: 任意のファイルをブックマークする<br/>
-<a href="http://vim-users.jp/2009/05/hack16/">http://vim-users.jp/2009/05/hack16/</a></p>
 
-<p>例えば店舗とかっていう機能開発していて。</p>
+<p></p>
 
-<p>StoreControllerのコントロールファイルではmC<br/>
-StoreのformのビューファイルではmF<br/>
-StoreのindexファイルではmS<br/>
-StoreのjsファイルではmJ</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">csv</span><span class="o">.</span><span class="n">each</span><span class="p">{</span><span class="o">|</span><span class="n">row</span><span class="o">|</span> <span class="nb">p</span> <span class="n">row</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'><span class="n">csv</span> <span class="o">=</span> <span class="o">[[</span><span class="s2">&quot;user_name&quot;</span><span class="p">,</span> <span class="s2">&quot;age&quot;</span><span class="p">,</span> <span class="s2">&quot;gender&quot;</span><span class="o">]</span><span class="p">,</span> <span class="o">[</span><span class="s2">&quot;藤井&quot;</span><span class="p">,</span> <span class="s2">&quot;36&quot;</span><span class="p">,</span> <span class="s2">&quot;men&quot;</span><span class="o">]]</span>
+</span><span class='line'><span class="n">csv</span><span class="o">.</span><span class="n">each</span><span class="p">{</span><span class="o">|</span><span class="n">row</span><span class="o">|</span> <span class="nb">p</span> <span class="n">row</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'><span class="c1"># =&gt; &quot;user_name,age,gender&quot;  </span>
+</span><span class='line'><span class="c1"># =&gt; &quot;藤井,36,men&quot;  </span>
+</span><span class='line'>
+</span><span class='line'><span class="n">csv</span><span class="o">.</span><span class="n">transpose</span><span class="o">.</span><span class="n">each</span><span class="p">{</span><span class="o">|</span><span class="n">row</span><span class="o">|</span> <span class="nb">p</span> <span class="n">row</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'><span class="c1"># =&gt; &quot;user_name,藤井&quot;  </span>
+</span><span class='line'><span class="c1"># =&gt; &quot;age,36&quot;  </span>
+</span><span class='line'><span class="c1"># =&gt; &quot;gender,men&quot;  </span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p>しとくと編集していて、すぐにコントローラ開きたい時は<br/>
-  `C</p>
 
-<p>って押せばすぐ開く。<br/>
-簡単に設定できて、即応性があるのでいい感じですね。<br/>
-しかもブックマークとかにしちゃうと、設定後その機能の開発が終わったらブックマークを消さなきゃいけないと思いますが。<br/>
-今なにが設定されているとか気にせずに、常に上書きで使う感じもいいです。<br/>
-他にも色々便利機能ってあるのかな。</p>
-
-<p>vimの本ちゃんと読まないとなー</p>
+<p></p>
 
 
 
@@ -167,7 +173,7 @@ StoreのjsファイルではmJ</p>
 </li>
 
       <li class="twitter">
-<a class="twitter-share-button" href="https://twitter.com/share?text=vimでファイルのブックマーク by @YoshitsuguFujii&url=http://yoshitsugufujii.github.io/blog/2013/11/20/20131120192300/"> Tweet </a>
+<a class="twitter-share-button" href="https://twitter.com/share?text=csvなどで多重配列を縦横を入れ替える(行列切り替え) by @YoshitsuguFujii&url=http://yoshitsugufujii.github.io/blog/2016/05/09/ruby-transpose/"> Tweet </a>
 <script>
   window.twttr=(function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return;js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);t._e=[];t.ready=function(f){t._e.push(f);};return t;}(document,"script","twitter-wjs"));
 </script>
@@ -373,8 +379,8 @@ StoreのjsファイルではmJ</p>
     
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://yoshitsugufujii.github.io/blog/2013/11/20/20131120192300/';
-        var disqus_url = 'http://yoshitsugufujii.github.io/blog/2013/11/20/20131120192300/';
+        var disqus_identifier = 'http://yoshitsugufujii.github.io/blog/2016/05/09/ruby-transpose/';
+        var disqus_url = 'http://yoshitsugufujii.github.io/blog/2016/05/09/ruby-transpose/';
         var disqus_script = 'embed.js';
     
     (function () {

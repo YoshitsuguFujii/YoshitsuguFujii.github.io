@@ -4,7 +4,7 @@
     <title><![CDATA[Category: ruby | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/ruby/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2016-05-06T19:12:00+09:00</updated>
+    <updated>2016-05-09T10:53:01+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,33 @@
       </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[csvなどで多重配列を縦横を入れ替える(行列切り替え)]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2016/05/09/ruby-transpose/"/>
+        <updated>2016-05-09T10:51:15+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2016/05/09/ruby-transpose</id>
+        <content type="html"><![CDATA[<p>小ネタです。<br/>
+Csvファイルなどで行列を切り替えて出力したい場合はtransposeが便利です。</p>
+
+<!-- more -->
+
+
+<p></p>
+
+<pre><code class="ruby  ">csv.each{|row| p row.join(",") }  
+csv = [["user_name", "age", "gender"], ["藤井", "36", "men"]]  
+csv.each{|row| p row.join(",") }  
+# =&gt; "user_name,age,gender"  
+# =&gt; "藤井,36,men"  
+
+csv.transpose.each{|row| p row.join(",") }  
+# =&gt; "user_name,藤井"  
+# =&gt; "age,36"  
+# =&gt; "gender,men"  
+</code></pre>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[model.changesで強制的に変更したことにする方法]]></title>
@@ -134,25 +161,6 @@ railsはname属性に[]を使うので、この場合のng-show内部の指定�
 
 <pre><code class="ruby">irb(main):014:0&gt; Settings.instance_variable_get(:@config_sources)
 =&gt; [#&lt;RailsConfig::Sources::YAMLSource:0x0055a28d40ab48 @path="Rails_rootへのパス/current/config/settings.yml"&gt;, #&lt;RailsConfig::Sources::YAMLSource:0x0055a28d40aa30 @path="Rails_rootへのパス/current/config/settings/hoge.yml"&gt;, #&lt;RailsConfig::Sources::YAMLSource:0x0055a28d40a9e0 @path="Rails_rootへのパス/current/config/environments/hoge.yml"&gt;]
-</code></pre>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[jpmobileでPCでスマートフォンのビューを表示する場合]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2016/01/22/jpmobile-enforce-sp-view-for-pc/"/>
-        <updated>2016-01-22T18:51:27+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2016/01/22/jpmobile-enforce-sp-view-for-pc</id>
-        <content type="html"><![CDATA[<p>なんらかの条件で強制的にスマートフォンのviewを使いたい時。
-アプリのwebviewとか？</p>
-
-<pre><code class="ruby">before_filter :hoge
-def hoge
-  if true # 条件
-    env["rack.jpmobile"] = Jpmobile::Mobile::SmartPhone.new(env, request)
-    register_mobile
-  end
-end
 </code></pre>
 ]]></content>
     </entry>
