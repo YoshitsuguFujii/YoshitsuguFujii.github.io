@@ -4,7 +4,7 @@
     <title><![CDATA[Category: go | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/go/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2016-05-09T10:53:01+09:00</updated>
+    <updated>2016-05-10T19:54:04+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,60 @@
       </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[Go言語でファイル送信用cuiツールを作ったよ]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2016/05/10/golang-file-exchange-tool/"/>
+        <updated>2016-05-10T19:50:24+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2016/05/10/golang-file-exchange-tool</id>
+        <content type="html"><![CDATA[<p>ファイルをやりとりする場合に、一旦共有サーバーにあげてとかメールに添付したりとかめんどくさくて作りました。 <br/>
+Golangで作ったので異なるOSでも動きます(WinとMacで確認済み)</p>
+
+<!-- more -->
+
+
+<p></p>
+
+<p>受信する側は引数なしで起動すると受信モードで待機します。</p>
+
+<pre><code class="sh  ">./file_exchange
+</code></pre>
+
+<p>もしくは winの場合はfile_exchange.exeをダブルクリックでもいけます</p>
+
+<p>送信先の一覧は送信側で以下のコマンドをうつと受信待機中のipが取れるのでこれで取得しましょう</p>
+
+<pre><code class="sh  ">./file_exchange list
+</code></pre>
+
+<p>実行結果はこんな感じ。</p>
+
+<p><img src="/images/blog/2016-05-10.png" alt="リスト取得" /></p>
+
+<p>udpでブロードキャストしているのですが、全部からリクエストもらってから終了のやり方がわからず<br/>
+とりあえずタイムアウト3秒の間にレスポンスが返ってきたものが表示されます。<br/>
+タイムアウトで処理を終了しているので例外で終わります。<br/>
+どなたかうまいやり方知っている人がいれば教えて下さい。</p>
+
+<p>ipを取得したら送信します。</p>
+
+<pre><code class="sh  ">./file_exchange ipアドレス ファイルパス`  
+</code></pre>
+
+<p>で送信できます。<br/>
+こんな感じです。</p>
+
+<pre><code class="sh  ">./file_exchange 192.168.134.34 avator.png  
+</code></pre>
+
+<p>上書きが怖かったので同名のファイルがある場合はファイル名に_Nをつけて保存するようにしています。</p>
+
+<p>今回winでも試してみましたが、winでも動いて感動しました 。</p>
+
+<p>コードはこちらを参照してください。buidも各自でお願いします<br/>
+<a href="https://github.com/YoshitsuguFujii/file_exchange">YoshitsuguFujii/file_exchange</a></p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[Go言語を使ってローカルマシン上でbotを動かしSlackでtodo管理をする]]></title>

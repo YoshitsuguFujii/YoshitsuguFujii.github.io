@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2016-05-09T10:53:01+09:00</updated>
+    <updated>2016-05-10T19:54:04+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,72 @@
     </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[Go言語でファイル送信用cuiツールを作ったよ]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2016/05/10/golang-file-exchange-tool/"/>
+        <updated>2016-05-10T19:50:24+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2016/05/10/golang-file-exchange-tool</id>
+        <content type="html"><![CDATA[<p>ファイルをやりとりする場合に、一旦共有サーバーにあげてとかメールに添付したりとかめんどくさくて作りました。 <br/>
+Golangで作ったので異なるOSでも動きます(WinとMacで確認済み)</p>
+
+<!-- more -->
+
+
+<p></p>
+
+<p>受信する側は引数なしで起動すると受信モードで待機します。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>./file_exchange
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>もしくは winの場合はfile_exchange.exeをダブルクリックでもいけます</p>
+
+<p>送信先の一覧は送信側で以下のコマンドをうつと受信待機中のipが取れるのでこれで取得しましょう</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>./file_exchange list
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>実行結果はこんな感じ。</p>
+
+<p><img src="http://yoshitsugufujii.github.io/images/blog/2016-05-10.png" alt="リスト取得" /></p>
+
+<p>udpでブロードキャストしているのですが、全部からリクエストもらってから終了のやり方がわからず<br/>
+とりあえずタイムアウト3秒の間にレスポンスが返ってきたものが表示されます。<br/>
+タイムアウトで処理を終了しているので例外で終わります。<br/>
+どなたかうまいやり方知っている人がいれば教えて下さい。</p>
+
+<p>ipを取得したら送信します。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>./file_exchange ipアドレス ファイルパス<span class="sb">`</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>で送信できます。<br/>
+こんな感じです。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>./file_exchange 192.168.134.34 avator.png
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>上書きが怖かったので同名のファイルがある場合はファイル名に_Nをつけて保存するようにしています。</p>
+
+<p>今回winでも試してみましたが、winでも動いて感動しました 。</p>
+
+<p>コードはこちらを参照してください。buidも各自でお願いします<br/>
+<a href="https://github.com/YoshitsuguFujii/file_exchange">YoshitsuguFujii/file_exchange</a></p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[csvなどで多重配列を縦横を入れ替える(行列切り替え)]]></title>
@@ -1759,216 +1825,6 @@ testチャンネルでつぶやいてみます。</p>
 
 <p>おお、できました！<br/>
 ゴルーチンとかチャネルとかまだあんまりよくわかってないので引き続き勉強していきたいと思います。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[VagrantとItamaeを使って5分でmysqlサーバー構築]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2015/08/27/vagrant-mysql/"/>
-        <updated>2015-08-27T15:42:59+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2015/08/27/vagrant-mysql</id>
-        <content type="html"><![CDATA[<p>普段はほぼモノシリックなサービスしか開発していないんだけど、去年の暮れぐらいからちょくちょく関わらせている案件がマイクロサービスで、新しい人が入るということで構築手順のまとめがてらVagrant + Itamaeで環境構築してみた。</p>
-
-<p>複数サーバーインスタンスを立ち上げて、各サーバーから一つのmysqlに接続できたらいいな。 (この構成ならdockerでやれという話もあるけど。先にvagrantを勉強してみたかったので）</p>
-
-<p>とりあえず192.168.55.55で接続可能なmysqlのvagrant(なんていうんだろう。dockerだとコンテナに相当するやつ)を作成してみます。</p>
-
-<!-- more -->
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>vagrant init
-</span><span class='line'>vagrant plugin install vagrant-itamae</span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>vagrant init</code>して作成されたVagrantfileを編集します。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># -*- mode: ruby -*-</span>
-</span><span class='line'><span class="c1"># vi: set ft=ruby :</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">Vagrant</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
-</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">box</span> <span class="o">=</span> <span class="s2">&quot;centos65&quot;</span>
-</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">box_url</span> <span class="o">=</span> <span class="s2">&quot;https://github.com/2creatives/vagrant-centos/releases/download/v6.5.3/centos65-x86_64-20140116.box&quot;</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">define</span> <span class="s2">&quot;db&quot;</span> <span class="k">do</span> <span class="o">|</span><span class="n">db</span><span class="o">|</span>
-</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">hostname</span> <span class="o">=</span> <span class="s2">&quot;db&quot;</span>
-</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">network</span> <span class="ss">:private_network</span><span class="p">,</span> <span class="ss">ip</span><span class="p">:</span> <span class="s2">&quot;192.168.55.55&quot;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">provision</span> <span class="ss">:itamae</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
-</span><span class='line'>      <span class="n">config</span><span class="o">.</span><span class="n">sudo</span> <span class="o">=</span> <span class="kp">true</span>
-</span><span class='line'>      <span class="n">config</span><span class="o">.</span><span class="n">recipes</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;./recipe.rb&#39;</span><span class="o">]</span>
-</span><span class='line'>      <span class="n">config</span><span class="o">.</span><span class="n">json</span> <span class="o">=</span> <span class="s1">&#39;./node.json&#39;</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">ssh</span><span class="o">.</span><span class="n">forward_agent</span> <span class="o">=</span> <span class="kp">true</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Itameのレシピ<br/>
-Vagrantfileと同じディレクトリにrecipe.rbという名称でおきます。</p>
-
-<figure class='code'><figcaption><span>recipe.rb </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">package</span> <span class="s2">&quot;epel-release&quot;</span>
-</span><span class='line'><span class="n">package</span> <span class="s2">&quot;gcc&quot;</span>
-</span><span class='line'><span class="n">package</span> <span class="s2">&quot;openssl-devel&quot;</span>
-</span><span class='line'><span class="n">package</span> <span class="s2">&quot;libyaml-devel&quot;</span>
-</span><span class='line'><span class="n">package</span> <span class="s2">&quot;readline-devel&quot;</span>
-</span><span class='line'><span class="n">package</span> <span class="s2">&quot;zlib-devel&quot;</span>
-</span><span class='line'><span class="n">package</span> <span class="s2">&quot;vim&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># mysql</span>
-</span><span class='line'><span class="n">package</span> <span class="s1">&#39;http://dev.mysql.com/get/mysql-community-release-el6-5.noarch.rpm&#39;</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">not_if</span> <span class="s1">&#39;rpm -q mysql-community-release-el6-5&#39;</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="sx">%w( mysql-community-server mysql-community-devel )</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">pkg</span><span class="o">|</span>
-</span><span class='line'>  <span class="n">package</span> <span class="n">pkg</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">utf8mb4_settting</span> <span class="o">=</span> <span class="o">&lt;&lt;</span><span class="sh">&quot;</span><span class="no">EOS</span><span class="sh">&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="sh">[mysqld]</span>
-</span><span class='line'><span class="sh">character-set-server = utf8mb4</span>
-</span><span class='line'><span class="sh">character-set-client-handshake  = FALSE</span>
-</span><span class='line'><span class="sh">character_set_server            = utf8mb4</span>
-</span><span class='line'><span class="sh">collation_server                = utf8mb4_unicode_ci</span>
-</span><span class='line'><span class="sh">innodb_file_format = Barracuda</span>
-</span><span class='line'><span class="sh">innodb_file_per_table = 1</span>
-</span><span class='line'><span class="sh">innodb_large_prefix</span>
-</span><span class='line'>
-</span><span class='line'><span class="sh">[client]</span>
-</span><span class='line'><span class="sh">default-character-set=utf8mb4</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">EOS</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">execute</span> <span class="s2">&quot;set db charset to utf8mb4&quot;</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">command</span> <span class="o">&lt;&lt;-</span><span class="no">EOF</span>
-</span><span class='line'><span class="sh">    echo &#39;#{utf8mb4_settting}&#39; &gt;&gt; /etc/my.cnf</span>
-</span><span class='line'><span class="no">  EOF</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">service</span> <span class="s1">&#39;mysqld&#39;</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">action</span> <span class="o">[</span><span class="ss">:start</span><span class="p">,</span> <span class="ss">:enable</span><span class="o">]</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">execute</span> <span class="s2">&quot;allow remote host access&quot;</span> <span class="k">do</span>
-</span><span class='line'>  <span class="c1"># MySQLにリモートホストから接続できるようにする</span>
-</span><span class='line'>  <span class="n">command</span> <span class="s2">&quot;mysql -e </span><span class="se">\&quot;</span><span class="s2">grant all privileges on *.* to root@&#39;192.168.%&#39;</span><span class="se">\&quot;</span><span class="s2">&quot;</span><span class="p">;</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>レシピから参照するnode<br/>
-これもVagrantfileと同じ場所にnode.jsonという名前でおきます。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="s2">&quot;mysql&quot;</span><span class="o">:</span> <span class="p">{</span>
-</span><span class='line'>    <span class="s2">&quot;password&quot;</span><span class="o">:</span> <span class="s2">&quot;&quot;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>そしたらvagrantを起動しましょう。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>vagrant up
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>無事に起動したらItamaeで環境構築です。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>vagrant provision
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>無事に終了したらホストから接続してみます。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>mysql -uroot -h 192.168.55.55
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>で繋がれば完成です。</p>
 ]]></content>
     </entry>
     
