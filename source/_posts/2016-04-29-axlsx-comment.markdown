@@ -3,7 +3,7 @@ layout: post
 title: "Axlsxでコメント表示"
 date: 2016-04-29 14:50:47 +0900
 comments: true
-categories: 
+categories: [ruby, gem, axlsx, excel]
 ---
 
 Axlsxで常に表示されているコメントとマウスオーバーで表示されるコメント
