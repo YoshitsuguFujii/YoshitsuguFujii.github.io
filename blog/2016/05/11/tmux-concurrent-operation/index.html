@@ -9,13 +9,13 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>Bootstrap FileInputで日本語の文字が表示されない - なんとなく日々徒然と</title>
+        <title>複数サーバーssh同時操作 - なんとなく日々徒然と</title>
         <meta name="author" content="Yoshitsugu Fujii">
         
         <meta name="description" content="千葉県市川市在住のサファーもどきが書くRubyとRuby on Railsが多めの技術系ブログ。たまに別言語のこととかも書きます">
         
         <meta name="viewport" content="width=device-width">
-        <link rel="canonical" href="http://yoshitsugufujii.github.io/blog/2015/07/17/bootstrap-file-input-for-japanese">
+        <link rel="canonical" href="http://yoshitsugufujii.github.io/blog/2016/05/11/tmux-concurrent-operation">
 
         <link href='http://fonts.googleapis.com/css?family=Droid+Serif:400,400italic' rel='stylesheet' type='text/css'>
         <link href="http://fonts.googleapis.com/css?family=Droid+Sans" rel="stylesheet" type="text/css">
@@ -79,7 +79,7 @@
                     <article class="article article--single">
     <header class="article__header">
     
-        <h1 class="article__title">Bootstrap FileInputで日本語の文字が表示されない</h1>
+        <h1 class="article__title">複数サーバーssh同時操作</h1>
     
 
     
@@ -91,7 +91,7 @@
 
 
 
-    <time class="article__date pull-left" datetime="2015-07-17T13:46:05+09:00" pubdate><i class="fa fa-calendar"></i> Jul 17th, 2015</time>
+    <time class="article__date pull-left" datetime="2016-05-11T12:12:31+09:00" pubdate><i class="fa fa-calendar"></i> May 11th, 2016</time>
 
 
 
@@ -104,9 +104,7 @@
         
 
             
-                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
-            
-                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
+                <li><a class='category' href='/blog/categories/tmux/'>tmux</a></li>
             
         
         </ul>
@@ -121,43 +119,36 @@
 
 
 
-    <p>今の案件で<a href="http://plugins.krajee.com/file-input">Bootstrap FileInput</a>を使っていますが、日本語(2byte文字)が含まれるファイルを選択した場合ファイル名から日本語部分が消えるという現象が発生しました。</p>
-
-<p><a href="https://github.com/kartik-v/bootstrap-fileinput/blob/master/js/fileinput.js#L496">https://github.com/kartik-v/bootstrap-fileinput/blob/master/js/fileinput.js#L496</a><br/>
-ここを見る限りslugCallbackというメソッドを宣言時のoptionに渡してあげるといけそうです。</p>
+    <p>冗長構成となっている本番環境でlogを調べたい時とかそれぞれのサーバーにsshしてはいってそれぞれのサーバーで同じコマンド打つのが面倒くさい。<br/>
+tmuxを使っていれば複数ペインで同時操作できます。</p>
 
 <!-- more -->
 
 
-<p>すいません。coffeescriptです。</p>
+<p></p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p>.tmux.confに設定追加</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.upload_file&#39;</span><span class="p">).</span><span class="nx">fileinput</span>
-</span><span class='line'>  <span class="nx">showPreview</span><span class="o">:</span> <span class="kc">false</span>
-</span><span class='line'>  <span class="nx">maxFileCount</span><span class="o">:</span> <span class="mi">1</span>
-</span><span class='line'>  <span class="nx">browseClass</span><span class="o">:</span> <span class="s1">&#39;btn btn-info fileinput-browse-button&#39;</span>
-</span><span class='line'>  <span class="nx">browseIcon</span><span class="o">:</span> <span class="s1">&#39;&#39;</span>
-</span><span class='line'>  <span class="nx">browseLabel</span><span class="o">:</span> <span class="s1">&#39; ファイル選択&#39;</span>
-</span><span class='line'>  <span class="nx">showRemove</span><span class="o">:</span> <span class="kc">false</span>
-</span><span class='line'>  <span class="nx">showUpload</span><span class="o">:</span> <span class="kc">false</span>
-</span><span class='line'>  <span class="nx">slugCallback</span><span class="o">:</span>
-</span><span class='line'>    <span class="p">(</span><span class="nx">text</span><span class="p">)</span><span class="o">-&gt;</span>
-</span><span class='line'>      <span class="nx">text</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="sr">/(\\|\/)/g</span><span class="p">).</span><span class="nx">pop</span><span class="p">()</span>
-</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'># ペイン同時操作  
+</span><span class='line'>set-option -g synchronize-panes off  
+</span><span class='line'>bind e setw synchronize-panes on  
+</span><span class='line'>bind E setw synchronize-panes off  </span></code></pre></td></tr></table></div></figure>
 
 
-<p>これで日本語も表示できるようになりました。<br/>
-<img src="/images/blog/2015-07-17%2013.52.17.png" alt="完成イメージ" /></p>
+<p></p>
+
+<p>これで</p>
+
+<p>ペイン分割して一つ目のペインでサーバーAへ接続<br/>
+二つ目のペインでサーバーBへ接続します。</p>
+
+<p>そのあとCTRL + eでtmuxにコマンドを送るとキーボード入力が２つのペインに送られるようになるので<br/>
+しかるべきlogフォルダまで移動してlogを見ればいいですね。<br/>
+同期を解除したい場合はCTRL + Eで解除できます。</p>
 
 
 
@@ -180,7 +171,7 @@
 </li>
 
       <li class="twitter">
-<a class="twitter-share-button" href="https://twitter.com/share?text=Bootstrap FileInputで日本語の文字が表示されない by @YoshitsuguFujii&url=http://yoshitsugufujii.github.io/blog/2015/07/17/bootstrap-file-input-for-japanese/"> Tweet </a>
+<a class="twitter-share-button" href="https://twitter.com/share?text=複数サーバーssh同時操作 by @YoshitsuguFujii&url=http://yoshitsugufujii.github.io/blog/2016/05/11/tmux-concurrent-operation/"> Tweet </a>
 <script>
   window.twttr=(function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return;js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);t._e=[];t.ready=function(f){t._e.push(f);};return t;}(document,"script","twitter-wjs"));
 </script>
@@ -386,8 +377,8 @@
     
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://yoshitsugufujii.github.io/blog/2015/07/17/bootstrap-file-input-for-japanese/';
-        var disqus_url = 'http://yoshitsugufujii.github.io/blog/2015/07/17/bootstrap-file-input-for-japanese/';
+        var disqus_identifier = 'http://yoshitsugufujii.github.io/blog/2016/05/11/tmux-concurrent-operation/';
+        var disqus_url = 'http://yoshitsugufujii.github.io/blog/2016/05/11/tmux-concurrent-operation/';
         var disqus_script = 'embed.js';
     
     (function () {

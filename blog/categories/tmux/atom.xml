@@ -4,7 +4,7 @@
     <title><![CDATA[Category: tmux | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/tmux/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2016-05-10T19:54:04+09:00</updated>
+    <updated>2016-05-11T12:15:32+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,38 @@
       </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[複数サーバーssh同時操作]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2016/05/11/tmux-concurrent-operation/"/>
+        <updated>2016-05-11T12:12:31+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2016/05/11/tmux-concurrent-operation</id>
+        <content type="html"><![CDATA[<p>冗長構成となっている本番環境でlogを調べたい時とかそれぞれのサーバーにsshしてはいってそれぞれのサーバーで同じコマンド打つのが面倒くさい。<br/>
+tmuxを使っていれば複数ペインで同時操作できます。</p>
+
+<!-- more -->
+
+
+<p></p>
+
+<p>.tmux.confに設定追加</p>
+
+<pre><code class=""># ペイン同時操作  
+set-option -g synchronize-panes off  
+bind e setw synchronize-panes on  
+bind E setw synchronize-panes off  
+</code></pre>
+
+<p>これで</p>
+
+<p>ペイン分割して一つ目のペインでサーバーAへ接続<br/>
+二つ目のペインでサーバーBへ接続します。</p>
+
+<p>そのあとCTRL + eでtmuxにコマンドを送るとキーボード入力が２つのペインに送られるようになるので<br/>
+しかるべきlogフォルダまで移動してlogを見ればいいですね。<br/>
+同期を解除したい場合はCTRL + Eで解除できます。</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[tmuxはじめました]]></title>
