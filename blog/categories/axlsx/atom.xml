@@ -4,7 +4,7 @@
     <title><![CDATA[Category: axlsx | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/axlsx/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2016-05-11T12:15:32+09:00</updated>
+    <updated>2016-05-11T17:53:18+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,45 @@
       </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[Axlsxでコメント表示]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2016/04/29/axlsx-comment/"/>
+        <updated>2016-04-29T14:50:47+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2016/04/29/axlsx-comment</id>
+        <content type="html"><![CDATA[<p>Axlsxで常に表示されているコメントとマウスオーバーで表示されるコメント</p>
+
+<p><img src="/images/blog/2016-04-29%2014.53.19.png" alt="Axlsxコメント" /></p>
+
+<!-- more -->
+
+
+<pre><code class="ruby">require 'axlsx'
+package = Axlsx::Package.new
+package.use_shared_strings = true
+sheet = package.workbook.add_worksheet(name: 'lists')
+
+sheet.add_row(['品名', '単価', '数量', '計'])
+sheet.add_row(['にんじん',    80, 1,      '=B2*C2'])
+sheet.add_row(['たまねぎ',    50, 2,      '=B3*C3'])
+sheet.add_row(['じゃがいも',  40, 2,      '=B4*C4'])
+sheet.add_row(['牛肉',       200, 1,      '=B5*C5'])
+sheet.add_row(['カレー粉',   150, 1,      '=B6*C6'])
+sheet.add_row(['',            '', '総計', '=SUM(D2:D6)'])
+
+#sheet.add_comment :ref =&gt; 'A1', :text =&gt; 'penut machine', :author =&gt; 'crank', :visible =&gt; true
+sheet.add_comment(:ref =&gt; 'A1', :author =&gt; 'Bob', :text =&gt; 'Yes We Can!').tap do |comment|
+  comment.vml_shape.top_row = 2      # 位置調整用
+  comment.vml_shape.left_column = 2  # 位置調整用
+  comment.vml_shape.bottom_row = 2   # 位置調整用
+  comment.vml_shape.right_column = 4 # 位置調整用
+end
+sheet.add_comment :ref =&gt; 'A6', :text =&gt; 'rust bucket', :author =&gt; 'PO', :visible =&gt; false
+
+package.serialize('test.xlsx')
+</code></pre>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[Axlsxでセルの中の斜線を引く]]></title>
@@ -223,34 +262,6 @@ wrap_text = sheet.styles.add_style(
 sheet.add_row(['とっても長いテキスト', '短いテキスト'], style: wrap_text)
 
 sheet.column_info.first.width = 5
-package.serialize('test.xlsx')
-</code></pre>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[Axlsxでウィンドウ枠の固定]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2015/02/23/20150223110642/"/>
-        <updated>2015-02-23T11:06:00+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2015/02/23/20150223110642</id>
-        <content type="html"><![CDATA[<p>エクセルのウィンドウ枠の固定をAxlsxで行う方法</p>
-
-<pre><code class="ruby">require 'axlsx'
-
-package = Axlsx::Package.new
-sheet = package.workbook.add_worksheet(name: 'lists')
-
-sheet.add_row(['品名', '単価', '数量', '計'] )
-sheet.add_row(['にんじん',    80, 1,      '=B2*C2'])
-
-sheet.sheet_view.pane do |pane|
-  pane.top_left_cell = "B2"
-  pane.state = :frozen_split
-  pane.y_split = 1
-  pane.x_split = 1
-  pane.active_pane = :bottom_right
-end
-
 package.serialize('test.xlsx')
 </code></pre>
 ]]></content>
