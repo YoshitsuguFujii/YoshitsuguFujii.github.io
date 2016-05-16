@@ -32,3 +32,54 @@ div.share{
     }
   }
 }
+
+$spaceHeights: 20, 40, 60;
+@each $spaceHeight in $spaceHeights {
+  .space-h#{$spaceHeight}{
+    height: #{$spaceHeight}px;
+    width: 100%;
+  }
+}
+
+$paddings:  5, 10, 15, 20;
+@each $padding in $paddings {
+  .pt#{$padding}{
+    padding-top: #{$padding}px;
+  }
+
+  .pl#{$padding}{
+    padding-left: #{$padding}px;
+  }
+
+  .pr#{$padding}{
+    padding-right: #{$padding}px;
+  }
+
+  .pb#{$padding}{
+    padding-bottom: #{$padding}px;
+  }
+}
+
+$margins:  5, 10, 15, 20, 25, 30;
+@each $margin in $margins {
+  .mt#{$margin}{
+    margin-top: #{$margin}px;
+  }
+
+  .ml#{$margin}{
+    margin-left: #{$margin}px;
+  }
+
+  .mr#{$margin}{
+    margin-right: #{$margin}px;
+  }
+
+  .mb#{$margin}{
+    margin-bottom: #{$margin}px;
+  }
+}
+
+
+#amazon-affiliate{
+  padding-left: 1rem;
+}
