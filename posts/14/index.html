@@ -83,6 +83,78 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2012/04/24/20120424124400/">配列の配列をループするときとか</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2012-04-24T12:44:00+09:00" pubdate><i class="fa fa-calendar"></i> Apr 24th, 2012</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>個数分受けとればいい。<br/>
+勝手に展開してくれる。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">array</span> <span class="o">=</span> <span class="o">[[</span><span class="s2">&quot;1a&quot;</span><span class="p">,</span><span class="s2">&quot;1b&quot;</span><span class="o">]</span><span class="p">,</span><span class="o">[</span><span class="s2">&quot;2a&quot;</span><span class="p">,</span><span class="s2">&quot;2b&quot;</span><span class="o">]]</span>
+</span><span class='line'><span class="n">array</span><span class="o">.</span><span class="n">map</span><span class="p">{</span><span class="o">|</span><span class="n">a1</span><span class="p">,</span><span class="n">a2</span><span class="o">|</span> <span class="n">a1</span> <span class="o">+</span> <span class="n">a2</span><span class="p">}</span> <span class="c1"># =&gt; [&quot;1a1b&quot;, &quot;2a2b&quot;]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>injectとかと併用する場合は括弧で囲う。<br/>
+以下は連想配列に変換する例</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">array</span> <span class="o">=</span> <span class="o">[[</span><span class="s2">&quot;1a&quot;</span><span class="p">,</span><span class="s2">&quot;1b&quot;</span><span class="o">]</span><span class="p">,</span><span class="o">[</span><span class="s2">&quot;2a&quot;</span><span class="p">,</span><span class="s2">&quot;2b&quot;</span><span class="o">]]</span>
+</span><span class='line'><span class="n">array</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="no">Hash</span><span class="o">.</span><span class="n">new</span><span class="p">){</span><span class="o">|</span><span class="nb">hash</span><span class="p">,(</span><span class="n">param1</span><span class="p">,</span><span class="n">param2</span><span class="p">)</span><span class="o">|</span> <span class="nb">hash</span><span class="o">[</span><span class="p">(</span><span class="n">param1</span><span class="p">)</span><span class="o">]</span> <span class="o">=</span> <span class="n">param2</span><span class="p">;</span> <span class="nb">hash</span> <span class="p">}</span> <span class="c1"># =&gt; {&quot;1a&quot;=&gt;&quot;1b&quot;, &quot;2a&quot;=&gt;&quot;2b&quot;}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>いいですね。Happyになりますね。</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2012/04/17/20120417122312/">each_with_indexの開始を任意の数値から</a>
         </h1>
     
@@ -818,85 +890,6 @@ rails 3.0.5</p>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2012/02/27/20120227112947/">instance_evalを引数つけて実行</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2012-02-27T11:29:00+09:00" pubdate><i class="fa fa-calendar"></i> Feb 27th, 2012</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>ruby1.9からです。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Foo</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span>
-</span><span class='line'>    <span class="vi">@v</span> <span class="o">=</span> <span class="mi">2</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">foo</span> <span class="o">=</span> <span class="no">Foo</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'><span class="n">foo</span><span class="o">.</span><span class="n">instance_exec</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">bar</span><span class="o">|</span>
-</span><span class='line'>  <span class="nb">p</span> <span class="vi">@v</span> <span class="o">*</span> <span class="n">bar</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'><span class="c1"># =&gt; 4</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -960,6 +953,10 @@ rails 3.0.5</p>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2016/05/18/hello-ruby/">ルビィのぼうけんをいただきました。</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2016/05/17/meet-kitten/">子猫を拾いました</a>
         </li>
         
@@ -973,10 +970,6 @@ rails 3.0.5</p>
         
         <li class="post">
             <a href="/blog/2016/05/11/tmux-concurrent-operation/">複数サーバーssh同時操作</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2016/05/10/golang-file-exchange-tool/">Go言語でファイル送信用cuiツールを作ったよ</a>
         </li>
         
     </ul>
