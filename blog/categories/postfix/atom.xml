@@ -4,7 +4,7 @@
     <title><![CDATA[Category: postfix | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/postfix/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2016-08-24T18:25:48+09:00</updated>
+    <updated>2016-08-24T18:52:15+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -40,7 +40,7 @@ smtpd_authorized_verp_clients = $mynetworks
 
 <p>以下sendMailはsmtp.SendMailと引数を一緒にしています。</p>
 
-<pre><code class="golang">func sendMail(addr string, auth smtp.Auth, from string, to []string, msg []byte) error {
+<pre><code>func sendMail(addr string, auth smtp.Auth, from string, to []string, msg []byte) error {
     var client *smtp.Client
     var err error
 
