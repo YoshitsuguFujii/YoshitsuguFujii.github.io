@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://yoshitsugufujii.github.io/blog/2016/12/24/firebase-first-data-is-null/</loc>
+    <lastmod>2016-12-24T17:28:47+09:00</lastmod>
+  </url>
+  <url>
     <loc>http://yoshitsugufujii.github.io/blog/2016/08/24/golang-mail-with-verp/</loc>
     <lastmod>2016-08-24T18:19:24+09:00</lastmod>
   </url>
@@ -682,22 +686,22 @@
   </url>
   <url>
     <loc>http://yoshitsugufujii.github.io/blog/</loc>
-    <lastmod>2016-08-24T18:55:28+09:00</lastmod>
+    <lastmod>2017-04-10T14:37:43+09:00</lastmod>
   </url>
   <url>
     <loc>http://yoshitsugufujii.github.io/blog/archives/</loc>
-    <lastmod>2016-08-24T18:55:28+09:00</lastmod>
+    <lastmod>2017-04-10T14:37:43+09:00</lastmod>
   </url>
   <url>
     <loc>http://yoshitsugufujii.github.io/archives/</loc>
-    <lastmod>2016-08-24T18:55:28+09:00</lastmod>
+    <lastmod>2017-04-10T14:37:43+09:00</lastmod>
   </url>
   <url>
     <loc>http://yoshitsugufujii.github.io/</loc>
-    <lastmod>2016-08-24T18:55:28+09:00</lastmod>
+    <lastmod>2017-04-10T14:37:43+09:00</lastmod>
   </url>
   <url>
     <loc>http://yoshitsugufujii.github.io/profile/</loc>
-    <lastmod>2016-08-24T18:55:28+09:00</lastmod>
+    <lastmod>2017-04-10T14:37:43+09:00</lastmod>
   </url>
 </urlset>
