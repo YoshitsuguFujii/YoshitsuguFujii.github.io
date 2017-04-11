@@ -4,7 +4,7 @@
     <title><![CDATA[Category: ruby | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/ruby/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2017-04-10T14:39:13+09:00</updated>
+    <updated>2017-04-11T19:47:53+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,33 @@
       </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[Ransackのデフォルトオーダーを変える方法]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2017/04/11/ransack-default-order/"/>
+        <updated>2017-04-11T18:26:06+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2017/04/11/ransack-default-order</id>
+        <content type="html"><![CDATA[<p><a href="http://www.logiclogic.jp/">ロジックロジック</a>を辞めました。<br/>
+そして意識低い系なのにフリーランスになりました。<br/>
+頑張っていきます。そしてお仕事ください。ペロペロ(靴を舐める音)</p>
+
+<p>ransackのsort_linkで昇順降順のデフォルトを変える方法です。</p>
+
+<pre><code class="ruby">= sort_link(@q, :created_at, '作成日', default_order: :desc)
+</code></pre>
+
+<p>最近は週２ぐらいで3キロ〜5キロぐらいの帰宅ランにはまっています。<br/>
+わざわざ時間をとったりしなくていいのでオススメですよ。</p>
+
+<p>これトレイルラン用ですが、体にピタと密着して走っても鞄がぶれないのでオススメです。<br/>
+MacBook Airの13インチとちょっとしたものが入るので便利！<br/>
+PCとお弁当と水筒と着替えをいれて走ってます。</p>
+
+<p><a href="https://www.amazon.co.jp/%E3%82%B5%E3%83%AD%E3%83%A2%E3%83%B3-%E3%83%90%E3%83%83%E3%82%AF%E3%83%91%E3%83%83%E3%82%AF-TRAIL-L37998300-GRANNY/dp/B014EBRLQG/ref=as_li_ss_il?ie=UTF8&qid=1491903304&sr=8-1&keywords=salomon+trail+20&linkCode=li3&tag=gogosakura-22&linkId=3bf38265c9d616b2ab28731fe38d0e44" target="_blank"><img border="0" src="//ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B014EBRLQG&Format=_SL250_&ID=AsinImage&MarketPlace=JP&ServiceVersion=20070822&WS=1&tag=gogosakura-22" ></a><img src="https://ir-jp.amazon-adsystem.com/e/ir?t=gogosakura-22&l=li3&o=9&a=B014EBRLQG" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /></p>
+
+<p><a href="http://amzn.to/2nzWzof">[サロモン] バックパック TRAIL 20</a></p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[csvなどで多重配列を縦横を入れ替える(行列切り替え)]]></title>
@@ -122,70 +149,6 @@ railsはname属性に[]を使うので、この場合のng-show内部の指定�
 </code></pre>
 
 <p>formのnameに指定されいるものを[]とシングルクォートで囲むといけます。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[Rails 便利なテクニック その１]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2016/02/18/rails-tips-1/"/>
-        <updated>2016-02-18T11:33:58+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2016/02/18/rails-tips-1</id>
-        <content type="html"><![CDATA[<p>日常コード書いてて便利だなぁと思った技とかを思い出したら不定期に書いていきます。</p>
-
-<p>よくメニューをulとliを使ってタブで表示することがあると思います。<br/>
-例えばタブは以下の条件で表示されます</p>
-
-<ul>
-<li>ユーザの年齢が20歳以上なら表示するタブA</li>
-<li>ユーザの性別が男性なら表示するタブB</li>
-<li>ユーザの性別が女性なら表示するタブC</li>
-<li>ユーザの性別が男性でかつ20歳以上なら表示するタブD</li>
-</ul>
-
-
-<p>実装が終わって総合テストがはじまります。</p>
-
-<p>ここでチケットがあがってきます。</p>
-
-<p><strong>『タブが一つしか出力されない場合はタブを非表示にしてください。』</strong></p>
-
-<p>さてどうしましょう？</p>
-
-<!-- more -->
-
-
-<p>複雑なif文を組み合わせてタブが１つかでない条件を見つけ出して非表示にしますか？<br/>
-タブが増えたり条件が増えたりしたら大変な上に可読性悪そうですね。</p>
-
-<p>Railsには便利なcaptureというメソッドがあります。<br/>
-これはcaptureメソッドに与えられたブロックの出力内容を返すメソッドです。<br/>
-これを使うとシンプルに問題を解決できます。</p>
-
-<pre><code class="erb app/views/layout/tab.html.erb">&lt;% tab = capture do %&gt;
-  &lt;ul&gt;
-    &lt;% if user.age &gt;= 20 %&gt; 
-      &lt;li&gt;タブA&lt;/li&gt;
-    &lt;% end %&gt;
-
-    &lt;% if user.male? %&gt; 
-      &lt;li&gt;タブB&lt;/li&gt;
-    &lt;% end %&gt;
-
-    &lt;% if user.female? %&gt; 
-      &lt;li&gt;タブC&lt;/li&gt;
-    &lt;% end %&gt;
-
-    &lt;% if user.male? &amp;&amp; user.age &gt;= 20 %&gt; 
-      &lt;li&gt;タブD&lt;/li&gt;
-    &lt;% end %&gt;
-  &lt;/ul&gt;
-&lt;% end %&gt;
-
-&lt;% # tabが一個ならば表示しない %&gt;
-&lt;%= tab.scan("&lt;/li&gt;").count &gt; 1 ? tab : "" %&gt;
-</code></pre>
-
-<p>htmlを動的に組み立てる際にあれこれするよりも、出力されたhtmlをもとに処理するというケースの方が圧倒的にスマートなケースがあるので積極的に使っていきたいですね。</p>
 ]]></content>
     </entry>
     
