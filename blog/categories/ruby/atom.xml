@@ -4,7 +4,7 @@
     <title><![CDATA[Category: ruby | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/ruby/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2017-04-12T10:34:45+09:00</updated>
+    <updated>2017-04-13T11:26:41+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,26 @@
       </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[postgres使っていてridgepoleで文字列から数値型への変換エラー]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2017/04/13/ridgepole-postgres-change-type-cast/"/>
+        <updated>2017-04-13T11:19:54+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2017/04/13/ridgepole-postgres-change-type-cast</id>
+        <content type="html"><![CDATA[<p>表題のことをやろうとしたらエラーがでた。</p>
+
+<pre><code>[ERROR] PG::DatatypeMismatch: ERROR:  column "count" cannot be cast automatically to type integer
+HINT:  You might need to specify "USING count::integer".
+</code></pre>
+
+<p>Schemafileをこうすればいけました。</p>
+
+<pre><code>create_table "details_of_investments", force: :cascade do |t|
+  t.integer  'count',             using: 'count::integer'
+end
+</code></pre>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[Ransackのデフォルトオーダーを変える方法]]></title>
@@ -131,24 +151,6 @@ user.changes
 <p>属性名_will_change!で新旧に同じ値が設定される。</p>
 
 <p>なんでこんなことやりたかったかっていうとobserverでuserのnameの値が変更されたらapiを叩く処理を書いていたのだけど、急遽全件apiを再実行する必要があり強制的にnameが変更されたことにしたかったため調べたらあったというお話</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[[小ネタ]Railsを使っていてAngularのform validationだけしたい時]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2016/03/23/angular-with-rails-name-convention/"/>
-        <updated>2016-03-23T12:36:53+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2016/03/23/angular-with-rails-name-convention</id>
-        <content type="html"><![CDATA[<p>railsでシステムを作っていて、ここはゴリゴリ書くようなところじゃないけどformのvalidationだけangularの機能使いたくなったんですが。
-railsはname属性に[]を使うので、この場合のng-show内部の指定がわからなかったので備忘録も兼ねて。</p>
-
-<pre><code class="erb">form name="new_form"
-  input name="price[hoge]" ng-model="price" ng-pattern="/^([1-9]\\d*|0)(\\.\\d+)?$/" required="" type="text" /
-  span.text-error ng-show="newForm['price[hoge]'].$error.required"  ※
-  span.text-error ng-show="newForm['price[hoge]'].$error.pattern"  This is not a valid dollar.
-</code></pre>
-
-<p>formのnameに指定されいるものを[]とシングルクォートで囲むといけます。</p>
 ]]></content>
     </entry>
     

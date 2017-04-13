@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2017-04-12T10:34:45+09:00</updated>
+    <updated>2017-04-13T11:26:41+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,31 @@
     </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[postgres使っていてridgepoleで文字列から数値型への変換エラー]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2017/04/13/ridgepole-postgres-change-type-cast/"/>
+        <updated>2017-04-13T11:19:54+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2017/04/13/ridgepole-postgres-change-type-cast</id>
+        <content type="html"><![CDATA[<p>表題のことをやろうとしたらエラーがでた。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[ERROR] PG::DatatypeMismatch: ERROR:  column "count" cannot be cast automatically to type integer
+</span><span class='line'>HINT:  You might need to specify "USING count::integer".</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Schemafileをこうすればいけました。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>create_table "details_of_investments", force: :cascade do |t|
+</span><span class='line'>  t.integer  'count',             using: 'count::integer'
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[Ransackのデフォルトオーダーを変える方法]]></title>
@@ -1058,26 +1083,6 @@ JSTで動いてないっぽいです。</p>
 </span><span class='line'>    <span class="n">action</span> <span class="ss">:restart</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[RailsConfig(現Config)で読み込んでいるファイルのパスを得る]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2016/02/02/rails-config-check-load-files-path/"/>
-        <updated>2016-02-02T11:13:32+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2016/02/02/rails-config-check-load-files-path</id>
-        <content type="html"><![CDATA[<p>内部的にrails_envを書き換えたりしていて、rails_configの値がただしくRAILS_ENVの設定通りにファイルを読み込んでくれない事象が発生したので。</p>
-
-<p>rails_config (0.4.2)</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">irb</span><span class="p">(</span><span class="n">main</span><span class="p">):</span><span class="mo">014</span><span class="p">:</span><span class="mi">0</span><span class="o">&gt;</span> <span class="no">Settings</span><span class="o">.</span><span class="n">instance_variable_get</span><span class="p">(</span><span class="ss">:@config_sources</span><span class="p">)</span>
-</span><span class='line'><span class="o">=&gt;</span> <span class="o">[</span><span class="c1">#&lt;RailsConfig::Sources::YAMLSource:0x0055a28d40ab48 @path=&quot;Rails_rootへのパス/current/config/settings.yml&quot;&gt;, #&lt;RailsConfig::Sources::YAMLSource:0x0055a28d40aa30 @path=&quot;Rails_rootへのパス/current/config/settings/hoge.yml&quot;&gt;, #&lt;RailsConfig::Sources::YAMLSource:0x0055a28d40a9e0 @path=&quot;Rails_rootへのパス/current/config/environments/hoge.yml&quot;&gt;]</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
