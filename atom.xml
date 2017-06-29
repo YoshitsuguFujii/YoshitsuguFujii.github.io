@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2017-04-13T11:38:09+09:00</updated>
+    <updated>2017-06-29T16:09:25+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,101 @@
     </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[large_s3_file_relay]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2017/06/29/large-s3-file-relay/"/>
+        <updated>2017-06-29T15:25:15+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2017/06/29/large-s3-file-relay</id>
+        <content type="html"><![CDATA[<h3>近況とか</h3>
+
+<p>最近の藤井は月〜木は新橋の方面で働き金曜日は在宅で仕事させてもらっています。<br/>
+言語は相変わらずRubyでFWはRubyOnRailsですね。<br/>
+Firebase触ったり、WebRTCに触ったり、はじめてガチでHeroku使ったりしています。</p>
+
+<p>自分が業界に入りたての頃はこういったサービスがなかったので1からどう作るかって感じでしたが、<br/>
+最近はどうやってサービスを組み合わせて作るかって感じに変化したように思います。<br/>
+サービスの学習コストの方が高めですかね。</p>
+
+<p>Macbook Airの日本語キーボードから英字配列のhhkbに移行しました。<br/>
+:が打ちにくくて最初文句ブーブーでしたが、慣れるとたしかに英字配列の方がやりやすい気がします。<br/>
+職場と自宅で持ち運びがめんどくさかったので二台買いました。<br/>
+hhkbの墨とtype-sです。<br/>
+お金使いすぎで鼻血出そうです。</p>
+
+<p>帰宅ランは続けていて調子いいときは10キロぐらい走ります。<br/>
+だいたい7、8キロぐらいを目安に走っています。<br/>
+江戸川沿い走るの最高に気持ちいいです。</p>
+
+<!-- more -->
+
+
+<p></p>
+
+<h3>表題の件</h3>
+
+<p>S3のファイルをRailsを中継してクライアントにストリーミングダウンロードする処理書きました。<br/>
+Httparty使ってます。Httpartyでstreaming download楽ですねー。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">AttachmentController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Live</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">download</span>
+</span><span class='line'>    <span class="n">attachment</span> <span class="o">=</span> <span class="no">Attachment</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">begin</span>
+</span><span class='line'>      <span class="nb">self</span><span class="o">.</span><span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="o">[</span><span class="s2">&quot;Content-Type&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="n">attachment</span><span class="o">.</span><span class="n">content_type</span>
+</span><span class='line'>      <span class="nb">self</span><span class="o">.</span><span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="o">[</span><span class="s2">&quot;Content-Length&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="n">attachment</span><span class="o">.</span><span class="n">file_size</span>
+</span><span class='line'>      <span class="nb">self</span><span class="o">.</span><span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="o">[</span><span class="s2">&quot;Content-Disposition&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;attachment; filename=</span><span class="si">#{</span><span class="n">attachment</span><span class="o">.</span><span class="n">file_before_type_cast</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>      <span class="nb">self</span><span class="o">.</span><span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="o">[</span><span class="s2">&quot;Content-Transfer-Encoding&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;binary&quot;</span>
+</span><span class='line'>      <span class="nb">self</span><span class="o">.</span><span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="o">[</span><span class="s2">&quot;Last-Modified&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="n">attachment</span><span class="o">.</span><span class="n">updated_at</span><span class="o">.</span><span class="n">ctime</span><span class="o">.</span><span class="n">to_s</span>
+</span><span class='line'>      <span class="no">HTTParty</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">attachment</span><span class="o">.</span><span class="n">url</span><span class="p">,</span> <span class="ss">stream_body</span><span class="p">:</span> <span class="kp">true</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">fragment</span><span class="o">|</span>
+</span><span class='line'>        <span class="nb">self</span><span class="o">.</span><span class="n">response</span><span class="o">.</span><span class="n">stream</span><span class="o">.</span><span class="n">write</span> <span class="n">fragment</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">rescue</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Live</span><span class="o">::</span><span class="no">ClientDisconnected</span>  <span class="c1"># キャンセルされた場合</span>
+</span><span class='line'>      <span class="c1"># nop</span>
+</span><span class='line'>    <span class="k">ensure</span>
+</span><span class='line'>      <span class="n">response</span><span class="o">.</span><span class="n">stream</span><span class="o">.</span><span class="n">close</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Puma使いましょう。webrickとかthinは対応していません。</p>
+
+<p>config/environments/development.rbに以下の設定を追加。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">cache_classes</span> <span class="o">=</span> <span class="kp">true</span>
+</span><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">eager_load</span> <span class="o">=</span> <span class="kp">true</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>あとは<code>bundle exec rails s Puma</code>して試してみてください。</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[postgres使っていてridgepoleで文字列から数値型への変換エラー]]></title>
@@ -1026,67 +1121,6 @@ railsはname属性に[]を使うので、この場合のng-show内部の指定�
 
 
 <p>htmlを動的に組み立てる際にあれこれするよりも、出力されたhtmlをもとに処理するというケースの方が圧倒的にスマートなケースがあるので積極的に使っていきたいですね。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[Cronがutcで動いてる場合に]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2016/02/03/change-crons-timezone/"/>
-        <updated>2016-02-03T10:33:11+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2016/02/03/change-crons-timezone</id>
-        <content type="html"><![CDATA[<p>Centosでtimezoneの設定が日本時間にしているのにcronが指定時刻に動かず調べました。<br/>
-/var/log/cronを見るとログの時間が-9時間。<br/>
-JSTで動いてないっぽいです。</p>
-
-<p>以下のコマンドでcronのログの時刻も含めて治ります。</p>
-
-<!-- more -->
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
-</span><span class='line'>service crond restart
-</span><span class='line'>service rsyslog restart</span></code></pre></td></tr></table></div></figure>
-
-
-<p>itamaeのrecipeも修正</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">execute</span> <span class="s2">&quot;change time zone&quot;</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">user</span> <span class="n">node</span><span class="o">[</span><span class="ss">:user</span><span class="o">]</span>
-</span><span class='line'>  <span class="n">command</span> <span class="o">&lt;&lt;-</span><span class="no">EOF</span>
-</span><span class='line'><span class="sh">    sudo cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime</span>
-</span><span class='line'><span class="no">  EOF</span>
-</span><span class='line'>  <span class="n">not_if</span> <span class="s2">&quot;date | grep &#39;JST&#39;&quot;</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># cronとlogにも反映(再起動)</span>
-</span><span class='line'><span class="sx">%w(crond rsyslog)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">serv</span><span class="o">|</span>
-</span><span class='line'>  <span class="n">service</span> <span class="n">serv</span> <span class="k">do</span>
-</span><span class='line'>    <span class="n">action</span> <span class="ss">:restart</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
 ]]></content>
     </entry>
     

@@ -83,6 +83,64 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2015/03/24/select-narrowing-down/">同一のselectボックスを複数設置した場合に、選択された項目を他のプルダウンから削除するjs</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2015-03-24T14:39:06+09:00" pubdate><i class="fa fa-calendar"></i> Mar 24th, 2015</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/javascript/'>javascript</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <div class="article__content clearfix">
+        <p>作成したのはだいぶ前ですが、先日昔お世話になった人からselect-narrowing-downを使いたいんだけどという有難い言葉をいただき、そういえば作ったなぁと思い見返してみました。</p>
+
+<p>デモはこんな感じです。</p>
+
+
+        <a class="btn pull-right" href="/blog/2015/03/24/select-narrowing-down/">Read on &rarr;</a>
+    </div>
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2015/03/21/mouse-pad/">今日 嫁にホワイトデーのお返しをしたよ</a>
         </h1>
     
@@ -751,117 +809,6 @@
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2015/02/21/20150221171638/">Axlsxでエクセルファイル作成時に注意する点とかはまりどころとか</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2015-02-21T17:16:00+09:00" pubdate><i class="fa fa-calendar"></i> Feb 21st, 2015</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
-            
-                <li><a class='category' href='/blog/categories/axlsx/'>axlsx</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>最近Railsを使う会社が増えてきて、2年前にRailsを扱う会社をエージェントに探してもらった時はなかなか見つからなかったんですが、今は楽に見つかりそうですね。
-そもそも登録した転職サイトがダメだったのかもしれないと思いますが。
-千葉でRuby、Railsメインでやってる会社ないかな。</p>
-
-<p>さてさて、ここのところずっと触っているAxlsxです。</p>
-
-<h3>型に気をつける</h3>
-
-<p>エクセルのセルが数値か文字列かで挙動が変わったりします。
-文字列型のカラムに"1000"とか入っていた場合、エクセルでは数値として認識されてしまってvloolupなどの関数が反応しないことがあります。
-その場合は明示的にtypeを指定しましょう。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span>
-</span><span class='line'>  <span class="o">[</span>
-</span><span class='line'>    <span class="s2">&quot;1000&quot;</span><span class="p">,</span>
-</span><span class='line'>    <span class="mi">1000</span><span class="p">,</span>
-</span><span class='line'>  <span class="o">]</span><span class="p">,</span> <span class="ss">types</span><span class="p">:</span> <span class="o">[</span><span class="ss">:string</span><span class="p">,</span> <span class="ss">:float</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># もしくは</span>
-</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">rows</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">cells</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">type</span> <span class="o">=</span> <span class="o">[</span><span class="ss">:string</span><span class="o">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>typesに設定できるシンボル
-<a href="http://www.rubydoc.info/github/randym/axlsx/master/Axlsx/Cell:type">Method: Axlsx::Cell  #type — Documentation for randym/axlsx
-(master)</a>
-[:date, :time, :float, :integer, :string, :boolean]</p>
-
-<h3>エクセルの関数を設定してダウンロード</h3>
-
-<p>そのままアップロードすると関数による値の設定が行われません。
-おそらく数式はエクセルを開いた時にエクセル側で計算されるので、エクセルを一回も開かずにアップロードすると値が設定されていないことになるのかと思います
-fomula  _valueを設定しましょう</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">add_row</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;=A1+B1&#39;</span><span class="o">]</span><span class="p">,</span> <span class="ss">:formula_values</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="kp">nil</span><span class="p">,</span> <span class="kp">nil</span><span class="p">,</span> <span class="mi">3</span><span class="o">]</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">#_もしくは</span>
-</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">rows</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">cells</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">value</span>         <span class="o">=</span> <span class="s2">&quot;=A1+B1&quot;</span>
-</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">rows</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">cells</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">formula_value</span> <span class="o">=</span> <span class="s2">&quot;3&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -925,6 +872,10 @@ fomula  _valueを設定しましょう</p>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2017/06/29/large-s3-file-relay/">large_s3_file_relay</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2017/04/13/ridgepole-postgres-change-type-cast/">postgres使っていてridgepoleで文字列から数値型への変換エラー</a>
         </li>
         
@@ -938,10 +889,6 @@ fomula  _valueを設定しましょう</p>
         
         <li class="post">
             <a href="/blog/2016/05/18/hello-ruby/">ルビィのぼうけんをいただきました。</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2016/05/17/meet-kitten/">子猫を拾いました</a>
         </li>
         
     </ul>

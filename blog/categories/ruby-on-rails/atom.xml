@@ -4,7 +4,7 @@
     <title><![CDATA[Category: ruby on rails | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/ruby-on-rails/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2017-04-13T11:38:09+09:00</updated>
+    <updated>2017-06-29T16:09:25+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,76 @@
       </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[large_s3_file_relay]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2017/06/29/large-s3-file-relay/"/>
+        <updated>2017-06-29T15:25:15+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2017/06/29/large-s3-file-relay</id>
+        <content type="html"><![CDATA[<h3>近況とか</h3>
+
+<p>最近の藤井は月〜木は新橋の方面で働き金曜日は在宅で仕事させてもらっています。<br/>
+言語は相変わらずRubyでFWはRubyOnRailsですね。<br/>
+Firebase触ったり、WebRTCに触ったり、はじめてガチでHeroku使ったりしています。</p>
+
+<p>自分が業界に入りたての頃はこういったサービスがなかったので1からどう作るかって感じでしたが、<br/>
+最近はどうやってサービスを組み合わせて作るかって感じに変化したように思います。<br/>
+サービスの学習コストの方が高めですかね。</p>
+
+<p>Macbook Airの日本語キーボードから英字配列のhhkbに移行しました。<br/>
+:が打ちにくくて最初文句ブーブーでしたが、慣れるとたしかに英字配列の方がやりやすい気がします。<br/>
+職場と自宅で持ち運びがめんどくさかったので二台買いました。<br/>
+hhkbの墨とtype-sです。<br/>
+お金使いすぎで鼻血出そうです。</p>
+
+<p>帰宅ランは続けていて調子いいときは10キロぐらい走ります。<br/>
+だいたい7、8キロぐらいを目安に走っています。<br/>
+江戸川沿い走るの最高に気持ちいいです。</p>
+
+<!-- more -->
+
+
+<p></p>
+
+<h3>表題の件</h3>
+
+<p>S3のファイルをRailsを中継してクライアントにストリーミングダウンロードする処理書きました。<br/>
+Httparty使ってます。Httpartyでstreaming download楽ですねー。</p>
+
+<pre><code class="ruby">class AttachmentController &lt; ApplicationController
+  include ActionController::Live
+
+  def download
+    attachment = Attachment.find(params[:id])
+    begin
+      self.response.headers["Content-Type"] = attachment.content_type
+      self.response.headers["Content-Length"] = attachment.file_size
+      self.response.headers["Content-Disposition"] = "attachment; filename=#{attachment.file_before_type_cast}"
+      self.response.headers["Content-Transfer-Encoding"] = "binary"
+      self.response.headers["Last-Modified"] = attachment.updated_at.ctime.to_s
+      HTTParty.get(attachment.url, stream_body: true) do |fragment|
+        self.response.stream.write fragment
+      end
+    rescue ActionController::Live::ClientDisconnected  # キャンセルされた場合
+      # nop
+    ensure
+      response.stream.close
+    end
+  end
+end
+</code></pre>
+
+<p>Puma使いましょう。webrickとかthinは対応していません。</p>
+
+<p>config/environments/development.rbに以下の設定を追加。</p>
+
+<pre><code class="ruby">config.cache_classes = true
+config.eager_load = true
+</code></pre>
+
+<p>あとは<code>bundle exec rails s Puma</code>して試してみてください。</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[model.changesで強制的に変更したことにする方法]]></title>
@@ -213,59 +283,6 @@ aliasは呼ばれたクロージャ的な動きで呼ばれた段階のメソッ
 ユーザが子供の場合は子供料金と表示されます。</p>
 
 <p>prefixの条件を変えることで読込先をうまく切り替えることができますね。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[FaradayとHttpartyでクッキーを付与したい場合]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2015/10/16/set-cookie-with-faraday-or-httparty/"/>
-        <updated>2015-10-16T17:33:25+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2015/10/16/set-cookie-with-faraday-or-httparty</id>
-        <content type="html"><![CDATA[<p>同一ドメインなんだけどホスト名が違うシステムがあり、WEBサーバーからApiサーバーへjsonを取得するべくgetリクエストを投げる。<br/>
-その際にWEBサーバーでログイン時に発行されたクッキーをリクエストに付与してapiサーバーではそのクッキーからユーザを特定するような処理が必要になった。</p>
-
-<p>FaradayとHttpartyでクッキーを付与する方法を調べた。</p>
-
-<!-- more -->
-
-
-<h2>Faraday</h2>
-
-<p><a href="https://github.com/miyagawa/faraday-cookie_jar">miyagawa/faraday-cookie_jar</a>というクッキーをよしなに扱ってくれるみたいですが、特に使わなくてもいけました。</p>
-
-<pre><code class="ruby">client = Faraday.new 'http://example.com/api/list' do |b|
-  b.request :json
-  b.request :url_encoded
-  b.adapter Faraday.default_adapter
-end
-
-res = client.get '' do |req|
-  req.headers['Cookie'] = request.headers["HTTP_COOKIE"]
-end
-
-puts res.body
-</code></pre>
-
-<h2>Httparty</h2>
-
-<pre><code class="ruby">include HTTParty
-
-self.default_cookies.add_cookies(cookies.to_h)
-res = self.get('http://example.com/api/list')
-p res.inspect
-</code></pre>
-
-<p>お手軽ですね!</p>
-
-<h3>2015年10月19日追記</h3>
-
-<p>Httpartyのヘッダに乗せるタイプ</p>
-
-<pre><code class="ruby">include HTTParty
-
-res = self.get('http://example.com/api/list', headers: "Cookie" =&gt; request.headers["HTTP_COOKIE"])
-p res.inspect
-</code></pre>
 ]]></content>
     </entry>
     
