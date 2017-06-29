@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "large_s3_file_relay"
+title: "S3からRailsを介して大きなファイルをストリーミングダウンロードさせる"
 date: 2017-06-29 15:25:15 +0900
 comments: true
 categories: [ruby, s3, ruby on rails]
