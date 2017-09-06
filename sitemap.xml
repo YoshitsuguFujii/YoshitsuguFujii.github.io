@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://yoshitsugufujii.github.io/blog/2017/09/06/futtsu-shinko/</loc>
+    <lastmod>2017-09-06T11:00:35+09:00</lastmod>
+  </url>
+  <url>
     <loc>http://yoshitsugufujii.github.io/blog/2017/06/29/large-s3-file-relay/</loc>
     <lastmod>2017-06-29T15:25:15+09:00</lastmod>
   </url>
@@ -694,22 +698,22 @@
   </url>
   <url>
     <loc>http://yoshitsugufujii.github.io/blog/</loc>
-    <lastmod>2017-06-29T16:12:28+09:00</lastmod>
-  </url>
-  <url>
-    <loc>http://yoshitsugufujii.github.io/blog/archives/</loc>
-    <lastmod>2017-06-29T16:12:28+09:00</lastmod>
+    <lastmod>2017-09-06T12:03:32+09:00</lastmod>
   </url>
   <url>
     <loc>http://yoshitsugufujii.github.io/archives/</loc>
-    <lastmod>2017-06-29T16:12:28+09:00</lastmod>
+    <lastmod>2017-09-06T12:03:32+09:00</lastmod>
+  </url>
+  <url>
+    <loc>http://yoshitsugufujii.github.io/blog/archives/</loc>
+    <lastmod>2017-09-06T12:03:32+09:00</lastmod>
   </url>
   <url>
     <loc>http://yoshitsugufujii.github.io/</loc>
-    <lastmod>2017-06-29T16:12:28+09:00</lastmod>
+    <lastmod>2017-09-06T12:03:32+09:00</lastmod>
   </url>
   <url>
     <loc>http://yoshitsugufujii.github.io/profile/</loc>
-    <lastmod>2017-06-29T16:12:28+09:00</lastmod>
+    <lastmod>2017-09-06T12:03:32+09:00</lastmod>
   </url>
 </urlset>
