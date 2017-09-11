@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2017-09-07T15:04:34+09:00</updated>
+    <updated>2017-09-11T13:13:59+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,95 @@
     </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[鹿島港 アンモニア岸壁 イナッコ]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2017/09/11/kashima-ammonia/"/>
+        <updated>2017-09-11T12:47:53+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2017/09/11/kashima-ammonia</id>
+        <content type="html"><![CDATA[<p>釣行日 2017年9月10日(日)<br/>
+天気 晴れ<br/>
+場所 鹿島港 アンモニア岸壁<br/>
+釣行時間: 10:00 〜 15:30</p>
+
+<p>鹿島港で釣りしている人のブログをよくみるので行ってみたいなぁと思っていた鹿島港へ行ってみました。<br/>
+千葉から１時間半ぐらいで行けました。</p>
+
+<p>いい天気です。</p>
+
+<p><img src="http://yoshitsugufujii.github.io/images/blog/20170911/IMG_2170.jpg" style="width: 80%;"></p>
+
+<!-- more -->
+
+
+<p></p>
+
+<p>そこそこの賑わいですが皆さん連れてなさそう。</p>
+
+<p>すきまあったのでいれてもらって釣りスタート。</p>
+
+<p>サビキやってる人がいまいちだったのでちょい投げしてみると１投目で小さなハゼがかかる。<br/>
+普段江戸川放水路でハゼ釣りまくっているので嬉しくない&hellip;</p>
+
+<p>その後ちょい投げしてましたがその度に根掛かりして仕掛けを３セット変えたところでちょい投げはやめました。<br/>
+根掛かりすごいですね。</p>
+
+<p>磯竿にトリックサビキに切り替えて狙います。</p>
+
+<p><img src="http://yoshitsugufujii.github.io/images/blog/20170911/IMG_2172.jpg" style="width: 80%;"></p>
+
+<p>・・・・・・</p>
+
+<p>あたった！あげてみる。</p>
+
+<p>イナッコ(ボラ)でした・・・</p>
+
+<p><img src="http://yoshitsugufujii.github.io/images/blog/20170911/IMG_2177.jpg" style="width: 80%;"></p>
+
+<p>その後も</p>
+
+<p><img src="http://yoshitsugufujii.github.io/images/blog/20170911/IMG_2179.jpg" style="width: 80%;"></p>
+
+<p>釣れるのは</p>
+
+<p><img src="http://yoshitsugufujii.github.io/images/blog/20170911/IMG_2180.jpg" style="width: 80%;"></p>
+
+<p>イナッコ&hellip;</p>
+
+<p><img src="http://yoshitsugufujii.github.io/images/blog/20170911/IMG_2181.jpg" style="width: 80%;"></p>
+
+<p>イナッコ以外のあたりなし(/＿＜)</p>
+
+<p>最後の方はコマセまいて集まってきた群の中にトリックサビキ入れると面白いように釣れるのでイナッコばっかり釣って遊んでました。</p>
+
+<p>アンモニア岸壁。船のエンジンからの排気がちょっと鼻につきますね。<br/>
+景色もよくて風もそこそこあって気持ちよかったですがそれがちょっと嫌でした。<br/>
+釣り場はとても清潔で釣りやすかったです。</p>
+
+<p>時間が悪すぎたので次やることがあればちゃんとマズメか夜来たいなぁ。</p>
+
+<p>ハゼ 1匹<br/>
+イナッコ 15匹ぐらい</p>
+
+<p>それはそうとこんなメールがきました。</p>
+
+<p><img src="http://yoshitsugufujii.github.io/images/blog/20170911/apple mail.png" style="width: 80%;"></p>
+
+<p>リンクをふむとこの画面。</p>
+
+<p><img src="http://yoshitsugufujii.github.io/images/blog/20170911/spam_site.png" style="width: 80%;"></p>
+
+<p>えっと思って思わずリンク先の画面にIDとパスワードいれそうになりましたが、少し冷静になって偽サイトだと気づく。</p>
+
+<p>ヘッダーとフッターのリンク機能しない。</p>
+
+<p>ためしにwhois検索いれてみたけどドメインひっかかりませんね。</p>
+
+<p>直前で気付けてよかったけど、このクオリティならだまされて入力する人たくさんいそう(ﾟ＿ﾟi)</p>
+
+<p>みなさんもお気をつけください。</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[富津新港 イワシ シロギス]]></title>
@@ -1043,59 +1132,6 @@ railsはname属性に[]を使うので、この場合のng-show内部の指定�
 
 
 <p>formのnameに指定されいるものを[]とシングルクォートで囲むといけます。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[どうしようもないお客さんとやってく方法]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2016/03/18/stressful-working-tips-1/"/>
-        <updated>2016-03-18T11:45:25+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2016/03/18/stressful-working-tips-1</id>
-        <content type="html"><![CDATA[<p>どうしようもないお客さんというのはいるもんですが、<br/>
-サラリーマンをやっているとどうしても対応せざるを得ないわけです。<br/>
-そんなお客さんにこの度ちょっと効果的なやり方で対応できました。</p>
-
-<p>久しぶりにはっきりいって本気で仕事したくなくなったお客さん登場です。<br/>
-別でかかえていた案件もリリース直前でパツっていたこともあり、飛んでくるタスクをついつい放置してしまいそうです。</p>
-
-<p>そこでどうしたら効果的にモチベーションを保ちつつ仕事を進められたかというと。</p>
-
-<!-- more -->
-
-
-<p>間に一人ディレクターに入ってもらいました。<br/>
-すると今まで</p>
-
-<p><strong>自分 → お客さん</strong></p>
-
-<p>と直接お客さんのために動かなければいけない状態から</p>
-
-<p><strong>自分 → ディレクター → お客さん</strong></p>
-
-<p>となり、お客さんのために頑張るという構図が消え、<br/>
-ディレクターに迷惑にならないようにディレクターのために頑張るという作用が生まれ<br/>
-むしろタスクの消化が通常より早くなるという現象が起きました。</p>
-
-<p>この時ディレクター役の人には迷惑をかけられないような実在する人を選ぶのがポイントです</p>
-
-<ul>
-<li>仲の良い人</li>
-<li>同じ会社にいるけど全く交流のない人</li>
-<li>目上の人</li>
-<li>直属の部下</li>
-<li>かわいい女性、もしくはかっこいい男性</li>
-<li>出世競争におけるライバル</li>
-</ul>
-
-
-<p>などが該当するかと思います。</p>
-
-<p>また間に入る人はただの伝言役なので特にスキルが求められるわけではなく、<br/>
-それほど負担にはならないんじゃないかと思います。<br/>
-まぁなんか責任問題になったら一緒に土下座する必要はありますが、</p>
-
-<p>いかがでしょうか？<br/>
-今後もだましだましやりながらこのストレス社会を乗り切っていきたいと思います。</p>
 ]]></content>
     </entry>
     
