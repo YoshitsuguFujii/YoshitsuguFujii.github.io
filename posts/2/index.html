@@ -83,6 +83,68 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2016/05/12/magnet-bookmarker/">最近買って良かったもの</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2016-05-12T11:33:55+09:00" pubdate><i class="fa fa-calendar"></i> May 12th, 2016</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/sheng-huo/'>生活</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <div class="article__content clearfix">
+        <p>上野公園でかったマグネット型のブックマーカー。</p>
+
+<p><a  href="http://www.amazon.co.jp/gp/product/B00H1L1AXW/ref=as_li_ss_il?ie=UTF8&camp=247&creative=7399&creativeASIN=B00H1L1AXW&linkCode=as2&tag=gogosakura-22"><img border="0" src="http://ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B00H1L1AXW&Format=_SL250_&ID=AsinImage&MarketPlace=JP&ServiceVersion=20070822&WS=1&tag=gogosakura-22" ></a><img src="http://ir-jp.amazon-adsystem.com/e/ir?t=gogosakura-22&l=as2&o=9&a=B00H1L1AXW" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /></p>
+
+<p>従来のしおりだとはさんだままだとしおりがページめくる時に邪魔になったり、<br/>
+読んでいる最中しおりを手にもったままなのもわずらわしく、<br/>
+大きめのカバンにいれてるとしおりが知らない間にはずれていたります。</p>
+
+
+        <a class="btn pull-right" href="/blog/2016/05/12/magnet-bookmarker/">Read on &rarr;</a>
+    </div>
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2016/05/11/tmux-concurrent-operation/">複数サーバーssh同時操作</a>
         </h1>
     
@@ -653,76 +715,6 @@ GWということもあり駐車場は朝6時半には満車になっていた�
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2016/03/23/angular-with-rails-name-convention/">[小ネタ]Railsを使っていてAngularのform validationだけしたい時</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2016-03-23T12:36:53+09:00" pubdate><i class="fa fa-calendar"></i> Mar 23rd, 2016</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
-            
-                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
-            
-                <li><a class='category' href='/blog/categories/angular/'>angular</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>railsでシステムを作っていて、ここはゴリゴリ書くようなところじゃないけどformのvalidationだけangularの機能使いたくなったんですが。
-railsはname属性に[]を使うので、この場合のng-show内部の指定がわからなかったので備忘録も兼ねて。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">form name=&quot;new_form&quot;</span>
-</span><span class='line'><span class="x">  input name=&quot;price[hoge]&quot; ng-model=&quot;price&quot; ng-pattern=&quot;/^([1-9]\\d*|0)(\\.\\d+)?$/&quot; required=&quot;&quot; type=&quot;text&quot; /</span>
-</span><span class='line'><span class="x">  span.text-error ng-show=&quot;newForm[&#39;price[hoge]&#39;].$error.required&quot;  ※</span>
-</span><span class='line'><span class="x">  span.text-error ng-show=&quot;newForm[&#39;price[hoge]&#39;].$error.pattern&quot;  This is not a valid dollar.</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>formのnameに指定されいるものを[]とシングルクォートで囲むといけます。</p>
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -786,6 +778,10 @@ railsはname属性に[]を使うので、この場合のng-show内部の指定�
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2017/09/12/alternative-not-working/">Railsでtextとhtmlのviewを用意するもmultipart/alternativeにならない問題</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2017/09/11/kashima-ammonia/">鹿島港 アンモニア岸壁 イナッコ</a>
         </li>
         
@@ -799,10 +795,6 @@ railsはname属性に[]を使うので、この場合のng-show内部の指定�
         
         <li class="post">
             <a href="/blog/2017/04/13/ridgepole-postgres-change-type-cast/">postgres使っていてridgepoleで文字列から数値型への変換エラー</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2017/04/11/ransack-default-order/">Ransackのデフォルトオーダーを変える方法</a>
         </li>
         
     </ul>

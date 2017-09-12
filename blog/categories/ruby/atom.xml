@@ -4,7 +4,7 @@
     <title><![CDATA[Category: ruby | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/ruby/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2017-09-11T13:13:59+09:00</updated>
+    <updated>2017-09-12T18:45:03+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,24 @@
       </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[Railsでtextとhtmlのviewを用意するもmultipart/alternativeにならない問題]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2017/09/12/alternative-not-working/"/>
+        <updated>2017-09-12T18:36:54+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2017/09/12/alternative-not-working</id>
+        <content type="html"><![CDATA[<p>Ruby: 2.4.1<br/>
+Rails: 4.2.8</p>
+
+<p>ActionMailerでhogehoge.html.hamlとhogehoge.text.hamlを用意しているのにtext/htmlの形式でしか送信されなくてはまりかけた。<br/>
+hogehoge.text.hamlをhogehoge.text.erbに直したらmultipart/alternativeになってくれた。</p>
+
+<p>textの方はerbじゃないとダメっぽい。</p>
+
+<p>そしてletter_openerってalternativeなメールの時って右上にHTMLメールとプレーンテキストメールの切り替えリンクが付いているんですね。<br/>
+めっちゃ便利！</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[S3からRailsを介して大きなファイルをストリーミングダウンロードさせる]]></title>
@@ -153,45 +171,6 @@ csv.transpose.each{|row| p row.join(",") }
 # =&gt; "user_name,藤井"  
 # =&gt; "age,36"  
 # =&gt; "gender,men"  
-</code></pre>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[Axlsxでコメント表示]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2016/04/29/axlsx-comment/"/>
-        <updated>2016-04-29T14:50:47+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2016/04/29/axlsx-comment</id>
-        <content type="html"><![CDATA[<p>Axlsxで常に表示されているコメントとマウスオーバーで表示されるコメント</p>
-
-<p><img src="/images/blog/2016-04-29%2014.53.19.png" alt="Axlsxコメント" /></p>
-
-<!-- more -->
-
-
-<pre><code class="ruby">require 'axlsx'
-package = Axlsx::Package.new
-package.use_shared_strings = true
-sheet = package.workbook.add_worksheet(name: 'lists')
-
-sheet.add_row(['品名', '単価', '数量', '計'])
-sheet.add_row(['にんじん',    80, 1,      '=B2*C2'])
-sheet.add_row(['たまねぎ',    50, 2,      '=B3*C3'])
-sheet.add_row(['じゃがいも',  40, 2,      '=B4*C4'])
-sheet.add_row(['牛肉',       200, 1,      '=B5*C5'])
-sheet.add_row(['カレー粉',   150, 1,      '=B6*C6'])
-sheet.add_row(['',            '', '総計', '=SUM(D2:D6)'])
-
-#sheet.add_comment :ref =&gt; 'A1', :text =&gt; 'penut machine', :author =&gt; 'crank', :visible =&gt; true
-sheet.add_comment(:ref =&gt; 'A1', :author =&gt; 'Bob', :text =&gt; 'Yes We Can!').tap do |comment|
-  comment.vml_shape.top_row = 2      # 位置調整用
-  comment.vml_shape.left_column = 2  # 位置調整用
-  comment.vml_shape.bottom_row = 2   # 位置調整用
-  comment.vml_shape.right_column = 4 # 位置調整用
-end
-sheet.add_comment :ref =&gt; 'A6', :text =&gt; 'rust bucket', :author =&gt; 'PO', :visible =&gt; false
-
-package.serialize('test.xlsx')
 </code></pre>
 ]]></content>
     </entry>

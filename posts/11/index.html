@@ -83,6 +83,69 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2013/10/17/20131017200941/">全モデルから特定の列を持つモデルを抽出</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2013-10-17T20:09:00+09:00" pubdate><i class="fa fa-calendar"></i> Oct 17th, 2013</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>全モデルから特定の列を持つモデルを抽出</p>
+
+<p>例えばzip</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="ss">:subclasses</span><span class="p">)</span><span class="o">.</span><span class="n">select</span><span class="p">{</span><span class="o">|</span><span class="n">m</span><span class="o">|</span> <span class="n">m</span><span class="o">.</span><span class="n">column_names</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="s2">&quot;zip&quot;</span><span class="p">)}</span>
+</span><span class='line'><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="ss">:subclasses</span><span class="p">)</span><span class="o">.</span><span class="n">select</span><span class="p">{</span><span class="o">|</span><span class="n">m</span><span class="o">|</span> <span class="n">m</span><span class="o">.</span><span class="n">column_names</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="s2">&quot;zip&quot;</span><span class="p">)}</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:name</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2013/10/10/20131010190956/">２つ以上のthrough</a>
         </h1>
     
@@ -840,81 +903,6 @@ request.action.to  _s</p>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2013/05/01/20130501111053/">TODOの一覧を出力したい</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2013-05-01T11:10:00+09:00" pubdate><i class="fa fa-calendar"></i> May 1st, 2013</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>コード中で</p>
-
-<p>  # TODO ほにゃらら</p>
-
-<p>って書いておけば、rake notesでTODO一覧を出力できる。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rake</span> <span class="n">notes</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">app</span><span class="o">/</span><span class="n">controllers</span><span class="o">/</span><span class="n">news_controller</span><span class="o">.</span><span class="n">rb</span><span class="p">:</span>
-</span><span class='line'>  <span class="o">*</span> <span class="o">[</span>  <span class="mi">9</span><span class="o">]</span> <span class="o">[</span><span class="no">TODO</span><span class="o">]</span> <span class="err">お知らせ一覧データの有効期限の実装を行う</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">app</span><span class="o">/</span><span class="n">controllers</span><span class="o">/</span><span class="n">users_controller</span><span class="o">.</span><span class="n">rb</span><span class="p">:</span>
-</span><span class='line'>  <span class="o">*</span> <span class="o">[</span><span class="mi">174</span><span class="o">]</span> <span class="o">[</span><span class="no">TODO</span><span class="o">]</span> <span class="err">デバッグ用、後で消す。</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -978,6 +966,10 @@ request.action.to  _s</p>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2017/09/12/alternative-not-working/">Railsでtextとhtmlのviewを用意するもmultipart/alternativeにならない問題</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2017/09/11/kashima-ammonia/">鹿島港 アンモニア岸壁 イナッコ</a>
         </li>
         
@@ -991,10 +983,6 @@ request.action.to  _s</p>
         
         <li class="post">
             <a href="/blog/2017/04/13/ridgepole-postgres-change-type-cast/">postgres使っていてridgepoleで文字列から数値型への変換エラー</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2017/04/11/ransack-default-order/">Ransackのデフォルトオーダーを変える方法</a>
         </li>
         
     </ul>
