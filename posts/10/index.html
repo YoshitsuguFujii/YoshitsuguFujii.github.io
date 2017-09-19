@@ -83,6 +83,65 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2013/12/06/20131206131145/">複数選択のselectボックスの値をcoffeescriptで取り出してみる</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2013-12-06T13:11:00+09:00" pubdate><i class="fa fa-calendar"></i> Dec 6th, 2013</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/coffeescript/'>coffeescript</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>1行で書けてすっきり。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">values</span> <span class="o">=</span> <span class="p">(</span><span class="n">option</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">option</span> <span class="k">in</span> <span class="n">document</span><span class="o">.</span><span class="n">getElementsByName</span><span class="p">(</span><span class="s2">&quot;multi-select&quot;</span><span class="p">)</span> <span class="k">when</span> <span class="n">option</span><span class="o">.</span><span class="n">selected</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2013/11/29/20131129125427/">言語毎に異なるデバッグ文を挿入</a>
         </h1>
     
@@ -984,73 +1043,6 @@ How to fix libv8 error from Gemfile on Mavericks?<br/>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2013/10/18/20131018171610/">find_byのようなダイナミックファインダで例外</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2013-10-18T17:16:00+09:00" pubdate><i class="fa fa-calendar"></i> Oct 18th, 2013</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>find  _byのようなダイナミックファインダで例外<br/>
-びっくりまーくつければいいみたいです。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Prefecture</span><span class="o">.</span><span class="n">find_by_name!</span><span class="p">(</span><span class="s2">&quot;存在しない件&quot;</span> <span class="p">)</span> <span class="c1"># =&gt; ActiveRecord::RecordNotFound</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>rails4ではこうかな</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Prefecture</span><span class="o">.</span><span class="n">find_by!</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="s2">&quot;存在しない件&quot;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -1114,6 +1106,10 @@ How to fix libv8 error from Gemfile on Mavericks?<br/>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2017/09/19/2017-09-18-futtsu-shinko/">富津新港 イワシ アジ ヒイラギ ウミタナゴ</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2017/09/12/alternative-not-working/">Railsでtextとhtmlのviewを用意するもmultipart/alternativeにならない問題</a>
         </li>
         
@@ -1127,10 +1123,6 @@ How to fix libv8 error from Gemfile on Mavericks?<br/>
         
         <li class="post">
             <a href="/blog/2017/06/29/large-s3-file-relay/">S3からRailsを介して大きなファイルをストリーミングダウンロードさせる</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2017/04/13/ridgepole-postgres-change-type-cast/">postgres使っていてridgepoleで文字列から数値型への変換エラー</a>
         </li>
         
     </ul>
