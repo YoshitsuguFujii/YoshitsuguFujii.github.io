@@ -1,0 +1,25 @@
+---
+layout: post
+title: "竿先修理"
+date: 2017-09-27 12:12:59 +0900
+comments: true
+categories: [釣り]
+---
+
+先日の釣行で折れてしまった磯竿の先端を直します。
+
+<!-- more -->
+
+先端のガイドをライターであぶって接着剤を溶かして着脱。
+折れた根元の方をそのガイドに差し込めるようになるまでひたすらサンドペーパーでゴシゴシと細くします。
+
+瞬間接着剤でとめてできあがり。
+
+<div class="row">
+<div class="col-xs-6 col-sm-5 col-md-4 col-lg-4">
+<img src="/images/blog/20170927/IMG_2355.jpg" style="width: 90%;">  
+</div>
+<div class="col-xs-6 col-sm-5 col-md-4 col-lg-4">
+<img src="/images/blog/20170927/IMG_2356.jpg" style="width: 90%;">  
+</div>
+</div>
