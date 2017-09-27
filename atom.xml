@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2017-09-26T13:00:13+09:00</updated>
+    <updated>2017-09-27T13:59:39+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,33 @@
     </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[竿先修理]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2017/09/27/fix-rod/"/>
+        <updated>2017-09-27T12:12:59+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2017/09/27/fix-rod</id>
+        <content type="html"><![CDATA[<p>先日の釣行で折れてしまった磯竿の先端を直します。</p>
+
+<!-- more -->
+
+
+<p>先端のガイドをライターであぶって接着剤を溶かして着脱。
+折れた根元の方をそのガイドに差し込めるようになるまでひたすらサンドペーパーでゴシゴシと細くします。</p>
+
+<p>瞬間接着剤でとめてできあがり。</p>
+
+<div class="row">
+<div class="col-xs-6 col-sm-5 col-md-4 col-lg-4">
+<img src="http://yoshitsugufujii.github.io/images/blog/20170927/IMG_2355.jpg" style="width: 90%;">  
+</div>
+<div class="col-xs-6 col-sm-5 col-md-4 col-lg-4">
+<img src="http://yoshitsugufujii.github.io/images/blog/20170927/IMG_2356.jpg" style="width: 90%;">  
+</div>
+</div>
+
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[平塚新港 イワシ キス メッキ カゴカキダイ など]]></title>
@@ -1241,71 +1268,6 @@ GWということもあり駐車場は朝6時半には満車になっていた�
 <p><a  href="http://www.amazon.co.jp/gp/product/B00I8PIA2O/ref=as_li_ss_il?ie=UTF8&camp=247&creative=7399&creativeASIN=B00I8PIA2O&linkCode=as2&tag=gogosakura-22"><img border="0" src="http://ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B00I8PIA2O&Format=_SL250_&ID=AsinImage&MarketPlace=JP&ServiceVersion=20070822&WS=1&tag=gogosakura-22" ></a><img src="http://ir-jp.amazon-adsystem.com/e/ir?t=gogosakura-22&l=as2&o=9&a=B00I8PIA2O" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /></p>
 
 <p>副業で1週間5〜10時間ぐらいの機能をつくってお金もらえる生活に憧れる。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[Axlsxでコメント表示]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2016/04/29/axlsx-comment/"/>
-        <updated>2016-04-29T14:50:47+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2016/04/29/axlsx-comment</id>
-        <content type="html"><![CDATA[<p>Axlsxで常に表示されているコメントとマウスオーバーで表示されるコメント</p>
-
-<p><img src="http://yoshitsugufujii.github.io/images/blog/2016-04-29%2014.53.19.png" alt="Axlsxコメント" /></p>
-
-<!-- more -->
-
-
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;axlsx&#39;</span>
-</span><span class='line'><span class="n">package</span> <span class="o">=</span> <span class="no">Axlsx</span><span class="o">::</span><span class="no">Package</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'><span class="n">package</span><span class="o">.</span><span class="n">use_shared_strings</span> <span class="o">=</span> <span class="kp">true</span>
-</span><span class='line'><span class="n">sheet</span> <span class="o">=</span> <span class="n">package</span><span class="o">.</span><span class="n">workbook</span><span class="o">.</span><span class="n">add_worksheet</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="s1">&#39;lists&#39;</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="o">[</span><span class="s1">&#39;品名&#39;</span><span class="p">,</span> <span class="s1">&#39;単価&#39;</span><span class="p">,</span> <span class="s1">&#39;数量&#39;</span><span class="p">,</span> <span class="s1">&#39;計&#39;</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="o">[</span><span class="s1">&#39;にんじん&#39;</span><span class="p">,</span>    <span class="mi">80</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>      <span class="s1">&#39;=B2*C2&#39;</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="o">[</span><span class="s1">&#39;たまねぎ&#39;</span><span class="p">,</span>    <span class="mi">50</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span>      <span class="s1">&#39;=B3*C3&#39;</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="o">[</span><span class="s1">&#39;じゃがいも&#39;</span><span class="p">,</span>  <span class="mi">40</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span>      <span class="s1">&#39;=B4*C4&#39;</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="o">[</span><span class="s1">&#39;牛肉&#39;</span><span class="p">,</span>       <span class="mi">200</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>      <span class="s1">&#39;=B5*C5&#39;</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="o">[</span><span class="s1">&#39;カレー粉&#39;</span><span class="p">,</span>   <span class="mi">150</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>      <span class="s1">&#39;=B6*C6&#39;</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="o">[</span><span class="s1">&#39;&#39;</span><span class="p">,</span>            <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;総計&#39;</span><span class="p">,</span> <span class="s1">&#39;=SUM(D2:D6)&#39;</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">#sheet.add_comment :ref =&gt; &#39;A1&#39;, :text =&gt; &#39;penut machine&#39;, :author =&gt; &#39;crank&#39;, :visible =&gt; true</span>
-</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">add_comment</span><span class="p">(</span><span class="ss">:ref</span> <span class="o">=&gt;</span> <span class="s1">&#39;A1&#39;</span><span class="p">,</span> <span class="ss">:author</span> <span class="o">=&gt;</span> <span class="s1">&#39;Bob&#39;</span><span class="p">,</span> <span class="ss">:text</span> <span class="o">=&gt;</span> <span class="s1">&#39;Yes We Can!&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">tap</span> <span class="k">do</span> <span class="o">|</span><span class="n">comment</span><span class="o">|</span>
-</span><span class='line'>  <span class="n">comment</span><span class="o">.</span><span class="n">vml_shape</span><span class="o">.</span><span class="n">top_row</span> <span class="o">=</span> <span class="mi">2</span>      <span class="c1"># 位置調整用</span>
-</span><span class='line'>  <span class="n">comment</span><span class="o">.</span><span class="n">vml_shape</span><span class="o">.</span><span class="n">left_column</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1"># 位置調整用</span>
-</span><span class='line'>  <span class="n">comment</span><span class="o">.</span><span class="n">vml_shape</span><span class="o">.</span><span class="n">bottom_row</span> <span class="o">=</span> <span class="mi">2</span>   <span class="c1"># 位置調整用</span>
-</span><span class='line'>  <span class="n">comment</span><span class="o">.</span><span class="n">vml_shape</span><span class="o">.</span><span class="n">right_column</span> <span class="o">=</span> <span class="mi">4</span> <span class="c1"># 位置調整用</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">add_comment</span> <span class="ss">:ref</span> <span class="o">=&gt;</span> <span class="s1">&#39;A6&#39;</span><span class="p">,</span> <span class="ss">:text</span> <span class="o">=&gt;</span> <span class="s1">&#39;rust bucket&#39;</span><span class="p">,</span> <span class="ss">:author</span> <span class="o">=&gt;</span> <span class="s1">&#39;PO&#39;</span><span class="p">,</span> <span class="ss">:visible</span> <span class="o">=&gt;</span> <span class="kp">false</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">package</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="s1">&#39;test.xlsx&#39;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
 ]]></content>
     </entry>
     
