@@ -83,6 +83,71 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2013/09/24/20130924200108/">Signature expired</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2013-09-24T20:01:00+09:00" pubdate><i class="fa fa-calendar"></i> Sep 24th, 2013</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+                <li><a class='category' href='/blog/categories/aws/'>aws</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>踏み台サーバー上でcapistranoで</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="sb">`return_or_raise&#39;: Signature expired: 20130924T043045Z is now earlier than 20130924T043046Z (20130924T043546Z - 5 min.) (AWS::ELB::Errors::SignatureDoesNotMatch)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>って出て、デプロイ出来ない。</p>
+
+<p>結論。<br/>
+サーバーの時刻が遅れてたからでした。<br/>
+はまったので、みなさんも同じことにならないように。</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2013/09/18/20130918194033/">えっ！</a>
         </h1>
     
@@ -903,82 +968,6 @@ GitHub</a></p>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2013/04/02/20130402181819/">applicatonControllerでイッテに例外を引き受ける</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2013-04-02T18:18:00+09:00" pubdate><i class="fa fa-calendar"></i> Apr 2nd, 2013</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>とりあえずエラー起こっても、なんとなくぼんやりとどうにかして欲しい時がある。<br/>
-たとえばAPIでなんらかのエラーがあったらとりあえずステータスコードに500を返すようにしたりとか。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ApiController</span> <span class="o">&lt;</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span>
-</span><span class='line'>  <span class="n">rescue_from</span> <span class="no">Exception</span><span class="p">,</span> <span class="ss">with</span><span class="p">:</span> <span class="ss">:system_error</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">system_error</span><span class="p">(</span><span class="n">ex</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">ex</span><span class="o">.</span><span class="n">message</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">ex</span><span class="o">.</span><span class="n">backtrace</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">render</span> <span class="ss">json</span><span class="p">:</span> <span class="vi">@data</span> <span class="p">,</span> <span class="ss">:status</span> <span class="o">=&gt;</span> <span class="mi">500</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Exceptionを指定して、なんでもかんでもエラーが起きたらsystem  _errorに投げちゃう。みたいな</p>
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -1042,6 +1031,10 @@ GitHub</a></p>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2017/10/05/user-library-for-fishing/">釣りの本は図書館で</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2017/10/02/aburatubo/">三浦半島 油壺 カワハギ ベラ アイゴ</a>
         </li>
         
@@ -1055,10 +1048,6 @@ GitHub</a></p>
         
         <li class="post">
             <a href="/blog/2017/09/26/2017-09-26-hiratsuka/">平塚新港 イワシ キス メッキ カゴカキダイ など</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2017/09/25/hiratsuka-20170923/">平塚新港 イワシ キス</a>
         </li>
         
     </ul>
