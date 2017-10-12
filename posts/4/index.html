@@ -83,6 +83,76 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2016/03/23/angular-with-rails-name-convention/">[小ネタ]Railsを使っていてAngularのform validationだけしたい時</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2016-03-23T12:36:53+09:00" pubdate><i class="fa fa-calendar"></i> Mar 23rd, 2016</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
+            
+                <li><a class='category' href='/blog/categories/angular/'>angular</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>railsでシステムを作っていて、ここはゴリゴリ書くようなところじゃないけどformのvalidationだけangularの機能使いたくなったんですが。
+railsはname属性に[]を使うので、この場合のng-show内部の指定がわからなかったので備忘録も兼ねて。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">form name=&quot;new_form&quot;</span>
+</span><span class='line'><span class="x">  input name=&quot;price[hoge]&quot; ng-model=&quot;price&quot; ng-pattern=&quot;/^([1-9]\\d*|0)(\\.\\d+)?$/&quot; required=&quot;&quot; type=&quot;text&quot; /</span>
+</span><span class='line'><span class="x">  span.text-error ng-show=&quot;newForm[&#39;price[hoge]&#39;].$error.required&quot;  ※</span>
+</span><span class='line'><span class="x">  span.text-error ng-show=&quot;newForm[&#39;price[hoge]&#39;].$error.pattern&quot;  This is not a valid dollar.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>formのnameに指定されいるものを[]とシングルクォートで囲むといけます。</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2016/03/18/stressful-working-tips-1/">どうしようもないお客さんとやってく方法</a>
         </h1>
     
@@ -724,71 +794,6 @@ lazy lookup記法時にスマフォページでsmart_phoneがついているloca
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2015/10/16/set-cookie-with-faraday-or-httparty/">FaradayとHttpartyでクッキーを付与したい場合</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2015-10-16T17:33:25+09:00" pubdate><i class="fa fa-calendar"></i> Oct 16th, 2015</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
-            
-                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
-            
-                <li><a class='category' href='/blog/categories/faraday/'>faraday</a></li>
-            
-                <li><a class='category' href='/blog/categories/httparty/'>httparty</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <div class="article__content clearfix">
-        <p>同一ドメインなんだけどホスト名が違うシステムがあり、WEBサーバーからApiサーバーへjsonを取得するべくgetリクエストを投げる。<br/>
-その際にWEBサーバーでログイン時に発行されたクッキーをリクエストに付与してapiサーバーではそのクッキーからユーザを特定するような処理が必要になった。</p>
-
-<p>FaradayとHttpartyでクッキーを付与する方法を調べた。</p>
-
-
-        <a class="btn pull-right" href="/blog/2015/10/16/set-cookie-with-faraday-or-httparty/">Read on &rarr;</a>
-    </div>
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -852,6 +857,10 @@ lazy lookup記法時にスマフォページでsmart_phoneがついているloca
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2017/10/12/fish-grab/">釣り便利グッズ 100均お魚つかみ</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2017/10/11/sodegaurakou-20171009/">袖ヶ浦港 アジ ボラ</a>
         </li>
         
@@ -865,10 +874,6 @@ lazy lookup記法時にスマフォページでsmart_phoneがついているloca
         
         <li class="post">
             <a href="/blog/2017/10/02/aburatubo/">三浦半島 油壺 カワハギ ベラ アイゴ</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2017/09/29/ichikawa-kou/">市川港 偵察</a>
         </li>
         
     </ul>
