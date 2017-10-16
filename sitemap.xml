@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://yoshitsugufujii.github.io/blog/2017/10/16/ichikawa-sayori-20171015-16/</loc>
+    <lastmod>2017-10-16T12:20:00+09:00</lastmod>
+  </url>
+  <url>
     <loc>http://yoshitsugufujii.github.io/blog/2017/10/13/speed-bucket-brush/</loc>
     <lastmod>2017-10-13T11:18:06+09:00</lastmod>
   </url>
@@ -750,22 +754,22 @@
   </url>
   <url>
     <loc>http://yoshitsugufujii.github.io/blog/</loc>
-    <lastmod>2017-10-13T19:06:28+09:00</lastmod>
-  </url>
-  <url>
-    <loc>http://yoshitsugufujii.github.io/blog/archives/</loc>
-    <lastmod>2017-10-13T19:06:28+09:00</lastmod>
+    <lastmod>2017-10-16T12:43:09+09:00</lastmod>
   </url>
   <url>
     <loc>http://yoshitsugufujii.github.io/archives/</loc>
-    <lastmod>2017-10-13T19:06:28+09:00</lastmod>
+    <lastmod>2017-10-16T12:43:09+09:00</lastmod>
+  </url>
+  <url>
+    <loc>http://yoshitsugufujii.github.io/blog/archives/</loc>
+    <lastmod>2017-10-16T12:43:09+09:00</lastmod>
   </url>
   <url>
     <loc>http://yoshitsugufujii.github.io/</loc>
-    <lastmod>2017-10-13T19:06:28+09:00</lastmod>
+    <lastmod>2017-10-16T12:43:09+09:00</lastmod>
   </url>
   <url>
     <loc>http://yoshitsugufujii.github.io/profile/</loc>
-    <lastmod>2017-10-13T19:06:28+09:00</lastmod>
+    <lastmod>2017-10-16T12:43:09+09:00</lastmod>
   </url>
 </urlset>
