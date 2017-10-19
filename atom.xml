@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2017-10-16T12:43:09+09:00</updated>
+    <updated>2017-10-19T12:18:22+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,72 @@
     </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[Doorkeeperでトークンの有効期限切れをさせない]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2017/10/19/doorkeer-expire-token-desabled/"/>
+        <updated>2017-10-19T11:59:10+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2017/10/19/doorkeer-expire-token-desabled</id>
+        <content type="html"><![CDATA[<p>釣りばっかりの記事の連投にぶっこんですいません。<br/>
+IT技術ネタです。</p>
+
+<!-- more -->
+
+
+<p></p>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p>  <br/>
+<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-7039502723411845"
+     data-ad-slot="8206045005"></ins></p>
+
+<script>  
+     (adsbygoogle = window.adsbygoogle || []).push({});  
+</script>
+
+
+<p></p>
+
+<p>こちらを読みまして。<br/>
+<a href="https://qiita.com/r7kamura/items/3e03471e02ea9ab5902a">アクセストークンに有効期限を設けるべきかどうか</a></p>
+
+<p>たしかにそうだよなと思ったのとDoorkeeper使った認証基盤にクライアントがアクセスするときに、token失効により、他ユーザの情報などがとれないことがったりしたのでtoken失効させないことにします。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># config/initializers/doorkeeper.rb  </span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Doorkeeper</span><span class="o">.</span><span class="n">configure</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">access_token_expires_in</span> <span class="kp">nil</span> <span class="c1"># &lt;- こうする  </span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>参考<br/>
+<a href="https://github.com/doorkeeper-gem/doorkeeper/wiki/Customizing-Token-Expiration#access-token">Customizing Token Expirationupdate oauth_access_tokens set expires_in = null</a></p>
+
+<p>もうすでに設定されているアプリでこちら無効にしたい場合は<br/>
+expires_inにnullを設定すればいいようです。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">update</span> <span class="n">oauth_access_tokens</span> <span class="k">set</span> <span class="n">expires_in</span> <span class="o">=</span> <span class="k">null</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[市川 サヨリ]]></title>
@@ -1400,31 +1466,6 @@ PCとお弁当と水筒と着替えをいれて走ってます。</p>
 </span><span class='line'>  return code, msg, err
 </span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[ルビィのぼうけんをいただきました。]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2016/05/18/hello-ruby/"/>
-        <updated>2016-05-18T10:45:37+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2016/05/18/hello-ruby</id>
-        <content type="html"><![CDATA[<p><a href="http://asia.slush.org/">Slush Asia</a>にいった会社の同僚から
-<a  href="http://www.amazon.co.jp/gp/product/4798143499/ref=as_li_ss_tl?ie=UTF8&camp=247&creative=7399&creativeASIN=4798143499&linkCode=as2&tag=gogosakura-22">ルビィのぼうけん こんにちは!  プログラミング</a><img src="http://ir-jp.amazon-adsystem.com/e/ir?t=gogosakura-22&l=as2&o=9&a=4798143499" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
-をいただきました。</p>
-
-<!-- more -->
-
-
-<p><a href="http://www.amazon.co.jp/exec/obidos/ASIN/4798143499/gogosakura--22/ref=nosim/" rel="nofollow" >
-  <img src="http://ecx.images-amazon.com/images/I/5160R6cyiuL._SS500_.jpg" style="border: none;" alt="ルビィのぼうけん こんにちは! プログラミング" />
-</a></p>
-
-<p>Linda Liukasさんの直筆サイン付き！</p>
-
-<p><img src="http://yoshitsugufujii.github.io/images/blog/2016_05_18_2.jpg" alt="サイン" style="width: 80%;"></p>
-
-<p>ルビィという女の子のお話と演習を通してプログラム的な思考を身につけようという内容になっています。
-娘が適齢期になったら読み聞かせてあげようと思います。</p>
 ]]></content>
     </entry>
     
