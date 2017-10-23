@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2017-10-19T12:18:22+09:00</updated>
+    <updated>2017-10-23T12:30:14+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,72 @@
     </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[市川 サヨリ狙うもボウズ]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2017/10/23/ichikawa-2017-10-21/"/>
+        <updated>2017-10-23T11:46:51+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2017/10/23/ichikawa-2017-10-21</id>
+        <content type="html"><![CDATA[<p>釣行日 2017年10月23日(土)<br/>
+天気 雨<br/>
+場所 市川<br/>
+釣行時間: 10:00 〜 11:30</p>
+
+<p>雨ですが釣りにきました。<br/>
+娘がスイミングスクールに行っている間に自転車で移動して釣行開始。</p>
+
+<!-- more -->
+
+
+<p></p>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p>
+<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-7039502723411845"
+     data-ad-slot="8206045005"></ins></p>
+
+<script>  
+     (adsbygoogle = window.adsbygoogle || []).push({});  
+</script>
+
+
+<p></p>
+
+<p><a href="http://yoshitsugufujii.github.io/images/blog/20171023/IMG_2695.jpg" data-lightbox="ichikawa" data-title="市川"/>
+  <img src="http://yoshitsugufujii.github.io/images/blog/20171023/IMG_2695.jpg" style="width: 80%;">    <br/>
+</a></p>
+
+<p>他の釣り人はおじさまがた5人。</p>
+
+<p>開始しますが結果からいうとなんの胸熱展開もなくボウズでした。</p>
+
+<p>ボラがよく跳ねていたんですが、合間にシーバスっぽいのも跳ねていたので<br/>
+おそらくこれが原因かも・・・<br/>
+それをみたサヨリストのおじさまが途中ルアーを持ち出して投げてましたが全体的にダメダメでした。</p>
+
+<p>そしてサヨリの仕掛けがまさかの高切れで海に流されて行ったので納竿。</p>
+
+<p>サヨリ仕掛けを再度手に入れるべく帰りに上州屋寄ったんですがサヨリ釣りで使っている砂ズリ。<br/>
+工房浦安の使っているんですが、モデルチェンジするのかもう生産していないそうです。</p>
+
+<p>なので手に入るのはお店にある分のみで姿を消すそうです。</p>
+
+<p>仕方ないのでググりながら自作。</p>
+
+<p><a href="http://yoshitsugufujii.github.io/images/blog/20171023/IMG_2688.jpg" data-lightbox="sunaduri"/>
+  <img src="http://yoshitsugufujii.github.io/images/blog/20171023/IMG_2688.jpg" style="width: 80%;">    <br/>
+</a></p>
+
+<p>うーん。均一によれてないのかちゃんとネジネジしていないところがあるなぁ。<br/>
+難しいっす(´・ω・`)</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[Doorkeeperでトークンの有効期限切れをさせない]]></title>
@@ -1269,203 +1335,6 @@ PCとお弁当と水筒と着替えをいれて走ってます。</p>
 <p><a href="https://www.amazon.co.jp/%E3%82%B5%E3%83%AD%E3%83%A2%E3%83%B3-%E3%83%90%E3%83%83%E3%82%AF%E3%83%91%E3%83%83%E3%82%AF-TRAIL-L37998300-GRANNY/dp/B014EBRLQG/ref=as_li_ss_il?ie=UTF8&qid=1491903304&sr=8-1&keywords=salomon+trail+20&linkCode=li3&tag=gogosakura-22&linkId=3bf38265c9d616b2ab28731fe38d0e44" target="_blank"><img border="0" src="//ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B014EBRLQG&Format=_SL250_&ID=AsinImage&MarketPlace=JP&ServiceVersion=20070822&WS=1&tag=gogosakura-22" ></a><img src="https://ir-jp.amazon-adsystem.com/e/ir?t=gogosakura-22&l=li3&o=9&a=B014EBRLQG" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /></p>
 
 <p><a href="http://amzn.to/2nzWzof">[サロモン] バックパック TRAIL 20</a></p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[強引にGoのメールでverpに対応する]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2016/08/24/golang-mail-with-verp/"/>
-        <updated>2016-08-24T18:19:24+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2016/08/24/golang-mail-with-verp</id>
-        <content type="html"><![CDATA[<p>Golangで<a href="http://www.postfix-jp.info/trans-2.2/jhtml/VERP_README.html">VERP</a>対応したくて色々と調べましたが<br/>
-強引にやる方法しか思いつかなかったけどせっかく調べたので記録する。<br/>
-ソースはこちらを参考にさせていただきました(感謝)<br/>
-<a href="http://d.hatena.ne.jp/taknb2nch/20140213/1392277157">Golang Cafe #16 まとめ その2 smtpパッケージ</a></p>
-
-<p>verpって単一の宛先のみでカンマ区切りだったりccだったりbccだったりは対応できないっぽいです。<br/>
-送るなら1メール1ユーザにしないとダメ？</p>
-
-<!-- more -->
-
-
-<h2>postfix設定</h2>
-
-<p>main.cf
-/etc/postfix/main.cf</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>recipient_delimiter = +
-</span><span class='line'>default_verp_delimiters = -=
-</span><span class='line'>smtpd_authorized_verp_clients = $mynetworks</span></code></pre></td></tr></table></div></figure>
-
-
-<p>以下sendMailはsmtp.SendMailと引数を一緒にしています。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-<span class='line-number'>80</span>
-<span class='line-number'>81</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>func sendMail(addr string, auth smtp.Auth, from string, to []string, msg []byte) error {
-</span><span class='line'>  var client *smtp.Client
-</span><span class='line'>  var err error
-</span><span class='line'>
-</span><span class='line'>  if client, err = smtp.Dial(addr); err != nil {
-</span><span class='line'>      fmt.Fprintf(os.Stderr, "Error: %v\n", err)
-</span><span class='line'>      os.Exit(1)
-</span><span class='line'>  }
-</span><span class='line'>
-</span><span class='line'>  defer client.Close()
-</span><span class='line'>
-</span><span class='line'>  if err = client.Hello("localhost"); err != nil {
-</span><span class='line'>      fmt.Fprintf(os.Stderr, "Error: %v\n", err)
-</span><span class='line'>      os.Exit(1)
-</span><span class='line'>  }
-</span><span class='line'>
-</span><span class='line'>  if auth != nil {
-</span><span class='line'>      if err = client.Auth(auth); err != nil {
-</span><span class='line'>          fmt.Fprintf(os.Stderr, "Error: %v\n", err)
-</span><span class='line'>          os.Exit(1)
-</span><span class='line'>      }
-</span><span class='line'>  }
-</span><span class='line'>
-</span><span class='line'>  for _, addr := range to {
-</span><span class='line'>      if err = client.Reset(); err != nil {
-</span><span class='line'>          fmt.Fprintf(os.Stderr, "Error: %v\n", err)
-</span><span class='line'>          os.Exit(1)
-</span><span class='line'>      }
-</span><span class='line'>
-</span><span class='line'>      if err = mail(client, from); err != nil {
-</span><span class='line'>          fmt.Fprintf(os.Stderr, "Error: %v\n", err)
-</span><span class='line'>          os.Exit(1)
-</span><span class='line'>      }
-</span><span class='line'>
-</span><span class='line'>      if err = client.Rcpt(addr); err != nil {
-</span><span class='line'>          fmt.Fprintf(os.Stderr, "Error: %v\n", err)
-</span><span class='line'>          os.Exit(1)
-</span><span class='line'>      }
-</span><span class='line'>
-</span><span class='line'>      var w io.WriteCloser
-</span><span class='line'>
-</span><span class='line'>      if w, err = client.Data(); err != nil {
-</span><span class='line'>          fmt.Fprintf(os.Stderr, "Error: %v\n", err)
-</span><span class='line'>          os.Exit(1)
-</span><span class='line'>      }
-</span><span class='line'>
-</span><span class='line'>      if _, err = w.Write([]byte(msg)); err != nil {
-</span><span class='line'>          fmt.Fprintf(os.Stderr, "Error: %v\n", err)
-</span><span class='line'>          os.Exit(1)
-</span><span class='line'>      }
-</span><span class='line'>
-</span><span class='line'>      w.Close()
-</span><span class='line'>  }
-</span><span class='line'>
-</span><span class='line'>  if err = client.Quit(); err != nil {
-</span><span class='line'>      fmt.Fprintf(os.Stderr, "Error: %v\n", err)
-</span><span class='line'>      os.Exit(1)
-</span><span class='line'>  }
-</span><span class='line'>
-</span><span class='line'>  return nil
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>func mail(c *smtp.Client, from string) error {
-</span><span class='line'>  cmdStr := "MAIL FROM:&lt;%s&gt; XVERP"
-</span><span class='line'>
-</span><span class='line'>  // 8BITMIMEは考慮しない
-</span><span class='line'>
-</span><span class='line'>  _, _, err := cmd(c, 250, cmdStr, from)
-</span><span class='line'>  return err
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>func cmd(c *smtp.Client, expectCode int, format string, args ...interface{}) (int, string, error) {
-</span><span class='line'>  id, err := c.Text.Cmd(format, args...)
-</span><span class='line'>  if err != nil {
-</span><span class='line'>      return 0, "", err
-</span><span class='line'>  }
-</span><span class='line'>  c.Text.StartResponse(id)
-</span><span class='line'>  defer c.Text.EndResponse(id)
-</span><span class='line'>  code, msg, err := c.Text.ReadResponse(expectCode)
-</span><span class='line'>  return code, msg, err
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
 ]]></content>
     </entry>
     
