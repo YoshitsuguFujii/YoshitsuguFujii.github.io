@@ -83,6 +83,147 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2014/11/18/20141118110832/">railsで任意のタイミングで処理を開始</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2014-11-18T11:08:00+09:00" pubdate><i class="fa fa-calendar"></i> Nov 18th, 2014</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+                <li><a class='category' href='/blog/categories/rails/'>rails</a></li>
+            
+                <li><a class='category' href='/blog/categories/activesupport/'>activesupport</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>おかあさんといっしょを娘が見るので、毎朝のテレビチャンネルはEテレです。</p>
+
+<p>さてrailsでapp/model/concerns以下のモジュールを勝手にapp/modelにincludeしたいと考えました。<br/>
+命名規則でファイルを拾って、includeすることにします。<br/>
+例えば以下のファイル名をつけた場合に</p>
+
+<p>app/model/user.rb<br/>
+app/model/user  <em>auto  </em>load  _concern.rb</p>
+
+<p>userクラスに自動でuser  <em>auto  </em>load  _concern.rbの内容がincludeされる感じです。</p>
+
+<p>config/initializerに置きます。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="sx">%w(models)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">elem</span><span class="o">|</span>
+</span><span class='line'>    <span class="no">Pathname</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="no">Rails</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;app&quot;</span><span class="p">,</span> <span class="n">elem</span><span class="p">,</span> <span class="s2">&quot;concerns&quot;</span><span class="p">,</span> <span class="s2">&quot;*&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">file</span><span class="o">|</span>
+</span><span class='line'>      <span class="k">if</span> <span class="n">file</span><span class="o">.</span><span class="n">file?</span>
+</span><span class='line'>        <span class="n">file</span><span class="o">.</span><span class="n">basename</span><span class="o">.</span><span class="n">to_s</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="sr">/(.*)(_auto_load_concern.rb)$/</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">class_name</span><span class="o">|</span>
+</span><span class='line'>          <span class="k">if</span> <span class="n">class_name</span><span class="o">.</span><span class="n">present?</span>
+</span><span class='line'>            <span class="n">model</span> <span class="o">=</span> <span class="n">class_name</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">classify</span><span class="o">.</span><span class="n">constantize</span>
+</span><span class='line'>            <span class="n">model</span><span class="o">.</span><span class="n">class_eval</span> <span class="p">{</span>  <span class="kp">include</span> <span class="n">file</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="s2">&quot;.rb&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to_s</span><span class="o">.</span><span class="n">classify</span><span class="o">.</span><span class="n">constantize</span> <span class="p">}</span>
+</span><span class='line'>          <span class="k">end</span>
+</span><span class='line'>        <span class="k">end</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>でもこのプロジェクトにはmodelクラスを拡張するプログラムがlib下にあります。<br/>
+それを読み込まない限りはmodelを参照するとエラーになるようになっています(上記class  _name[0].classify.constantizeでエラーとなる)</p>
+
+<p>そこでlib以下のそのプログラム群を読み込んだ後に読み込むようにしたいと思います。</p>
+
+<p>まず先ほどのコードを以下のようにActiveSupport.on  _loadで囲みます。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">ActiveSupport</span><span class="o">.</span><span class="n">on_load</span><span class="p">(</span><span class="ss">:hoge</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>  <span class="sx">%w(models)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">elem</span><span class="o">|</span>
+</span><span class='line'>    <span class="no">Pathname</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="no">Rails</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;app&quot;</span><span class="p">,</span> <span class="n">elem</span><span class="p">,</span> <span class="s2">&quot;concerns&quot;</span><span class="p">,</span> <span class="s2">&quot;*&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">file</span><span class="o">|</span>
+</span><span class='line'>      <span class="k">if</span> <span class="n">file</span><span class="o">.</span><span class="n">file?</span>
+</span><span class='line'>        <span class="n">file</span><span class="o">.</span><span class="n">basename</span><span class="o">.</span><span class="n">to_s</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="sr">/(.*)(_auto_load_concern.rb)$/</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">class_name</span><span class="o">|</span>
+</span><span class='line'>          <span class="k">if</span> <span class="n">class_name</span><span class="o">.</span><span class="n">present?</span>
+</span><span class='line'>            <span class="n">model</span> <span class="o">=</span> <span class="n">class_name</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">classify</span><span class="o">.</span><span class="n">constantize</span>
+</span><span class='line'>            <span class="n">model</span><span class="o">.</span><span class="n">class_eval</span> <span class="p">{</span>  <span class="kp">include</span> <span class="n">file</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="s2">&quot;.rb&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to_s</span><span class="o">.</span><span class="n">classify</span><span class="o">.</span><span class="n">constantize</span> <span class="p">}</span>
+</span><span class='line'>          <span class="k">end</span>
+</span><span class='line'>        <span class="k">end</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>lib下のプログラム群で処理が終わった後に以下を差し込みます。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="no">ActiveSupport</span><span class="o">.</span><span class="n">run_load_hooks</span> <span class="ss">:hoge</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>そうするとrun  <em>load  </em>hooksが呼ばれたタイミングでhogeがついていてるActiveSupport.on  _loadのブロック処理が開始されます。</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2014/11/06/20141106202417/">コンソールでローディングを表示</a>
         </h1>
     
@@ -1337,159 +1478,6 @@ rootで動かしてパッチを実際に当てましたが。<br/>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2014/01/24/20140124122500/">Terminalでsshするときに、接続先に応じて背景色を変える方法</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2014-01-24T12:25:00+09:00" pubdate><i class="fa fa-calendar"></i> Jan 24th, 2014</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/terminal/'>terminal</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>朝これを見た。</p>
-
-<p>iTermでsshするときに、接続先に応じて背景色を変える方法<br/>
-<a href="http://qiita.com/k_kinukawa/items/3e5665325a4954e33019">http://qiita.com/k_kinukawa/items/3e5665325a4954e33019</a></p>
-
-<p>いいなと思った。</p>
-
-<p>でも普段僕はMacの標準のTerminalを使っている。<br/>
-Terminalで同じこと出きないかなとぐぐったらすぐあった。</p>
-
-<p><a href="https://github.com/dlobraico/dotfiles/blob/master/bin/ssh-host-color">https://github.com/dlobraico/dotfiles/blob/master/bin/ssh-host-color</a></p>
-
-<p>でも僕は透過率が75%にしていて透過率を設定したいのだけど。<br/>
-osascriptで透過率の設定がよくわからない。</p>
-
-<p>というか普段ターミナルの色とかはProの設定を使っているのでProの使いたいなーって思ってググってprofileを切り替えられるようにした。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1">#!/bin/bash</span>
-</span><span class='line'><span class="c1">#</span>
-</span><span class='line'><span class="c1"># ssh into a machine and automatically set the background</span>
-</span><span class='line'><span class="c1"># color of Mac OS X Terminal depending on the hostname.</span>
-</span><span class='line'><span class="c1">#</span>
-</span><span class='line'><span class="c1"># Installation:</span>
-</span><span class='line'><span class="c1"># 1. Save this script to /some/bin/ssh-host-color</span>
-</span><span class='line'><span class="c1"># 2. chmod 755 /some/bin/ssh-host-color</span>
-</span><span class='line'><span class="c1"># 3. alias ssh=/some/bin/ssh-host-color</span>
-</span><span class='line'><span class="c1"># 4. Configure your host colors below.</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">set_term_bgcolor</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>   <span class="n">local</span> <span class="n">R</span><span class="o">=</span><span class="vg">$1</span>
-</span><span class='line'>   <span class="n">local</span> <span class="n">G</span><span class="o">=</span><span class="vg">$2</span>
-</span><span class='line'>   <span class="n">local</span> <span class="n">B</span><span class="o">=</span><span class="vg">$3</span>
-</span><span class='line'>   <span class="sr">/usr/</span><span class="n">bin</span><span class="o">/</span><span class="n">osascript</span> <span class="o">&lt;&lt;</span><span class="no">EOF</span>
-</span><span class='line'><span class="sh">tell application &quot;Terminal&quot;</span>
-</span><span class='line'><span class="sh">   tell window 0</span>
-</span><span class='line'><span class="sh">      set the background color to {$(($R*65535/255)), $(($G*65535/255)), $(($B*65535/255)), 32767}</span>
-</span><span class='line'><span class="sh">   end tell</span>
-</span><span class='line'><span class="sh">end tell</span>
-</span><span class='line'><span class="no">EOF</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">set_term_profile</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>   <span class="n">local</span> <span class="n">profile</span><span class="o">=</span><span class="vg">$1</span>
-</span><span class='line'>   <span class="sr">/usr/</span><span class="n">bin</span><span class="o">/</span><span class="n">osascript</span> <span class="o">-</span><span class="n">e</span> <span class="s2">&quot;tell application   &quot;</span><span class="no">Terminal</span>  <span class="s2">&quot; to  set current settings of first window to settings set   &quot;</span><span class="vg">$profile</span>  <span class="s2">&quot;&quot;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># Host-specific background colors.</span>
-</span><span class='line'><span class="k">if</span> <span class="o">[[</span> <span class="s2">&quot;$@&quot;</span> <span class="o">=~</span> <span class="n">production1</span><span class="o">.</span><span class="n">com</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
-</span><span class='line'>   <span class="n">set_term_profile</span> <span class="s2">&quot;HomeBrew&quot;</span>
-</span><span class='line'><span class="n">elif</span> <span class="o">[[</span> <span class="s2">&quot;$@&quot;</span> <span class="o">=~</span> <span class="n">production2</span><span class="o">.</span><span class="n">com</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
-</span><span class='line'>   <span class="n">set_term_bgcolor</span> <span class="mi">0</span> <span class="mi">40</span> <span class="mi">0</span>
-</span><span class='line'><span class="n">fi</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">ssh</span> <span class="vg">$@</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># Default background color.</span>
-</span><span class='line'><span class="n">set_term_profile</span> <span class="s2">&quot;Pro&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>set  <em>term  </em>profileでプロファイルの名前を渡せばそれに切り替わる。<br/>
-set  <em>bg  </em>colorも残してる。</p>
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -1553,6 +1541,10 @@ set  <em>bg  </em>colorも残してる。</p>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2017/10/24/koubo-urayasu-sunaduri/">工房浦安 砂ズリ</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2017/10/23/ichikawa-2017-10-21/">市川 サヨリ狙うもボウズ</a>
         </li>
         
@@ -1566,10 +1558,6 @@ set  <em>bg  </em>colorも残してる。</p>
         
         <li class="post">
             <a href="/blog/2017/10/13/speed-bucket-brush/">スピードバケツから漂うただならぬコマセ臭</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2017/10/12/fish-grab/">釣り便利グッズ 100均お魚つかみ</a>
         </li>
         
     </ul>
