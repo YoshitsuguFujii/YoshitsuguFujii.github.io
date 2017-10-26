@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2017-10-24T11:12:58+09:00</updated>
+    <updated>2017-10-26T13:45:17+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,85 @@
     </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[特定のユーザに送られるメールを全てキャンセル]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2017/10/26/cancel-mail/"/>
+        <updated>2017-10-26T11:36:00+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2017/10/26/cancel-mail</id>
+        <content type="html"><![CDATA[<p>ナチュラムでジョイナス2000が2000円切っていたのでぽちり。<br/>
+昨日届きましたがやっぱりちょっと安い感じがありました。<br/>
+もう千円だしてアリビオ買えばよかったかも。</p>
+
+<p>釣り記事の合間のITネタ。</p>
+
+<!-- more -->
+
+
+<p></p>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p>  <br/>
+<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-7039502723411845"
+     data-ad-slot="8206045005"></ins></p>
+
+<script>  
+     (adsbygoogle = window.adsbygoogle || []).push({});  
+</script>
+
+
+<p></p>
+
+<p>usersテーブルにlockフラグを持っているなどある条件によってメールを送信するしないをアプリ全体で制御する方法。<br/>
+interceptorを使います。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># config/initializers/mail_interceptor.rb  </span>
+</span><span class='line'>
+</span><span class='line'><span class="no">ActionMailer</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">register_interceptor</span><span class="p">(</span><span class="no">MailInterceptor</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># lib/mail_interceptor.rb  </span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">MailInterceptor</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">delivering_email</span><span class="p">(</span><span class="n">email</span><span class="p">)</span>
+</span><span class='line'>    <span class="c1"># lock中のユーザーには送らない  </span>
+</span><span class='line'>    <span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">find_by</span><span class="p">(</span><span class="ss">email</span><span class="p">:</span> <span class="n">email</span><span class="o">.</span><span class="n">to</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">user</span><span class="o">.</span><span class="n">lock_flag?</span>
+</span><span class='line'>      <span class="n">email</span><span class="o">.</span><span class="n">perform_deliveries</span> <span class="o">=</span> <span class="kp">false</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>perform_deliveriesにfalseを設定するとメールが送られなくなります。</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[工房浦安 砂ズリ]]></title>
@@ -1324,31 +1403,6 @@ Httparty使ってます。Httpartyでstreaming download楽ですねー。</p>
 
 
 <p>あとは<code>bundle exec rails s Puma</code>して試してみてください。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[postgres使っていてridgepoleで文字列から数値型への変換エラー]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2017/04/13/ridgepole-postgres-change-type-cast/"/>
-        <updated>2017-04-13T11:19:54+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2017/04/13/ridgepole-postgres-change-type-cast</id>
-        <content type="html"><![CDATA[<p>表題のことをやろうとしたらエラーがでた。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[ERROR] PG::DatatypeMismatch: ERROR:  column "count" cannot be cast automatically to type integer
-</span><span class='line'>HINT:  You might need to specify "USING count::integer".</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Schemafileをこうすればいけました。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>create_table "products", force: :cascade do |t|
-</span><span class='line'>  t.integer  'count',             using: 'count::integer'
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
 ]]></content>
     </entry>
     
