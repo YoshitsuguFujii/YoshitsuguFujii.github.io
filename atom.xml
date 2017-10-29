@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2017-10-26T13:45:17+09:00</updated>
+    <updated>2017-10-29T14:03:40+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,82 @@
     </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[今井岸壁 アジ]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2017/10/29/imaiganpeki/"/>
+        <updated>2017-10-29T12:12:36+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2017/10/29/imaiganpeki</id>
+        <content type="html"><![CDATA[<p>釣行日 2017年10月27日(金)<br/>
+天気 晴<br/>
+場所 今井岸壁<br/>
+釣行時間: 4:00 〜 6:15</p>
+
+<p>あまりにも週末が雨だったり釣れなかったりなので我慢できなくなってスーパー早く寝てこっそりと起きて釣りです。<br/>
+前回<a href="http://yoshitsugufujii.github.io/blog/2017/10/11/sodegaurakou-20171009/">袖ヶ浦港</a>と言ってましたが、今井岸壁という名前が正式にあるようなので今井岸壁にしてますが前回と同じ場所です。</p>
+
+<p>金曜日は娘を保育園に送らなければならないので7時半までに帰ってこなければなりません。</p>
+
+<!-- more -->
+
+
+<p></p>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p>
+<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-7039502723411845"
+     data-ad-slot="8206045005"></ins></p>
+
+<script>  
+     (adsbygoogle = window.adsbygoogle || []).push({});  
+</script>
+
+
+<p></p>
+
+<p>到着してまだ暗かったのでアオイソメを房がけにしてぶっこみます。<br/>
+それとトリックの仕掛けもセット。</p>
+
+<p><a href="http://yoshitsugufujii.github.io/images/blog/20171029/IMG_2729.jpg" data-lightbox="imaiganpeki" data-title=""/><br/>
+<img src="http://yoshitsugufujii.github.io/images/blog/20171029/IMG_2729.jpg" style="width: 80%;"><br/>
+</a></p>
+
+<p>寒いです。とにかく寒いです。</p>
+
+<p>この日の日の出は5:45。</p>
+
+<p>5:30になっても全然釣れず、あー釣れなかったなぁと撤収時間にもう近いので片付け始めると隣のおじさんが「釣れだしたよー。」<br/>
+えっと思って見ると入れ食いです。片付けはじめていたトリックをまた出そうとすると痛恨の仕掛けがらみ。</p>
+
+<p>ようやく投入するもアジ3匹釣ったところで時合終了。<br/>
+6:00ぐらいでした。</p>
+
+<p>隣のおじさんに「釣れた？」って聞かれますが「肝心のところで仕掛けからんじゃって&hellip;」と言ったら、「あー。よくあるよね。そういうもんだよ。」<br/>
+と慰めてもらいました。隣のおじさんは30センチぐらいのカマスを釣ってました。<br/>
+そのさらに隣のおじさんはアジ24匹釣ったらしいです。</p>
+
+<p>そのあともポツポツとあがってましたが時間なので終了。</p>
+
+<p>なんていうか寒さが辛過ぎたので次はちゃんと防寒着をもっていこう。</p>
+
+<p><a href="http://yoshitsugufujii.github.io/images/blog/20171029/IMG_2732.png" data-lightbox="fly" data-title=""/><br/>
+  <img src="http://yoshitsugufujii.github.io/images/blog/20171029/IMG_2732.png" style="width: 80%;"><br/>
+</a></p>
+
+<p>豆アジは頭ごと唐揚げに。<br/>
+頭付きの方がおいしかったです。</p>
+
+<p><a href="http://yoshitsugufujii.github.io/images/blog/20171029/IMG_2730.jpg" data-lightbox="aji" data-title=""/><br/>
+<img src="http://yoshitsugufujii.github.io/images/blog/20171029/IMG_2730.jpg" style="width: 80%;"><br/>
+</a></p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[特定のユーザに送られるメールを全てキャンセル]]></title>
@@ -1308,101 +1384,6 @@ hogehoge.text.hamlをhogehoge.text.erbに直したらmultipart/alternativeにな
 
 
 <p>キスはフライに。イワシは佃煮にしておいしくいただきました。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[S3からRailsを介して大きなファイルをストリーミングダウンロードさせる]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2017/06/29/large-s3-file-relay/"/>
-        <updated>2017-06-29T15:25:15+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2017/06/29/large-s3-file-relay</id>
-        <content type="html"><![CDATA[<h3>近況とか</h3>
-
-<p>最近の藤井は月〜木は新橋の方面で働き金曜日は在宅で仕事させてもらっています。<br/>
-言語は相変わらずRubyでFWはRubyOnRailsですね。<br/>
-Firebase触ったり、WebRTCに触ったり、はじめてガチでHeroku使ったりしています。</p>
-
-<p>自分が業界に入りたての頃はこういったサービスがなかったので1からどう作るかって感じでしたが、<br/>
-最近はどうやってサービスを組み合わせて作るかって感じに変化したように思います。<br/>
-サービスの学習コストの方が高めですかね。</p>
-
-<p>Macbook Airの日本語キーボードから英字配列のhhkbに移行しました。<br/>
-:が打ちにくくて最初文句ブーブーでしたが、慣れるとたしかに英字配列の方がやりやすい気がします。<br/>
-職場と自宅で持ち運びがめんどくさかったので二台買いました。<br/>
-hhkbの墨とtype-sです。<br/>
-お金使いすぎで鼻血出そうです。</p>
-
-<p>帰宅ランは続けていて調子いいときは10キロぐらい走ります。<br/>
-だいたい7、8キロぐらいを目安に走っています。<br/>
-江戸川沿い走るの最高に気持ちいいです。</p>
-
-<!-- more -->
-
-
-<p></p>
-
-<h3>表題の件</h3>
-
-<p>S3のファイルをRailsを中継してクライアントにストリーミングダウンロードする処理書きました。<br/>
-Httparty使ってます。Httpartyでstreaming download楽ですねー。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">AttachmentController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
-</span><span class='line'>  <span class="kp">include</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Live</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">download</span>
-</span><span class='line'>    <span class="n">attachment</span> <span class="o">=</span> <span class="no">Attachment</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">begin</span>
-</span><span class='line'>      <span class="nb">self</span><span class="o">.</span><span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="o">[</span><span class="s2">&quot;Content-Type&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="n">attachment</span><span class="o">.</span><span class="n">content_type</span>
-</span><span class='line'>      <span class="nb">self</span><span class="o">.</span><span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="o">[</span><span class="s2">&quot;Content-Length&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="n">attachment</span><span class="o">.</span><span class="n">file_size</span>
-</span><span class='line'>      <span class="nb">self</span><span class="o">.</span><span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="o">[</span><span class="s2">&quot;Content-Disposition&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;attachment; filename=</span><span class="si">#{</span><span class="n">attachment</span><span class="o">.</span><span class="n">file_before_type_cast</span><span class="si">}</span><span class="s2">&quot;</span>
-</span><span class='line'>      <span class="nb">self</span><span class="o">.</span><span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="o">[</span><span class="s2">&quot;Content-Transfer-Encoding&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;binary&quot;</span>
-</span><span class='line'>      <span class="nb">self</span><span class="o">.</span><span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="o">[</span><span class="s2">&quot;Last-Modified&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="n">attachment</span><span class="o">.</span><span class="n">updated_at</span><span class="o">.</span><span class="n">ctime</span><span class="o">.</span><span class="n">to_s</span>
-</span><span class='line'>      <span class="no">HTTParty</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">attachment</span><span class="o">.</span><span class="n">url</span><span class="p">,</span> <span class="ss">stream_body</span><span class="p">:</span> <span class="kp">true</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">fragment</span><span class="o">|</span>
-</span><span class='line'>        <span class="nb">self</span><span class="o">.</span><span class="n">response</span><span class="o">.</span><span class="n">stream</span><span class="o">.</span><span class="n">write</span> <span class="n">fragment</span>
-</span><span class='line'>      <span class="k">end</span>
-</span><span class='line'>    <span class="k">rescue</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Live</span><span class="o">::</span><span class="no">ClientDisconnected</span>  <span class="c1"># キャンセルされた場合</span>
-</span><span class='line'>      <span class="c1"># nop</span>
-</span><span class='line'>    <span class="k">ensure</span>
-</span><span class='line'>      <span class="n">response</span><span class="o">.</span><span class="n">stream</span><span class="o">.</span><span class="n">close</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Puma使いましょう。webrickとかthinは対応していません。</p>
-
-<p>config/environments/development.rbに以下の設定を追加。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">cache_classes</span> <span class="o">=</span> <span class="kp">true</span>
-</span><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">eager_load</span> <span class="o">=</span> <span class="kp">true</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>あとは<code>bundle exec rails s Puma</code>して試してみてください。</p>
 ]]></content>
     </entry>
     
