@@ -1,0 +1,546 @@
+<!doctype html>
+    <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+    <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+    <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+    <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+
+    
+      
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>rails5でafter_commitが動かなくなってしまった - なんとなく日々徒然と</title>
+        <meta name="author" content="Yoshitsugu Fujii">
+        
+        <meta name="description" content="千葉県市川市在住のサファーもどきが書くRubyとRuby on Railsが多めの技術系ブログ。たまに別言語のこととかも書きます">
+        
+        <meta name="viewport" content="width=device-width">
+        <link rel="canonical" href="http://yoshitsugufujii.github.io/blog/2017/10/31/rails-after-commit">
+
+        <link href='http://fonts.googleapis.com/css?family=Droid+Serif:400,400italic' rel='stylesheet' type='text/css'>
+        <link href="http://fonts.googleapis.com/css?family=Droid+Sans" rel="stylesheet" type="text/css">
+
+        
+        <link href="/favicon.png" rel="icon">
+        <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet">
+        <link href="/stylesheets/data-table.css" rel="stylesheet" type="text/css" />
+        <link href="/atom.xml" rel="alternate" title="なんとなく日々徒然と" type="application/atom+xml">
+    </head>
+
+
+    <body >
+
+        <header id="header">
+    <div class="row">
+    <div class="col-xs-12 col-sm-8 col-md-4">
+        <a href="/" class="site-title">なんとなく日々徒然と</a>
+    </div>
+    <div class="col-xs-12 col-sm-4 col-md-8">
+        <nav>
+    <input type="checkbox" id="toggle">
+    <label for="toggle" class="toggle" data-open="Main Menu" data-close="Close Menu"></label>
+    <ul class="menu">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/profile/">Profile</a></li>
+</ul>
+
+</nav>
+
+    </div>
+</div>
+
+</header>
+
+
+        <div id="main-content">
+
+            <!--[if lte IE 9]>
+<div class="row upgrade-row">
+    <div class="col-lg-12">
+        <div class="upgrade">
+            <i class="upgrade__icon fa fa-warning"></i>
+            <h1 class="upgrade__title h6">Ohnoes!</h1>
+            <p class="upgrade__text">
+                Unfortunately, certain parts of this site may not display correctly in your version of Internet Explorer!<br>
+                If possible, you should consider <a href="http://browsehappy.com/">upgrading your browser</a>.
+            </p>
+        </div>
+    </div>
+</div>
+<!-- <![endif]-->
+
+
+            
+
+            <div class="row top-xs center-sm center-md center-lg site-wrapper">
+                
+                <div class="col-xs-12 col-sm-10 col-md-8 col-lg-8">
+                
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.9.0/css/lightbox.min.css" integrity="sha256-iU/Wh1HMAs/NgpurDAu14e7S3FkllcJ5aPnpPDdnO6c=" crossorigin="anonymous" />
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.9.0/js/lightbox.min.js" integrity="sha256-9r7DHolfe5aoH+bUj4FEqRBq2tmaIXBxOYUZFalCjSE=" crossorigin="anonymous"></script>
+
+
+<article class="article article--single">
+
+  <header class="article__header">
+    
+        <h1 class="article__title">rails5でafter_commitが動かなくなってしまった</h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2017-10-31T10:27:08+09:00" pubdate><i class="fa fa-calendar"></i> Oct 31st, 2017</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+
+            
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
+            
+        
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>ITネタです。すいません。<br/>
+railsのモデルデータに変更が加えられたらelasticsearchのデータをafter_commitで更新するようにしているのですが。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">after_commit</span> <span class="ss">:index_elasticsearch_document</span><span class="p">,</span> <span class="ss">on</span><span class="p">:</span> <span class="o">[</span><span class="ss">:create</span><span class="p">,</span> <span class="ss">:update</span><span class="o">]</span>
+</span><span class='line'><span class="n">after_commit</span> <span class="ss">:delete_elasticsearch_document</span><span class="p">,</span> <span class="ss">on</span><span class="p">:</span> <span class="o">[</span><span class="ss">:destroy</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>Rails5にしたら設定したcallbackが走らなくなってしまいました。<br/>
+困っている人結構いるような気がするんですがどうなんでしょうかね。</p>
+
+<!-- more -->
+
+
+<p></p>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p>  <br/>
+<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-7039502723411845"
+     data-ad-slot="8206045005"></ins></p>
+
+<script>  
+     (adsbygoogle = window.adsbygoogle || []).push({});  
+</script>
+
+
+<p></p>
+
+<p>onオプションをつけると動かなくて外すと動きます。<br/>
+どうもcallbackが処理される過程の<a href="https://apidock.com/rails/v4.0.2/ActiveRecord/Transactions/transaction_include_any_action%3F">transaction_include_any_action?</a>によるどの操作(insert, update, destroy)での更新かとonオプションによる一致が正常に判定されず動かないようです。<br/>
+ぐぐってみるとヒットするのはこのあたりでしょうか。</p>
+
+<p><a href="https://github.com/rails/rails/issues/29554">after_create_commit and after_update_commit alias don&rsquo;t always run when next to each other #29554</a></p>
+
+<p><a href="https://github.com/rails/rails/issues/29318">after_commit doesn&rsquo;t work with optimistic locking #29318</a></p>
+
+<p>これのうち下のリンクが正解でした。<br/>
+修正PRは<a href="https://github.com/rails/rails/pull/29096">これ</a>ですが、まだマージされてませんね。<br/>
+この<a href="https://github.com/rails/rails/commit/371c083fb0620efebf7bd0188a66486403e12ecc">コミット</a>が原因のようです。</p>
+
+<p>ちなみに関わっている案件の場合は正確にはcomposite_primary_keysを使っているのでcomposite_primary_keysの方の悲観的ロックが原因でした。<br/>
+メソッドオーバーライドしているのでほぼ同じ現象です。</p>
+
+<p><a href="https://github.com/composite-primary-keys/composite_primary_keys/blob/master/lib/composite_primary_keys/locking/optimistic.rb#L43">ここ</a>で<a href="https://github.com/rails/rails/pull/29096">PR</a>と同じように@_trigger_update_callbackを設定すれば治ります。</p>
+
+<p>ただパッチをあてるのもなって感じなのでモデル側でこうなおしました。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ElasticsearchNoModel</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">_update_record</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">affected_rows</span> <span class="o">=</span> <span class="k">super</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">affected_rows</span> <span class="o">==</span> <span class="mi">1</span>
+</span><span class='line'>      <span class="vi">@_trigger_update_callback</span> <span class="o">=</span> <span class="kp">true</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>create時とupdate時はこれで治りましたがdestroyの時がこれだとまだうごきません。<br/>
+ちなみに今関わっている案件ではparanoia使ってます。</p>
+
+<p><a href="https://github.com/rubysherpas/paranoia/issues/418">after_commit with on: option doesn&rsquo;t work at Rails 5.1.3 #418</a></p>
+
+<p>issueあがってますがリアクションありませんね。</p>
+
+<p>ソース読んでこう直しました。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ElasticsearchNoModel</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">destroy</span>
+</span><span class='line'>    <span class="vi">@_trigger_destroy_callback</span> <span class="o">=</span> <span class="kp">true</span>
+</span><span class='line'>    <span class="k">super</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>@_trigger_destroy_callbackをsuperの前に設定するのはparanoiaのメソッドがdeleted_atの更新とrun_callbackを同一メソッドでやっているためです(なるべくパッチorメソッドをいじりたくないので先に設定してしまっています)</p>
+
+<p>これで無事にafter_commitが動くようになりました。</p>
+
+
+
+
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-format="fluid"
+       data-ad-layout-key="-ek+6c-5-bt+lw"
+       data-ad-client="ca-pub-7039502723411845"
+       data-ad-slot="3083255422"></ins>
+  <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+
+</article>
+
+
+  <div class="share social_box clearfix">
+    <ul class="social">
+      
+  <li class="pocket">
+    <a data-pocket-label="pocket" data-pocket-count="horizontal" class="pocket-btn" data-lang="en"></a>
+    <script type="text/javascript">!function(d,i){if(!d.getElementById(i)){var j=d.createElement("script");j.id=i;j.src="https://widgets.getpocket.com/v1/j/btn.js?v=1";var w=d.getElementById(i);d.body.appendChild(j);}}(document,"pocket-btn-js");</script>
+  </li>
+
+
+
+      <li class="hatena">
+  <a href="http://b.hatena.ne.jp/entry/yoshitsugufujii.github.io/" class="hatena-bookmark-button" data-hatena-bookmark-title="なんとなく日々徒然と" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加"><img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a>
+  <script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+</li>
+
+      <li class="twitter">
+<a class="twitter-share-button" href="https://twitter.com/share?text=rails5でafter_commitが動かなくなってしまった by @YoshitsuguFujii&url=http://yoshitsugufujii.github.io/blog/2017/10/31/rails-after-commit/"> Tweet </a>
+<script>
+  window.twttr=(function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return;js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);t._e=[];t.ready=function(f){t._e.push(f);};return t;}(document,"script","twitter-wjs"));
+</script>
+</li>
+
+      <li class="facebook">
+  <div class="fb-like" data-href="http://yoshitsugufujii.github.io/" data-layout="button_count" data-action="like" data-show-faces="true" data-share="false"></div>
+  <div id="fb-root"></div>
+  <script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/ja_JP/sdk.js#xfbml=1&version=v2.0";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));</script>
+</li>
+
+    </ul>
+  </div>
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- GitfubPage -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-7039502723411845"
+     data-ad-slot="5600809613"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+<section id="disqus">
+    <h1 class="disqus__title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+
+
+
+<!--  amazon ads at bottom in show page -->
+
+
+                </div>
+
+                
+                <aside class="sidebar col-xs-12 col-md-4 col-lg-4">
+                    <div class="row">
+
+    
+
+    
+  <section class="social col-xs-12 col-sm-6 col-md-12">
+    <h1>Site Search</h1>
+    <form action="https://www.google.com/search" method="get">
+      <div class="input-prepend">
+        <input type="hidden" name="sitesearch" value="yoshitsugufujii.github.io">
+        <span class="add-on"><i class="fa fa-search"></i></span>
+        <input class="search-query" type="text" name="q" results="0" placeholder="Search"/>
+      </div>
+    </form>
+  </section>
+
+
+
+    
+<section class="social col-xs-12 col-sm-6 col-md-12">
+    <h1>
+        Follow me!
+    </h1>
+    <ul class="unstyled">
+        
+        
+        
+        <li><a class="facebook" href="//facebook.com/fujiiyoshitsugu"><i class="fa fa-facebook-square"></i> Facebook</a></li>
+        <li><a class="github" href="//github.com/YoshitsuguFujii"><i class="fa fa-github"></i> Github</a></li>
+        
+        
+        
+        
+        
+        
+        
+        <li><a class="twitter" href="//twitter.com/YoshitsuguFujii"><i class="fa fa-twitter"></i> Twitter</a></li>
+        
+    </ul>
+</section>
+
+
+
+    <section id="recent-posts" class="col-xs-12 col-sm-6 col-md-12">
+    <h1>Recent Posts</h1>
+    <ul class="divided">
+        
+        <li class="post">
+            <a href="/blog/2017/10/31/rails-after-commit/">rails5でafter_commitが動かなくなってしまった</a>
+        </li>
+        
+        <li class="post">
+            <a href="/blog/2017/10/30/ichikawa/">市川 サヨリ狙うもこりずにボウズ</a>
+        </li>
+        
+        <li class="post">
+            <a href="/blog/2017/10/29/imaiganpeki/">今井岸壁 アジ</a>
+        </li>
+        
+        <li class="post">
+            <a href="/blog/2017/10/26/cancel-mail/">特定のユーザに送られるメールを全てキャンセル</a>
+        </li>
+        
+        <li class="post">
+            <a href="/blog/2017/10/24/koubo-urayasu-sunaduri/">工房浦安 砂ズリ</a>
+        </li>
+        
+    </ul>
+</section>
+
+<section id="github-repos" class="col-xs-12 col-sm-6 col-md-12">
+    <h1>
+        GitHub Repos
+        
+        <small class="pull-right">
+            <a class="btn" href="//github.com/YoshitsuguFujii" title="@YoshitsuguFujii on GitHub" target="_blank">
+                <i class="fa fa-external-link"></i>
+            </a>
+        </small>
+        
+    </h1>
+    <ul id="gh_repos" class="divided">
+        <li class="loading">
+            <i class="fa fa-spinner fa-spin"></i>
+        </li>
+    </ul>
+</section>
+
+
+
+
+
+<section id="twitter-timeline" class="col-xs-12 col-sm-6 col-md-12">
+    <h1>
+        Latest Tweets
+        
+        <small class="pull-right">
+            <a class="btn" href="//twitter.com/YoshitsuguFujii" title="@YoshitsuguFujii on Twitter" target="_blank">
+                <i class="fa fa-external-link"></i>
+            </a>
+        </small>
+        
+    </h1>
+
+    <a class="twitter-timeline" data-dnt="true" href="//twitter.com/YoshitsuguFujii"  data-widget-id="574397323830132736"  data-link-color="#049cdb" data-tweet-limit="" data-chrome="noheader nofooter transparent noscrollbar">Tweets by @YoshitsuguFujii</a>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+</section>
+
+<!--  rakuten ads at side menu -->
+<div class="space-h20"></div>
+<section class="col-xs-12 col-sm-6 col-md-12">
+  <!-- Rakuten Widget FROM HERE --><script type="text/javascript">rakuten_design="slide";rakuten_affiliateId="14ef9578.eae00efd.14ef9579.64d3d60e";rakuten_items="ranking";rakuten_genreId=0;rakuten_size="300x250";rakuten_target="_blank";rakuten_theme="gray";rakuten_border="on";rakuten_auto_mode="on";rakuten_genre_title="off";rakuten_recommend="on";</script><script type="text/javascript" src="http://xml.affiliate.rakuten.co.jp/widget/js/rakuten_widget.js"></script><!-- Rakuten Widget TO HERE -->
+</section>
+<!--  amazon ads at side menu -->
+
+<div class="space-h20"></div>
+<section class="col-xs-12 col-sm-6 col-md-12">
+  <script type="text/javascript"><!--
+  amazon_ad_tag = "gogosakura-22"; amazon_ad_width = "160"; amazon_ad_height = "600";//--></script>
+  <script type="text/javascript" src="http://ir-jp.amazon-adsystem.com/s/ads.js"></script>
+</section>
+<div class="space-h20"></div>
+<script type="text/javascript">rakuten_design="slide";rakuten_affiliateId="1610295d.9130de00.1610295e.91fe049f";rakuten_items="ctsmatch";rakuten_genreId="0";rakuten_size="200x600";rakuten_target="_blank";rakuten_theme="gray";rakuten_border="off";rakuten_auto_mode="on";rakuten_genre_title="off";rakuten_recommend="on";rakuten_ts="1507022874921";</script><script type="text/javascript" src="https://xml.affiliate.rakuten.co.jp/widget/js/rakuten_widget.js"></script>
+
+<div style='width:100%;'></div>
+<a href="//fishing.blogmura.com/chibaturi/ranking.html">
+  <img src="//fishing.blogmura.com/chibaturi/img/chibaturi88_31.gif" width="88" height="31" border="0" alt="にほんブログ村 釣りブログ 千葉釣行記へ" />
+</a>
+<div style='width:100%;'></div>
+<a href="//fishing.blogmura.com/chibaturi/ranking.html">にほんブログ村</a>
+
+
+</div>
+
+                </aside>
+                
+            </div>
+        </div>
+
+        
+
+    
+    
+
+
+
+
+<footer class="footer">
+    <div class="row middle-xs">
+        
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <p class="footer__copyright">
+    All content copyright Yoshitsugu Fujii.<br>
+    Code under <a href="//github.com/coogie/oscailte/blob/master/README.md">MIT Licence</a>.
+</p>
+
+        </div>
+        
+        
+    </div>
+</footer>
+
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+<script src="//crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script>
+<script defer src="/javascripts/octopress.js"></script>
+
+
+<script>
+    var _gaq=[['_setAccount','UA-16496422-4'],['_trackPageview']];
+    (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+    g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+    s.parentNode.insertBefore(g,s)}(document,'script'));
+</script>
+
+
+
+<script>
+    var disqus_shortname = 'yoshitsugufujii';
+    
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://yoshitsugufujii.github.io/blog/2017/10/31/rails-after-commit/';
+        var disqus_url = 'http://yoshitsugufujii.github.io/blog/2017/10/31/rails-after-commit/';
+        var disqus_script = 'embed.js';
+    
+    (function () {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+<script>
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'YoshitsuguFujii',
+            count: 3,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+</script>
+<script src="/javascripts/github.js"></script>
+
+
+
+
+
+
+
+    </body>
+
+</html>
