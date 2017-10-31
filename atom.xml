@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2017-10-31T10:46:49+09:00</updated>
+    <updated>2017-10-31T10:50:31+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -30,7 +30,7 @@ railsのモデルデータに変更が加えられたらelasticsearchのデー�
 
 <p></p>
 
-<p>Rails5にしたら設定したcallbackが走らなくなってしまいました。<br/>
+<p>Rails5.1.4にしたら設定したcallbackが走らなくなってしまいました。<br/>
 困っている人結構いるような気がするんですがどうなんでしょうかね。</p>
 
 <!-- more -->
@@ -66,7 +66,8 @@ railsのモデルデータに変更が加えられたらelasticsearchのデー�
 
 <p>これのうち下のリンクが正解でした。<br/>
 修正PRは<a href="https://github.com/rails/rails/pull/29096">これ</a>ですが、まだマージされてませんね。<br/>
-この<a href="https://github.com/rails/rails/commit/371c083fb0620efebf7bd0188a66486403e12ecc">コミット</a>が原因のようです。</p>
+この<a href="https://github.com/rails/rails/commit/371c083fb0620efebf7bd0188a66486403e12ecc">コミット</a>が原因のようです。
+5.0.2ではうごくみたいですw</p>
 
 <p>ちなみに関わっている案件の場合は正確にはcomposite_primary_keysを使っているのでcomposite_primary_keysの方の悲観的ロックが原因でした。<br/>
 メソッドオーバーライドしているのでほぼ同じ現象です。</p>
