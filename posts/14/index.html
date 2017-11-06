@@ -83,6 +83,66 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2013/05/23/20130523155419/">padrinoでコントローラ名とアクション名</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2013-05-23T15:54:00+09:00" pubdate><i class="fa fa-calendar"></i> May 23rd, 2013</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/padrino/'>padrino</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>sinatraもよくわからないのに、padrino触ってます。</p>
+
+<p>コントローラ名とアクション名はこうやったら取れんじゃないかと</p>
+
+<p>コントローラ名<br/>
+request.controller.to  _s</p>
+
+<p>アクション名<br/>
+request.action.to  _s</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2013/05/01/20130501111053/">TODOの一覧を出力したい</a>
         </h1>
     
@@ -859,113 +919,6 @@ PC起動してからの経過時間。<br/>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2013/02/22/20130222113319/">ruby-1.9.3-p385入れたら、libyaml入れてと言われてしまった。</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2013-02-22T11:33:00+09:00" pubdate><i class="fa fa-calendar"></i> Feb 22nd, 2013</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>ruby-1.9.3-p385入れた。<br/>
-なんかしたら以下のwarningが出た。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="sr">/Users/use</span><span class="n">r_name</span><span class="o">/.</span><span class="n">rvm</span><span class="o">/</span><span class="n">rubies</span><span class="o">/</span><span class="n">ruby</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="o">-</span><span class="n">p385</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">ruby</span><span class="o">/</span><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">1</span><span class="o">/</span><span class="n">yaml</span><span class="o">.</span><span class="n">rb</span><span class="p">:</span><span class="mi">56</span><span class="ss">:in</span> <span class="sb">`&lt;top (required)&gt;&#39;:</span>
-</span><span class='line'><span class="sb">It seems your ruby installation is missing psych (for YAML output).</span>
-</span><span class='line'><span class="sb">To eliminate this warning, please install libyaml and reinstall your ruby.</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>むむむ。<br/>
-素直に入れる</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rvm</span> <span class="n">pkg</span> <span class="n">install</span> <span class="n">libyaml</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">Fetching</span> <span class="n">yaml</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">1</span><span class="o">.</span><span class="mi">4</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span> <span class="n">to</span> <span class="sr">/Users/use</span><span class="n">r_name</span><span class="o">/.</span><span class="n">rvm</span><span class="o">/</span><span class="n">archives</span>
-</span><span class='line'><span class="no">Extracting</span> <span class="n">yaml</span> <span class="n">to</span> <span class="sr">/Users/use</span><span class="n">r_name</span><span class="o">/.</span><span class="n">rvm</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">yaml</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">1</span><span class="o">.</span><span class="mi">4</span>
-</span><span class='line'><span class="no">Configuring</span> <span class="n">yaml</span> <span class="k">in</span> <span class="sr">/Users/use</span><span class="n">r_name</span><span class="o">/.</span><span class="n">rvm</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">yaml</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">1</span><span class="o">.</span><span class="mi">4</span><span class="o">.</span>
-</span><span class='line'><span class="no">Compiling</span> <span class="n">yaml</span> <span class="k">in</span> <span class="sr">/Users/use</span><span class="n">r_name</span><span class="o">/.</span><span class="n">rvm</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">yaml</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">1</span><span class="o">.</span><span class="mi">4</span><span class="o">.</span>
-</span><span class='line'><span class="no">Installing</span> <span class="n">yaml</span> <span class="n">to</span> <span class="sr">/Users/use</span><span class="n">r_name</span><span class="o">/.</span><span class="n">rvm</span><span class="o">/</span><span class="n">usr</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">Please</span> <span class="n">note</span> <span class="n">that</span> <span class="n">it</span><span class="err">&#39;</span><span class="n">s</span> <span class="n">required</span> <span class="n">to</span> <span class="n">reinstall</span> <span class="n">all</span> <span class="ss">rubies</span><span class="p">:</span>
-</span><span class='line'>  <span class="n">rvm</span> <span class="n">reinstall</span> <span class="n">all</span> <span class="o">--</span><span class="n">force</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>む？<br/>
-個別指定できそうだけど、時間あったので言われた通りにやる</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rvm</span> <span class="n">reinstall</span> <span class="n">all</span> <span class="o">--</span><span class="n">force</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>結構な時間がかかる。<br/>
-個別にやった方が良さそう。<br/>
-ちなみに調べたらこれで行ける。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rvm</span> <span class="n">reinstall</span> <span class="n">ruby</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="o">-</span><span class="n">p385</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>以上で、メッセージ消えました。</p>
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -1029,6 +982,10 @@ PC起動してからの経過時間。<br/>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2017/11/06/ichikawa/">市川 サヨリ狙うもまたまたボウズ</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2017/11/04/imaiganpeki/">今井岸壁 夜釣り</a>
         </li>
         
@@ -1042,10 +999,6 @@ PC起動してからの経過時間。<br/>
         
         <li class="post">
             <a href="/blog/2017/10/29/imaiganpeki/">今井岸壁 アジ</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2017/10/26/cancel-mail/">特定のユーザに送られるメールを全てキャンセル</a>
         </li>
         
     </ul>

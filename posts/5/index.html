@@ -83,6 +83,90 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2016/04/11/rails-dirty-mark-changed/">model.changesで強制的に変更したことにする方法</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2016-04-11T18:26:43+09:00" pubdate><i class="fa fa-calendar"></i> Apr 11th, 2016</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>RailsのActiveModelのDirtyでは変更前、変更後、変更したかなどモデルクラスの新旧状態が取れる。<br/>
+<a href="http://qiita.com/kakkunpakkun/items/b286f789ca8590104ad1">http://qiita.com/kakkunpakkun/items/b286f789ca8590104ad1</a></p>
+
+<p>このdirtyを使って変更してないけど変更したことにしたい(observerを再実行したい時とか)に使える技</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">first</span>
+</span><span class='line'><span class="n">user</span><span class="o">.</span><span class="n">changes</span> <span class="c1"># =&gt; {}</span>
+</span><span class='line'><span class="n">user</span><span class="o">.</span><span class="n">created_at_will_change!</span> <span class="c1"># =&gt; =&gt; 2015-01-16 20:09:59 +0900</span>
+</span><span class='line'><span class="n">user</span><span class="o">.</span><span class="n">changes</span>
+</span><span class='line'><span class="c1"># =&gt; {</span>
+</span><span class='line'><span class="c1">#  &quot;created_at&quot; =&gt; [</span>
+</span><span class='line'><span class="c1">#    [0] 2015-01-16 20:09:59 +0900,</span>
+</span><span class='line'><span class="c1">#    [1] 2015-01-16 20:09:59 +0900</span>
+</span><span class='line'><span class="c1">#   ]</span>
+</span><span class='line'><span class="c1"># }</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>属性名_will_change!で新旧に同じ値が設定される。</p>
+
+<p>なんでこんなことやりたかったかっていうとobserverでuserのnameの値が変更されたらapiを叩く処理を書いていたのだけど、急遽全件apiを再実行する必要があり強制的にnameが変更されたことにしたかったため調べたらあったというお話</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2016/03/23/angular-with-rails-name-convention/">[小ネタ]Railsを使っていてAngularのform validationだけしたい時</a>
         </h1>
     
@@ -712,88 +796,6 @@ dbがなくても動くようにファイルに保存します。</p>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2015/10/28/inject-identifier-from-context/">i18nで例えば大人と子供で文言を変えたい場合</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2015-10-28T20:41:26+09:00" pubdate><i class="fa fa-calendar"></i> Oct 28th, 2015</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
-            
-                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <div class="article__content clearfix">
-        <p>条件に応じて文言を変えたい場合があると思います。<br/>
-例えば大人と子供で文言を変えたい場合とかですかね。<br/>
-ログインユーザが大人の場合は大人料金と表示し、子供の場合は子供料金と表示するようにします。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%</span> <span class="k">if</span> <span class="n">current_user</span><span class="o">.</span><span class="n">adult?</span> <span class="cp">%&gt;</span><span class="x"></span>
-</span><span class='line'><span class="x">  &lt;span&gt;大人料金&lt;/span&gt;</span>
-</span><span class='line'><span class="cp">&lt;%</span> <span class="k">else</span> <span class="cp">%&gt;</span><span class="x"></span>
-</span><span class='line'><span class="x">  &lt;span&gt;子供料金&lt;/span&gt;</span>
-</span><span class='line'><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>これが一箇所ならいいですが、たくさん出現するとつらいですね。<br/>
-helperにまとめたりするのでしょうか。<br/>
-こういった文言だけのif文分岐がviewに大量に出現するとコード量も増え非常に見ずらく、またhelperに乱立してしまうのは避けたいですね。</p>
-
-<p>そこで自動でi18nの読み込み先を条件に応じて読み替えたいと思います</p>
-
-<p>ついでにjpmobile使用してviewをpcとスマフォで切り替えている場合に<br/>
-lazy lookup記法時にスマフォページでsmart_phoneがついているlocaleを探してしまうのを防ぎます。</p>
-
-
-        <a class="btn pull-right" href="/blog/2015/10/28/inject-identifier-from-context/">Read on &rarr;</a>
-    </div>
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -857,6 +859,10 @@ lazy lookup記法時にスマフォページでsmart_phoneがついているloca
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2017/11/06/ichikawa/">市川 サヨリ狙うもまたまたボウズ</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2017/11/04/imaiganpeki/">今井岸壁 夜釣り</a>
         </li>
         
@@ -870,10 +876,6 @@ lazy lookup記法時にスマフォページでsmart_phoneがついているloca
         
         <li class="post">
             <a href="/blog/2017/10/29/imaiganpeki/">今井岸壁 アジ</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2017/10/26/cancel-mail/">特定のユーザに送られるメールを全てキャンセル</a>
         </li>
         
     </ul>
