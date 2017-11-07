@@ -3,7 +3,7 @@ layout: post
 title: "富津新港 アジ ウミタナゴ"
 date: 2017-11-07 11:00:23 +0900
 comments: true
-categories: [釣り]
+categories: [釣り, 富津新港]
 ---
   
 釣行日 2017年11月06日(日)  

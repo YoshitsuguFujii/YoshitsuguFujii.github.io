@@ -3,7 +3,7 @@ layout: post
 title: "富津新港 イワシ アジ ヒイラギ ウミタナゴ"
 date: 2017-09-19 15:03:37 +0900
 comments: true
-categories: [釣り]
+categories: [釣り, 富津新港]
 ---
 
 釣行日 2017年9月18日(月)  

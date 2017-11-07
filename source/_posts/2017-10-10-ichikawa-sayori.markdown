@@ -3,7 +3,7 @@ layout: post
 title: "市川 サヨリ"
 date: 2017-10-10 12:32:50 +0900
 comments: true
-categories: [釣り]
+categories: [釣り, 江戸川放水路河口]
 ---
 
 釣行日 2017年10月07日(土)  

@@ -3,7 +3,7 @@ layout: post
 title: "平塚新港 イワシ キス"
 date: 2017-09-25 14:21:41 +0900
 comments: true
-categories: [釣り]
+categories: [釣り, 平塚新港]
 ---
 
 釣行日 2017年9月23日(土)  

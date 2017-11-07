@@ -3,7 +3,7 @@ layout: post
 title: "富津新港 イワシ シロギス"
 date: 2017-09-06 11:00:35 +0900
 comments: true
-categories: [釣り]
+categories: [釣り, 富津新港]
 ---
   
 **釣行日**: 2017年9月2日(土)  

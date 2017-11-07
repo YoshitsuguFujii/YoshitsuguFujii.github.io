@@ -3,7 +3,7 @@ layout: post
 title: "今井岸壁 夜釣り"
 date: 2017-11-04 13:14:55 +0900
 comments: true
-categories: [釣り]
+categories: [釣り, 今井岸壁]
 ---
   
 釣行日 2017年11月01日(木)  

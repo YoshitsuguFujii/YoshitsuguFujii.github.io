@@ -3,7 +3,7 @@ layout: post
 title: "鹿島港 アンモニア岸壁 イナッコ"
 date: 2017-09-11 12:47:53 +0900
 comments: true
-categories: [釣り]
+categories: [釣り, 鹿島港]
 ---
 
 釣行日 2017年9月10日(日)  

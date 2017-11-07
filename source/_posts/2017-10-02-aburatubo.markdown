@@ -3,7 +3,7 @@ layout: post
 title: "三浦半島 油壺 カワハギ ベラ アイゴ"
 date: 2017-10-02 13:33:59 +0900
 comments: true
-categories: [釣り]
+categories: [釣り, 油壺]
 ---
 
 釣行日 2017年9月30日(土)  

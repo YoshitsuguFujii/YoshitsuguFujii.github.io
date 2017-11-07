@@ -3,7 +3,7 @@ layout: post
 title: "今井岸壁 アジ"
 date: 2017-10-29 12:12:36 +0900
 comments: true
-categories: [釣り]
+categories: [釣り, 今井岸壁]
 ---
 
 釣行日 2017年10月27日(金)  

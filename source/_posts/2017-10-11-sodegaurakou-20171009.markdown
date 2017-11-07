@@ -3,7 +3,7 @@ layout: post
 title: "袖ヶ浦港 アジ ボラ"
 date: 2017-10-11 10:22:25 +0900
 comments: true
-categories: [釣り]
+categories: [釣り, 今井岸壁]
 ---
 
 釣行日 2017年10月9日(月)  

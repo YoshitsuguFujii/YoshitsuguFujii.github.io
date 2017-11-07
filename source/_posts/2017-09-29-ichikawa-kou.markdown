@@ -3,7 +3,7 @@ layout: post
 title: "市川港 偵察"
 date: 2017-09-29 12:04:11 +0900
 comments: true
-categories: [釣り]
+categories: [釣り, 江戸川放水路河口]
 ---
 
 朝眠れなかったので日の出とともに市川港(江戸川放水路河口)にいってみました。  
