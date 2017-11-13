@@ -83,6 +83,97 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2014/01/10/20140110161334/">has_manyなassociationにメソッド追加</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2014-01-10T16:13:00+09:00" pubdate><i class="fa fa-calendar"></i> Jan 10th, 2014</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/rails/'>rails</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>めっちゃ簡単に出来るんですね。<br/>
+全然知らなかった。</p>
+
+<p><a href="http://stackoverflow.com/questions/10418193/how-to-add-methods-to-a-has-many-collection">http://stackoverflow.com/questions/10418193/how-to-add-methods-to-a-has-many-collection</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Customer</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:store</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Store</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">has_many</span> <span class="ss">:customers</span> <span class="k">do</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">names</span>
+</span><span class='line'>      <span class="nb">self</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:name</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rails</span> <span class="n">console</span>
+</span><span class='line'><span class="no">Store</span><span class="o">.</span><span class="n">last</span><span class="o">.</span><span class="n">customers</span><span class="o">.</span><span class="n">names</span> <span class="c1"># =&gt; customersの名前の配列が取れる！ </span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2013/12/12/20131212124818/">jsでformの取り消す・やり直す</a>
         </h1>
     
@@ -859,76 +950,6 @@ Time  #all  _monthで取れる(要ActiveSupport)<br/>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2013/11/07/20131107225813/">js.erbファイルのデバッグ</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2013-11-07T22:58:00+09:00" pubdate><i class="fa fa-calendar"></i> Nov 7th, 2013</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/rails/'>rails</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>railsでajax使って処理していて、コントローラからjsファイルを読んでviewの内容を書き換えたり、追加したりすることがあると思う。</p>
-
-<p>  # hogehoge.js.erb</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span><span class="p">(</span><span class="s2">&quot;kokonitsuika&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&lt;%= escape_javascript(render &quot;</span><span class="n">partial_view</span><span class="s2">&quot;) %&gt;&quot;</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>このくらいなら多分ないけど。結構複雑なjs.erbに成長しちゃってjsのデバッグをしたい時には、chromeでインスペクション開いたままdebuggerを差し込むと止まってくれるので幸せになれるかも？</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">debugger</span>
-</span><span class='line'><span class="err">$</span><span class="p">(</span><span class="s2">&quot;kokonitsuika&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&lt;%= escape_javascript(render &quot;</span><span class="n">partial_view</span><span class="s2">&quot;) %&gt;&quot;</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>腰が痛いぞ。</p>
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -992,6 +1013,10 @@ Time  #all  _monthで取れる(要ActiveSupport)<br/>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2017/11/12/rod-holder/">ロッドホルダーをDIY</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2017/11/08/taged-point/">釣り場ポイントでタグをつけました</a>
         </li>
         
@@ -1005,10 +1030,6 @@ Time  #all  _monthで取れる(要ActiveSupport)<br/>
         
         <li class="post">
             <a href="/blog/2017/11/04/imaiganpeki/">今井岸壁 夜釣り</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2017/10/31/rails-after-commit/">rails5でafter_commitが動かなくなってしまった</a>
         </li>
         
     </ul>
