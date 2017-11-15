@@ -83,6 +83,91 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2012/02/29/20120229114012/">before_filterのメソッドを引数付きで呼びだしたいよね</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2012-02-29T11:40:00+09:00" pubdate><i class="fa fa-calendar"></i> Feb 29th, 2012</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/rails/'>rails</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>そんなあなたに。</p>
+
+<p>ruby 1.9.2<br/>
+rails 3.0.5</p>
+
+<p>で確認しました。</p>
+
+<p><a href="http://www.ruby-forum.com/topic/102047">ここ</a>を参考にしました。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">before_filter</span> <span class="ss">:display_list</span><span class="p">,</span> <span class="ss">:only</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="s1">&#39;top&#39;</span><span class="o">]</span> <span class="k">do</span> <span class="o">|</span><span class="n">controller</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">controller</span><span class="o">.</span><span class="n">display_list</span><span class="p">(</span><span class="s1">&#39;index&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">display_list</span><span class="p">(</span><span class="n">list</span><span class="p">)</span>
+</span><span class='line'> <span class="nb">p</span> <span class="n">list</span> <span class="c1">#=&gt; &#39;index&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ちなみにこれでも動きました。でもなんかこの書き方怖い。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">before_filter</span> <span class="s2">&quot;display_list(&#39;index&#39;)&quot;</span><span class="o">.</span><span class="n">to_sym</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2012/02/28/20120228113656/">ある特定のオブジェクトにメソッドを追加する</a>
         </h1>
     
@@ -947,149 +1032,6 @@ download.からruby-matchit.vimをダウンロードして</p>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2012/02/10/20120210102000/">既存のメソッドをすり替える方法</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2012-02-10T10:20:00+09:00" pubdate><i class="fa fa-calendar"></i> Feb 10th, 2012</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>すでにあるメソッドに処理を追加したい場合。<br/>
-すでにあるメソッドを踏襲した新しいメソッドを定義して、メソッドの呼び出し側を新しいメソッドに向けることができますが<br/>
-現実的でないですね。</p>
-
-<p>ではどうやってすり替えるか。<br/>
-実現手段はいくつかあると思いますが、ここではアラウンドエイリアスを使ってみます。</p>
-
-<p>今回はStringのto  _sメソッドを、</p>
-
-<p>文字列(文字列長)</p>
-
-<p>と表示するよう変えてみる。</p>
-
-<p>今日のコードではaliasを使いますが、二度呼ぶとエラーとなってしまうのでirbを都度起動してください。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">str</span> <span class="o">=</span> <span class="s2">&quot;あいう&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">str</span><span class="o">.</span><span class="n">to_s</span> <span class="c1">#=&gt; &quot;あいう&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">String</span>
-</span><span class='line'>  <span class="k">alias</span> <span class="ss">:old_to_s</span> <span class="ss">:to_s</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">to_s</span>
-</span><span class='line'>    <span class="n">old_to_s</span> <span class="o">+</span> <span class="s2">&quot;(&quot;</span> <span class="o">+</span> <span class="n">length</span><span class="o">.</span><span class="n">to_s</span> <span class="o">+</span> <span class="s2">&quot;)&quot;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">str</span><span class="o">.</span><span class="n">to_s</span> <span class="c1">#=&gt; &quot;あいう(3)&quot;</span>
-</span><span class='line'><span class="n">str</span><span class="o">.</span><span class="n">old_to_s</span> <span class="c1">#=&gt; &quot;あいう&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>この前の<a href="http://d.hatena.ne.jp/gogo_sakura/20120207/1328591412">rubyのオープンクラス -
-なんとなく日々徒然と</a>使ってStringクラスにコーディングしていきます。</p>
-
-<p>構文は<br/>
-alias 新しいメソッド名 古いメソッド名<br/>
-です。<br/>
-今回の例ではto  <em>sにold  </em>to  _sという別名をつけます。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">str</span> <span class="o">=</span> <span class="s2">&quot;あいう&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">str</span><span class="o">.</span><span class="n">to_s</span> <span class="c1">#=&gt; &quot;あいう&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">String</span>
-</span><span class='line'>  <span class="k">alias</span> <span class="ss">:old_to_s</span> <span class="ss">:to_s</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">str</span><span class="o">.</span><span class="n">to_s</span> <span class="c1">#=&gt; &quot;あいう&quot; </span>
-</span><span class='line'><span class="n">str</span><span class="o">.</span><span class="n">old_to_s</span> <span class="c1">#=&gt; &quot;あいう&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>それでto  _sを書き換えちゃいます。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">to_s</span>
-</span><span class='line'>    <span class="n">old_to_s</span> <span class="o">+</span> <span class="s2">&quot;(&quot;</span> <span class="o">+</span> <span class="n">length</span><span class="o">.</span><span class="n">to_s</span> <span class="o">+</span> <span class="s2">&quot;)&quot;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>to  <em>sが呼ばれた場合は書き換えたメソッドが呼ばれ、old  </em>to  <em>sが呼ばれた場合は昔のメソッドが呼ばれる状態です。<br/>
-書き換えられたto  </em>sは昔のto  <em>sをold  </em>to  _sで呼び、lengthをそこにくっつけています。</p>
-
-<p>これでメソッドのすり替えが完了です。</p>
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -1153,6 +1095,10 @@ alias 新しいメソッド名 古いメソッド名<br/>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2017/11/15/chuken-poem/">中級エンジニアになるためには</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2017/11/12/rod-holder/">ロッドホルダーをDIY</a>
         </li>
         
@@ -1166,10 +1112,6 @@ alias 新しいメソッド名 古いメソッド名<br/>
         
         <li class="post">
             <a href="/blog/2017/11/06/ichikawa/">市川 サヨリ狙うもまたまたボウズ</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2017/11/04/imaiganpeki/">今井岸壁 夜釣り</a>
         </li>
         
     </ul>

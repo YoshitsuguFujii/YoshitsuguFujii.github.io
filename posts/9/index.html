@@ -83,6 +83,101 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2015/03/20/delete-duplicated-file/">重複している画像ファイルを削除(rubyで)</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2015-03-20T17:27:16+09:00" pubdate><i class="fa fa-calendar"></i> Mar 20th, 2015</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <div class="article__content clearfix">
+        <p>重複しているファイルを削除します。</p>
+
+<figure class='code'><figcaption><span>delete_duplicate_file.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;digest/md5&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">file_hash</span> <span class="o">=</span> <span class="no">ARGV</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="no">Hash</span><span class="o">.</span><span class="n">new</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="nb">hash</span><span class="p">,</span> <span class="n">file</span><span class="o">|</span>
+</span><span class='line'>              <span class="nb">hash</span><span class="o">[</span><span class="n">file</span><span class="o">]</span> <span class="o">=</span> <span class="no">Digest</span><span class="o">::</span><span class="no">MD5</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">)</span>
+</span><span class='line'>              <span class="nb">hash</span>
+</span><span class='line'>            <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">duplicated_md5</span> <span class="o">=</span> <span class="n">file_hash</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">sort</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="no">Hash</span><span class="o">.</span><span class="n">new</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">file_count</span><span class="p">,</span> <span class="n">md5</span><span class="o">|</span>
+</span><span class='line'>                   <span class="n">file_count</span><span class="o">[</span><span class="n">md5</span><span class="o">]</span> <span class="o">=</span> <span class="n">file_hash</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">md5</span><span class="p">)</span>
+</span><span class='line'>                   <span class="n">file_count</span>
+</span><span class='line'>                 <span class="k">end</span><span class="o">.</span><span class="n">select</span> <span class="k">do</span> <span class="o">|</span><span class="n">md5</span><span class="p">,</span> <span class="n">count</span><span class="o">|</span>
+</span><span class='line'>                   <span class="n">count</span> <span class="o">&gt;</span> <span class="mi">1</span>
+</span><span class='line'>                 <span class="k">end</span><span class="o">.</span><span class="n">keys</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">duplicated_md5</span><span class="o">.</span><span class="n">map</span> <span class="k">do</span> <span class="o">|</span><span class="n">file_md5</span><span class="o">|</span>
+</span><span class='line'>  <span class="c1"># 削除ではなく重複したファイルを他のディレクトリに退避したい場合などはここを変えてください。</span>
+</span><span class='line'>  <span class="no">File</span><span class="o">.</span><span class="n">unlink</span> <span class="n">file_hash</span><span class="o">.</span><span class="n">invert</span><span class="o">[</span><span class="n">file_md5</span><span class="o">]</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+        <a class="btn pull-right" href="/blog/2015/03/20/delete-duplicated-file/">Read on &rarr;</a>
+    </div>
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2015/03/18/increment-in-file/">ファイル内の特定の行の数値をインクリメントする</a>
         </h1>
     
@@ -796,76 +891,6 @@ trueはインスタンスだと思うんだけど何か普通のインスタン�
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2015/01/08/20150108182843/">cacheのキーを削除</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2015-01-08T18:28:00+09:00" pubdate><i class="fa fa-calendar"></i> Jan 8th, 2015</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>例えばmodelへの問い合わせ結果をキャッシュに保存していて、after  _saveなどで消したい場合などは<br/>
-Rails.cache.delete(&lsquo;キー名&rsquo;)でできる。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">users</span> <span class="o">=</span> <span class="no">Rails</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s2">&quot;users&quot;</span><span class="p">,</span> <span class="ss">expires_in</span><span class="p">:</span> <span class="mi">30</span><span class="o">.</span><span class="n">seconds</span><span class="p">)</span> <span class="k">do</span>
-</span><span class='line'>  <span class="no">User</span><span class="o">.</span><span class="n">all</span><span class="o">.</span><span class="n">to_a</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># 消す</span>
-</span><span class='line'><span class="no">Rails</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="s1">&#39;users&#39;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -929,6 +954,10 @@ Rails.cache.delete(&lsquo;キー名&rsquo;)でできる。</p>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2017/11/15/chuken-poem/">中級エンジニアになるためには</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2017/11/12/rod-holder/">ロッドホルダーをDIY</a>
         </li>
         
@@ -942,10 +971,6 @@ Rails.cache.delete(&lsquo;キー名&rsquo;)でできる。</p>
         
         <li class="post">
             <a href="/blog/2017/11/06/ichikawa/">市川 サヨリ狙うもまたまたボウズ</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2017/11/04/imaiganpeki/">今井岸壁 夜釣り</a>
         </li>
         
     </ul>
