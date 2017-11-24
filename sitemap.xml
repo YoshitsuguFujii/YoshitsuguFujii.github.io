@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://yoshitsugufujii.github.io/blog/2017/11/24/hiratsuka/</loc>
+    <lastmod>2017-11-24T17:23:41+09:00</lastmod>
+  </url>
+  <url>
     <loc>http://yoshitsugufujii.github.io/blog/2017/11/15/chuken-poem/</loc>
     <lastmod>2017-11-15T10:30:40+09:00</lastmod>
   </url>
@@ -806,22 +810,22 @@
   </url>
   <url>
     <loc>http://yoshitsugufujii.github.io/blog/</loc>
-    <lastmod>2017-11-16T16:54:10+09:00</lastmod>
-  </url>
-  <url>
-    <loc>http://yoshitsugufujii.github.io/blog/archives/</loc>
-    <lastmod>2017-11-16T16:54:10+09:00</lastmod>
+    <lastmod>2017-11-24T22:21:22+09:00</lastmod>
   </url>
   <url>
     <loc>http://yoshitsugufujii.github.io/archives/</loc>
-    <lastmod>2017-11-16T16:54:10+09:00</lastmod>
+    <lastmod>2017-11-24T22:21:22+09:00</lastmod>
+  </url>
+  <url>
+    <loc>http://yoshitsugufujii.github.io/blog/archives/</loc>
+    <lastmod>2017-11-24T22:21:22+09:00</lastmod>
   </url>
   <url>
     <loc>http://yoshitsugufujii.github.io/</loc>
-    <lastmod>2017-11-16T16:54:10+09:00</lastmod>
+    <lastmod>2017-11-24T22:21:22+09:00</lastmod>
   </url>
   <url>
     <loc>http://yoshitsugufujii.github.io/profile/</loc>
-    <lastmod>2017-11-16T16:54:10+09:00</lastmod>
+    <lastmod>2017-11-24T22:21:22+09:00</lastmod>
   </url>
 </urlset>
