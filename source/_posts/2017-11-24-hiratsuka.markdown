@@ -71,7 +71,7 @@ categories: [釣り, 平塚新港]
   <img src="/images/blog/20171124/IMG_3080.jpg" style="width: 80%;">  
 </a>  
   
-16時半にはトラックのおじさんに追い出されたので雨も降ってきてので納竿です。  
+16時半にはトラックのおじさんに追い出され、雨も降ってきたので納竿です。  
   
 <a href="/images/blog/20171124/IMG_3084.png" data-lightbox="hiratuka" data-title=""/>  
   <img src="/images/blog/20171124/IMG_3084.png" style="width: 80%;">  
