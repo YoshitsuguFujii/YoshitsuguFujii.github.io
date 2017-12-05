@@ -83,6 +83,73 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2015/04/14/html5shiv-respond-with-slim/">RailsでIE8の対応(with rails assets)</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2015-04-14T11:30:58+09:00" pubdate><i class="fa fa-calendar"></i> Apr 14th, 2015</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby-ruby-on-rails/'>ruby ruby on rails</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <div class="article__content clearfix">
+        <p>IE8も推奨ブラウザに含めるプロジェクトに関わることになったのでrails-assetsを使ってIE8に対応していきたいと思います。</p>
+
+<p>やることとしては以下の感じですかね。</p>
+
+<ul>
+<li>jquery1.x系の導入(今回は1.9.1)</li>
+<li>html5shiv.jsの導入</li>
+<li>respond.jsの導入</li>
+</ul>
+
+
+<p>テンプレートエンジンはslimを使います。</p>
+
+
+        <a class="btn pull-right" href="/blog/2015/04/14/html5shiv-respond-with-slim/">Read on &rarr;</a>
+    </div>
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2015/03/24/select-narrowing-down/">同一のselectボックスを複数設置した場合に、選択された項目を他のプルダウンから削除するjs</a>
         </h1>
     
@@ -716,99 +783,6 @@
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2015/02/23/20150223110642/">Axlsxでウィンドウ枠の固定</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2015-02-23T11:06:00+09:00" pubdate><i class="fa fa-calendar"></i> Feb 23rd, 2015</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
-            
-                <li><a class='category' href='/blog/categories/axlsx/'>axlsx</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>エクセルのウィンドウ枠の固定をAxlsxで行う方法</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;axlsx&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">package</span> <span class="o">=</span> <span class="no">Axlsx</span><span class="o">::</span><span class="no">Package</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'><span class="n">sheet</span> <span class="o">=</span> <span class="n">package</span><span class="o">.</span><span class="n">workbook</span><span class="o">.</span><span class="n">add_worksheet</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="s1">&#39;lists&#39;</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="o">[</span><span class="s1">&#39;品名&#39;</span><span class="p">,</span> <span class="s1">&#39;単価&#39;</span><span class="p">,</span> <span class="s1">&#39;数量&#39;</span><span class="p">,</span> <span class="s1">&#39;計&#39;</span><span class="o">]</span> <span class="p">)</span>
-</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="o">[</span><span class="s1">&#39;にんじん&#39;</span><span class="p">,</span>    <span class="mi">80</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>      <span class="s1">&#39;=B2*C2&#39;</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">sheet_view</span><span class="o">.</span><span class="n">pane</span> <span class="k">do</span> <span class="o">|</span><span class="n">pane</span><span class="o">|</span>
-</span><span class='line'>  <span class="n">pane</span><span class="o">.</span><span class="n">top_left_cell</span> <span class="o">=</span> <span class="s2">&quot;B2&quot;</span>
-</span><span class='line'>  <span class="n">pane</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="ss">:frozen_split</span>
-</span><span class='line'>  <span class="n">pane</span><span class="o">.</span><span class="n">y_split</span> <span class="o">=</span> <span class="mi">1</span>
-</span><span class='line'>  <span class="n">pane</span><span class="o">.</span><span class="n">x_split</span> <span class="o">=</span> <span class="mi">1</span>
-</span><span class='line'>  <span class="n">pane</span><span class="o">.</span><span class="n">active_pane</span> <span class="o">=</span> <span class="ss">:bottom_right</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">package</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="s1">&#39;test.xlsx&#39;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -872,6 +846,10 @@
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2017/12/05/takasukaihinkouen/">高須海浜公園</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2017/11/25/ichikawa-kemigawahama/">市川->検見川浜突堤</a>
         </li>
         
@@ -885,10 +863,6 @@
         
         <li class="post">
             <a href="/blog/2017/11/12/rod-holder/">ロッドホルダーをDIY</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2017/11/08/taged-point/">釣り場ポイントでタグをつけました</a>
         </li>
         
     </ul>
