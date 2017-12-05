@@ -3,7 +3,7 @@ layout: post
 title: "市川->検見川浜突堤"
 date: 2017-11-25 23:16:06 +0900
 comments: true
-categories: [釣り, 江戸川放水路河口 検見川浜突堤]
+categories: [釣り, 江戸川放水路河口, 検見川浜突堤]
 ---
 
 釣行日 2017年11月25日(土)  
