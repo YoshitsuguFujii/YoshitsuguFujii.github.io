@@ -83,6 +83,190 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2012/02/21/20120221121548/">動的ディスパッチと動的メソッド</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2012-02-21T12:15:00+09:00" pubdate><i class="fa fa-calendar"></i> Feb 21st, 2012</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p><span class="deco" style="font-weight:bold;">動的ディスパッチ</span><br/>
+メソッド実行時にメソッドを動的に呼び出す。</p>
+
+<p>日づけごとに天気を返すメソッドがあって、それを動的ディスパッチでメソッドを呼んでみます。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Weather</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">weather_of_day</span><span class="p">(</span><span class="n">day</span><span class="p">)</span>
+</span><span class='line'>    <span class="nb">send</span><span class="p">(</span><span class="s2">&quot;weather_of_day_</span><span class="si">#{</span><span class="n">day</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">weather_of_day_1</span>
+</span><span class='line'>    <span class="s2">&quot;快晴&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">weather_of_day_2</span>
+</span><span class='line'>    <span class="s2">&quot;多分雪&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">weather_of_day_3</span>
+</span><span class='line'>    <span class="s2">&quot;ほどよく寒い曇り空&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">weather_of_day_4</span>
+</span><span class='line'>    <span class="s2">&quot;寒いよ。雨&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">weather_of_day_5</span>
+</span><span class='line'>    <span class="s2">&quot;晴れ時々曇り&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">method_missing</span><span class="p">(</span><span class="n">method_id</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">return</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="vg">$1</span><span class="si">}</span><span class="s2">日は指定できません&quot;</span> <span class="k">if</span> <span class="n">method_id</span> <span class="o">=~</span> <span class="sr">/^weather_of_day_(.*)/</span>
+</span><span class='line'>    <span class="k">super</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Weather</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">weather_of_day</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1">#=&gt; &quot;快晴&quot;</span>
+</span><span class='line'><span class="no">Weather</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">weather_of_day</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="c1">#=&gt; &quot;ほどよく寒い曇り空&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><span class="deco" style="font-weight:bold;">動的メソッド</span><br/>
+動的にメソッドを作成する</p>
+
+<p>instance  <em>variable  </em>getでインスタンス変数の値は簡単にとれますが、それがない体で。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Me</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span>
+</span><span class='line'>    <span class="vi">@first_name</span> <span class="o">=</span> <span class="s2">&quot;gogo&quot;</span>
+</span><span class='line'>    <span class="vi">@last_name</span> <span class="o">=</span> <span class="s2">&quot;sakura&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">generate_name_accessor</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">prefix</span> <span class="o">=</span> <span class="n">prefix</span><span class="o">.</span><span class="n">to_s</span>
+</span><span class='line'>    <span class="n">define_method</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">prefix</span><span class="si">}</span><span class="s2">_name&quot;</span> <span class="k">do</span>
+</span><span class='line'>      <span class="n">prefix</span> <span class="o">!=</span> <span class="s2">&quot;full&quot;</span> <span class="p">?</span> <span class="nb">instance_eval</span><span class="p">(</span><span class="s2">&quot;@</span><span class="si">#{</span><span class="n">prefix</span><span class="si">}</span><span class="s2">_name&quot;</span><span class="p">)</span> <span class="p">:</span> <span class="o">[</span><span class="vi">@first_name</span><span class="p">,</span><span class="vi">@last_name</span><span class="o">].</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">generate_name_accessor</span> <span class="ss">:full</span>
+</span><span class='line'>  <span class="n">generate_name_accessor</span> <span class="ss">:first</span>
+</span><span class='line'>  <span class="n">generate_name_accessor</span> <span class="ss">:last</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Me</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">first_name</span> <span class="c1">#=&gt; &quot;gogo&quot;</span>
+</span><span class='line'><span class="no">Me</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">last_name</span>  <span class="c1">#=&gt; &quot;saura&quot;</span>
+</span><span class='line'><span class="no">Me</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">full_name</span>  <span class="c1">#=&gt; &quot;gogo_sakura&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><span class="deco" style="font-weight:bold;">まとめ</span></p>
+
+<p>メソッド名に一定のルールがあり、それを引数等に応じてメソッド名を決定し動的に呼ぶ場合<br/>
+→動的ディスパッチ</p>
+
+<p>重複している箇所がある場合にメソッドの内容が似通っているなら<br/>
+→動的メソッド</p>
+
+<p>辺りを使い分けてリファクタリングすると幸せになれるかも？</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2012/02/20/20120220162255/">複数の変数を一気に初期化</a>
         </h1>
     
@@ -847,102 +1031,6 @@ OpenStructが使える。<br/>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2012/02/02/20120202115905/">tail -fをDBの特定のテーブルに対して行う方法</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2012-02-02T11:59:00+09:00" pubdate><i class="fa fa-calendar"></i> Feb 2nd, 2012</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/linux/'>linux</a></li>
-            
-                <li><a class='category' href='/blog/categories/sql/'>sql</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>風です。tail -f風。</p>
-
-<p>前にwatchコマンドについて書いた。</p>
-
-<p><a href="http://d.hatena.ne.jp/gogo_sakura/20120131/1327978457">watchコマンド  ~ログとかファイル監視する時とかは何も考えずにtail -f
-ファイル名としちゃう人へ</a></p>
-
-<p>の追記的なもの。</p>
-
-<p>開発中ってマスタ系のテーブルは空にしないけど、トランザクション系のテーブルはテスト前に空にすることが多い。</p>
-
-<p>んでデータ登録する作業する度に、なんていうのか知らんけど。SQLブラウザ?(common
-sqlとか SI Object Browserとか)っていうんでしょうか<br/>
-で、select文書いておいて一々executeボタンを押す。</p>
-
-<p>このexecuteが対した手間じゃないけど、毎回押すとめんどいし、意外に時間もかかる。</p>
-
-<p>そこでこの間紹介したwatchで2秒起きにselectしちゃえばいいよねってお話。<br/>
-しかも変更部分ハイライトすれば、追加したレコードも一目瞭然。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">watch</span> <span class="o">-</span><span class="n">d</span><span class="o">=</span><span class="n">cumulative</span> <span class="s1">&#39;mysql -u root --password=  db_name -e &quot;select * from XXX_table;&quot;&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>で、どうでしょうか。<br/>
-難点は差分ハイライト表示している時に、desc指定すると差分拾えないこと。</p>
-
-<p>だいたい自分は１０秒起きに、毎回差分拾ってます。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">watch</span> <span class="o">-</span><span class="n">d</span> <span class="o">-</span><span class="n">n</span> <span class="mi">10</span> <span class="s1">&#39;mysql -u root --password=  db_name -e &quot;select * from XXX_table;&quot;&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>ちなみに今モデル監視してログ作成する処理書いているんだけど。<br/>
-登録作業していないのに、意図しないタイミングでレコードが増えていることがあって、そういう場合にも一定間隔でselect投げるようになるので<br/>
-ウィンドウ並べて操作していれば、すぐに察知できる。</p>
-
-<p>ちなみにrailsでモデルのログ機能作るのであれば<br/>
-<a href="https://github.com/collectiveidea/acts_as_audited">acts  <em>as  </em>audited</a></p>
-
-<p>つかうといいよ。</p>
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -1006,6 +1094,10 @@ sqlとか SI Object Browserとか)っていうんでしょうか<br/>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2017/12/07/cycle-lod-holder/">自転車用ロッドホルダー</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2017/12/05/takasukaihinkouen/">高須海浜公園</a>
         </li>
         
@@ -1019,10 +1111,6 @@ sqlとか SI Object Browserとか)っていうんでしょうか<br/>
         
         <li class="post">
             <a href="/blog/2017/11/15/chuken-poem/">中級エンジニアになるためには</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2017/11/12/rod-holder/">ロッドホルダーをDIY</a>
         </li>
         
     </ul>
