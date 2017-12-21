@@ -18,7 +18,18 @@ categories: [ruby,ruby on rails,bootswatch]
 [入れ方](http://eonasdan.github.io/bootstrap-datetimepicker/Installing/)もたくさん用意されていていいですね。  
 今回もrails-assetsで導入します。  
   
-<!-- more -->
+<!-- more -->  
+  
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>  
+<ins class="adsbygoogle"  
+     style="display:block; text-align:center;"  
+     data-ad-layout="in-article"  
+     data-ad-format="fluid"  
+     data-ad-client="ca-pub-7039502723411845"  
+     data-ad-slot="8206045005"></ins>  
+<script>  
+     (adsbygoogle = window.adsbygoogle || []).push({});  
+</script>  
   
 ```ruby Gemfile
 source 'https://rails-assets.org' do
