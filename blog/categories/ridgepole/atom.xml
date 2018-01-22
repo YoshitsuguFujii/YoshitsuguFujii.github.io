@@ -4,7 +4,7 @@
     <title><![CDATA[Category: ridgepole | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/ridgepole/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2017-12-26T20:56:19+09:00</updated>
+    <updated>2018-01-22T14:52:53+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,51 @@
       </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[ridgepoleの部分インデックスで毎回createとdrop indexをさせない書き方]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2018/01/22/ridgepole-partial-uniq-index/"/>
+        <updated>2018-01-22T14:44:35+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2018/01/22/ridgepole-partial-uniq-index</id>
+        <content type="html"><![CDATA[<p>railsでparanoiaとか使っていて、<br/>
+mysqlで論理削除にdeleted_atがnullかどうかで論理削除判定していると<br/>
+dbのuniq indexで辛い感じになります。</p>
+
+<p>postgresqlでは部分インデックスなるものがあり、deleted_atがnullのものをuniq制約の条件に含めないとかいうことができます。</p>
+
+<p><a href="https://www.postgresql.jp/document/9.2/html/indexes-partial.html">部分インデックス</a></p>
+
+<!-- more -->
+
+
+<p></p>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p>  <br/>
+<ins class="adsbygoogle"  
+     style="display:block; text-align:center;"  
+     data-ad-layout="in-article"  
+     data-ad-format="fluid"  
+     data-ad-client="ca-pub-7039502723411845"  
+     data-ad-slot="8206045005"></ins></p>
+
+<script>    
+     (adsbygoogle = window.adsbygoogle || []).push({});    
+</script>
+
+
+<p></p>
+
+<p>ridgepoleではこう書くと毎回create index drop indexしません。</p>
+
+<pre><code class="">add_index "users", ["email"], name: "uniq_email_idx", unique: true, where: '(deleted_at IS NULL)'  
+</code></pre>
+
+<p>本日は大雪らしいので早く帰りましょう。</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[postgres使っていてridgepoleで文字列から数値型への変換エラー]]></title>
