@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2018-01-22T14:52:53+09:00</updated>
+    <updated>2018-01-26T19:04:21+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,111 @@
     </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[CircleCIでRuby2.5使おうとしたらbad interpreter]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2018/01/26/circle-ci-ver-one-ruby-two-five-bad-interpreter/"/>
+        <updated>2018-01-26T18:51:07+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2018/01/26/circle-ci-ver-one-ruby-two-five-bad-interpreter</id>
+        <content type="html"><![CDATA[<p>一度は成功していたのに急にCircleCI 1.0がこけるようになってしまいました。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>set ruby version to 2.5.0  </span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>で</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ruby-2.5.0 - #generating default wrappers|/-\|/-\|.-\|/-\|/-.|/-\|/-\|.-\|/-\|/-.|/-\|/-\|.-\|/-\|/-.|/-\|/-\|.-\|/-\|.  
+</span><span class='line'>Using /home/ubuntu/.rvm/gems/ruby-2.5.0  
+</span><span class='line'>/home/ubuntu/.rvm/scripts/override_gem: /home/ubuntu/.rvm/rubies/ruby-2.5.0/bin/gem: /home/travis/.rvm/rubies/ruby-2.5.0/bin/ruby: bad interpreter: No such file or directory  </span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>のようなエラー。</p>
+
+<!-- more -->
+
+
+<p></p>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p>  <br/>
+<ins class="adsbygoogle"  
+     style="display:block; text-align:center;"  
+     data-ad-layout="in-article"  
+     data-ad-format="fluid"  
+     data-ad-client="ca-pub-7039502723411845"  
+     data-ad-slot="8206045005"></ins></p>
+
+<script>    
+     (adsbygoogle = window.adsbygoogle || []).push({});    
+</script>
+
+
+<p></p>
+
+<p>調べるとこんなツイートが&hellip;</p>
+
+<blockquote class="twitter-tweet" data-lang="ja"><p lang="en" dir="ltr"><a href="https://twitter.com/circleci?ref_src=twsrc%5Etfw">@circleci</a> I&#39;m getting build failures on ruby 2.5 - it looks like the `gem` command is using a shebang that references a non-existent `/home/travis` directory <a href="https://t.co/UcZREdK2Q8">pic.twitter.com/UcZREdK2Q8</a></p>&mdash; Justin Rhinesmith (@jerhinesmith) <a href="https://twitter.com/jerhinesmith/status/956311677426741248?ref_src=twsrc%5Etfw">2018年1月24日</a></blockquote>
+
+
+<p></p>
+
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+<p></p>
+
+<p>sshするとshebangでエラーになっている同じ現象でした。<br/>
+そしてこんなチケットが&hellip;</p>
+
+<p><a href="https://discuss.circleci.com/t/ruby-2-5-0-builds-failing-on-circleci-1-0-due-to-missing-home-travis/19620">Ruby 2.5.0 builds failing on CircleCI 1.0 due to missing <code>/home/travis</code></a></p>
+
+<p>解決しているらしいのですが、普通にエラーでますがな&hellip;<br/>
+マニュアルで</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>machine:  
+</span><span class='line'>  pre:  
+</span><span class='line'>    - sudo ln -s /opt/circleci /home/travis  </span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>を仕込もうとしたらもうありますエラー。<br/>
+そして微妙にパスも違う。</p>
+
+<p>結論。こうしてなおしました。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>machine:  
+</span><span class='line'>  pre:  
+</span><span class='line'>    - sudo rm -rf /home/travis  
+</span><span class='line'>    - sudo ln -s /home/ubuntu /home/travis  
+</span><span class='line'>  ruby:  
+</span><span class='line'>    version: 2.5.0  </span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>すぐなおってくれると思いますが、お困りの人がいたら上記で治ります。</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[ridgepoleの部分インデックスで毎回createとdrop indexをさせない書き方]]></title>
@@ -1540,72 +1645,6 @@ interceptorを使います。</p>
 
 <p>うーん。均一によれてないのかちゃんとネジネジしていないところがあるなぁ。<br/>
 難しいっす(´・ω・`)</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[Doorkeeperでトークンの有効期限切れをさせない]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2017/10/19/doorkeer-expire-token-desabled/"/>
-        <updated>2017-10-19T11:59:10+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2017/10/19/doorkeer-expire-token-desabled</id>
-        <content type="html"><![CDATA[<p>釣りばっかりの記事の連投にぶっこんですいません。<br/>
-IT技術ネタです。</p>
-
-<!-- more -->
-
-
-<p></p>
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-
-
-<p>  <br/>
-<ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-layout="in-article"
-     data-ad-format="fluid"
-     data-ad-client="ca-pub-7039502723411845"
-     data-ad-slot="8206045005"></ins></p>
-
-<script>  
-     (adsbygoogle = window.adsbygoogle || []).push({});  
-</script>
-
-
-<p></p>
-
-<p>こちらを読みまして。<br/>
-<a href="https://qiita.com/r7kamura/items/3e03471e02ea9ab5902a">アクセストークンに有効期限を設けるべきかどうか</a></p>
-
-<p>たしかにそうだよなと思ったのとDoorkeeper使った認証基盤にクライアントがアクセスするときに、token失効により、他ユーザの情報などがとれないことがったりしたのでtoken失効させないことにします。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># config/initializers/doorkeeper.rb  </span>
-</span><span class='line'>
-</span><span class='line'><span class="no">Doorkeeper</span><span class="o">.</span><span class="n">configure</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">access_token_expires_in</span> <span class="kp">nil</span> <span class="c1"># &lt;- こうする  </span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<p>参考<br/>
-<a href="https://github.com/doorkeeper-gem/doorkeeper/wiki/Customizing-Token-Expiration#access-token">Customizing Token Expirationupdate oauth_access_tokens set expires_in = null</a></p>
-
-<p>もうすでに設定されているアプリでこちら無効にしたい場合は<br/>
-expires_inにnullを設定すればいいようです。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">update</span> <span class="n">oauth_access_tokens</span> <span class="k">set</span> <span class="n">expires_in</span> <span class="o">=</span> <span class="k">null</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
 ]]></content>
     </entry>
     

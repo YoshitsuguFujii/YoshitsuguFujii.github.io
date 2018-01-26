@@ -4,7 +4,7 @@
     <title><![CDATA[Category: ruby on rails | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/ruby-on-rails/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2018-01-22T14:52:53+09:00</updated>
+    <updated>2018-01-26T19:04:21+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,90 @@
       </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[CircleCIでRuby2.5使おうとしたらbad interpreter]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2018/01/26/circle-ci-ver-one-ruby-two-five-bad-interpreter/"/>
+        <updated>2018-01-26T18:51:07+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2018/01/26/circle-ci-ver-one-ruby-two-five-bad-interpreter</id>
+        <content type="html"><![CDATA[<p>一度は成功していたのに急にCircleCI 1.0がこけるようになってしまいました。</p>
+
+<pre><code class="">set ruby version to 2.5.0  
+</code></pre>
+
+<p>で</p>
+
+<pre><code class="">ruby-2.5.0 - #generating default wrappers|/-\|/-\|.-\|/-\|/-.|/-\|/-\|.-\|/-\|/-.|/-\|/-\|.-\|/-\|/-.|/-\|/-\|.-\|/-\|.  
+Using /home/ubuntu/.rvm/gems/ruby-2.5.0  
+/home/ubuntu/.rvm/scripts/override_gem: /home/ubuntu/.rvm/rubies/ruby-2.5.0/bin/gem: /home/travis/.rvm/rubies/ruby-2.5.0/bin/ruby: bad interpreter: No such file or directory  
+</code></pre>
+
+<p>のようなエラー。</p>
+
+<!-- more -->
+
+
+<p></p>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p>  <br/>
+<ins class="adsbygoogle"  
+     style="display:block; text-align:center;"  
+     data-ad-layout="in-article"  
+     data-ad-format="fluid"  
+     data-ad-client="ca-pub-7039502723411845"  
+     data-ad-slot="8206045005"></ins></p>
+
+<script>    
+     (adsbygoogle = window.adsbygoogle || []).push({});    
+</script>
+
+
+<p></p>
+
+<p>調べるとこんなツイートが&hellip;</p>
+
+<blockquote class="twitter-tweet" data-lang="ja"><p lang="en" dir="ltr"><a href="https://twitter.com/circleci?ref_src=twsrc%5Etfw">@circleci</a> I&#39;m getting build failures on ruby 2.5 - it looks like the `gem` command is using a shebang that references a non-existent `/home/travis` directory <a href="https://t.co/UcZREdK2Q8">pic.twitter.com/UcZREdK2Q8</a></p>&mdash; Justin Rhinesmith (@jerhinesmith) <a href="https://twitter.com/jerhinesmith/status/956311677426741248?ref_src=twsrc%5Etfw">2018年1月24日</a></blockquote>
+
+
+<p></p>
+
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+<p></p>
+
+<p>sshするとshebangでエラーになっている同じ現象でした。<br/>
+そしてこんなチケットが&hellip;</p>
+
+<p><a href="https://discuss.circleci.com/t/ruby-2-5-0-builds-failing-on-circleci-1-0-due-to-missing-home-travis/19620">Ruby 2.5.0 builds failing on CircleCI 1.0 due to missing <code>/home/travis</code></a></p>
+
+<p>解決しているらしいのですが、普通にエラーでますがな&hellip;<br/>
+マニュアルで</p>
+
+<pre><code class="">machine:  
+  pre:  
+    - sudo ln -s /opt/circleci /home/travis  
+</code></pre>
+
+<p>を仕込もうとしたらもうありますエラー。<br/>
+そして微妙にパスも違う。</p>
+
+<p>結論。こうしてなおしました。</p>
+
+<pre><code class="">machine:  
+  pre:  
+    - sudo rm -rf /home/travis  
+    - sudo ln -s /home/ubuntu /home/travis  
+  ruby:  
+    version: 2.5.0  
+</code></pre>
+
+<p>すぐなおってくれると思いますが、お困りの人がいたら上記で治ります。</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[ridgepoleの部分インデックスで毎回createとdrop indexをさせない書き方]]></title>
@@ -259,24 +343,6 @@ expires_inにnullを設定すればいいようです。</p>
 
 <pre><code class="sql  ">update oauth_access_tokens set expires_in = null  
 </code></pre>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[Railsでtextとhtmlのviewを用意するもmultipart/alternativeにならない問題]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2017/09/12/alternative-not-working/"/>
-        <updated>2017-09-12T18:36:54+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2017/09/12/alternative-not-working</id>
-        <content type="html"><![CDATA[<p>Ruby: 2.4.1<br/>
-Rails: 4.2.8</p>
-
-<p>ActionMailerでhogehoge.html.hamlとhogehoge.text.hamlを用意しているのにtext/htmlの形式でしか送信されなくてはまりかけた。<br/>
-hogehoge.text.hamlをhogehoge.text.erbに直したらmultipart/alternativeになってくれた。</p>
-
-<p>textの方はerbじゃないとダメっぽい。</p>
-
-<p>そしてletter_openerってalternativeなメールの時って右上にHTMLメールとプレーンテキストメールの切り替えリンクが付いているんですね。<br/>
-めっちゃ便利！</p>
 ]]></content>
     </entry>
     
