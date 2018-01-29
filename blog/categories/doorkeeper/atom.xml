@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+    <title><![CDATA[Category: doorkeeper | なんとなく日々徒然と]]></title>
+    <link href="http://yoshitsugufujii.github.io/blog/categories/doorkeeper/atom.xml" rel="self"/>
+    <link href="http://yoshitsugufujii.github.io/"/>
+    <updated>2018-01-29T15:09:17+09:00</updated>
+    <id>http://yoshitsugufujii.github.io/</id>
+    <author>
+        <name><![CDATA[Yoshitsugu Fujii]]></name>
+        
+      </author>
+    <generator uri="http://octopress.org/">Octopress</generator>
+
+    
+    <entry>
+        <title type="html"><![CDATA[Doorkeeperでパスワードが変更されたらクライアント側でログアウトさせる]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2018/01/29/logout-when-doorkeeper-password-change/"/>
+        <updated>2018-01-29T14:26:19+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2018/01/29/logout-when-doorkeeper-password-change</id>
+        <content type="html"><![CDATA[<p><a href="https://github.com/doorkeeper-gem/doorkeeper">Doorkeeper</a>を使ったoauthの仕組みでプラットフォーム側でパスワード変更の処理を書いててパスワード変更しても現在ログイン状態のユーザーがログアウトされなくて久しぶりにどっぷりハマったのでメモ。</p>
+
+<!-- more -->
+
+
+<p></p>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p>  <br/>
+<ins class="adsbygoogle"  
+     style="display:block; text-align:center;"  
+     data-ad-layout="in-article"  
+     data-ad-format="fluid"  
+     data-ad-client="ca-pub-7039502723411845"  
+     data-ad-slot="8206045005"></ins></p>
+
+<script>    
+     (adsbygoogle = window.adsbygoogle || []).push({});    
+</script>
+
+
+<p></p>
+
+<p>セッションストアであるredisを見ると同じユーザーで二つのブラウザでログインすると２つ違うsession keyで保持されている。<br/>
+このセッションの中身は</p>
+
+<p>一つ目はwarden key(そのままだとユーザID)<br/>
+二つ目はencrypted_password</p>
+
+<p>となっているようだ。</p>
+
+<p><a href="https://stackoverflow.com/a/23683925/2223472">https://stackoverflow.com/a/23683925/2223472</a></p>
+
+<p>Doorkeeperを使っているクライアントではoauth認証を使うのでパスワードを使っていない<br/>
+そのため二つめencrypted_passwordの値は空になっている。</p>
+
+<p>この二つの値を使って認証しているようだ。</p>
+
+<p>プラットフォーム側でパスワードを変更しても二つ目の値は相変わらず空のためクライアント側ではセッションの状況に変化なしとなり<br/>
+そのままログインが保持されてしまう。</p>
+
+<p>tokenを使ったりパスワードを渡す等があったりしたがこうした。</p>
+
+<p>まず、 パスワード変更時刻をプラットフォーム側にcolumnとして追加。<br/>
+パスワード変更時にupdateするようにする。</p>
+
+<pre><code class="">class User &lt; ApplicationRecord  
+  def reset_password(*args)  
+    self.password_changed_at = Time.current  
+    super  
+  end  
+end  
+</code></pre>
+
+<p>そしてクライアントサイドでは連携されたpassword_changed_atを使うようにする。</p>
+
+<pre><code class="">class User &lt; ApplicationRecord  
+  def authenticatable_salt  
+    password_changed_at  
+  end  
+end  
+</code></pre>
+
+<p>これでパスワードが変更されるとクライアントのセッションの中身も変わり、<br/>
+他のブラウザでログインしていても適切にログアウトされる。</p>
+]]></content>
+    </entry>
+    
+</feed>

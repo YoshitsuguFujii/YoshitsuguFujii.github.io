@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2018-01-26T19:04:21+09:00</updated>
+    <updated>2018-01-29T15:09:17+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,96 @@
     </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[Doorkeeperでパスワードが変更されたらクライアント側でログアウトさせる]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2018/01/29/logout-when-doorkeeper-password-change/"/>
+        <updated>2018-01-29T14:26:19+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2018/01/29/logout-when-doorkeeper-password-change</id>
+        <content type="html"><![CDATA[<p><a href="https://github.com/doorkeeper-gem/doorkeeper">Doorkeeper</a>を使ったoauthの仕組みでプラットフォーム側でパスワード変更の処理を書いててパスワード変更しても現在ログイン状態のユーザーがログアウトされなくて久しぶりにどっぷりハマったのでメモ。</p>
+
+<!-- more -->
+
+
+<p></p>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p>  <br/>
+<ins class="adsbygoogle"  
+     style="display:block; text-align:center;"  
+     data-ad-layout="in-article"  
+     data-ad-format="fluid"  
+     data-ad-client="ca-pub-7039502723411845"  
+     data-ad-slot="8206045005"></ins></p>
+
+<script>    
+     (adsbygoogle = window.adsbygoogle || []).push({});    
+</script>
+
+
+<p></p>
+
+<p>セッションストアであるredisを見ると同じユーザーで二つのブラウザでログインすると２つ違うsession keyで保持されている。<br/>
+このセッションの中身は</p>
+
+<p>一つ目はwarden key(そのままだとユーザID)<br/>
+二つ目はencrypted_password</p>
+
+<p>となっているようだ。</p>
+
+<p><a href="https://stackoverflow.com/a/23683925/2223472">https://stackoverflow.com/a/23683925/2223472</a></p>
+
+<p>Doorkeeperを使っているクライアントではoauth認証を使うのでパスワードを使っていない<br/>
+そのため二つめencrypted_passwordの値は空になっている。</p>
+
+<p>この二つの値を使って認証しているようだ。</p>
+
+<p>プラットフォーム側でパスワードを変更しても二つ目の値は相変わらず空のためクライアント側ではセッションの状況に変化なしとなり<br/>
+そのままログインが保持されてしまう。</p>
+
+<p>tokenを使ったりパスワードを渡す等があったりしたがこうした。</p>
+
+<p>まず、 パスワード変更時刻をプラットフォーム側にcolumnとして追加。<br/>
+パスワード変更時にupdateするようにする。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class User &lt; ApplicationRecord  
+</span><span class='line'>  def reset_password(*args)  
+</span><span class='line'>    self.password_changed_at = Time.current  
+</span><span class='line'>    super  
+</span><span class='line'>  end  
+</span><span class='line'>end  </span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>そしてクライアントサイドでは連携されたpassword_changed_atを使うようにする。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class User &lt; ApplicationRecord  
+</span><span class='line'>  def authenticatable_salt  
+</span><span class='line'>    password_changed_at  
+</span><span class='line'>  end  
+</span><span class='line'>end  </span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>これでパスワードが変更されるとクライアントのセッションの中身も変わり、<br/>
+他のブラウザでログインしていても適切にログアウトされる。</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[CircleCIでRuby2.5使おうとしたらbad interpreter]]></title>
@@ -1579,72 +1669,6 @@ interceptorを使います。</p>
 
 <p>まだあるかは不明ですがあと20個ぐらい残ってました。<br/>
 欲しい人はお早めに。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[市川 サヨリ狙うもボウズ]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2017/10/23/ichikawa-2017-10-21/"/>
-        <updated>2017-10-23T11:46:51+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2017/10/23/ichikawa-2017-10-21</id>
-        <content type="html"><![CDATA[<p>釣行日 2017年10月23日(土)<br/>
-天気 雨<br/>
-場所 市川<br/>
-釣行時間: 10:00 〜 11:30</p>
-
-<p>雨ですが釣りにきました。<br/>
-娘がスイミングスクールに行っている間に自転車で移動して釣行開始。</p>
-
-<!-- more -->
-
-
-<p></p>
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-
-
-<p>
-<ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-layout="in-article"
-     data-ad-format="fluid"
-     data-ad-client="ca-pub-7039502723411845"
-     data-ad-slot="8206045005"></ins></p>
-
-<script>  
-     (adsbygoogle = window.adsbygoogle || []).push({});  
-</script>
-
-
-<p></p>
-
-<p><a href="http://yoshitsugufujii.github.io/images/blog/20171023/IMG_2695.jpg" data-lightbox="ichikawa" data-title="市川"/>
-  <img src="http://yoshitsugufujii.github.io/images/blog/20171023/IMG_2695.jpg" style="width: 80%;">    <br/>
-</a></p>
-
-<p>他の釣り人はおじさまがた5人。</p>
-
-<p>開始しますが結果からいうとなんの胸熱展開もなくボウズでした。</p>
-
-<p>ボラがよく跳ねていたんですが、合間にシーバスっぽいのも跳ねていたので<br/>
-おそらくこれが原因かも・・・<br/>
-それをみたサヨリストのおじさまが途中ルアーを持ち出して投げてましたが全体的にダメダメでした。</p>
-
-<p>そしてサヨリの仕掛けがまさかの高切れで海に流されて行ったので納竿。</p>
-
-<p>サヨリ仕掛けを再度手に入れるべく帰りに上州屋寄ったんですがサヨリ釣りで使っている砂ズリ。<br/>
-工房浦安の使っているんですが、モデルチェンジするのかもう生産していないそうです。</p>
-
-<p>なので手に入るのはお店にある分のみで姿を消すそうです。</p>
-
-<p>仕方ないのでググりながら自作。</p>
-
-<p><a href="http://yoshitsugufujii.github.io/images/blog/20171023/IMG_2688.jpg" data-lightbox="sunaduri"/>
-  <img src="http://yoshitsugufujii.github.io/images/blog/20171023/IMG_2688.jpg" style="width: 80%;">    <br/>
-</a></p>
-
-<p>うーん。均一によれてないのかちゃんとネジネジしていないところがあるなぁ。<br/>
-難しいっす(´・ω・`)</p>
 ]]></content>
     </entry>
     
