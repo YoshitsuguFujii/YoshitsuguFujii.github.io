@@ -83,6 +83,149 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2012/02/10/20120210102000/">既存のメソッドをすり替える方法</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2012-02-10T10:20:00+09:00" pubdate><i class="fa fa-calendar"></i> Feb 10th, 2012</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>すでにあるメソッドに処理を追加したい場合。<br/>
+すでにあるメソッドを踏襲した新しいメソッドを定義して、メソッドの呼び出し側を新しいメソッドに向けることができますが<br/>
+現実的でないですね。</p>
+
+<p>ではどうやってすり替えるか。<br/>
+実現手段はいくつかあると思いますが、ここではアラウンドエイリアスを使ってみます。</p>
+
+<p>今回はStringのto  _sメソッドを、</p>
+
+<p>文字列(文字列長)</p>
+
+<p>と表示するよう変えてみる。</p>
+
+<p>今日のコードではaliasを使いますが、二度呼ぶとエラーとなってしまうのでirbを都度起動してください。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">str</span> <span class="o">=</span> <span class="s2">&quot;あいう&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">str</span><span class="o">.</span><span class="n">to_s</span> <span class="c1">#=&gt; &quot;あいう&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">String</span>
+</span><span class='line'>  <span class="k">alias</span> <span class="ss">:old_to_s</span> <span class="ss">:to_s</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">to_s</span>
+</span><span class='line'>    <span class="n">old_to_s</span> <span class="o">+</span> <span class="s2">&quot;(&quot;</span> <span class="o">+</span> <span class="n">length</span><span class="o">.</span><span class="n">to_s</span> <span class="o">+</span> <span class="s2">&quot;)&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">str</span><span class="o">.</span><span class="n">to_s</span> <span class="c1">#=&gt; &quot;あいう(3)&quot;</span>
+</span><span class='line'><span class="n">str</span><span class="o">.</span><span class="n">old_to_s</span> <span class="c1">#=&gt; &quot;あいう&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>この前の<a href="http://d.hatena.ne.jp/gogo_sakura/20120207/1328591412">rubyのオープンクラス -
+なんとなく日々徒然と</a>使ってStringクラスにコーディングしていきます。</p>
+
+<p>構文は<br/>
+alias 新しいメソッド名 古いメソッド名<br/>
+です。<br/>
+今回の例ではto  <em>sにold  </em>to  _sという別名をつけます。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">str</span> <span class="o">=</span> <span class="s2">&quot;あいう&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">str</span><span class="o">.</span><span class="n">to_s</span> <span class="c1">#=&gt; &quot;あいう&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">String</span>
+</span><span class='line'>  <span class="k">alias</span> <span class="ss">:old_to_s</span> <span class="ss">:to_s</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">str</span><span class="o">.</span><span class="n">to_s</span> <span class="c1">#=&gt; &quot;あいう&quot; </span>
+</span><span class='line'><span class="n">str</span><span class="o">.</span><span class="n">old_to_s</span> <span class="c1">#=&gt; &quot;あいう&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>それでto  _sを書き換えちゃいます。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">to_s</span>
+</span><span class='line'>    <span class="n">old_to_s</span> <span class="o">+</span> <span class="s2">&quot;(&quot;</span> <span class="o">+</span> <span class="n">length</span><span class="o">.</span><span class="n">to_s</span> <span class="o">+</span> <span class="s2">&quot;)&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>to  <em>sが呼ばれた場合は書き換えたメソッドが呼ばれ、old  </em>to  <em>sが呼ばれた場合は昔のメソッドが呼ばれる状態です。<br/>
+書き換えられたto  </em>sは昔のto  <em>sをold  </em>to  _sで呼び、lengthをそこにくっつけています。</p>
+
+<p>これでメソッドのすり替えが完了です。</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2012/02/09/20120209100229/">gitで今やってる作業を一時退避する方法</a>
         </h1>
     
@@ -878,70 +1021,6 @@ debugger.txtが実行されます(表示は画面に収まるまで)</p>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2012/01/28/20120128110647/">Ubuntu11.10にアップグレードしたらwi-fiが遅い件</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2012-01-28T11:06:00+09:00" pubdate><i class="fa fa-calendar"></i> Jan 28th, 2012</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ubuntu/'>ubuntu</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>珍しく休日にPCを起動した。<br/>
-何年ぶりだろう。</p>
-
-<p>自宅PCはWindows7とUbuntuのデュアルブートにしているのだけど、Ubuntuを11.04から11.10にしたら無線が遅い。<br/>
-ネットには接続されるし、IPもふられてるんだけど通信速度が異常に出ない。<br/>
-なんじゃこりゃ。</p>
-
-<p>このフォーラム<a href="http://askubuntu.com/questions/73523/wireless-internet-connection-so-slow-after-upgrade-to-11-10">Wireless Internet Connection so slow after upgrade to
-11.10</a>のとおりにコマンド打ったら、解決した。</p>
-
-<pre><code>sudo rmmod iwlagn
-sudo modprobe iwlagn 11n_disable=1
-</code></pre>
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -1005,6 +1084,10 @@ sudo modprobe iwlagn 11n_disable=1
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2018/01/30/money-localization/">国際化対応(お金関連)</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2018/01/29/logout-when-doorkeeper-password-change/">Doorkeeperでパスワードが変更されたらクライアント側でログアウトさせる</a>
         </li>
         
@@ -1018,10 +1101,6 @@ sudo modprobe iwlagn 11n_disable=1
         
         <li class="post">
             <a href="/blog/2017/12/26/soto-toach/">テーブルで手軽に炙りを体験</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2017/12/21/heroku-at-herokumanager-dot-com/">HerokuのNewRelicでRoleがUserで何もできない</a>
         </li>
         
     </ul>

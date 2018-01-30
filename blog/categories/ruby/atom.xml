@@ -4,7 +4,7 @@
     <title><![CDATA[Category: ruby | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/ruby/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2018-01-29T15:09:17+09:00</updated>
+    <updated>2018-01-30T10:46:48+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,49 @@
       </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[国際化対応(お金関連)]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2018/01/30/money-localization/"/>
+        <updated>2018-01-30T10:27:12+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2018/01/30/money-localization</id>
+        <content type="html"><![CDATA[<p>国際化対応。<br/>
+DBの日時はutcで保存して表示する時にユーザによって該当のタイムゾーンで表示とか色々な知見はあるかと思いますが。<br/>
+お金の区切りもあるんですね。</p>
+
+<!-- more -->
+
+
+<p></p>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p>  <br/>
+<ins class="adsbygoogle"  
+     style="display:block; text-align:center;"  
+     data-ad-layout="in-article"  
+     data-ad-format="fluid"  
+     data-ad-client="ca-pub-7039502723411845"  
+     data-ad-slot="8206045005"></ins></p>
+
+<script>    
+     (adsbygoogle = window.adsbygoogle || []).push({});    
+</script>
+
+
+<p></p>
+
+<p>お金ってカンマ区切りだけかと思い込んでましたがそうじゃないらしいです。</p>
+
+<p><a href="http://coliss.com/articles/build-websites/operation/writing/53.html">世界各国での数字の区切り方</a></p>
+
+<p>数値がペリオドで送られてくる国やスペースで送ってくる国があるので注意が必要です。<br/>
+カンマ一括で消して処理していたらバリデーションで特定の国入力エラーになっていた。</p>
+
+<p>jsのtoLocaleStringとか使うとドイツのブラウザではカンマではなくペリオド入るらしいので気をつけるべし</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[Doorkeeperでパスワードが変更されたらクライアント側でログアウトさせる]]></title>
@@ -305,65 +348,6 @@ end
 <p>@_trigger_destroy_callbackをsuperの前に設定するのはparanoiaのメソッドがdeleted_atの更新とrun_callbackを同一メソッドでやっているためです(なるべくパッチorメソッドをいじりたくないので先に設定してしまっています)</p>
 
 <p>これで無事にafter_commitが動くようになりました。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[特定のユーザに送られるメールを全てキャンセル]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2017/10/26/cancel-mail/"/>
-        <updated>2017-10-26T11:36:00+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2017/10/26/cancel-mail</id>
-        <content type="html"><![CDATA[<p>ナチュラムでジョイナス2000が2000円切っていたのでぽちり。<br/>
-昨日届きましたがやっぱりちょっと安い感じがありました。<br/>
-もう千円だしてアリビオ買えばよかったかも。</p>
-
-<p>釣り記事の合間のITネタ。</p>
-
-<!-- more -->
-
-
-<p></p>
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-
-
-<p>  <br/>
-<ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-layout="in-article"
-     data-ad-format="fluid"
-     data-ad-client="ca-pub-7039502723411845"
-     data-ad-slot="8206045005"></ins></p>
-
-<script>  
-     (adsbygoogle = window.adsbygoogle || []).push({});  
-</script>
-
-
-<p></p>
-
-<p>usersテーブルにlockフラグを持っているなどある条件によってメールを送信するしないをアプリ全体で制御する方法。<br/>
-interceptorを使います。</p>
-
-<pre><code class="ruby    "># config/initializers/mail_interceptor.rb  
-
-ActionMailer::Base.register_interceptor(MailInterceptor)  
-</code></pre>
-
-<pre><code class="ruby    "># lib/mail_interceptor.rb  
-
-class MailInterceptor  
-  def self.delivering_email(email)  
-    # lock中のユーザーには送らない  
-    user = User.find_by(email: email.to)  
-    if user.lock_flag?  
-      email.perform_deliveries = false  
-    end  
-  end  
-end  
-</code></pre>
-
-<p>perform_deliveriesにfalseを設定するとメールが送られなくなります。</p>
 ]]></content>
     </entry>
     
