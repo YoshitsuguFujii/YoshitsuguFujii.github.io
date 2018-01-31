@@ -4,7 +4,7 @@
     <title><![CDATA[Category: ruby | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/ruby/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2018-01-30T10:46:48+09:00</updated>
+    <updated>2018-01-31T11:59:07+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,59 @@
       </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[ruby2.5にあげたら例外発生時にstacktraceが吐き出されなくなった]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2018/01/31/no-backtrace/"/>
+        <updated>2018-01-31T11:51:51+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2018/01/31/no-backtrace</id>
+        <content type="html"><![CDATA[<p>Railsである日を境に例外発生時にスタックトレースがでなくなっちゃいました。</p>
+
+<pre><code>F, [2018-01-31T11:41:40.388898 #5662] FATAL -- : 
+NoMethodError - undefined method `company_users' for nil:NilClass:
+</code></pre>
+
+<p>railsのlogにはこれしかでない。</p>
+
+<!-- more -->
+
+
+<p></p>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p>  <br/>
+<ins class="adsbygoogle"  
+     style="display:block; text-align:center;"  
+     data-ad-layout="in-article"  
+     data-ad-format="fluid"  
+     data-ad-client="ca-pub-7039502723411845"  
+     data-ad-slot="8206045005"></ins></p>
+
+<script>    
+     (adsbygoogle = window.adsbygoogle || []).push({});    
+</script>
+
+
+<p></p>
+
+<p>検索すると発見。</p>
+
+<p><a href="https://stackoverflow.com/questions/48327987/why-does-ruby-2-5-0-not-show-a-stacktrace-in-rails-5-1-4">Why does Ruby 2.5.0 not show a stacktrace in Rails 5.1.4?</a></p>
+
+<p>なるほどrubyを2.5にあげたからか。</p>
+
+<p>手元の環境を見ると</p>
+
+<pre><code>ruby (2.5)  
+rails (5.1.4)  
+binding_of_caller (0.7.2)
+</code></pre>
+
+<p>0.8.0にbinding_of_callerにあげて解決です。</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[国際化対応(お金関連)]]></title>
@@ -257,97 +310,6 @@ dbのuniq indexで辛い感じになります。</p>
 </code></pre>
 
 <p>本日は大雪らしいので早く帰りましょう。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[rails5でafter_commitが動かなくなってしまった]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2017/10/31/rails-after-commit/"/>
-        <updated>2017-10-31T10:27:08+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2017/10/31/rails-after-commit</id>
-        <content type="html"><![CDATA[<p>ITネタです。すいません。<br/>
-railsのモデルデータに変更が加えられたらelasticsearchのデータをafter_commitで更新するようにしているのですが。</p>
-
-<pre><code class="ruby  ">after_commit :index_elasticsearch_document, on: [:create, :update]  
-after_commit :delete_elasticsearch_document, on: [:destroy]  
-</code></pre>
-
-<p>Rails5.1.4にしたら設定したcallbackが走らなくなってしまいました。<br/>
-困っている人結構いるような気がするんですがどうなんでしょうかね。</p>
-
-<!-- more -->
-
-
-<p></p>
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-
-
-<p>  <br/>
-<ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-layout="in-article"
-     data-ad-format="fluid"
-     data-ad-client="ca-pub-7039502723411845"
-     data-ad-slot="8206045005"></ins></p>
-
-<script>  
-     (adsbygoogle = window.adsbygoogle || []).push({});  
-</script>
-
-
-<p></p>
-
-<p>onオプションをつけると動かなくて外すと動きます。<br/>
-どうもcallbackが処理される過程の<a href="https://apidock.com/rails/v4.0.2/ActiveRecord/Transactions/transaction_include_any_action%3F">transaction_include_any_action?</a>によるどの操作(insert, update, destroy)での更新かとonオプションによる一致が正常に判定されず動かないようです。<br/>
-ぐぐってみるとヒットするのはこのあたりでしょうか。</p>
-
-<p><a href="https://github.com/rails/rails/issues/29554">after_create_commit and after_update_commit alias don&rsquo;t always run when next to each other #29554</a></p>
-
-<p><a href="https://github.com/rails/rails/issues/29318">after_commit doesn&rsquo;t work with optimistic locking #29318</a></p>
-
-<p>これのうち下のリンクが正解でした。<br/>
-修正PRは<a href="https://github.com/rails/rails/pull/29096">これ</a>ですが、まだマージされてませんね。<br/>
-この<a href="https://github.com/rails/rails/commit/371c083fb0620efebf7bd0188a66486403e12ecc">コミット</a>が原因のようです。
-5.0.2ではうごくみたいですw</p>
-
-<p>ちなみに関わっている案件の場合は正確にはcomposite_primary_keysを使っているのでcomposite_primary_keysの方の悲観的ロックが原因でした。<br/>
-メソッドオーバーライドしているのでほぼ同じ現象です。</p>
-
-<p><a href="https://github.com/composite-primary-keys/composite_primary_keys/blob/master/lib/composite_primary_keys/locking/optimistic.rb#L43">ここ</a>で<a href="https://github.com/rails/rails/pull/29096">PR</a>と同じように@_trigger_update_callbackを設定すれば治ります。</p>
-
-<p>ただパッチをあてるのもなって感じなのでモデル側でこうなおしました。</p>
-
-<pre><code class="ruby  ">class ElasticsearchNoModel &lt; ApplicationRecord  
-  def _update_record(*args)  
-    affected_rows = super  
-    if affected_rows == 1  
-      @_trigger_update_callback = true  
-    end  
-  end  
-end  
-</code></pre>
-
-<p>create時とupdate時はこれで治りましたがdestroyの時がこれだとまだうごきません。<br/>
-ちなみに今関わっている案件ではparanoia使ってます。</p>
-
-<p><a href="https://github.com/rubysherpas/paranoia/issues/418">after_commit with on: option doesn&rsquo;t work at Rails 5.1.3 #418</a></p>
-
-<p>issueあがってますがリアクションありませんね。</p>
-
-<p>ソース読んでこう直しました。</p>
-
-<pre><code class="ruby  ">class ElasticsearchNoModel &lt; ApplicationRecord  
-  def destroy  
-    @_trigger_destroy_callback = true  
-    super  
-  end  
-end  
-</code></pre>
-
-<p>@_trigger_destroy_callbackをsuperの前に設定するのはparanoiaのメソッドがdeleted_atの更新とrun_callbackを同一メソッドでやっているためです(なるべくパッチorメソッドをいじりたくないので先に設定してしまっています)</p>
-
-<p>これで無事にafter_commitが動くようになりました。</p>
 ]]></content>
     </entry>
     
