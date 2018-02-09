@@ -4,7 +4,7 @@
     <title><![CDATA[Category: ruby on rails | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/ruby-on-rails/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2018-01-31T11:59:07+09:00</updated>
+    <updated>2018-02-09T19:30:25+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,66 @@
       </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[carrierwaveのリンクの有効期間を個別に設定]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2018/02/09/carrierwave-expire-setting/"/>
+        <updated>2018-02-09T19:27:03+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2018/02/09/carrierwave-expire-setting</id>
+        <content type="html"><![CDATA[<p>全体でかける場合はこうですかね。</p>
+
+<pre><code class="ruby"># config/initializers/carrierwave.rb
+CarrierWave::SanitizedFile.sanitize_regexp = /[^[:word:]\.\-\+]/ # for Japanese
+CarrierWave.configure do |config|
+  # BIZIT_MA for S3
+  config.fog_credentials = {
+    provider:              'AWS',
+    aws_access_key_id:     ENV[:access_key],
+    aws_secret_access_key: ENV[:secret],
+    region:                ENV['s3_region']
+  }
+
+  config.fog_public = false
+  config.fog_directory = Settings.aws['s3_bucket']
+  config.cache_storage = :fog
+  config.fog_authenticated_url_expiration = 1.minutes.to_i
+end
+</code></pre>
+
+<!-- more -->
+
+
+<p></p>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p>  <br/>
+<ins class="adsbygoogle"  
+     style="display:block; text-align:center;"  
+     data-ad-layout="in-article"  
+     data-ad-format="fluid"  
+     data-ad-client="ca-pub-7039502723411845"  
+     data-ad-slot="8206045005"></ins></p>
+
+<script>    
+     (adsbygoogle = window.adsbygoogle || []).push({});    
+</script>
+
+
+<p></p>
+
+<p>個々のアップローダークラスでかける場合<br/>
+<code>  
+class ImageUploader &lt; CarrierWave::Uploader::Base  
+  def fog_authenticated_url_expiration  
+    1.minutes.to_i  
+  end  
+end  
+</code><br/>
+uploader内ではmodelでモデル側のインスタンスを参照できるのでmodel側の条件で動的に有効期限を変えるとかもできそうですね。</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[ruby2.5にあげたら例外発生時にstacktraceが吐き出されなくなった]]></title>
@@ -265,51 +325,6 @@ Using /home/ubuntu/.rvm/gems/ruby-2.5.0
 </code></pre>
 
 <p>すぐなおってくれると思いますが、お困りの人がいたら上記で治ります。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[ridgepoleの部分インデックスで毎回createとdrop indexをさせない書き方]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2018/01/22/ridgepole-partial-uniq-index/"/>
-        <updated>2018-01-22T14:44:35+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2018/01/22/ridgepole-partial-uniq-index</id>
-        <content type="html"><![CDATA[<p>railsでparanoiaとか使っていて、<br/>
-mysqlで論理削除にdeleted_atがnullかどうかで論理削除判定していると<br/>
-dbのuniq indexで辛い感じになります。</p>
-
-<p>postgresqlでは部分インデックスなるものがあり、deleted_atがnullのものをuniq制約の条件に含めないとかいうことができます。</p>
-
-<p><a href="https://www.postgresql.jp/document/9.2/html/indexes-partial.html">部分インデックス</a></p>
-
-<!-- more -->
-
-
-<p></p>
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-
-
-<p>  <br/>
-<ins class="adsbygoogle"  
-     style="display:block; text-align:center;"  
-     data-ad-layout="in-article"  
-     data-ad-format="fluid"  
-     data-ad-client="ca-pub-7039502723411845"  
-     data-ad-slot="8206045005"></ins></p>
-
-<script>    
-     (adsbygoogle = window.adsbygoogle || []).push({});    
-</script>
-
-
-<p></p>
-
-<p>ridgepoleではこう書くと毎回create index drop indexしません。</p>
-
-<pre><code class="">add_index "users", ["email"], name: "uniq_email_idx", unique: true, where: '(deleted_at IS NULL)'  
-</code></pre>
-
-<p>本日は大雪らしいので早く帰りましょう。</p>
 ]]></content>
     </entry>
     

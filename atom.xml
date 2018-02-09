@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2018-01-31T11:59:07+09:00</updated>
+    <updated>2018-02-09T19:30:25+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,93 @@
     </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[carrierwaveのリンクの有効期間を個別に設定]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2018/02/09/carrierwave-expire-setting/"/>
+        <updated>2018-02-09T19:27:03+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2018/02/09/carrierwave-expire-setting</id>
+        <content type="html"><![CDATA[<p>全体でかける場合はこうですかね。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># config/initializers/carrierwave.rb</span>
+</span><span class='line'><span class="no">CarrierWave</span><span class="o">::</span><span class="no">SanitizedFile</span><span class="o">.</span><span class="n">sanitize_regexp</span> <span class="o">=</span> <span class="sr">/[^[:word:]\.\-\+]/</span> <span class="c1"># for Japanese</span>
+</span><span class='line'><span class="no">CarrierWave</span><span class="o">.</span><span class="n">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+</span><span class='line'>  <span class="c1"># BIZIT_MA for S3</span>
+</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">fog_credentials</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>    <span class="ss">provider</span><span class="p">:</span>              <span class="s1">&#39;AWS&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="ss">aws_access_key_id</span><span class="p">:</span>     <span class="no">ENV</span><span class="o">[</span><span class="ss">:access_key</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>    <span class="ss">aws_secret_access_key</span><span class="p">:</span> <span class="no">ENV</span><span class="o">[</span><span class="ss">:secret</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>    <span class="ss">region</span><span class="p">:</span>                <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;s3_region&#39;</span><span class="o">]</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">fog_public</span> <span class="o">=</span> <span class="kp">false</span>
+</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">fog_directory</span> <span class="o">=</span> <span class="no">Settings</span><span class="o">.</span><span class="n">aws</span><span class="o">[</span><span class="s1">&#39;s3_bucket&#39;</span><span class="o">]</span>
+</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">cache_storage</span> <span class="o">=</span> <span class="ss">:fog</span>
+</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">fog_authenticated_url_expiration</span> <span class="o">=</span> <span class="mi">1</span><span class="o">.</span><span class="n">minutes</span><span class="o">.</span><span class="n">to_i</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<!-- more -->
+
+
+<p></p>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p>  <br/>
+<ins class="adsbygoogle"  
+     style="display:block; text-align:center;"  
+     data-ad-layout="in-article"  
+     data-ad-format="fluid"  
+     data-ad-client="ca-pub-7039502723411845"  
+     data-ad-slot="8206045005"></ins></p>
+
+<script>    
+     (adsbygoogle = window.adsbygoogle || []).push({});    
+</script>
+
+
+<p></p>
+
+<p>個々のアップローダークラスでかける場合</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ImageUploader</span> <span class="o">&lt;</span> <span class="no">CarrierWave</span><span class="o">::</span><span class="no">Uploader</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">fog_authenticated_url_expiration</span>
+</span><span class='line'>    <span class="mi">1</span><span class="o">.</span><span class="n">minutes</span><span class="o">.</span><span class="n">to_i</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+uploader内ではmodelでモデル側のインスタンスを参照できるのでmodel側の条件で動的に有効期限を変えるとかもできそうですね。</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[ruby2.5にあげたら例外発生時にstacktraceが吐き出されなくなった]]></title>
@@ -1572,82 +1659,6 @@ railsのモデルデータに変更が加えられたらelasticsearchのデー�
 </a></p>
 
 <p>日曜日は午前中釣りにいこうかと思ってましたが雨が思いの外強かったので心折れました。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[今井岸壁 アジ]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2017/10/29/imaiganpeki/"/>
-        <updated>2017-10-29T12:12:36+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2017/10/29/imaiganpeki</id>
-        <content type="html"><![CDATA[<p>釣行日 2017年10月27日(金)<br/>
-天気 晴<br/>
-場所 今井岸壁<br/>
-釣行時間: 4:00 〜 6:15</p>
-
-<p>あまりにも週末が雨だったり釣れなかったりなので我慢できなくなってスーパー早く寝てこっそりと起きて釣りです。<br/>
-前回<a href="http://yoshitsugufujii.github.io/blog/2017/10/11/sodegaurakou-20171009/">袖ヶ浦港</a>と言ってましたが、今井岸壁という名前が正式にあるようなので今井岸壁にしてますが前回と同じ場所です。</p>
-
-<p>金曜日は娘を保育園に送らなければならないので7時半までに帰ってこなければなりません。</p>
-
-<!-- more -->
-
-
-<p></p>
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-
-
-<p>
-<ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-layout="in-article"
-     data-ad-format="fluid"
-     data-ad-client="ca-pub-7039502723411845"
-     data-ad-slot="8206045005"></ins></p>
-
-<script>  
-     (adsbygoogle = window.adsbygoogle || []).push({});  
-</script>
-
-
-<p></p>
-
-<p>到着してまだ暗かったのでアオイソメを房がけにしてぶっこみます。<br/>
-それとトリックの仕掛けもセット。</p>
-
-<p><a href="http://yoshitsugufujii.github.io/images/blog/20171029/IMG_2729.jpg" data-lightbox="imaiganpeki" data-title=""/><br/>
-<img src="http://yoshitsugufujii.github.io/images/blog/20171029/IMG_2729.jpg" style="width: 80%;"><br/>
-</a></p>
-
-<p>寒いです。とにかく寒いです。</p>
-
-<p>この日の日の出は5:45。</p>
-
-<p>5:30になっても全然釣れず、あー釣れなかったなぁと撤収時間にもう近いので片付け始めると隣のおじさんが「釣れだしたよー。」<br/>
-えっと思って見ると入れ食いです。片付けはじめていたトリックをまた出そうとすると痛恨の仕掛けがらみ。</p>
-
-<p>ようやく投入するもアジ3匹釣ったところで時合終了。<br/>
-6:00ぐらいでした。</p>
-
-<p>隣のおじさんに「釣れた？」って聞かれますが「肝心のところで仕掛けからんじゃって&hellip;」と言ったら、「あー。よくあるよね。そういうもんだよ。」<br/>
-と慰めてもらいました。隣のおじさんは30センチぐらいのカマスを釣ってました。<br/>
-そのさらに隣のおじさんはアジ24匹釣ったらしいです。</p>
-
-<p>そのあともポツポツとあがってましたが時間なので終了。</p>
-
-<p>なんていうか寒さが辛過ぎたので次はちゃんと防寒着をもっていこう。</p>
-
-<p><a href="http://yoshitsugufujii.github.io/images/blog/20171029/IMG_2732.png" data-lightbox="fly" data-title=""/><br/>
-  <img src="http://yoshitsugufujii.github.io/images/blog/20171029/IMG_2732.png" style="width: 80%;"><br/>
-</a></p>
-
-<p>豆アジは頭ごと唐揚げに。<br/>
-頭付きの方がおいしかったです。</p>
-
-<p><a href="http://yoshitsugufujii.github.io/images/blog/20171029/IMG_2730.jpg" data-lightbox="aji" data-title=""/><br/>
-<img src="http://yoshitsugufujii.github.io/images/blog/20171029/IMG_2730.jpg" style="width: 80%;"><br/>
-</a></p>
 ]]></content>
     </entry>
     
