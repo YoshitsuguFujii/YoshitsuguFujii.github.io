@@ -144,11 +144,9 @@
 <span class='line-number'>13</span>
 <span class='line-number'>14</span>
 <span class='line-number'>15</span>
-<span class='line-number'>16</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># config/initializers/carrierwave.rb</span>
 </span><span class='line'><span class="no">CarrierWave</span><span class="o">::</span><span class="no">SanitizedFile</span><span class="o">.</span><span class="n">sanitize_regexp</span> <span class="o">=</span> <span class="sr">/[^[:word:]\.\-\+]/</span> <span class="c1"># for Japanese</span>
 </span><span class='line'><span class="no">CarrierWave</span><span class="o">.</span><span class="n">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
-</span><span class='line'>  <span class="c1"># BIZIT_MA for S3</span>
 </span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">fog_credentials</span> <span class="o">=</span> <span class="p">{</span>
 </span><span class='line'>    <span class="ss">provider</span><span class="p">:</span>              <span class="s1">&#39;AWS&#39;</span><span class="p">,</span>
 </span><span class='line'>    <span class="ss">aws_access_key_id</span><span class="p">:</span>     <span class="no">ENV</span><span class="o">[</span><span class="ss">:access_key</span><span class="o">]</span><span class="p">,</span>
