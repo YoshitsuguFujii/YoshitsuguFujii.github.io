@@ -83,6 +83,91 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2013/11/19/20131119145036/">fields_forに渡すrelationを絞る</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2013-11-19T14:50:00+09:00" pubdate><i class="fa fa-calendar"></i> Nov 19th, 2013</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>contentモデルの下にcontent  <em>detailモデルがあって、
+accepts  </em>nested  <em>attributes  </em>forしていて、fields  _forを使う場合。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">f</span><span class="o">.</span><span class="n">fields_for</span> <span class="ss">:content_details</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>って書くと、contentに紐付く全部のcontent  _detailsがformとして表示されちゃう。</p>
+
+<p>第二引数にインスタンスを渡せばいいみたい。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">f</span><span class="o">.</span><span class="n">fields_for</span> <span class="ss">:content_details</span><span class="p">,</span> <span class="vi">@content</span><span class="o">.</span><span class="n">content_details</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">state</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ちなみに第二引数はnilがデフォルト引数なので</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">f</span><span class="o">.</span><span class="n">fields_for</span> <span class="ss">:content_details</span>
+</span><span class='line'><span class="n">f</span><span class="o">.</span><span class="n">fields_for</span> <span class="ss">:content_details</span><span class="p">,</span> <span class="kp">nil</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>は同じ意味になるので、インスタンス変数は値を入れなければnilなので</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">fields_for</span> <span class="ss">:content_details</span><span class="p">,</span> <span class="vi">@details</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ってやって、editの時だけ@detailsに値を入れるとうまく変更したいレコードのみ抽出できて、処理を切り分けられる気がします。</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2013/11/18/20131118152008/">ある月に指定日が含まれるんか判定したい(要ActiveSupport)</a>
         </h1>
     
@@ -953,58 +1038,6 @@ How to fix libv8 error from Gemfile on Mavericks?<br/>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2013/09/26/20130926111727/">ぐぅかわ</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2013-09-26T11:17:00+09:00" pubdate><i class="fa fa-calendar"></i> Sep 26th, 2013</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/hurentiburudotugu/'>フレンチブルドッグ</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p><a href="http://f.hatena.ne.jp/gogo_sakura/20130923091838"><img src="http://cdn-ak.f.st-hatena.com/images/fotolife/g/gogo_sakura/20130923/20130923091838.jpg" title="f:id:gogo_sakura:20130923091838j:image" alt="f:id:gogo  _sakura:20130923091838j:image" /></a></p>
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -1068,6 +1101,10 @@ How to fix libv8 error from Gemfile on Mavericks?<br/>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2018/02/14/direct-upload-to-s3-with-rails-and-carrierwave/">S3に直接にファイルアップロード</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2018/02/09/carrierwave-expire-setting/">carrierwaveのリンクの有効期間を個別に設定</a>
         </li>
         
@@ -1081,10 +1118,6 @@ How to fix libv8 error from Gemfile on Mavericks?<br/>
         
         <li class="post">
             <a href="/blog/2018/01/29/logout-when-doorkeeper-password-change/">Doorkeeperでパスワードが変更されたらクライアント側でログアウトさせる</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2018/01/26/circle-ci-ver-one-ruby-two-five-bad-interpreter/">CircleCIでRuby2.5使おうとしたらbad interpreter</a>
         </li>
         
     </ul>

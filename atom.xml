@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2018-02-09T19:36:40+09:00</updated>
+    <updated>2018-02-14T19:32:13+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,236 @@
     </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[S3に直接にファイルアップロード]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2018/02/14/direct-upload-to-s3-with-rails-and-carrierwave/"/>
+        <updated>2018-02-14T18:35:13+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2018/02/14/direct-upload-to-s3-with-rails-and-carrierwave</id>
+        <content type="html"><![CDATA[<p>Herokuでの大きいファイルアップロードはリクエストタイムアウトが30秒に設定されているのでやっかいです。</p>
+
+<p>Herokuの公式でも4MBを超えるファイルをあげる場合はS3に直接あげてねって書いてあります。<br/>
+<a href="https://devcenter.heroku.com/articles/s3#direct-upload">https://devcenter.heroku.com/articles/s3#direct-upload</a></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>This is the preferred approach if you’re working with file uploads bigger than 4MB. The idea is to skip the hop to your dyno, making a direct connection from the end user browser to S3. While this reduces the processing required by your application it is a more complex implementation and limits the ability to modify (transform, filter, resize etc…) the file before storing in S3.</span></code></pre></td></tr></table></div></figure>
+
+
+<p>carriwaveを使っているのでcarriwave_directいいなと思いましたが、<br/>
+<a href="https://github.com/dwilkie/carrierwave_direct">carrierwave_direct</a></p>
+
+<p>最終更新日が結構前でメンテされていないのかな？ってのとgemを使いすぎるとわけわかめになるので自力でやることにしました。</p>
+
+<!-- more -->
+
+
+<p></p>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p>  <br/>
+<ins class="adsbygoogle"  
+     style="display:block; text-align:center;"  
+     data-ad-layout="in-article"  
+     data-ad-format="fluid"  
+     data-ad-client="ca-pub-7039502723411845"  
+     data-ad-slot="8206045005"></ins></p>
+
+<script>    
+     (adsbygoogle = window.adsbygoogle || []).push({});    
+</script>
+
+
+<p></p>
+
+<p>署名付きアップロード用のリンクを生成してjsに渡しjsでそのurlにアップロードする流れです。</p>
+
+<p>Awsコンソールにログインしてs3からBucketを作成します。<br/>
+作成したBucketを選択してアクセス権限タブからCORSの設定を開きます。<br/>
+以下のように設定します。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+</span><span class='line'>&lt;CORSConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/"&gt;
+</span><span class='line'>&lt;CORSRule&gt;
+</span><span class='line'>    &lt;AllowedOrigin&gt;*&lt;/AllowedOrigin&gt;
+</span><span class='line'>    &lt;AllowedMethod&gt;GET&lt;/AllowedMethod&gt;
+</span><span class='line'>    &lt;AllowedMethod&gt;PUT&lt;/AllowedMethod&gt;
+</span><span class='line'>    &lt;MaxAgeSeconds&gt;3000&lt;/MaxAgeSeconds&gt;
+</span><span class='line'>    &lt;AllowedHeader&gt;*&lt;/AllowedHeader&gt;
+</span><span class='line'>&lt;/CORSRule&gt;
+</span><span class='line'>&lt;/CORSConfiguration&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>次にGemfileに追記してbundle install</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Gemfile</span>
+</span><span class='line'><span class="n">gem</span> <span class="s1">&#39;aws-sdk&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>S3_BUCKETを操作できるようにします。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># config/initializers/aws.rb</span>
+</span><span class='line'><span class="n">credentials</span> <span class="o">=</span> <span class="no">Aws</span><span class="o">::</span><span class="no">Credentials</span><span class="o">.</span><span class="n">new</span><span class="p">(</span>
+</span><span class='line'>  <span class="no">ENV</span><span class="o">[</span><span class="ss">:aws_access_key</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>  <span class="no">ENV</span><span class="o">[</span><span class="ss">:aws_secret</span><span class="o">]</span>
+</span><span class='line'><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">s3_resource</span> <span class="o">=</span> <span class="no">Aws</span><span class="o">::</span><span class="no">S3</span><span class="o">::</span><span class="no">Resource</span><span class="o">::</span><span class="kp">new</span><span class="p">(</span><span class="ss">region</span><span class="p">:</span> <span class="s1">&#39;bucketのregion&#39;</span><span class="p">,</span> <span class="ss">credentials</span><span class="p">:</span> <span class="n">credentials</span><span class="p">)</span>
+</span><span class='line'><span class="no">S3_BUCKET</span> <span class="o">=</span> <span class="n">s3_resource</span><span class="o">.</span><span class="n">bucket</span><span class="p">(</span><span class="s1">&#39;bucket名&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>URL生成のメソッドはCarrierwaveのuploaderクラスにメソッド生やしました。<br/>
+取得はそのままCarrierwaveを使うイメージです。<br/>
+今のプロジェクトでは基底クラスを作ってそれを継承させてます。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ApplicationUploader</span> <span class="o">&lt;</span> <span class="no">CarrierWave</span><span class="o">::</span><span class="no">Uploader</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">store_dir</span>
+</span><span class='line'>    <span class="s2">&quot;uploads/</span><span class="si">#{</span><span class="n">model</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">to_s</span><span class="o">.</span><span class="n">underscore</span><span class="si">}</span><span class="s2">/</span><span class="si">#{</span><span class="n">mounted_as</span><span class="si">}</span><span class="s2">/</span><span class="si">#{</span><span class="n">model</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">presigned_url</span><span class="p">(</span><span class="n">file_name</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">file_name</span> <span class="o">||=</span> <span class="nb">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">attributes</span><span class="o">[</span><span class="n">mounted_as</span><span class="o">.</span><span class="n">to_s</span><span class="o">]</span>
+</span><span class='line'>    <span class="n">object</span> <span class="o">=</span> <span class="no">S3_BUCKET</span><span class="o">.</span><span class="n">object</span><span class="p">(</span><span class="o">[</span><span class="n">store_dir</span><span class="p">,</span> <span class="n">file_name</span><span class="o">].</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">))</span>
+</span><span class='line'>    <span class="n">object</span><span class="o">.</span><span class="n">presigned_url</span><span class="p">(</span><span class="ss">:put</span><span class="p">,</span> <span class="ss">expires_in</span><span class="p">:</span> <span class="mi">1</span><span class="o">.</span><span class="n">minutes</span><span class="o">.</span><span class="n">to_i</span><span class="p">,</span> <span class="ss">acl</span><span class="p">:</span> <span class="s1">&#39;private&#39;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">ImageUploader</span> <span class="o">&lt;</span> <span class="no">ApplicationUploader</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>これで以下のように署名付きリンクを生成できます。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span><span class='line'><span class="n">user</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">presigned_url</span> <span class="c1"># =&gt; 署名付きのs3直アップロードurl</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>署名付きリンクはデフォルトで900秒（15分）で失効します(上記uploaderでは1分にしている)<br/>
+そのためcontrollerに生成してhiddenとかgonで渡すのはやめたほうがいい気がします。</p>
+
+<p>jsで署名付きリンク生成リクエストをもらってurlを返し、そのurlでs3にアップロードするようにします。</p>
+
+<p>Grapeでapiを作ります。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">params</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">requires</span> <span class="ss">:file_name</span><span class="p">,</span> <span class="ss">type</span><span class="p">:</span> <span class="nb">String</span><span class="p">,</span> <span class="ss">desc</span><span class="p">:</span> <span class="s1">&#39;ファイル名&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'><span class="n">post</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">create</span>
+</span><span class='line'>  <span class="n">user</span><span class="o">.</span><span class="n">update_column</span><span class="p">(</span><span class="s1">&#39;image&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">[</span><span class="ss">:file_name</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="ss">filename</span><span class="p">:</span> <span class="n">params</span><span class="o">[</span><span class="ss">:file_name</span><span class="o">]</span><span class="p">,</span> <span class="ss">url</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">presigned_url</span><span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>carriwaveで処理させたいのですがstore先にidが必要なため保存しています。</p>
+
+<p>以下リンク取得からアップロードまでのサンプルです。<br/>
+ちょっと適当な部分があるので動かなかったらすいません。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="kd">let</span> <span class="nx">fd</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">FormData</span><span class="p">();</span>
+</span><span class='line'><span class="nx">fd</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s1">&#39;file&#39;</span><span class="p">,</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.file&#39;</span><span class="p">));</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
+</span><span class='line'>  <span class="nx">url</span> <span class="o">:</span> <span class="s1">&#39;grapeのurl&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">data</span> <span class="o">:</span> <span class="p">{</span><span class="nx">file_name</span><span class="o">:</span> <span class="nx">fileData</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;file&#39;</span><span class="p">).</span><span class="nx">name</span><span class="p">},</span>
+</span><span class='line'>  <span class="nx">type</span> <span class="o">:</span> <span class="s1">&#39;post&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">dataType</span> <span class="o">:</span> <span class="s1">&#39;json&#39;</span>
+</span><span class='line'><span class="p">}).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
+</span><span class='line'>    <span class="nx">url</span> <span class="o">:</span> <span class="nx">data</span><span class="p">.</span><span class="nx">url</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">data</span> <span class="o">:</span> <span class="nx">fileData</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;file&#39;</span><span class="p">),</span>
+</span><span class='line'>    <span class="nx">type</span> <span class="o">:</span> <span class="s1">&#39;put&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">dataType</span> <span class="o">:</span> <span class="s1">&#39;xml&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">processData</span> <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">contentType</span> <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">success</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;成功したよー&#39;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">},</span>
+</span><span class='line'>    <span class="nx">error</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;失敗。無念&#39;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="p">});</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>carrierwave-attachmentscannerを使っていたんですが、これは直アップロードだと使えないので、保存と同時にafter_saveでsidekiqのキューに押し込んであとでウィルスチェックしています。</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[carrierwaveのリンクの有効期間を個別に設定]]></title>
@@ -1582,81 +1812,6 @@ railsのモデルデータに変更が加えられたらelasticsearchのデー�
 <p>@_trigger_destroy_callbackをsuperの前に設定するのはparanoiaのメソッドがdeleted_atの更新とrun_callbackを同一メソッドでやっているためです(なるべくパッチorメソッドをいじりたくないので先に設定してしまっています)</p>
 
 <p>これで無事にafter_commitが動くようになりました。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[市川 サヨリ狙うもこりずにボウズ]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2017/10/30/ichikawa/"/>
-        <updated>2017-10-30T08:26:08+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2017/10/30/ichikawa</id>
-        <content type="html"><![CDATA[<p>釣行日 2017年10月28日(土)<br/>
-天気 曇<br/>
-場所 市川<br/>
-釣行時間: 9:00 〜 11:00</p>
-
-<p>ダメかなぁと思いつつも娘のプールの間こりずにサヨリ狙ってみます。</p>
-
-<!-- more -->
-
-
-<p></p>
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-
-
-<p>
-<ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-layout="in-article"
-     data-ad-format="fluid"
-     data-ad-client="ca-pub-7039502723411845"
-     data-ad-slot="8206045005"></ins></p>
-
-<script>  
-     (adsbygoogle = window.adsbygoogle || []).push({});  
-</script>
-
-
-<p></p>
-
-<p><a href="http://yoshitsugufujii.github.io/images/blog/20171030/IMG_2737.jpg" data-lightbox="imaiganpeki" data-title=""/><br/>
-  <img src="http://yoshitsugufujii.github.io/images/blog/20171030/IMG_2737.jpg" style="width: 80%;"><br/>
-</a></p>
-
-<p>すこし粘りましたが、全然ダメでした。<br/>
-あたりもなし。濁りがまだありました。</p>
-
-<p>サヨリ狙っていたおじちゃんと話しましたが水曜まで水門が空いていたらしくそのせいでダメなんだとか。<br/>
-浦安の方で2本釣れたからこっちもそろそろかなーと思ったんだけどまだだねー。にごりが消えるまでは釣れないよ。<br/>
-って言ってました。</p>
-
-<p>また台風きているし渋い状況は続くんですかね。</p>
-
-<p>隣の親子はイソメぶっこんでハゼ釣ってました。<br/>
-ハゼはあんまり関係ないんでしょうかね。</p>
-
-<p>日曜日は平塚に。上州屋 平塚店がつぶれるという衝撃のニュースを聞いたので言って見ます。<br/>
-もしかしたら在庫一掃セールとかやってないかなという期待も込めて。</p>
-
-<p><a href="http://yoshitsugufujii.github.io/images/blog/20171030/IMG_2739.jpg" data-lightbox="imaiganpeki" data-title=""/><br/>
-  <img src="http://yoshitsugufujii.github.io/images/blog/20171030/IMG_2739.jpg" style="width: 80%;"><br/>
-</a></p>
-
-<p>店員さんに平塚新港どうですか？って聞いたら台風来る前まではイワシ回ってきていたけど台風きてからはあんまりよくないというお話でした。<br/>
-そしてセールやってませんでしたw</p>
-
-<p>実家に帰ったら実家猫が凶暴になってました。</p>
-
-<p><a href="http://yoshitsugufujii.github.io/images/blog/20171030/IMG_2758.jpg" data-lightbox="imaiganpeki" data-title=""/><br/>
-  <img src="http://yoshitsugufujii.github.io/images/blog/20171030/IMG_2758.jpg" style="width: 80%;"><br/>
-</a></p>
-
-<p><a href="http://yoshitsugufujii.github.io/images/blog/20171030/IMG_2757.jpg" data-lightbox="imaiganpeki" data-title=""/><br/>
-  <img src="http://yoshitsugufujii.github.io/images/blog/20171030/IMG_2757.jpg" style="width: 80%;"><br/>
-</a></p>
-
-<p>日曜日は午前中釣りにいこうかと思ってましたが雨が思いの外強かったので心折れました。</p>
 ]]></content>
     </entry>
     
