@@ -83,6 +83,81 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2015/09/04/golang-bot-for-slack/">Go言語を使ってローカルマシンに簡易botを作ってSlackに投稿</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2015-09-04T17:17:58+09:00" pubdate><i class="fa fa-calendar"></i> Sep 4th, 2015</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/go/'>go</a></li>
+            
+                <li><a class='category' href='/blog/categories/golang/'>golang</a></li>
+            
+                <li><a class='category' href='/blog/categories/slack/'>slack</a></li>
+            
+                <li><a class='category' href='/blog/categories/bot/'>bot</a></li>
+            
+                <li><a class='category' href='/blog/categories/slackbot/'>slackbot</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <div class="article__content clearfix">
+        <p>Goを勉強がてら使いながら簡易slackbotを作ってみました。<br/>
+slackにデフォルトで用意されているslackbotってお願いしますをキーに登録すると、「お願いします]
+とか「お願いします。」(句読点入り)は反応してくれるけど。 「よろしくお願いします。」みたいに単語をつなげると反応してくれない。</p>
+
+<p>単純に単語が含まれるかだけで反応してくれればいいのに・・・</p>
+
+<p>ということもありお手製slackbotをつくってみました。<br/>
+自分のPCでプログラムを動かし、slackで投稿があった際にはOutgoing WebHooksで投稿内容を取得してBotとして返信したいと思います。</p>
+
+<p>slack → ローカルmacのbot → slack</p>
+
+<p>の流れです。</p>
+
+
+        <a class="btn pull-right" href="/blog/2015/09/04/golang-bot-for-slack/">Read on &rarr;</a>
+    </div>
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2015/08/27/vagrant-mysql/">VagrantとItamaeを使って5分でmysqlサーバー構築</a>
         </h1>
     
@@ -656,77 +731,6 @@ Axlsx::RichTextを使います。<br/>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2015/06/24/ckeditor-customer-style/">ckeditorのスタイルにカスタムスタイル追加する方法</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2015-06-24T12:41:08+09:00" pubdate><i class="fa fa-calendar"></i> Jun 24th, 2015</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
-            
-                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
-            
-                <li><a class='category' href='/blog/categories/ckeditor/'>ckeditor</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <div class="article__content clearfix">
-        <p>Railsに脆弱性があったみたいですね<br/>
-<a href="http://weblog.rubyonrails.org/2015/6/16/Rails-3-2-22-4-1-11-and-4-2-2-have-been-released-and-more/">Rails 3.2.22, 4.1.11 and 4.2.2 have been released and more</a></p>
-
-<p>さっそく今やってるPGのrailsのバージョンをあげました。</p>
-
-<p>さて<br/>
-WYSIWYGエディタの<a href="http://ckeditor.com/demo">ckeditor</a>がすごくいい感じで使わせてもらっています。</p>
-
-<p>gemがあったので私はこれを使ってckeditorを利用しています。<br/>
-<a href="https://github.com/galetahub/ckeditor">ckeditor</a></p>
-
-<p>今回はこのckeditorにプルダウンで表示されるスタイルをカスタマイズする方法です。</p>
-
-
-        <a class="btn pull-right" href="/blog/2015/06/24/ckeditor-customer-style/">Read on &rarr;</a>
-    </div>
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -790,6 +794,10 @@ WYSIWYGエディタの<a href="http://ckeditor.com/demo">ckeditor</a>がすご�
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2018/02/15/get-doorkeeper-token/">Doorkeeperの認証で使われるtokenを取得</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2018/02/14/direct-upload-to-s3-with-rails-and-carrierwave/">S3に直接にファイルアップロード</a>
         </li>
         
@@ -803,10 +811,6 @@ WYSIWYGエディタの<a href="http://ckeditor.com/demo">ckeditor</a>がすご�
         
         <li class="post">
             <a href="/blog/2018/01/30/money-localization/">国際化対応(お金関連)</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2018/01/29/logout-when-doorkeeper-password-change/">Doorkeeperでパスワードが変更されたらクライアント側でログアウトさせる</a>
         </li>
         
     </ul>

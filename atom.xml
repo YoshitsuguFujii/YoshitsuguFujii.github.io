@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2018-02-14T19:32:13+09:00</updated>
+    <updated>2018-02-15T12:30:54+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,96 @@
     </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[Doorkeeperの認証で使われるtokenを取得]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2018/02/15/get-doorkeeper-token/"/>
+        <updated>2018-02-15T11:46:00+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2018/02/15/get-doorkeeper-token</id>
+        <content type="html"><![CDATA[<p>doorkeeprの処理のなかで削除済のユーザのステータスが取りたくて、tokenを取得できるかやってみました。</p>
+
+<p>イレギュラーアクセス -> tokenが取れない。<br/>
+通常のアクセス -> tokenが取れる。ユーザがひける。<br/>
+削除済または退会済みユーザへのアクセス -> tokenが取れる。ユーザがひけない。</p>
+
+<p>って感じでしょうか？</p>
+
+<!-- more -->
+
+
+<p></p>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p>  <br/>
+<ins class="adsbygoogle"  
+     style="display:block; text-align:center;"  
+     data-ad-layout="in-article"  
+     data-ad-format="fluid"  
+     data-ad-client="ca-pub-7039502723411845"  
+     data-ad-slot="8206045005"></ins></p>
+
+<script>    
+     (adsbygoogle = window.adsbygoogle || []).push({});    
+</script>
+
+
+<p></p>
+
+<p>下記のようにしたら取れました。<br/>
+あとはこれをうまくつかってerrorとかで削除済のレスポンスを返す感じですね。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># frozen_string_literal: true</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;doorkeeper/grape/helpers&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">module</span> <span class="nn">V1</span>
+</span><span class='line'>  <span class="k">class</span> <span class="nc">Root</span> <span class="o">&lt;</span> <span class="no">Grape</span><span class="o">::</span><span class="no">API</span>
+</span><span class='line'>    <span class="n">helpers</span> <span class="no">Doorkeeper</span><span class="o">::</span><span class="no">Grape</span><span class="o">::</span><span class="no">Helpers</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">before</span> <span class="k">do</span>
+</span><span class='line'>      <span class="n">authorization_request</span> <span class="o">=</span> <span class="no">Doorkeeper</span><span class="o">::</span><span class="no">Grape</span><span class="o">::</span><span class="no">AuthorizationDecorator</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="c1"># これでrequestからtokenが取れる</span>
+</span><span class='line'>      <span class="n">token</span> <span class="o">=</span> <span class="no">Doorkeeper</span><span class="o">::</span><span class="no">OAuth</span><span class="o">::</span><span class="no">Token</span><span class="o">.</span><span class="n">from_request</span><span class="p">(</span><span class="n">authorization_request</span><span class="p">,</span> <span class="o">*</span><span class="no">Doorkeeper</span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">access_token_methods</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="c1"># そのトークンを使ってユーザのトークンが取れる。</span>
+</span><span class='line'>      <span class="n">access_token</span> <span class="o">=</span> <span class="no">Doorkeeper</span><span class="o">::</span><span class="no">AccessToken</span><span class="o">.</span><span class="n">by_token</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="n">doorkeeper_authorize!</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">mount</span> <span class="no">Users</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[S3に直接にファイルアップロード]]></title>
@@ -1696,122 +1786,6 @@ ZZヘッドにマナティ 90のパールホワイトで底で釣ったみたい
 <a href="https://www.kewpie.co.jp/recipes/basic_sarada/sarada05.html">コールスロー</a></p>
 
 <p>集魚灯欲しいなー。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[rails5でafter_commitが動かなくなってしまった]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2017/10/31/rails-after-commit/"/>
-        <updated>2017-10-31T10:27:08+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2017/10/31/rails-after-commit</id>
-        <content type="html"><![CDATA[<p>ITネタです。すいません。<br/>
-railsのモデルデータに変更が加えられたらelasticsearchのデータをafter_commitで更新するようにしているのですが。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">after_commit</span> <span class="ss">:index_elasticsearch_document</span><span class="p">,</span> <span class="ss">on</span><span class="p">:</span> <span class="o">[</span><span class="ss">:create</span><span class="p">,</span> <span class="ss">:update</span><span class="o">]</span>
-</span><span class='line'><span class="n">after_commit</span> <span class="ss">:delete_elasticsearch_document</span><span class="p">,</span> <span class="ss">on</span><span class="p">:</span> <span class="o">[</span><span class="ss">:destroy</span><span class="o">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<p>Rails5.1.4にしたら設定したcallbackが走らなくなってしまいました。<br/>
-困っている人結構いるような気がするんですがどうなんでしょうかね。</p>
-
-<!-- more -->
-
-
-<p></p>
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-
-
-<p>  <br/>
-<ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-layout="in-article"
-     data-ad-format="fluid"
-     data-ad-client="ca-pub-7039502723411845"
-     data-ad-slot="8206045005"></ins></p>
-
-<script>  
-     (adsbygoogle = window.adsbygoogle || []).push({});  
-</script>
-
-
-<p></p>
-
-<p>onオプションをつけると動かなくて外すと動きます。<br/>
-どうもcallbackが処理される過程の<a href="https://apidock.com/rails/v4.0.2/ActiveRecord/Transactions/transaction_include_any_action%3F">transaction_include_any_action?</a>によるどの操作(insert, update, destroy)での更新かとonオプションによる一致が正常に判定されず動かないようです。<br/>
-ぐぐってみるとヒットするのはこのあたりでしょうか。</p>
-
-<p><a href="https://github.com/rails/rails/issues/29554">after_create_commit and after_update_commit alias don&rsquo;t always run when next to each other #29554</a></p>
-
-<p><a href="https://github.com/rails/rails/issues/29318">after_commit doesn&rsquo;t work with optimistic locking #29318</a></p>
-
-<p>これのうち下のリンクが正解でした。<br/>
-修正PRは<a href="https://github.com/rails/rails/pull/29096">これ</a>ですが、まだマージされてませんね。<br/>
-この<a href="https://github.com/rails/rails/commit/371c083fb0620efebf7bd0188a66486403e12ecc">コミット</a>が原因のようです。
-5.0.2ではうごくみたいですw</p>
-
-<p>ちなみに関わっている案件の場合は正確にはcomposite_primary_keysを使っているのでcomposite_primary_keysの方の悲観的ロックが原因でした。<br/>
-メソッドオーバーライドしているのでほぼ同じ現象です。</p>
-
-<p><a href="https://github.com/composite-primary-keys/composite_primary_keys/blob/master/lib/composite_primary_keys/locking/optimistic.rb#L43">ここ</a>で<a href="https://github.com/rails/rails/pull/29096">PR</a>と同じように@_trigger_update_callbackを設定すれば治ります。</p>
-
-<p>ただパッチをあてるのもなって感じなのでモデル側でこうなおしました。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ElasticsearchNoModel</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">_update_record</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">affected_rows</span> <span class="o">=</span> <span class="k">super</span>
-</span><span class='line'>    <span class="k">if</span> <span class="n">affected_rows</span> <span class="o">==</span> <span class="mi">1</span>
-</span><span class='line'>      <span class="vi">@_trigger_update_callback</span> <span class="o">=</span> <span class="kp">true</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<p>create時とupdate時はこれで治りましたがdestroyの時がこれだとまだうごきません。<br/>
-ちなみに今関わっている案件ではparanoia使ってます。</p>
-
-<p><a href="https://github.com/rubysherpas/paranoia/issues/418">after_commit with on: option doesn&rsquo;t work at Rails 5.1.3 #418</a></p>
-
-<p>issueあがってますがリアクションありませんね。</p>
-
-<p>ソース読んでこう直しました。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ElasticsearchNoModel</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">destroy</span>
-</span><span class='line'>    <span class="vi">@_trigger_destroy_callback</span> <span class="o">=</span> <span class="kp">true</span>
-</span><span class='line'>    <span class="k">super</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<p>@_trigger_destroy_callbackをsuperの前に設定するのはparanoiaのメソッドがdeleted_atの更新とrun_callbackを同一メソッドでやっているためです(なるべくパッチorメソッドをいじりたくないので先に設定してしまっています)</p>
-
-<p>これで無事にafter_commitが動くようになりました。</p>
 ]]></content>
     </entry>
     
