@@ -4,7 +4,7 @@
     <title><![CDATA[Category: ruby | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/ruby/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2018-02-15T12:30:54+09:00</updated>
+    <updated>2018-02-26T17:46:27+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,123 @@
       </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[GrapeでCSRF対策]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2018/02/26/csrf-with-grape/"/>
+        <updated>2018-02-26T17:38:51+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2018/02/26/csrf-with-grape</id>
+        <content type="html"><![CDATA[<p>セキュリティ試験を受けたらapiでpostしている箇所がcsrf違反でレポートが上がってきました。<br/>
+apiでcsrfって必要なの？<br/>
+って感じでしたが実際にレポートあがってきてしまっているしよくよく考えたら必要じゃんってなったので実装します。</p>
+
+<p>ググってみると情報が少ないですね。<br/>
+みなさんgrapeでcsrfどうしているんでしょう。</p>
+
+<!-- more -->
+
+
+<p></p>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p>  <br/>
+<ins class="adsbygoogle"  
+     style="display:block; text-align:center;"  
+     data-ad-layout="in-article"  
+     data-ad-format="fluid"  
+     data-ad-client="ca-pub-7039502723411845"  
+     data-ad-slot="8206045005"></ins></p>
+
+<script>    
+     (adsbygoogle = window.adsbygoogle || []).push({});    
+</script>
+
+
+<p></p>
+
+<p>gistでサンプル見つけましたが、<br/>
+<a href="https://gist.github.com/jandudulski/f3799ca67b7b08ded0c6">jandudulski/auth.rb</a><br/>
+Rails5.1.4では動きません。</p>
+
+<p><a href="https://github.com/rails/rails/blob/master/actionpack/lib/action_controller/metal/request_forgery_protection.rb">actionpackのcsrfの実装</a><br/>
+をみながら実装してみます。</p>
+
+<p>結果としてはこんな感じになりました。</p>
+
+<pre><code class="ruby">module V1
+  module RequestForgeryProtectionHelper
+    def session
+      env['rack.session']
+    end
+
+    def protect_against_forgery
+      unless verified_request?
+        Rails.logger.error("[API] Can't verify CSRF token authenticity.")
+        error!(
+          {
+            result: 401,
+            status: 'error',
+            type: 'csrf_error',
+            message: "Can't verify CSRF token authenticity."
+          }, 401
+        )
+      end
+    end
+
+    def verified_request?
+      !protect_against_forgery? || request.get? || request.head? ||
+        authenticity_token_valid?
+    end
+
+    def authenticity_token_valid?
+      encoded_masked_token = request.headers['X-CSRF-Token'] || request.headers['X-Csrf-Token']
+      return false if encoded_masked_token.blank?
+      masked_token = Base64.strict_decode64(encoded_masked_token)
+
+      anonymous_controller = ApplicationController.new
+      if masked_token.length == ActionController::RequestForgeryProtection::AUTHENTICITY_TOKEN_LENGTH
+        anonymous_controller.send(:compare_with_real_token, masked_token, session)
+      elsif masked_token.length == ActionController::RequestForgeryProtection::AUTHENTICITY_TOKEN_LENGTH * 2
+        csrf_token = anonymous_controller.send(:unmask_token, masked_token)
+
+        anonymous_controller.send(:compare_with_real_token, csrf_token, session)
+      else
+        false # Token is malformed.
+      end
+    end
+
+    def protect_against_forgery?
+      allow_forgery_protection = Rails.configuration.action_controller.allow_forgery_protection
+      allow_forgery_protection.nil? || allow_forgery_protection
+    end
+  end
+end
+</code></pre>
+
+<pre><code class="ruby">module V1
+  class Root &lt; Grape::API
+    helpers RequestForgeryProtectionHelper
+
+    before do
+      protect_against_forgery
+    end
+  end
+end
+</code></pre>
+
+<p>クライアント側</p>
+
+<pre><code class="javascript">var token = $( 'meta[name="csrf-token"]' ).attr( 'content' );
+$.ajaxSetup({
+  beforeSend: function ( xhr ) {
+    xhr.setRequestHeader( 'X-CSRF-Token', token );
+  }
+});
+</code></pre>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[Doorkeeperの認証で使われるtokenを取得]]></title>
@@ -343,49 +460,6 @@ binding_of_caller (0.7.2)
 </code></pre>
 
 <p>0.8.0にbinding_of_callerにあげて解決です。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[国際化対応(お金関連)]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2018/01/30/money-localization/"/>
-        <updated>2018-01-30T10:27:12+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2018/01/30/money-localization</id>
-        <content type="html"><![CDATA[<p>国際化対応。<br/>
-DBの日時はutcで保存して表示する時にユーザによって該当のタイムゾーンで表示とか色々な知見はあるかと思いますが。<br/>
-お金の区切りもあるんですね。</p>
-
-<!-- more -->
-
-
-<p></p>
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-
-
-<p>  <br/>
-<ins class="adsbygoogle"  
-     style="display:block; text-align:center;"  
-     data-ad-layout="in-article"  
-     data-ad-format="fluid"  
-     data-ad-client="ca-pub-7039502723411845"  
-     data-ad-slot="8206045005"></ins></p>
-
-<script>    
-     (adsbygoogle = window.adsbygoogle || []).push({});    
-</script>
-
-
-<p></p>
-
-<p>お金ってカンマ区切りだけかと思い込んでましたがそうじゃないらしいです。</p>
-
-<p><a href="http://coliss.com/articles/build-websites/operation/writing/53.html">世界各国での数字の区切り方</a></p>
-
-<p>数値がペリオドで送られてくる国やスペースで送ってくる国があるので注意が必要です。<br/>
-カンマ一括で消して処理していたらバリデーションで特定の国入力エラーになっていた。</p>
-
-<p>jsのtoLocaleStringとか使うとドイツのブラウザではカンマではなくペリオド入るらしいので気をつけるべし</p>
 ]]></content>
     </entry>
     

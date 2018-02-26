@@ -83,6 +83,69 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2012/02/03/20120203114439/">youtubeに初投稿してみた</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2012-02-03T11:44:00+09:00" pubdate><i class="fa fa-calendar"></i> Feb 3rd, 2012</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/sofalseta/'>その他</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>動画埋め込みやりたくて、はじめてyoutubeに動画あげてみた。<br/>
+画像荒いなー。</p>
+
+<p>千葉県一宮。<br/>
+１２月某日。</p>
+
+<p>多分わからないと思うけど、５秒目ぐらいから中央の一番奥で真横にのってそのまま消えていくのが自分です。</p>
+
+<p>真横に真横にって呪文のように唱えていて、頭にそのことしかなかったけど。<br/>
+波が割れる前のうねりで真横に乗っちゃいけないということをこの時知りました。</p>
+
+<p>コシぐらいで綺麗に割れる初心者向けの良い波でした。</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2012/02/02/20120202115905/">tail -fをDBの特定のテーブルに対して行う方法</a>
         </h1>
     
@@ -1122,88 +1185,6 @@ ActionControllerのbefore  <em>filterでキーはuserstampと同じようにobje
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2012/01/23/20120123121409/">jQuery Mobile 勝手に不正なページへ遷移してしまう時の対応</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2012-01-23T12:14:00+09:00" pubdate><i class="fa fa-calendar"></i> Jan 23rd, 2012</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/jquery-mobile/'>jquery mobile</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>去年スマフォサイト作りました。</p>
-
-<p>railsつかってます。<br/>
-jQuery Mobileも使ってます。</p>
-
-<p>mobileinitイベント内で</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vg">$.</span><span class="n">mobile</span><span class="o">.</span><span class="n">ajaxEnabled</span> <span class="o">=</span> <span class="kp">false</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>でAjaxオフにしてます。</p>
-
-<p>でもたまにページロード完了後に、<br/>
-勝手にローディング画像が出てきて、全然自分が見たいページとは違うページに飛ばされることがあります。</p>
-
-<p>調べた結果Android端末の沢山とiPhone4以外(というか3GS？)で起きる現状でした。</p>
-
-<p>上記現象が起こる操作は</p>
-
-<p>Aページ-  >[Bページへのリンクをクリック]-  >Bページ-  >[端末のブラウザバック]-  >Aページ-  >[Cページをクリック]-  >Cページ読み込み完了後にBページに飛ばされる。</p>
-
-<p>対策としては</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vg">$.</span><span class="n">mobile</span><span class="o">.</span><span class="n">pushStateEnabled</span> <span class="o">=</span> <span class="kp">false</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>でpushStateオフにしたら直りましたっていうお話。</p>
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -1267,6 +1248,10 @@ jQuery Mobileも使ってます。</p>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2018/02/26/csrf-with-grape/">GrapeでCSRF対策</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2018/02/15/get-doorkeeper-token/">Doorkeeperの認証で使われるtokenを取得</a>
         </li>
         
@@ -1280,10 +1265,6 @@ jQuery Mobileも使ってます。</p>
         
         <li class="post">
             <a href="/blog/2018/01/31/no-backtrace/">ruby2.5にあげたら例外発生時にstacktraceが吐き出されなくなった</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2018/01/30/money-localization/">国際化対応(お金関連)</a>
         </li>
         
     </ul>
