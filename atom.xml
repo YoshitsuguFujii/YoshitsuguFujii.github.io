@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2018-02-26T17:46:27+09:00</updated>
+    <updated>2018-03-05T11:40:37+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,42 @@
     </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[Railsでredirect_toが呼ばれたか判定]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2018/03/05/rails-redirect-called/"/>
+        <updated>2018-03-05T11:34:15+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2018/03/05/rails-redirect-called</id>
+        <content type="html"><![CDATA[<p>アクションメソッドから呼び出したメソッドで呼ばれているかどうか</p>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p>  <br/>
+<ins class="adsbygoogle"  
+     style="display:block; text-align:center;"  
+     data-ad-layout="in-article"  
+     data-ad-format="fluid"  
+     data-ad-client="ca-pub-7039502723411845"  
+     data-ad-slot="8206045005"></ins></p>
+
+<script>    
+     (adsbygoogle = window.adsbygoogle || []).push({});    
+</script>
+
+
+<p></p>
+
+<p><a href="http://www.rubydoc.info/gems/rack/Rack/Response/Helpers#redirect%2F-instance_method">#redirect?</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">response</span><span class="o">.</span><span class="n">redirect?</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[GrapeでCSRF対策]]></title>
@@ -1773,66 +1809,6 @@ ZZヘッドにマナティ 90のパールホワイトで底で釣ったみたい
 <p>そういえば隣の迷惑な釣り人は子供(5歳くらい)に海にむかっておしっこさせててびっくりしました。<br/>
 大陸系の方かと思いましたが日本人みたいでした。<br/>
 本当にもう勘弁してほしいです。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[市川 サヨリ狙うもまたまたボウズ]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2017/11/06/ichikawa/"/>
-        <updated>2017-11-06T11:15:50+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2017/11/06/ichikawa</id>
-        <content type="html"><![CDATA[<p>釣行日 2017年11月04日(土)<br/>
-天気 曇<br/>
-場所 市川<br/>
-釣行時間: 9:00 〜 10:30</p>
-
-<p>こりずにサヨリ。<br/>
-毎週釣れないのにやってもうこれは釣れるかどうかの調査ですね。</p>
-
-<!-- more -->
-
-
-<p></p>
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-
-
-<p>
-<ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-layout="in-article"
-     data-ad-format="fluid"
-     data-ad-client="ca-pub-7039502723411845"
-     data-ad-slot="8206045005"></ins></p>
-
-<script>  
-     (adsbygoogle = window.adsbygoogle || []).push({});  
-</script>
-
-
-<p></p>
-
-<p><a href="http://yoshitsugufujii.github.io/images/blog/20171105/IMG_2818.jpg" data-lightbox="ichikawa" data-title=""/><br/>
-  <img src="http://yoshitsugufujii.github.io/images/blog/20171105/IMG_2818.jpg" style="width: 80%;"><br/>
-</a></p>
-
-<p>川の濁りきえてます。<br/>
-おお、これはいけるかもと思いますが。<br/>
-結果あたりもなく終了。</p>
-
-<p>先端の方では釣れてるみたいですね。<br/>
-うーん。</p>
-
-<p>ハゼは快調に釣れてました。</p>
-
-<p>夕方は偵察がてら検見川浜に。
-人いっぱいですね。</p>
-
-<p><a href="http://yoshitsugufujii.github.io/images/blog/20171105/IMG_2820.jpg" data-lightbox="yottohabar" data-title=""/><br/>
-  <img src="http://yoshitsugufujii.github.io/images/blog/20171105/IMG_2820.jpg" style="width: 80%;"><br/>
-</a></p>
-
-<p>竿出すも雨が降り出して風も強くなってきたので退散。</p>
 ]]></content>
     </entry>
     

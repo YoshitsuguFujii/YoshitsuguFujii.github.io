@@ -4,7 +4,7 @@
     <title><![CDATA[Category: ruby | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/ruby/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2018-02-26T17:46:27+09:00</updated>
+    <updated>2018-03-05T11:40:37+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,38 @@
       </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[Railsでredirect_toが呼ばれたか判定]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2018/03/05/rails-redirect-called/"/>
+        <updated>2018-03-05T11:34:15+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2018/03/05/rails-redirect-called</id>
+        <content type="html"><![CDATA[<p>アクションメソッドから呼び出したメソッドで呼ばれているかどうか</p>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p>  <br/>
+<ins class="adsbygoogle"  
+     style="display:block; text-align:center;"  
+     data-ad-layout="in-article"  
+     data-ad-format="fluid"  
+     data-ad-client="ca-pub-7039502723411845"  
+     data-ad-slot="8206045005"></ins></p>
+
+<script>    
+     (adsbygoogle = window.adsbygoogle || []).push({});    
+</script>
+
+
+<p></p>
+
+<p><a href="http://www.rubydoc.info/gems/rack/Rack/Response/Helpers#redirect%2F-instance_method">#redirect?</a></p>
+
+<pre><code class="ruby">response.redirect?
+</code></pre>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[GrapeでCSRF対策]]></title>
@@ -407,59 +439,6 @@ class ImageUploader &lt; CarrierWave::Uploader::Base
 end  
 </code><br/>
 uploader内ではmodelでモデル側のインスタンスを参照できるのでmodel側の条件で動的に有効期限を変えるとかもできそうですね。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[ruby2.5にあげたら例外発生時にstacktraceが吐き出されなくなった]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2018/01/31/no-backtrace/"/>
-        <updated>2018-01-31T11:51:51+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2018/01/31/no-backtrace</id>
-        <content type="html"><![CDATA[<p>Railsである日を境に例外発生時にスタックトレースがでなくなっちゃいました。</p>
-
-<pre><code>F, [2018-01-31T11:41:40.388898 #5662] FATAL -- : 
-NoMethodError - undefined method `company_users' for nil:NilClass:
-</code></pre>
-
-<p>railsのlogにはこれしかでない。</p>
-
-<!-- more -->
-
-
-<p></p>
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-
-
-<p>  <br/>
-<ins class="adsbygoogle"  
-     style="display:block; text-align:center;"  
-     data-ad-layout="in-article"  
-     data-ad-format="fluid"  
-     data-ad-client="ca-pub-7039502723411845"  
-     data-ad-slot="8206045005"></ins></p>
-
-<script>    
-     (adsbygoogle = window.adsbygoogle || []).push({});    
-</script>
-
-
-<p></p>
-
-<p>検索すると発見。</p>
-
-<p><a href="https://stackoverflow.com/questions/48327987/why-does-ruby-2-5-0-not-show-a-stacktrace-in-rails-5-1-4">Why does Ruby 2.5.0 not show a stacktrace in Rails 5.1.4?</a></p>
-
-<p>なるほどrubyを2.5にあげたからか。</p>
-
-<p>手元の環境を見ると</p>
-
-<pre><code>ruby (2.5)  
-rails (5.1.4)  
-binding_of_caller (0.7.2)
-</code></pre>
-
-<p>0.8.0にbinding_of_callerにあげて解決です。</p>
 ]]></content>
     </entry>
     
