@@ -4,7 +4,7 @@
     <title><![CDATA[Category: ruby on rails | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/ruby-on-rails/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2018-03-12T13:01:24+09:00</updated>
+    <updated>2018-04-03T11:47:30+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,39 @@
       </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[Heroku小ネタ]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2018/04/03/rack-attack/"/>
+        <updated>2018-04-03T11:43:22+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2018/04/03/rack-attack</id>
+        <content type="html"><![CDATA[<p>HerokuでRailsアプリ動かすときは
+<a href="https://github.com/kickstarter/rack-attack">rack-attack</a>
+入れといたほうが良さそう。</p>
+
+<p><a href="https://help.heroku.com/HCCDCDYY/does-heroku-offer-ddos-denial-of-service-mitigation">https://help.heroku.com/HCCDCDYY/does-heroku-offer-ddos-denial-of-service-mitigation</a></p>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p>  <br/>
+<ins class="adsbygoogle"  
+     style="display:block; text-align:center;"  
+     data-ad-layout="in-article"  
+     data-ad-format="fluid"  
+     data-ad-client="ca-pub-7039502723411845"  
+     data-ad-slot="8206045005"></ins></p>
+
+<script>    
+     (adsbygoogle = window.adsbygoogle || []).push({});    
+</script>
+
+
+<p></p>
+
+<p>最近釣りに行き始めてますが連続坊主中。</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[最後にサインアウトした時間が欲しい]]></title>
@@ -260,161 +293,6 @@ module V1
   end
 end
 </code></pre>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[S3に直接にファイルアップロード]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2018/02/14/direct-upload-to-s3-with-rails-and-carrierwave/"/>
-        <updated>2018-02-14T18:35:13+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2018/02/14/direct-upload-to-s3-with-rails-and-carrierwave</id>
-        <content type="html"><![CDATA[<p>Herokuでの大きいファイルアップロードはリクエストタイムアウトが30秒に設定されているのでやっかいです。</p>
-
-<p>Herokuの公式でも4MBを超えるファイルをあげる場合はS3に直接あげてねって書いてあります。<br/>
-<a href="https://devcenter.heroku.com/articles/s3#direct-upload">https://devcenter.heroku.com/articles/s3#direct-upload</a></p>
-
-<pre><code>This is the preferred approach if you’re working with file uploads bigger than 4MB. The idea is to skip the hop to your dyno, making a direct connection from the end user browser to S3. While this reduces the processing required by your application it is a more complex implementation and limits the ability to modify (transform, filter, resize etc…) the file before storing in S3.
-</code></pre>
-
-<p>carriwaveを使っているのでcarriwave_directいいなと思いましたが、<br/>
-<a href="https://github.com/dwilkie/carrierwave_direct">carrierwave_direct</a></p>
-
-<p>最終更新日が結構前でメンテされていないのかな？ってのとgemを使いすぎるとわけわかめになるので自力でやることにしました。</p>
-
-<!-- more -->
-
-
-<p></p>
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-
-
-<p>  <br/>
-<ins class="adsbygoogle"  
-     style="display:block; text-align:center;"  
-     data-ad-layout="in-article"  
-     data-ad-format="fluid"  
-     data-ad-client="ca-pub-7039502723411845"  
-     data-ad-slot="8206045005"></ins></p>
-
-<script>    
-     (adsbygoogle = window.adsbygoogle || []).push({});    
-</script>
-
-
-<p></p>
-
-<p>署名付きアップロード用のリンクを生成してjsに渡しjsでそのurlにアップロードする流れです。</p>
-
-<p>Awsコンソールにログインしてs3からBucketを作成します。<br/>
-作成したBucketを選択してアクセス権限タブからCORSの設定を開きます。<br/>
-以下のように設定します。</p>
-
-<pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;CORSConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/"&gt;
-&lt;CORSRule&gt;
-    &lt;AllowedOrigin&gt;*&lt;/AllowedOrigin&gt;
-    &lt;AllowedMethod&gt;GET&lt;/AllowedMethod&gt;
-    &lt;AllowedMethod&gt;PUT&lt;/AllowedMethod&gt;
-    &lt;MaxAgeSeconds&gt;3000&lt;/MaxAgeSeconds&gt;
-    &lt;AllowedHeader&gt;*&lt;/AllowedHeader&gt;
-&lt;/CORSRule&gt;
-&lt;/CORSConfiguration&gt;
-</code></pre>
-
-<p>次にGemfileに追記してbundle install</p>
-
-<pre><code class="ruby"># Gemfile
-gem 'aws-sdk'
-</code></pre>
-
-<p>S3_BUCKETを操作できるようにします。</p>
-
-<pre><code class="ruby"># config/initializers/aws.rb
-credentials = Aws::Credentials.new(
-  ENV[:aws_access_key],
-  ENV[:aws_secret]
-)
-
-s3_resource = Aws::S3::Resource::new(region: 'bucketのregion', credentials: credentials)
-S3_BUCKET = s3_resource.bucket('bucket名')
-</code></pre>
-
-<p>URL生成のメソッドはCarrierwaveのuploaderクラスにメソッド生やしました。<br/>
-取得はそのままCarrierwaveを使うイメージです。<br/>
-今のプロジェクトでは基底クラスを作ってそれを継承させてます。</p>
-
-<pre><code class="ruby">class ApplicationUploader &lt; CarrierWave::Uploader::Base
-  def store_dir
-    "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
-  end
-
-  def presigned_url(file_name = nil)
-    file_name ||= self.model.attributes[mounted_as.to_s]
-    object = S3_BUCKET.object([store_dir, file_name].join('/'))
-    object.presigned_url(:put, expires_in: 1.minutes.to_i, acl: 'private')
-  end
-end
-
-class ImageUploader &lt; ApplicationUploader
-end
-</code></pre>
-
-<p>これで以下のように署名付きリンクを生成できます。</p>
-
-<pre><code>user = User.find(1)
-user.image.presigned_url # =&gt; 署名付きのs3直アップロードurl
-</code></pre>
-
-<p>署名付きリンクはデフォルトで900秒（15分）で失効します(上記uploaderでは1分にしている)<br/>
-そのためcontrollerに生成してhiddenとかgonで渡すのはやめたほうがいい気がします。</p>
-
-<p>jsで署名付きリンク生成リクエストをもらってurlを返し、そのurlでs3にアップロードするようにします。</p>
-
-<p>Grapeでapiを作ります。</p>
-
-<pre><code>params do
-  requires :file_name, type: String, desc: 'ファイル名'
-end
-post do
-  user = User.create
-  user.update_column('image', params[:file_name])
-  {id: user.id, filename: params[:file_name], url: user.image.presigned_url}
-end
-</code></pre>
-
-<p>carriwaveで処理させたいのですがstore先にidが必要なため保存しています。</p>
-
-<p>以下リンク取得からアップロードまでのサンプルです。<br/>
-ちょっと適当な部分があるので動かなかったらすいません。</p>
-
-<pre><code class="js">let fd = new FormData();
-fd.append('file', $('.file'));
-
-$.ajax({
-  url : 'grapeのurl',
-  data : {file_name: fileData.get('file').name},
-  type : 'post',
-  dataType : 'json'
-}).then(function(data) {
-  $.ajax({
-    url : data.url,
-    data : fileData.get('file'),
-    type : 'put',
-    dataType : 'xml',
-    processData : false,
-    contentType : false,
-    success : function(){
-      console.log('成功したよー');
-    },
-    error : function(){
-      console.log('失敗。無念');
-    }
-  });
-});
-</code></pre>
-
-<p>carrierwave-attachmentscannerを使っていたんですが、これは直アップロードだと使えないので、保存と同時にafter_saveでsidekiqのキューに押し込んであとでウィルスチェックしています。</p>
 ]]></content>
     </entry>
     
