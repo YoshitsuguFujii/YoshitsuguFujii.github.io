@@ -4,7 +4,7 @@
     <title><![CDATA[Category: ruby | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/ruby/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2018-04-03T11:47:30+09:00</updated>
+    <updated>2018-04-03T12:26:59+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -18,11 +18,16 @@
         <link href="http://yoshitsugufujii.github.io/blog/2018/04/03/rack-attack/"/>
         <updated>2018-04-03T11:43:22+09:00</updated>
         <id>http://yoshitsugufujii.github.io/blog/2018/04/03/rack-attack</id>
-        <content type="html"><![CDATA[<p>HerokuでRailsアプリ動かすときは
-<a href="https://github.com/kickstarter/rack-attack">rack-attack</a>
+        <content type="html"><![CDATA[<p>HerokuでRailsアプリ動かすときは<br/>
+<a href="https://github.com/kickstarter/rack-attack">rack-attack</a><br/>
 入れといたほうが良さそう。</p>
 
 <p><a href="https://help.heroku.com/HCCDCDYY/does-heroku-offer-ddos-denial-of-service-mitigation">https://help.heroku.com/HCCDCDYY/does-heroku-offer-ddos-denial-of-service-mitigation</a></p>
+
+<!-- more -->
+
+
+<p></p>
 
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
@@ -41,6 +46,8 @@
 
 
 <p></p>
+
+<p>ちなみにthrottleの機能を使ってみたんですが、cacheを使って試行回数を判定するのでcache storeをnull_storeとかにしちゃうといつまでもローカルではテストできません。</p>
 
 <p>最近釣りに行き始めてますが連続坊主中。</p>
 ]]></content>
