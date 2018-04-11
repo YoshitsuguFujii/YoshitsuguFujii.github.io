@@ -83,6 +83,126 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2013/11/12/20131112000000/">自分のjquery力のなさに泣けてきた話</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2013-11-12T00:00:00+09:00" pubdate><i class="fa fa-calendar"></i> Nov 12th, 2013</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/jquery/'>jquery</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>jQuery力のなさに泣けてきた。</p>
+
+<p>data-hogeにdataでアクセスできるの知らんかった<br/>
+こんなのがある</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="s2">&quot;foo&quot;</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;bar&quot;</span> <span class="n">data</span><span class="o">-</span><span class="n">count</span><span class="o">=</span><span class="s2">&quot;1&quot;</span> <span class="n">data</span><span class="o">-</span><span class="n">url</span><span class="o">=</span><span class="s2">&quot;http://~.com&quot;</span><span class="o">&gt;&lt;</span><span class="sr">/a&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>いままではこうやって値を取得してた。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span><span class="p">(</span><span class="s1">&#39;#bar&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">attr</span><span class="p">(</span><span class="s2">&quot;data-count&quot;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>dataってあったのね。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span><span class="p">(</span><span class="s1">&#39;#bar&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="s2">&quot;count&quot;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>しかも要素に設定されているdata-属性も一気に取得もできる -  >
+<a href="http://stackoverflow.com/questions/4187032/get-list-of-data-attributes-using-javascript-jquery">http://stackoverflow.com/questions/4187032/get-list-of-data-attributes-using-javascript-jquery</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span><span class="p">(</span><span class="s1">&#39;#bar&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">data</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>当然ajaxで一気に渡せる(※coffeescript)<br/>
+以下の例はリンクを押したら、どっかから何か取ってきて何かを追加してる雰囲気のやつ。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="err">$</span><span class="p">(</span><span class="n">document</span><span class="p">)</span><span class="o">.</span><span class="n">on</span> <span class="s1">&#39;click&#39;</span><span class="p">,</span> <span class="s1">&#39;#hoge&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">event</span><span class="p">)</span> <span class="o">-&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="vg">$.</span><span class="n">ajax</span>
+</span><span class='line'>      <span class="ss">url</span><span class="p">:</span> <span class="s2">&quot;どっかのURL&quot;</span>
+</span><span class='line'>      <span class="ss">type</span><span class="p">:</span> <span class="s2">&quot;GET&quot;</span>
+</span><span class='line'>      <span class="ss">data</span><span class="p">:</span> <span class="err">$</span><span class="p">(</span><span class="err">@</span><span class="p">)</span><span class="o">.</span><span class="n">data</span><span class="p">()</span>
+</span><span class='line'>      <span class="ss">success</span><span class="p">:</span> <span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">-&gt;</span>
+</span><span class='line'>        <span class="err">$</span><span class="p">(</span><span class="s1">&#39;#bar&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="ss">error</span><span class="p">:</span> <span class="p">(</span><span class="no">XMLHttpRequest</span><span class="p">,</span> <span class="n">textStatus</span><span class="p">,</span> <span class="n">errorThrown</span><span class="p">)</span> <span class="o">-&gt;</span>
+</span><span class='line'>        <span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;XMLHttpRequest : &quot;</span> <span class="o">+</span> <span class="no">XMLHttpRequest</span><span class="o">.</span><span class="n">status</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;textStatus : &quot;</span> <span class="o">+</span> <span class="n">textStatus</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;errorThrown : &quot;</span> <span class="o">+</span> <span class="n">errorThrown</span><span class="o">.</span><span class="n">message</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>もっと早く出会いたかった・・・</p>
+
+<p>ちなみに今回はお手軽にタグのdata要素に情報もたしてそれを送信する例でしたが。<br/>
+フォームの値を全部キーと値のペアとかで送りたければ、serializeArrayが超ベンリです。こっちは知ってた！<br/>
+<a href="http://jquery-master.net/ajax/serialize.php">http://jquery-master.net/ajax/serialize.php</a></p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2013/11/07/20131107225813/">js.erbファイルのデバッグ</a>
         </h1>
     
@@ -849,120 +969,6 @@ How to fix libv8 error from Gemfile on Mavericks?<br/>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2013/09/12/20130912211404/">meat_sauce</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2013-09-12T21:14:00+09:00" pubdate><i class="fa fa-calendar"></i> Sep 12th, 2013</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/gem/'>gem</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>thorとかanemoneとかselenium-driverとか使ってみたくて、ついでにgemにしてみました。<br/>
-cliから一気に複数画面のスクリーンショット取ったり、リンク一覧取得したり、指定タグの中身を取得したりできるツールです(※要
-ruby)</p>
-
-<p><a href="https://github.com/YoshitsuguFujii/meat_sauce">https://github.com/YoshitsuguFujii/meat_sauce</a></p>
-
-<p>なんか勝手にブラウザとか立ち上がりますが。びびらないでください。<br/>
-あと環境によっては動かないかもしれないです。ごめんなさい。<br/>
-僕の環境ではFirefoxとsafariなら動きました。</p>
-
-<p><span class="deco" style="font-weight:bold;">インストール</span></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">gem</span> <span class="n">install</span> <span class="n">meat_sauce</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>使えるコマンドが見れます。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">meat_sause</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><span class="deco"
-style="font-weight:bold;">ページの全てのリンクを取得します</span></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">meat_sauce</span> <span class="n">show_links</span> <span class="o">--</span><span class="n">url</span> <span class="ss">http</span><span class="p">:</span><span class="sr">//</span><span class="n">www</span><span class="o">.</span><span class="n">yahoo</span><span class="o">.</span><span class="n">co</span><span class="o">.</span><span class="n">jp</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>　-d
-数字をオプション追加でさらにリンクを踏んだ先をどんどん表示します。どんどん。</p>
-
-<p><span class="deco"
-style="font-weight:bold;">指定したタグの中身を抜き出します</span></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">meat_sauce</span> <span class="n">scraping</span> <span class="o">--</span><span class="n">url</span> <span class="ss">http</span><span class="p">:</span><span class="sr">//</span><span class="n">www</span><span class="o">.</span><span class="n">yahoo</span><span class="o">.</span><span class="n">co</span><span class="o">.</span><span class="n">jp</span> <span class="o">--</span><span class="n">tag</span> <span class="n">h2</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><span class="deco" style="font-weight:bold;">ソースを表示します</span></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">meat_sauce</span> <span class="n">show_source</span> <span class="o">--</span><span class="n">url</span> <span class="ss">http</span><span class="p">:</span><span class="sr">//</span><span class="n">www</span><span class="o">.</span><span class="n">yahoo</span><span class="o">.</span><span class="n">co</span><span class="o">.</span><span class="n">jp</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><span class="deco"
-style="font-weight:bold;">画面のスクリーンショットを撮ります</span></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">meat_sauce</span> <span class="n">capture</span> <span class="o">--</span><span class="n">url</span> <span class="ss">http</span><span class="p">:</span><span class="sr">//</span><span class="n">www</span><span class="o">.</span><span class="n">yahoo</span><span class="o">.</span><span class="n">co</span><span class="o">.</span><span class="n">jp</span> <span class="o">--</span><span class="n">file</span><span class="o">-</span><span class="n">path</span> <span class="o">~</span><span class="sr">/yahoo.jpg</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>　-d
-数字をオプション追加でリンクを踏んだ先も画像を撮ります。パシャパシャ。</p>
-
-<p>個人的にはスクショとスクレイピングが便利だと思うのですが。どうでしょうか？<br/>
-動けばですが・・・</p>
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -1026,6 +1032,10 @@ style="font-weight:bold;">画面のスクリーンショットを撮ります</s
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2018/04/11/surfin/">サーフィンを始める方に</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2018/04/09/surfin/">サーフィン 一宮</a>
         </li>
         
@@ -1039,10 +1049,6 @@ style="font-weight:bold;">画面のスクリーンショットを撮ります</s
         
         <li class="post">
             <a href="/blog/2018/03/05/rails-redirect-called/">Railsでredirect_toが呼ばれたか判定</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2018/02/26/csrf-with-grape/">GrapeでCSRF対策</a>
         </li>
         
     </ul>
