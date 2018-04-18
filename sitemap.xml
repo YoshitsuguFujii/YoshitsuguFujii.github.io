@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://yoshitsugufujii.github.io/blog/2018/04/18/takasu-sayori/</loc>
+    <lastmod>2018-04-18T11:12:33+09:00</lastmod>
+  </url>
+  <url>
     <loc>http://yoshitsugufujii.github.io/blog/2018/04/12/china-recaptcha/</loc>
     <lastmod>2018-04-12T14:34:20+09:00</lastmod>
   </url>
@@ -890,22 +894,22 @@
   </url>
   <url>
     <loc>http://yoshitsugufujii.github.io/blog/</loc>
-    <lastmod>2018-04-12T14:37:50+09:00</lastmod>
-  </url>
-  <url>
-    <loc>http://yoshitsugufujii.github.io/blog/archives/</loc>
-    <lastmod>2018-04-12T14:37:50+09:00</lastmod>
+    <lastmod>2018-04-18T11:34:42+09:00</lastmod>
   </url>
   <url>
     <loc>http://yoshitsugufujii.github.io/archives/</loc>
-    <lastmod>2018-04-12T14:37:50+09:00</lastmod>
+    <lastmod>2018-04-18T11:34:42+09:00</lastmod>
+  </url>
+  <url>
+    <loc>http://yoshitsugufujii.github.io/blog/archives/</loc>
+    <lastmod>2018-04-18T11:34:42+09:00</lastmod>
   </url>
   <url>
     <loc>http://yoshitsugufujii.github.io/</loc>
-    <lastmod>2018-04-12T14:37:50+09:00</lastmod>
+    <lastmod>2018-04-18T11:34:42+09:00</lastmod>
   </url>
   <url>
     <loc>http://yoshitsugufujii.github.io/profile/</loc>
-    <lastmod>2018-04-12T14:37:50+09:00</lastmod>
+    <lastmod>2018-04-18T11:34:42+09:00</lastmod>
   </url>
 </urlset>
