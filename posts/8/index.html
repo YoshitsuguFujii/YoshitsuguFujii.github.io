@@ -83,6 +83,83 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2016/02/18/rails-tips-1/">Rails 便利なテクニック その１</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2016-02-18T11:33:58+09:00" pubdate><i class="fa fa-calendar"></i> Feb 18th, 2016</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <div class="article__content clearfix">
+        <p>日常コード書いてて便利だなぁと思った技とかを思い出したら不定期に書いていきます。</p>
+
+<p>よくメニューをulとliを使ってタブで表示することがあると思います。<br/>
+例えばタブは以下の条件で表示されます</p>
+
+<ul>
+<li>ユーザの年齢が20歳以上なら表示するタブA</li>
+<li>ユーザの性別が男性なら表示するタブB</li>
+<li>ユーザの性別が女性なら表示するタブC</li>
+<li>ユーザの性別が男性でかつ20歳以上なら表示するタブD</li>
+</ul>
+
+
+<p>実装が終わって総合テストがはじまります。</p>
+
+<p>ここでチケットがあがってきます。</p>
+
+<p><strong>『タブが一つしか出力されない場合はタブを非表示にしてください。』</strong></p>
+
+<p>さてどうしましょう？</p>
+
+
+        <a class="btn pull-right" href="/blog/2016/02/18/rails-tips-1/">Read on &rarr;</a>
+    </div>
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2016/02/03/change-crons-timezone/">Cronがutcで動いてる場合に</a>
         </h1>
     
@@ -735,70 +812,6 @@ slackにデフォルトで用意されているslackbotってお願いします�
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2015/08/27/vagrant-mysql/">VagrantとItamaeを使って5分でmysqlサーバー構築</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2015-08-27T15:42:59+09:00" pubdate><i class="fa fa-calendar"></i> Aug 27th, 2015</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/vagrant/'>vagrant</a></li>
-            
-                <li><a class='category' href='/blog/categories/mysql/'>mysql</a></li>
-            
-                <li><a class='category' href='/blog/categories/itamae/'>itamae</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <div class="article__content clearfix">
-        <p>普段はほぼモノシリックなサービスしか開発していないんだけど、去年の暮れぐらいからちょくちょく関わらせている案件がマイクロサービスで、新しい人が入るということで構築手順のまとめがてらVagrant + Itamaeで環境構築してみた。</p>
-
-<p>複数サーバーインスタンスを立ち上げて、各サーバーから一つのmysqlに接続できたらいいな。 (この構成ならdockerでやれという話もあるけど。先にvagrantを勉強してみたかったので）</p>
-
-<p>とりあえず192.168.55.55で接続可能なmysqlのvagrant(なんていうんだろう。dockerだとコンテナに相当するやつ)を作成してみます。</p>
-
-
-        <a class="btn pull-right" href="/blog/2015/08/27/vagrant-mysql/">Read on &rarr;</a>
-    </div>
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -862,6 +875,10 @@ slackにデフォルトで用意されているslackbotってお願いします�
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2018/04/23/shiohigari/">潮干狩り 江戸川放水路</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2018/04/18/takasu-sayori/">高須海浜公園 サヨリ</a>
         </li>
         
@@ -875,10 +892,6 @@ slackにデフォルトで用意されているslackbotってお願いします�
         
         <li class="post">
             <a href="/blog/2018/04/09/surfin/">サーフィン 一宮</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2018/04/03/rack-attack/">Heroku小ネタ</a>
         </li>
         
     </ul>
