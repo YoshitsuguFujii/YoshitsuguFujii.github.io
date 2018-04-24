@@ -83,6 +83,55 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2012/03/09/20120309153620/">2012年4月2日追記。</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2012-03-09T15:36:00+09:00" pubdate><i class="fa fa-calendar"></i> Mar 9th, 2012</time>
+
+
+
+
+            
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>whereつけると戻り値がrelationになるから、to  _sqlが使える。<br/>
+scoped使うとrelation取れる。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">User</span><span class="o">.</span><span class="n">unscoped</span><span class="o">.</span><span class="n">to_sql</span><span class="err">　</span><span class="c1">#=&gt;　&quot;SELECT `users`.* FROM `users`&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2012/03/09/20120309104103/">アソシエーション参照時のrailsで発行されるSQLを取得</a>
         </h1>
     
@@ -906,190 +955,6 @@ moduleはModule.new</p>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2012/02/21/20120221121548/">動的ディスパッチと動的メソッド</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2012-02-21T12:15:00+09:00" pubdate><i class="fa fa-calendar"></i> Feb 21st, 2012</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p><span class="deco" style="font-weight:bold;">動的ディスパッチ</span><br/>
-メソッド実行時にメソッドを動的に呼び出す。</p>
-
-<p>日づけごとに天気を返すメソッドがあって、それを動的ディスパッチでメソッドを呼んでみます。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Weather</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">weather_of_day</span><span class="p">(</span><span class="n">day</span><span class="p">)</span>
-</span><span class='line'>    <span class="nb">send</span><span class="p">(</span><span class="s2">&quot;weather_of_day_</span><span class="si">#{</span><span class="n">day</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">weather_of_day_1</span>
-</span><span class='line'>    <span class="s2">&quot;快晴&quot;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">weather_of_day_2</span>
-</span><span class='line'>    <span class="s2">&quot;多分雪&quot;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">weather_of_day_3</span>
-</span><span class='line'>    <span class="s2">&quot;ほどよく寒い曇り空&quot;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">weather_of_day_4</span>
-</span><span class='line'>    <span class="s2">&quot;寒いよ。雨&quot;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">weather_of_day_5</span>
-</span><span class='line'>    <span class="s2">&quot;晴れ時々曇り&quot;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">method_missing</span><span class="p">(</span><span class="n">method_id</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">return</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="vg">$1</span><span class="si">}</span><span class="s2">日は指定できません&quot;</span> <span class="k">if</span> <span class="n">method_id</span> <span class="o">=~</span> <span class="sr">/^weather_of_day_(.*)/</span>
-</span><span class='line'>    <span class="k">super</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">Weather</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">weather_of_day</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1">#=&gt; &quot;快晴&quot;</span>
-</span><span class='line'><span class="no">Weather</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">weather_of_day</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="c1">#=&gt; &quot;ほどよく寒い曇り空&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><span class="deco" style="font-weight:bold;">動的メソッド</span><br/>
-動的にメソッドを作成する</p>
-
-<p>instance  <em>variable  </em>getでインスタンス変数の値は簡単にとれますが、それがない体で。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Me</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span>
-</span><span class='line'>    <span class="vi">@first_name</span> <span class="o">=</span> <span class="s2">&quot;gogo&quot;</span>
-</span><span class='line'>    <span class="vi">@last_name</span> <span class="o">=</span> <span class="s2">&quot;sakura&quot;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">generate_name_accessor</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">prefix</span> <span class="o">=</span> <span class="n">prefix</span><span class="o">.</span><span class="n">to_s</span>
-</span><span class='line'>    <span class="n">define_method</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">prefix</span><span class="si">}</span><span class="s2">_name&quot;</span> <span class="k">do</span>
-</span><span class='line'>      <span class="n">prefix</span> <span class="o">!=</span> <span class="s2">&quot;full&quot;</span> <span class="p">?</span> <span class="nb">instance_eval</span><span class="p">(</span><span class="s2">&quot;@</span><span class="si">#{</span><span class="n">prefix</span><span class="si">}</span><span class="s2">_name&quot;</span><span class="p">)</span> <span class="p">:</span> <span class="o">[</span><span class="vi">@first_name</span><span class="p">,</span><span class="vi">@last_name</span><span class="o">].</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">generate_name_accessor</span> <span class="ss">:full</span>
-</span><span class='line'>  <span class="n">generate_name_accessor</span> <span class="ss">:first</span>
-</span><span class='line'>  <span class="n">generate_name_accessor</span> <span class="ss">:last</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">Me</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">first_name</span> <span class="c1">#=&gt; &quot;gogo&quot;</span>
-</span><span class='line'><span class="no">Me</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">last_name</span>  <span class="c1">#=&gt; &quot;saura&quot;</span>
-</span><span class='line'><span class="no">Me</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">full_name</span>  <span class="c1">#=&gt; &quot;gogo_sakura&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><span class="deco" style="font-weight:bold;">まとめ</span></p>
-
-<p>メソッド名に一定のルールがあり、それを引数等に応じてメソッド名を決定し動的に呼ぶ場合<br/>
-→動的ディスパッチ</p>
-
-<p>重複している箇所がある場合にメソッドの内容が似通っているなら<br/>
-→動的メソッド</p>
-
-<p>辺りを使い分けてリファクタリングすると幸せになれるかも？</p>
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -1153,6 +1018,10 @@ moduleはModule.new</p>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2018/04/24/grape-skip-filter/">Grapeでskip_before_action</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2018/04/23/shiohigari/">潮干狩り 江戸川放水路</a>
         </li>
         
@@ -1166,10 +1035,6 @@ moduleはModule.new</p>
         
         <li class="post">
             <a href="/blog/2018/04/11/surfin/">サーフィンを始める方に</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2018/04/09/surfin/">サーフィン 一宮</a>
         </li>
         
     </ul>

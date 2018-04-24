@@ -83,6 +83,107 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2015/02/24/20150224142535/">Axlsxでエクセルのセルを折り返して全体を表示</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2015-02-24T14:25:12+09:00" pubdate><i class="fa fa-calendar"></i> Feb 24th, 2015</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+                <li><a class='category' href='/blog/categories/axlsx/'>axlsx</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;axlsx&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">package</span> <span class="o">=</span> <span class="no">Axlsx</span><span class="o">::</span><span class="no">Package</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">sheet</span> <span class="o">=</span> <span class="n">package</span><span class="o">.</span><span class="n">workbook</span><span class="o">.</span><span class="n">add_worksheet</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="s1">&#39;lists&#39;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">wrap_text</span> <span class="o">=</span> <span class="n">sheet</span><span class="o">.</span><span class="n">styles</span><span class="o">.</span><span class="n">add_style</span><span class="p">(</span>
+</span><span class='line'>                              <span class="p">{</span>
+</span><span class='line'>                               <span class="ss">:fg_color</span><span class="o">=&gt;</span> <span class="s2">&quot;FFFFFF&quot;</span><span class="p">,</span>                           <span class="c1"># 文字色</span>
+</span><span class='line'>                               <span class="ss">:b</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">,</span>                                     <span class="c1"># 太字</span>
+</span><span class='line'>                               <span class="ss">:bg_color</span> <span class="o">=&gt;</span> <span class="s2">&quot;004586&quot;</span><span class="p">,</span>                          <span class="c1"># 背景色</span>
+</span><span class='line'>                               <span class="ss">:sz</span> <span class="o">=&gt;</span> <span class="mi">12</span><span class="p">,</span>                                      <span class="c1"># フォントサイズ</span>
+</span><span class='line'>                               <span class="ss">:border</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">:style</span> <span class="o">=&gt;</span> <span class="ss">:thin</span><span class="p">,</span> <span class="ss">:color</span> <span class="o">=&gt;</span> <span class="s2">&quot;00&quot;</span> <span class="p">},</span> <span class="c1"># 罫線</span>
+</span><span class='line'>                               <span class="ss">:alignment</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">:horizontal</span> <span class="o">=&gt;</span> <span class="ss">:center</span><span class="p">,</span>         <span class="c1"># 配置</span>
+</span><span class='line'>                                               <span class="ss">:vertical</span> <span class="o">=&gt;</span> <span class="ss">:center</span> <span class="p">,</span>
+</span><span class='line'>                                               <span class="ss">:wrap_text</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">}</span>
+</span><span class='line'>                              <span class="p">}</span>
+</span><span class='line'>                            <span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="o">[</span><span class="s1">&#39;とっても長いテキスト&#39;</span><span class="p">,</span> <span class="s1">&#39;短いテキスト&#39;</span><span class="o">]</span><span class="p">,</span> <span class="ss">style</span><span class="p">:</span> <span class="n">wrap_text</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">column_info</span><span class="o">.</span><span class="n">first</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="mi">5</span>
+</span><span class='line'><span class="n">package</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="s1">&#39;test.xlsx&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2015/02/23/20150223110642/">Axlsxでウィンドウ枠の固定</a>
         </h1>
     
@@ -926,178 +1027,6 @@ sheet.sheet  _protection.password<br/>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2014/12/07/20141207173028/">論理削除指定のモデルをhas_manyで参照し、かつnested_attributes_forにallow_destroyを指定するも物理削除になる。</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2014-12-07T17:30:00+09:00" pubdate><i class="fa fa-calendar"></i> Dec 7th, 2014</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/rails/'>rails</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>環境はこちら<br/>
-activerecord(4.1.6)<br/>
-rails4  <em>acts  </em>as  _paranoid (0.1.4)</p>
-
-<p>has  <em>manyのリレーション先でacts  </em>as  <em>paranoid指定しているのですが、<br/>
-nested  </em>attributes  <em>for リレーション先, allow  </em>destroy : true<br/>
-で何故か物理削除になっていまったので調べてみました。</p>
-
-<p>結論としては</p>
-
-<p>lib/active  <em>record/associations/has  </em>many  <em>association.rb<br/>
-の112行目で<br/>
-records.each(&amp;:destroy!)<br/>
-とdestroy!で消していて、acts  </em>as  _paranoidのdestroy!は物理削除になるためでした。</p>
-
-<p>何故destroyに!がついているのか
-上記が定義されているdelete  <em>recordsメソッドを遡ってみます。<br/>
-delete  </em>recordsメソッドはlib/active  <em>record/associations/collection  </em>association.rb<br/>
-のremove  _recordsの中で呼ばれています(ソースでは492行目)</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="c1"># lib/active_record/associations/collection_association.rb</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">remove_records</span><span class="p">(</span><span class="n">existing_records</span><span class="p">,</span> <span class="n">records</span><span class="p">,</span> <span class="nb">method</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">records</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">record</span><span class="o">|</span> <span class="n">callback</span><span class="p">(</span><span class="ss">:before_remove</span><span class="p">,</span> <span class="n">record</span><span class="p">)</span> <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">delete_records</span><span class="p">(</span><span class="n">existing_records</span><span class="p">,</span> <span class="nb">method</span><span class="p">)</span> <span class="k">if</span> <span class="n">existing_records</span><span class="o">.</span><span class="n">any?</span>
-</span><span class='line'>    <span class="n">records</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">record</span><span class="o">|</span> <span class="n">target</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">record</span><span class="p">)</span> <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">records</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">record</span><span class="o">|</span> <span class="n">callback</span><span class="p">(</span><span class="ss">:after_remove</span><span class="p">,</span> <span class="n">record</span><span class="p">)</span> <span class="p">}</span>
-</span><span class='line'>  <span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>んでこれはどこで呼ばれるかというとここで呼ばれています(ソースでは485行目)</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="c1"># lib/active_record/associations/collection_association.rb</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">delete_or_destroy</span><span class="p">(</span><span class="n">records</span><span class="p">,</span> <span class="nb">method</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">records</span> <span class="o">=</span> <span class="n">records</span><span class="o">.</span><span class="n">flatten</span>
-</span><span class='line'>    <span class="n">records</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">record</span><span class="o">|</span> <span class="n">raise_on_type_mismatch!</span><span class="p">(</span><span class="n">record</span><span class="p">)</span> <span class="p">}</span>
-</span><span class='line'>    <span class="n">existing_records</span> <span class="o">=</span> <span class="n">records</span><span class="o">.</span><span class="n">reject</span> <span class="p">{</span> <span class="o">|</span><span class="n">r</span><span class="o">|</span> <span class="n">r</span><span class="o">.</span><span class="n">new_record?</span> <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">if</span> <span class="n">existing_records</span><span class="o">.</span><span class="n">empty?</span>
-</span><span class='line'>      <span class="n">remove_records</span><span class="p">(</span><span class="n">existing_records</span><span class="p">,</span> <span class="n">records</span><span class="p">,</span> <span class="nb">method</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">else</span>
-</span><span class='line'>      <span class="n">transaction</span> <span class="p">{</span> <span class="n">remove_records</span><span class="p">(</span><span class="n">existing_records</span><span class="p">,</span> <span class="n">records</span><span class="p">,</span> <span class="nb">method</span><span class="p">)</span> <span class="p">}</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>transactionで囲まれています。<br/>
-ということでdestroyに失敗した時にロールバックするために!をつけているようです。</p>
-
-<p>なのでparanoidのdestroy!をalias  <em>method  </em>chainで物理削除にしてしまうか。<br/>
-上記のrecords.each(&amp;:destroy!)をなんとか書き換えてあげると治りそうですね。</p>
-
-<p>今回はこうやって直しました。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">ActiveRecord</span>
-</span><span class='line'>  <span class="k">module</span> <span class="nn">Associations</span>
-</span><span class='line'>    <span class="k">module</span> <span class="nn">HasManyAssociationPatch</span>
-</span><span class='line'>      <span class="k">def</span> <span class="nf">delete_records</span><span class="p">(</span><span class="n">records</span><span class="p">,</span> <span class="nb">method</span><span class="p">)</span>
-</span><span class='line'>        <span class="k">if</span> <span class="nb">method</span> <span class="o">==</span> <span class="ss">:destroy</span>
-</span><span class='line'>          <span class="n">records</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">record</span><span class="o">|</span>
-</span><span class='line'>            <span class="k">raise</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">ActiveRecordError</span> <span class="k">unless</span> <span class="n">record</span><span class="o">.</span><span class="n">destroy</span>
-</span><span class='line'>          <span class="k">end</span>
-</span><span class='line'>          <span class="n">update_counter</span><span class="p">(</span><span class="o">-</span><span class="n">records</span><span class="o">.</span><span class="n">length</span><span class="p">)</span> <span class="k">unless</span> <span class="n">inverse_updates_counter_cache?</span>
-</span><span class='line'>        <span class="k">else</span>
-</span><span class='line'>          <span class="k">super</span>
-</span><span class='line'>        <span class="k">end</span>
-</span><span class='line'>      <span class="k">end</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Associations</span><span class="o">::</span><span class="no">HasManyAssociation</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="ss">:prepend</span><span class="p">,</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Associations</span><span class="o">::</span><span class="no">HasManyAssociationPatch</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>今回ソース読んでいて知ったんですけど、has  <em>manyって削除する時に<br/>
-before  </em>remove<br/>
-after  _remove<br/>
-ってコールバックが発生するんですね。知らなかった。</p>
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -1161,6 +1090,10 @@ after  _remove<br/>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2018/04/24/grape-skip-filter/">Grapeでskip_before_action</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2018/04/23/shiohigari/">潮干狩り 江戸川放水路</a>
         </li>
         
@@ -1174,10 +1107,6 @@ after  _remove<br/>
         
         <li class="post">
             <a href="/blog/2018/04/11/surfin/">サーフィンを始める方に</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2018/04/09/surfin/">サーフィン 一宮</a>
         </li>
         
     </ul>

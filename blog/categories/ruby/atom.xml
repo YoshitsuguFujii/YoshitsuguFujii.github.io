@@ -4,7 +4,7 @@
     <title><![CDATA[Category: ruby | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/ruby/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2018-04-23T13:38:26+09:00</updated>
+    <updated>2018-04-24T14:25:07+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,78 @@
       </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[Grapeでskip_before_action]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2018/04/24/grape-skip-filter/"/>
+        <updated>2018-04-24T14:10:09+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2018/04/24/grape-skip-filter</id>
+        <content type="html"><![CDATA[<p>Deviseとか使っていて、ApplicationControllerに認証の仕組みを設ける時。</p>
+
+<pre><code class="ruby">class ApplicationController &lt; ActionController::Base
+  before_action :authenticate_user!
+end
+</code></pre>
+
+<p>こう書きますね。<br/>
+ログイン前のページではログイン判定は不要なのでskip_before_actionでskipさせるのが定石だと思います</p>
+
+<pre><code class="ruby">class HogeController &lt;  ActionController::Base
+  skip_before_action :authenticate_user!
+end
+</code></pre>
+
+<p>Grapeではどうやんのよっていう話し。</p>
+
+<!-- more -->
+
+
+<p></p>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p>  <br/>
+<ins class="adsbygoogle"  
+     style="display:block; text-align:center;"  
+     data-ad-layout="in-article"  
+     data-ad-format="fluid"  
+     data-ad-client="ca-pub-7039502723411845"  
+     data-ad-slot="8206045005"></ins></p>
+
+<script>    
+     (adsbygoogle = window.adsbygoogle || []).push({});    
+</script>
+
+
+<p></p>
+
+<p>route.settingsを使うといいです</p>
+
+<pre><code class="ruby">module API::V1
+  class Root &lt; Grape::API
+    before do
+      user_authenticate! unless route.settings[:skip_user_authenticate]
+    end
+
+    mount Users
+  end
+end
+</code></pre>
+
+<pre><code class="ruby">module API::V1
+  class Users &lt; Grape::API
+    resource 'users' do
+      route_setting :skip_user_authenticate, true
+      get do
+        # do something
+      end
+    end
+  end
+end
+</code></pre>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[Heroku小ネタ]]></title>
@@ -233,72 +305,6 @@ $.ajaxSetup({
     xhr.setRequestHeader( 'X-CSRF-Token', token );
   }
 });
-</code></pre>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[Doorkeeperの認証で使われるtokenを取得]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2018/02/15/get-doorkeeper-token/"/>
-        <updated>2018-02-15T11:46:00+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2018/02/15/get-doorkeeper-token</id>
-        <content type="html"><![CDATA[<p>doorkeeprの処理のなかで削除済のユーザのステータスが取りたくて、tokenを取得できるかやってみました。</p>
-
-<p>イレギュラーアクセス -> tokenが取れない。<br/>
-通常のアクセス -> tokenが取れる。ユーザがひける。<br/>
-削除済または退会済みユーザへのアクセス -> tokenが取れる。ユーザがひけない。</p>
-
-<p>って感じでしょうか？</p>
-
-<!-- more -->
-
-
-<p></p>
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-
-
-<p>  <br/>
-<ins class="adsbygoogle"  
-     style="display:block; text-align:center;"  
-     data-ad-layout="in-article"  
-     data-ad-format="fluid"  
-     data-ad-client="ca-pub-7039502723411845"  
-     data-ad-slot="8206045005"></ins></p>
-
-<script>    
-     (adsbygoogle = window.adsbygoogle || []).push({});    
-</script>
-
-
-<p></p>
-
-<p>下記のようにしたら取れました。<br/>
-あとはこれをうまくつかってerrorとかで削除済のレスポンスを返す感じですね。</p>
-
-<pre><code class="ruby"># frozen_string_literal: true
-
-require 'doorkeeper/grape/helpers'
-
-module V1
-  class Root &lt; Grape::API
-    helpers Doorkeeper::Grape::Helpers
-
-    before do
-      authorization_request = Doorkeeper::Grape::AuthorizationDecorator.new(request)
-
-      # これでrequestからtokenが取れる
-      token = Doorkeeper::OAuth::Token.from_request(authorization_request, *Doorkeeper.configuration.access_token_methods)
-
-      # そのトークンを使ってユーザのトークンが取れる。
-      access_token = Doorkeeper::AccessToken.by_token(token)
-
-      doorkeeper_authorize!
-    end
-
-    mount Users
-  end
-end
 </code></pre>
 ]]></content>
     </entry>

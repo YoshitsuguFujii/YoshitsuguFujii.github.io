@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2018-04-23T13:38:26+09:00</updated>
+    <updated>2018-04-24T14:25:07+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,109 @@
     </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[Grapeでskip_before_action]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2018/04/24/grape-skip-filter/"/>
+        <updated>2018-04-24T14:10:09+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2018/04/24/grape-skip-filter</id>
+        <content type="html"><![CDATA[<p>Deviseとか使っていて、ApplicationControllerに認証の仕組みを設ける時。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ApplicationController</span> <span class="o">&lt;</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">before_action</span> <span class="ss">:authenticate_user!</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>こう書きますね。<br/>
+ログイン前のページではログイン判定は不要なのでskip_before_actionでskipさせるのが定石だと思います</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">HogeController</span> <span class="o">&lt;</span>  <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">skip_before_action</span> <span class="ss">:authenticate_user!</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Grapeではどうやんのよっていう話し。</p>
+
+<!-- more -->
+
+
+<p></p>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p>  <br/>
+<ins class="adsbygoogle"  
+     style="display:block; text-align:center;"  
+     data-ad-layout="in-article"  
+     data-ad-format="fluid"  
+     data-ad-client="ca-pub-7039502723411845"  
+     data-ad-slot="8206045005"></ins></p>
+
+<script>    
+     (adsbygoogle = window.adsbygoogle || []).push({});    
+</script>
+
+
+<p></p>
+
+<p>route.settingsを使うといいです</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">API::V1</span>
+</span><span class='line'>  <span class="k">class</span> <span class="nc">Root</span> <span class="o">&lt;</span> <span class="no">Grape</span><span class="o">::</span><span class="no">API</span>
+</span><span class='line'>    <span class="n">before</span> <span class="k">do</span>
+</span><span class='line'>      <span class="n">user_authenticate!</span> <span class="k">unless</span> <span class="n">route</span><span class="o">.</span><span class="n">settings</span><span class="o">[</span><span class="ss">:skip_user_authenticate</span><span class="o">]</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">mount</span> <span class="no">Users</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">API::V1</span>
+</span><span class='line'>  <span class="k">class</span> <span class="nc">Users</span> <span class="o">&lt;</span> <span class="no">Grape</span><span class="o">::</span><span class="no">API</span>
+</span><span class='line'>    <span class="n">resource</span> <span class="s1">&#39;users&#39;</span> <span class="k">do</span>
+</span><span class='line'>      <span class="n">route_setting</span> <span class="ss">:skip_user_authenticate</span><span class="p">,</span> <span class="kp">true</span>
+</span><span class='line'>      <span class="n">get</span> <span class="k">do</span>
+</span><span class='line'>        <span class="c1"># do something</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[潮干狩り 江戸川放水路]]></title>
@@ -1545,69 +1648,6 @@ NewRelic上でAlertの設定や各種変更動作ができない。</p>
 
 <p>何か詰まっている人がいればサポートに投げるといいです。<br/>
 誰かの参考になれば。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[自転車用ロッドホルダー]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2017/12/07/cycle-lod-holder/"/>
-        <updated>2017-12-07T09:40:05+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2017/12/07/cycle-lod-holder</id>
-        <content type="html"><![CDATA[<p>自転車のチェーンが度々外れるようになってきてしまったので<br/>
-これを機に電動アシスト付きの自転車の購入を検討しました。<br/>
-どうせなら車をどこかに止めて、そこから釣り場まで自転車で行ったりできるように車に積載可能なサイズを探しました。</p>
-
-<p>実際に購入して、ロッドケースにまとめて竿をいれて担いで自転車乗っていたんですが、<br/>
-自転車漕ぐ時に邪魔だし車の横すり抜ける時にぶつけそうになるので何かいい持ち運び方ないかと探していましたらいいのがありました。</p>
-
-<!-- more -->
-
-
-<p></p>
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-
-
-<p>
-<ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-layout="in-article"
-     data-ad-format="fluid"
-     data-ad-client="ca-pub-7039502723411845"
-     data-ad-slot="8206045005"></ins></p>
-
-<script>  
-     (adsbygoogle = window.adsbygoogle || []).push({});  
-</script>
-
-
-<p></p>
-
-<p>100均に売っている傘ホルダーです。</p>
-
-<p><a href="http://yoshitsugufujii.github.io/images/blog/20171206/IMG_3184.jpg" data-lightbox="takasukaihinkouen" data-title=""/><br/>
-  <img src="http://yoshitsugufujii.github.io/images/blog/20171206/IMG_3184.jpg"><br/>
-</a></p>
-
-<p>左右に取り付けるとこんな感じ。</p>
-
-<p><a href="http://yoshitsugufujii.github.io/images/blog/20171206/IMG_3185.jpg" data-lightbox="takasukaihinkouen" data-title=""/><br/>
-  <img src="http://yoshitsugufujii.github.io/images/blog/20171206/IMG_3185.jpg"><br/>
-</a></p>
-
-<p><a href="http://yoshitsugufujii.github.io/images/blog/20171206/IMG_3186.jpg" data-lightbox="takasukaihinkouen" data-title=""/><br/>
-  <img src="http://yoshitsugufujii.github.io/images/blog/20171206/IMG_3186.jpg"><br/>
-</a></p>
-
-<p>移動がめちゃめちゃ楽になりました。<br/>
-投げ竿などの竿ジリが長いものも上の留めるところにリールをひっかければ持ち運び可能です。</p>
-
-<p>ちなみに自転車はこれを購入しました。<br/>
-座席を少し前に出せばVoxyとかであれば詰めます。<br/>
-ただサドルが硬くてずっと乗ってると股間が痛くなりますね。</p>
-
-<table  border="0" cellpadding="5" style="border:none"><tr><td valign="top" style="border:none"><a href="https://hb.afl.rakuten.co.jp/hgc/g00pm4a6.4dryw6dc.g00pm4a6.4dryx09f/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fnextr%2Fpanasonic-jconcept%2F&m=http%3A%2F%2Fm.rakuten.co.jp%2Fnextr%2Fi%2F10003997%2F" target="_blank" ><img src="https://thumbnail.image.rakuten.co.jp/@0_mall/nextr/cabinet/05240708/imgrc0069940876.jpg?_ex=128x128" border="0" style="margin-right:10px" /></a></td><td valign="top" style="border:none;text-align:left"><div class="kaerebalink-name" style="margin-bottom:10px;line-height:120%"><a href="https://hb.afl.rakuten.co.jp/hgc/g00pm4a6.4dryw6dc.g00pm4a6.4dryx09f/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fnextr%2Fpanasonic-jconcept%2F&m=http%3A%2F%2Fm.rakuten.co.jp%2Fnextr%2Fi%2F10003997%2F" target="_blank" >パナソニック　Jコンセプト　2017モデル 【送料無料】【電動自転車　自転車　電動アシスト自転車 20インチ】</a></div><div class="kaerebalink-detail" style="margin-bottom:5px;"></div><table style="border:none;margin-top:10px"><tr><td style="border:none;text-align:left;"><div class="shoplinkrakuten" style="margin-right:5px"><a href="https://hb.afl.rakuten.co.jp/hgc/16102ad8.0804351d.16102ad9.09702e1c/?pc=http%3A%2F%2Fsearch.rakuten.co.jp%2Fsearch%2Fmall%2FJ%25E3%2582%25B3%25E3%2583%25B3%25E3%2582%25BB%25E3%2583%2597%25E3%2583%2588%2F-%2Ff.1-p.1-s.1-sf.0-st.A-v.2%3Fx%3D0%26scid%3Daf_ich_link_urltxt%26m%3Dhttp%3A%2F%2Fm.rakuten.co.jp%2F" target="_blank" >楽天市場</a></div><div class="shoplinkamazon" style="margin-right:5px"><a href="http://www.amazon.co.jp/gp/search?keywords=J%E3%82%B3%E3%83%B3%E3%82%BB%E3%83%97%E3%83%88&__mk_ja_JP=%E3%82%AB%E3%82%BF%E3%82%AB%E3%83%8A&tag=gogosakura-22" target="_blank" >Amazon</a></div></td><td style="vertical-align:bottom;padding-left:10px;font-size:x-small;border:none">by <a href="http://kaereba.com" rel="nofollow" target="_blank">カエレバ</a></td></tr></table></font></td></tr></table>
-
 ]]></content>
     </entry>
     
