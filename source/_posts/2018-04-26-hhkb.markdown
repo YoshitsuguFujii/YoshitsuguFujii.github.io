@@ -1,0 +1,75 @@
+---
+layout: post
+title: "HHKB２種類を１年間使ってみて"
+date: 2018-04-26 11:27:23 +0900
+comments: true
+categories: [keyboard]
+---
+
+デスクワークをやっている方は同じだと思いますが、  
+私はエンジニアなので最低でも一日8時間。  
+月20日で160時間。  
+年12ヶ月で1920時間。  
+キーボードを毎日うってます。  
+  
+フリーランスになったということで経費を使えるようになり思い切って昨年職場用と自宅用に  
+[HHKB Professional2 Type-S 白（英語配列）](https://www.pfu.fujitsu.com/direct/hhkb/detail_hhkb-pro2-types.html)  
+[HHKB Professional 墨（英語配列）](https://www.pfu.fujitsu.com/hhkeyboard/hhkbpro/black.html)  
+  
+を購入しました。  
+  
+一年使っていての感想です。  
+  
+  
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>  
+<ins class="adsbygoogle"  
+     style="display:block; text-align:center;"   
+     data-ad-layout="in-article"  
+     data-ad-format="fluid"  
+     data-ad-client="ca-pub-7039502723411845"  
+     data-ad-slot="8206045005"></ins>  
+<script>  
+     (adsbygoogle = window.adsbygoogle || []).push({});  
+</script>  
+  
+Type-sはネット品を購入し週4常駐している職場に、  
+墨はフリマアプリで購入して自宅に置いてます。  
+  
+  
+打鍵感はType-sの方が圧倒的に優れていてスコスコとうっていて気持ちいいです。  
+墨も悪くないですが、Type-sに比べるとちょっと劣りますかね。  
+  
+そんな打鍵感が最高のType-sですが  
+[シリンドリカルステップ構造](https://www.pfu.fujitsu.com/hhkeyboard/leaflet/keyspec.html)により  
+  
+<a href="/images/blog/20180426/hhkbpro_side_line.jpg" data-lightbox="hhkb" data-title=""/>  
+  <img src="/images/blog/20180426/hhkbpro_side_line.jpg">  
+</a>  
+  
+親指が痛いです。  
+画像の通り湾曲している一番手前のボタンの手前側のエッジがたっているので親指に食い込みます。  
+すこしであればいいのですが、Mac使っているのでCommandボタンをよく押すのでつらいです。  
+  
+<a href="/images/blog/20180426/IMG_4431.JPG" data-lightbox="hhkb" data-title=""/>    
+  <img src="/images/blog/20180426/IMG_4431.JPG">    
+</a>    
+  
+<a href="/images/blog/20180426/IMG_4432.JPG" data-lightbox="hhkb" data-title=""/>    
+  <img src="/images/blog/20180426/IMG_4432.JPG">    
+</a>    
+  
+結局いろいろと触って見たけどType-sが一番コスパいいみたいな話しを聞きますがみなさん親指痛くなったりしないんですかね。  
+  
+  
+ただこのコンパクト差と打鍵感は手放し難いですね。  
+持ち運び楽チンだし。Realforceはでかさがありますからね..  
+FilocoのManilaはちょっと気になってます。  
+  
+買うときは高いと思いますが、毎日使うもので10年は使えると思うので事務仕事の人は思いっきていいキーボードの購入をおすすめします。  
+  
+それとHHKBは基本的には安くならないんですが楽天で買うとポイントがついてお得です。  
+  
+<table  border="0" cellpadding="5" style="border:none"><tr><td style="border:none;text-align:left"><a href="https://hb.afl.rakuten.co.jp/hgc/g00rgzi6.4dryw590.g00rgzi6.4dryx040/kaereba_2018042611530804?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fpfudirect%2F10000832%2F&m=http%3A%2F%2Fm.rakuten.co.jp%2Fpfudirect%2Fi%2F10000344%2F" target="_blank" >【送料無料】PFU製Happy Hacking KeyboardProfessional JP Type-S日本語配列／白PD-KB420WS</a></td></tr><tr><td style="border:none"><table  border="0" cellpadding="0" style="border:none"><tr><td valign="top" style="border:none"><a href="https://hb.afl.rakuten.co.jp/hgc/g00rgzi6.4dryw590.g00rgzi6.4dryx040/kaereba_2018042611530804?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fpfudirect%2F10000832%2F&m=http%3A%2F%2Fm.rakuten.co.jp%2Fpfudirect%2Fi%2F10000344%2F" target="_blank" ><img src="https://thumbnail.image.rakuten.co.jp/@0_mall/pfudirect/cabinet/kb/hhkb/item_typ-s_projp.jpg?_ex=128x128" border="0" style="margin-right:10px" /></a></td><td valign="top" style="border:none;text-align:left"><div class="kaerebalink-detail" style="margin-bottom:5px;"></div><table style="border:none;margin-top:10px"><tr><td style="border:none;text-align:left;"><div class="shoplinkrakuten" style="margin-right:5px"><a href="https://hb.afl.rakuten.co.jp/hgc/16102ad8.0804351d.16102ad9.09702e1c/kaereba_2018042611530804?pc=https%3A%2F%2Fsearch.rakuten.co.jp%2Fsearch%2Fmall%2FHappy%2520Hacking%2520Keyboard%2520Professional%2520JP%2520Type-S%2F-%2Ff.1-p.1-s.1-sf.0-st.A-v.2%3Fx%3D0%26scid%3Daf_ich_link_urltxt%26m%3Dhttp%3A%2F%2Fm.rakuten.co.jp%2F" target="_blank" >楽天市場</a></div><div class="shoplinkamazon" style="margin-right:5px"><a href="https://www.amazon.co.jp/gp/search?keywords=Happy%20Hacking%20Keyboard%20Professional%20JP%20Type-S&__mk_ja_JP=%E3%82%AB%E3%82%BF%E3%82%AB%E3%83%8A&tag=gogosakura-22" target="_blank" >Amazon</a></div></td><td style="vertical-align:bottom;padding-left:10px;font-size:x-small;border:none">by <a href="http://kaereba.com" rel="nofollow" target="_blank">カエレバ</a></td></tr></table></font></td></tr></table></td></tr></table>  
+<table  border="0" cellpadding="5" style="border:none"><tr><td style="border:none;text-align:left"><a href="https://hb.afl.rakuten.co.jp/hgc/g00rgzi6.4dryw590.g00rgzi6.4dryx040/kaereba_201804261156262336?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fpfudirect%2F10000819%2F&m=http%3A%2F%2Fm.rakuten.co.jp%2Fpfudirect%2Fi%2F10000342%2F" target="_blank" >【送料無料】PFU製Happy Hacking KeyboardProfessional2 Type-S英語配列／白PD-KB400WS</a></td></tr><tr><td style="border:none"><table  border="0" cellpadding="0" style="border:none"><tr><td valign="top" style="border:none"><a href="https://hb.afl.rakuten.co.jp/hgc/g00rgzi6.4dryw590.g00rgzi6.4dryx040/kaereba_201804261156262336?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fpfudirect%2F10000819%2F&m=http%3A%2F%2Fm.rakuten.co.jp%2Fpfudirect%2Fi%2F10000342%2F" target="_blank" ><img src="https://thumbnail.image.rakuten.co.jp/@0_mall/pfudirect/cabinet/kb/hhkb/item_typ-s_pro2.jpg?_ex=128x128" border="0" style="margin-right:10px" /></a></td><td valign="top" style="border:none;text-align:left"><div class="kaerebalink-detail" style="margin-bottom:5px;"></div><table style="border:none;margin-top:10px"><tr><td style="border:none;text-align:left;"><div class="shoplinkrakuten" style="margin-right:5px"><a href="https://hb.afl.rakuten.co.jp/hgc/16102ad8.0804351d.16102ad9.09702e1c/kaereba_201804261156262336?pc=https%3A%2F%2Fsearch.rakuten.co.jp%2Fsearch%2Fmall%2FHappy%2520Hacking%2520Keyboard%2520Professional%2520Type-S%2F-%2Ff.1-p.1-s.1-sf.0-st.A-v.2%3Fx%3D0%26scid%3Daf_ich_link_urltxt%26m%3Dhttp%3A%2F%2Fm.rakuten.co.jp%2F" target="_blank" >楽天市場</a></div><div class="shoplinkamazon" style="margin-right:5px"><a href="https://www.amazon.co.jp/gp/search?keywords=Happy%20Hacking%20Keyboard%20Professional%20Type-S&__mk_ja_JP=%E3%82%AB%E3%82%BF%E3%82%AB%E3%83%8A&tag=gogosakura-22" target="_blank" >Amazon</a></div></td><td style="vertical-align:bottom;padding-left:10px;font-size:x-small;border:none">by <a href="http://kaereba.com" rel="nofollow" target="_blank">カエレバ</a></td></tr></table></font></td></tr></table></td></tr></table>  
+
+こちらから購入していただけると私のお小遣いにもなるので是非w  
