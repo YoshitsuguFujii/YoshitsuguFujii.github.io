@@ -83,6 +83,88 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2012/01/23/20120123121409/">jQuery Mobile 勝手に不正なページへ遷移してしまう時の対応</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2012-01-23T12:14:00+09:00" pubdate><i class="fa fa-calendar"></i> Jan 23rd, 2012</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/jquery-mobile/'>jquery mobile</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>去年スマフォサイト作りました。</p>
+
+<p>railsつかってます。<br/>
+jQuery Mobileも使ってます。</p>
+
+<p>mobileinitイベント内で</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vg">$.</span><span class="n">mobile</span><span class="o">.</span><span class="n">ajaxEnabled</span> <span class="o">=</span> <span class="kp">false</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>でAjaxオフにしてます。</p>
+
+<p>でもたまにページロード完了後に、<br/>
+勝手にローディング画像が出てきて、全然自分が見たいページとは違うページに飛ばされることがあります。</p>
+
+<p>調べた結果Android端末の沢山とiPhone4以外(というか3GS？)で起きる現状でした。</p>
+
+<p>上記現象が起こる操作は</p>
+
+<p>Aページ-  >[Bページへのリンクをクリック]-  >Bページ-  >[端末のブラウザバック]-  >Aページ-  >[Cページをクリック]-  >Cページ読み込み完了後にBページに飛ばされる。</p>
+
+<p>対策としては</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vg">$.</span><span class="n">mobile</span><span class="o">.</span><span class="n">pushStateEnabled</span> <span class="o">=</span> <span class="kp">false</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>でpushStateオフにしたら直りましたっていうお話。</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2012/01/20/20120120123309/">Nヶ月前の月を求める</a>
         </h1>
     
@@ -613,6 +695,10 @@ return link  </em>to( change  <em>value , disp  </em>path )<br/>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2018/04/26/hhkb/">HHKB２種類を１年間使ってみて</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2018/04/24/grape-skip-filter/">Grapeでskip_before_action</a>
         </li>
         
@@ -626,10 +712,6 @@ return link  </em>to( change  <em>value , disp  </em>path )<br/>
         
         <li class="post">
             <a href="/blog/2018/04/12/china-recaptcha/">中国ではGoogle reCAPTCHAを使えません</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2018/04/11/surfin/">サーフィンを始める方に</a>
         </li>
         
     </ul>

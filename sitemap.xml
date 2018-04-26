@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://yoshitsugufujii.github.io/blog/2018/04/26/hhkb/</loc>
+    <lastmod>2018-04-26T11:27:23+09:00</lastmod>
+  </url>
+  <url>
     <loc>http://yoshitsugufujii.github.io/blog/2018/04/24/grape-skip-filter/</loc>
     <lastmod>2018-04-24T14:10:09+09:00</lastmod>
   </url>
@@ -902,22 +906,22 @@
   </url>
   <url>
     <loc>http://yoshitsugufujii.github.io/blog/</loc>
-    <lastmod>2018-04-24T14:25:07+09:00</lastmod>
-  </url>
-  <url>
-    <loc>http://yoshitsugufujii.github.io/blog/archives/</loc>
-    <lastmod>2018-04-24T14:25:07+09:00</lastmod>
+    <lastmod>2018-04-26T12:04:16+09:00</lastmod>
   </url>
   <url>
     <loc>http://yoshitsugufujii.github.io/archives/</loc>
-    <lastmod>2018-04-24T14:25:07+09:00</lastmod>
+    <lastmod>2018-04-26T12:04:16+09:00</lastmod>
+  </url>
+  <url>
+    <loc>http://yoshitsugufujii.github.io/blog/archives/</loc>
+    <lastmod>2018-04-26T12:04:16+09:00</lastmod>
   </url>
   <url>
     <loc>http://yoshitsugufujii.github.io/</loc>
-    <lastmod>2018-04-24T14:25:07+09:00</lastmod>
+    <lastmod>2018-04-26T12:04:16+09:00</lastmod>
   </url>
   <url>
     <loc>http://yoshitsugufujii.github.io/profile/</loc>
-    <lastmod>2018-04-24T14:25:07+09:00</lastmod>
+    <lastmod>2018-04-26T12:04:16+09:00</lastmod>
   </url>
 </urlset>
