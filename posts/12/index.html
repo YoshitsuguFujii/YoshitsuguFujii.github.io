@@ -83,6 +83,72 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2015/03/12/invalid-css-after/">開発環境(development)で問題なかったのにdeployしようとしたらprecompileでこける。</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2015-03-12T23:58:19+09:00" pubdate><i class="fa fa-calendar"></i> Mar 12th, 2015</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby-on-rails-ruby/'>ruby on rails ruby</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <div class="article__content clearfix">
+        <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rake aborted!
+</span><span class='line'>Sass::SyntaxError: Invalid CSS after "...idth: Infinity%": expected expression (e.g. 1px, bold), was "; }"
+</span><span class='line'>  (in /var/www/hogehoge/app/assets/stylesheets/fuga/fuga.css.scss)
+</span><span class='line'>(sass):12</span></code></pre></td></tr></table></div></figure>
+
+
+<p>見た目にも問題なさそうだし、念のため<a href="https://github.com/causes/scss-lint">scss-lint</a>とかも通してみたけど問題なさそう。</p>
+
+
+        <a class="btn pull-right" href="/blog/2015/03/12/invalid-css-after/">Read on &rarr;</a>
+    </div>
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2015/03/10/githubpageniyi-xing-simasita/">GithubPageに移行しました</a>
         </h1>
     
@@ -836,191 +902,6 @@ pkg.use  <em>shared  </em>strings = true<br/>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2014/12/17/20141217122846/">AxlsxでExcelファイルをcell単位でprotectionをした話</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2014-12-17T12:28:00+09:00" pubdate><i class="fa fa-calendar"></i> Dec 17th, 2014</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
-            
-                <li><a class='category' href='/blog/categories/gem/'>gem</a></li>
-            
-                <li><a class='category' href='/blog/categories/axlsx/'>axlsx</a></li>
-            
-                <li><a class='category' href='/blog/categories/excel/'>excel</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>Axlsxでエクセルと戯れる日々です。<br/>
-2シート目とかにマスタデータを保持しておいて、1シート目でプルダウンでマスタデータを選ばせたりしています。<br/>
-変更できないように2シート目はシート全体を保護しております。</p>
-
-<p>今日はAxlsxでセルの保護をしたお話です。</p>
-
-<p>これググっても全然出てきませんでした。</p>
-
-<p>結論から言うとこれでできます。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;axlsx&#39;</span>
-</span><span class='line'><span class="nb">require</span> <span class="s2">&quot;securerandom&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">package</span> <span class="o">=</span> <span class="no">Axlsx</span><span class="o">::</span><span class="no">Package</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'><span class="n">sheet</span> <span class="o">=</span> <span class="n">package</span><span class="o">.</span><span class="n">workbook</span><span class="o">.</span><span class="n">add_worksheet</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="s1">&#39;lists&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">sheet_protection</span><span class="o">.</span><span class="n">password</span> <span class="o">=</span> <span class="no">SecureRandom</span><span class="o">.</span><span class="n">uuid</span>
-</span><span class='line'><span class="n">locked</span> <span class="o">=</span> <span class="n">package</span><span class="o">.</span><span class="n">workbook</span><span class="o">.</span><span class="n">styles</span><span class="o">.</span><span class="n">add_style</span> <span class="ss">:locked</span> <span class="o">=&gt;</span> <span class="kp">true</span>
-</span><span class='line'><span class="n">unlocked</span> <span class="o">=</span> <span class="n">package</span><span class="o">.</span><span class="n">workbook</span><span class="o">.</span><span class="n">styles</span><span class="o">.</span><span class="n">add_style</span> <span class="ss">:locked</span> <span class="o">=&gt;</span> <span class="kp">false</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="o">[</span><span class="s1">&#39;品名&#39;</span><span class="p">,</span> <span class="s1">&#39;単価&#39;</span><span class="p">,</span> <span class="s1">&#39;数量&#39;</span><span class="p">,</span> <span class="s1">&#39;計&#39;</span><span class="o">]</span><span class="p">,</span> <span class="ss">style</span><span class="p">:</span> <span class="n">unlocked</span> <span class="p">)</span>
-</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="o">[</span><span class="s1">&#39;にんじん&#39;</span><span class="p">,</span>    <span class="mi">80</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>      <span class="s1">&#39;=B2*C2&#39;</span><span class="o">]</span><span class="p">,</span> <span class="ss">style</span><span class="p">:</span> <span class="n">unlocked</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">rows</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">cells</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">style</span> <span class="o">=</span> <span class="n">locked</span> <span class="c1"># A1をロック(lock cell =&gt; A1)</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">package</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="s1">&#39;test.xlsx&#39;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>この答えの出し方が最終的にRubyのことはRubyに聞くという方式で解決したのですが、<br/>
-この解決の仕方がRubyエンジニアっぽいなと思ったのでどうやってこの結論に辿り着いたかダラダラ書こうかと思います。</p>
-
-<p>まずセルの保護をしたいという要件がありました。<br/>
-コピペエンジニアの端くれとしてまずはググります。</p>
-
-<p>行単位のロックのお話は見つけましたが、セルの保護ではいい結果がありません。<br/>
-<a href="http://stackoverflow.com/questions/19051049/how-do-i-protect-header-rows-but-allow-to-enter-new-rows-using-axlsx">ruby on rails 3 - How do I protect header rows but allow to enter new
-rows using AXLSX? - Stack
-Overflow</a></p>
-
-<p>テストは下手なドキュメントよりも役にたつと誰かが言っていたので(実際の使い方のサンプルが見れるので)Axlsxのテストを見てみます。<br/>
-bundle open axlsxでaxlsxのインストールされたディレクトリを開いて、grep
-protectとかやってみます。<br/>
-いくつかヒットしたのでソースを見てみますがなんのこっちゃわかりません感じです。</p>
-
-<p>とりあえずgrepでひっかかった<br/>
-Axlsx::CellProtection.new<br/>
-をキーワードにグーグルで検索してみますが有用な情報は皆無です。</p>
-
-<p>一旦途方にくれます。コーヒーとか飲みます。</p>
-
-<p>おもむろに再度irbを立ち上げます。<br/>
-とりあえず怪しいものがないかコンソールから確認していってみることにします</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;axlsx&#39;</span>
-</span><span class='line'><span class="n">package</span> <span class="o">=</span> <span class="no">Axlsx</span><span class="o">::</span><span class="no">Package</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'><span class="n">sheet</span> <span class="o">=</span> <span class="n">package</span><span class="o">.</span><span class="n">workbook</span><span class="o">.</span><span class="n">add_worksheet</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="s1">&#39;lists&#39;</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="o">[</span><span class="s1">&#39;品名&#39;</span><span class="p">,</span> <span class="s1">&#39;単価&#39;</span><span class="p">,</span> <span class="s1">&#39;数量&#39;</span><span class="p">,</span> <span class="s1">&#39;計&#39;</span><span class="o">]</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>と打ちます。</p>
-
-<p>cellに保護をかけたいのだからcellオブジェクトにプロパティがあるんじゃないかとあたりをつけます。</p>
-
-<p>sheet.cellとうちます。そんなんねーよと返ってきます。<br/>
-sheet.cells と打ちます。なんかコンソールに文字がたくさんでます。</p>
-
-<p>A1のセルを取得してみます。<br/>
-sheet.cells[0,0]とうちます。空の配列が返ってきます。<br/>
-sheet.cells[0]とうちます。なんか一杯でてきます。<br/>
-sheet.cells[0].classとうちます。   # =  > Axlsx::Cell<br/>
-お、なんかいいの返ってきました。<br/>
-sheet.cells[0].methods.grep(/protect/)とかうってみます。
-[:protected  _methods]しか返ってきません。<br/>
-一回煮詰まります。
-sheet.cells[0].valueとかここで色々他のことをやってみますが、なかなかうまくいきません。</p>
-
-<p>そもそもセル単位で値とか設定できるんかと思いつきます。<br/>
-ググります。見つけます。</p>
-
-<p><a href="http://stackoverflow.com/questions/18178196/modify-specific-cell-value-using-axlsx-gem-given-the-column-number-and-row-numer">ruby on rails - Modify specific cell value using Axlsx gem given the
-column number and row numer - Stack
-Overflow</a></p>
-
-<p>特定のセルを取得するのは以下の方法でした。<br/>
-sheet.rows[0].cells[0]</p>
-
-<p>sheet.rows[0].cells[0].methodsでメソッド一回全部のメソッドを出してみます。</p>
-
-<p>sheet.rows[0].cells[0].pos   # =  > [0,0]<br/>
-とか<br/>
-sheet.rows[0].cells[0].reference   # =  >   $A  $1<br/>
-とか面白そうなメソッドがあります。</p>
-
-<p>その中にstyle=というメソッドを見つけました。<br/>
-これってひょっとして行単位のロックであったロックの書式を設定できるのではないかと推測します。</p>
-
-<p>そして出きたのが冒頭のコードです。</p>
-
-<p>sheet.rows[0].cells[0].style = locked<br/>
-だけでは不十分で<br/>
-sheet.sheet  _protection.password<br/>
-でパスワードを設定しないといけないとか、保護をかけて必要な所をlockしたりunlockしたりしないといけないとか色々とはまりながらもなんとか答えを出せました。<br/>
-今回は運も味方してくれたかなぁという気もします。</p>
-
-<p>困ったときはインタラクティブにどんなメソッドがあるかどんな値が設定されているか確認しながら<br/>
-試しながらやることで問題が解決できるというのは素晴らしいと思いました。</p>
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -1084,6 +965,10 @@ sheet.sheet  _protection.password<br/>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2018/05/07/hiratsuka-20180506/">平塚新港 稚鮎 小サバ フグ</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2018/04/26/hhkb/">HHKB２種類を１年間使ってみて</a>
         </li>
         
@@ -1097,10 +982,6 @@ sheet.sheet  _protection.password<br/>
         
         <li class="post">
             <a href="/blog/2018/04/18/takasu-sayori/">高須海浜公園 サヨリ</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2018/04/12/china-recaptcha/">中国ではGoogle reCAPTCHAを使えません</a>
         </li>
         
     </ul>

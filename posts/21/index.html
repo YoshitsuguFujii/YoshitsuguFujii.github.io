@@ -83,6 +83,65 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2012/02/23/20120223114250/">テーブルの一覧を取得</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2012-02-23T11:42:00+09:00" pubdate><i class="fa fa-calendar"></i> Feb 23rd, 2012</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/rails/'>rails</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>テーブルの一覧を取得</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">tables</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2012/02/22/20120222112342/">フラットスコープ</a>
         </h1>
     
@@ -1000,115 +1059,6 @@ Hogeが定義されていると、二回目の呼び出しでは一回目の呼�
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2012/02/06/20120206164716/">構造体を使う</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2012-02-06T16:47:00+09:00" pubdate><i class="fa fa-calendar"></i> Feb 6th, 2012</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
-            
-                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>rubyで構造体を使いたい時<br/>
-OpenStructが使える。<br/>
-属性は動的に作ってくれる。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;ostruct&#39;</span>
-</span><span class='line'><span class="n">user1</span>    <span class="o">=</span> <span class="no">OpenStruct</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'><span class="n">user2</span>   <span class="o">=</span> <span class="no">OpenStruct</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">user1</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="mi">1</span>
-</span><span class='line'><span class="n">user1</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;hoge&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">user2</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="mi">2</span>
-</span><span class='line'><span class="n">user2</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;fuga&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="nb">p</span> <span class="n">user1</span><span class="o">.</span><span class="n">id</span> <span class="c1">#=&gt; 1</span>
-</span><span class='line'><span class="nb">p</span> <span class="n">user1</span><span class="o">.</span><span class="n">name</span> <span class="c1">#=&gt; &#39;hoge&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="nb">p</span> <span class="n">user2</span><span class="o">.</span><span class="n">id</span> <span class="c1">#=&gt; 2</span>
-</span><span class='line'><span class="nb">p</span> <span class="n">user2</span><span class="o">.</span><span class="n">name</span> <span class="c1">#=&gt; &#39;fuga&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">#Arrayにラップしちゃえば、options_from_collection_for_selectにも渡せる。</span>
-</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;action_view&#39;</span>
-</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;active_support/all&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="kp">include</span> <span class="no">ActionView</span><span class="o">::</span><span class="no">Helpers</span><span class="o">::</span><span class="no">FormOptionsHelper</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">users</span> <span class="o">=</span> <span class="o">[</span><span class="n">user1</span><span class="p">,</span><span class="n">user2</span><span class="o">]</span>
-</span><span class='line'><span class="n">options_from_collection_for_select</span><span class="p">(</span><span class="n">users</span> <span class="p">,</span> <span class="s2">&quot;id&quot;</span> <span class="p">,</span><span class="s2">&quot;name&quot;</span><span class="p">)</span> <span class="c1">#=&gt; &quot;&lt;option value=  &quot;1  &quot;&gt;hoge&lt;/option&gt;  n&lt;option value=  &quot;2  &quot;&gt;fuga&lt;/option&gt;&quot; </span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>すばらしい</p>
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -1172,6 +1122,10 @@ OpenStructが使える。<br/>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2018/05/07/hiratsuka-20180506/">平塚新港 稚鮎 小サバ フグ</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2018/04/26/hhkb/">HHKB２種類を１年間使ってみて</a>
         </li>
         
@@ -1185,10 +1139,6 @@ OpenStructが使える。<br/>
         
         <li class="post">
             <a href="/blog/2018/04/18/takasu-sayori/">高須海浜公園 サヨリ</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2018/04/12/china-recaptcha/">中国ではGoogle reCAPTCHAを使えません</a>
         </li>
         
     </ul>
