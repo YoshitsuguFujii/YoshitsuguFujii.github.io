@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2018-05-07T12:59:41+09:00</updated>
+    <updated>2018-05-08T10:48:15+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,125 @@
     </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[Deviseちょっとしたtips２つ]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2018/05/08/devise-kowaza/"/>
+        <updated>2018-05-08T10:38:56+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2018/05/08/devise-kowaza</id>
+        <content type="html"><![CDATA[<p><a href="https://github.com/plataformatec/devise">Devise</a>の小技２つです。</p>
+
+<!-- more -->
+
+
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p><ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-7039502723411845"
+     data-ad-slot="8206045005"></ins></p>
+
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+<p>１. deviseでログインに失敗した際にアクセスされたページを元に任意のページへ飛ばす。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># config/initializers/devise.rb</span>
+</span><span class='line'><span class="no">Devise</span><span class="o">.</span><span class="n">setup</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">warden</span> <span class="k">do</span> <span class="o">|</span><span class="n">manager</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">manager</span><span class="o">.</span><span class="n">failure_app</span> <span class="o">=</span> <span class="no">CustomAuthenticationFailure</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># lib/custom_authentication_failure.rb</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">CustomAuthenticationFailure</span> <span class="o">&lt;</span> <span class="no">Devise</span><span class="o">::</span><span class="no">FailureApp</span>
+</span><span class='line'>  <span class="kp">protected</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">redirect_url</span>
+</span><span class='line'>    <span class="n">uri</span> <span class="o">=</span> <span class="no">URI</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">warden_options</span><span class="o">[</span><span class="ss">:attempted_path</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">uri</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">start_with?</span><span class="p">(</span><span class="s1">&#39;/admin&#39;</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">hogehoge_url</span> <span class="c1"># adminではじまる場合に飛ばしたいurl</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="k">super</span> <span class="c1"># それ以外の場合は通常のdeviseの処理へ流す</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>warden_options[:attempted_path]でアクセスしようとしたパスが参照できます</p>
+
+<p>２. ログインエリアのurlにアクセスした時に保存するurlを操作</p>
+
+<p>deviseはデフォルトでログインエリアにアクセスした際に未ログイン状態だとそのアクセスしたパスをsessionに保存してくれ、<br/>
+ログイン後にそのurlにリダイレクトしてくれる機能があります。</p>
+
+<p>特定のurlを覚えさせたくなかったのでパッチをあてました。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># config/initializers/devise.rb</span>
+</span><span class='line'><span class="k">module</span> <span class="nn">StoreLocationPatch</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">store_location_for</span><span class="p">(</span><span class="n">resource_or_scope</span><span class="p">,</span> <span class="n">location</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">return</span> <span class="k">if</span> <span class="no">URI</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">location</span><span class="p">)</span><span class="o">.</span><span class="n">path</span> <span class="o">==</span> <span class="s1">&#39;/&#39;</span> <span class="c1"># rootへのアクセスは記憶させない</span>
+</span><span class='line'>    <span class="k">super</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">module</span> <span class="nn">Devise</span>
+</span><span class='line'>  <span class="k">module</span> <span class="nn">Controllers</span>
+</span><span class='line'>    <span class="k">module</span> <span class="nn">StoreLocation</span>
+</span><span class='line'>      <span class="n">prepend</span> <span class="no">StoreLocationPatch</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[平塚新港 稚鮎 小サバ フグ]]></title>
@@ -1710,54 +1829,6 @@ DBの日時はutcで保存して表示する時にユーザによって該当の
 <p></p>
 
 <p>すぐなおってくれると思いますが、お困りの人がいたら上記で治ります。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[ridgepoleの部分インデックスで毎回createとdrop indexをさせない書き方]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2018/01/22/ridgepole-partial-uniq-index/"/>
-        <updated>2018-01-22T14:44:35+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2018/01/22/ridgepole-partial-uniq-index</id>
-        <content type="html"><![CDATA[<p>railsでparanoiaとか使っていて、<br/>
-mysqlで論理削除にdeleted_atがnullかどうかで論理削除判定していると<br/>
-dbのuniq indexで辛い感じになります。</p>
-
-<p>postgresqlでは部分インデックスなるものがあり、deleted_atがnullのものをuniq制約の条件に含めないとかいうことができます。</p>
-
-<p><a href="https://www.postgresql.jp/document/9.2/html/indexes-partial.html">部分インデックス</a></p>
-
-<!-- more -->
-
-
-<p></p>
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-
-
-<p>  <br/>
-<ins class="adsbygoogle"  
-     style="display:block; text-align:center;"  
-     data-ad-layout="in-article"  
-     data-ad-format="fluid"  
-     data-ad-client="ca-pub-7039502723411845"  
-     data-ad-slot="8206045005"></ins></p>
-
-<script>    
-     (adsbygoogle = window.adsbygoogle || []).push({});    
-</script>
-
-
-<p></p>
-
-<p>ridgepoleではこう書くと毎回create index drop indexしません。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>add_index "users", ["email"], name: "uniq_email_idx", unique: true, where: '(deleted_at IS NULL)'  </span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<p>本日は大雪らしいので早く帰りましょう。</p>
 ]]></content>
     </entry>
     

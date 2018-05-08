@@ -4,7 +4,7 @@
     <title><![CDATA[Category: ruby on rails | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/ruby-on-rails/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2018-05-07T12:59:41+09:00</updated>
+    <updated>2018-05-08T10:48:15+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,86 @@
       </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[Deviseちょっとしたtips２つ]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2018/05/08/devise-kowaza/"/>
+        <updated>2018-05-08T10:38:56+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2018/05/08/devise-kowaza</id>
+        <content type="html"><![CDATA[<p><a href="https://github.com/plataformatec/devise">Devise</a>の小技２つです。</p>
+
+<!-- more -->
+
+
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p><ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-7039502723411845"
+     data-ad-slot="8206045005"></ins></p>
+
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+<p>１. deviseでログインに失敗した際にアクセスされたページを元に任意のページへ飛ばす。</p>
+
+<pre><code class="ruby"># config/initializers/devise.rb
+Devise.setup do |config|
+  config.warden do |manager|
+    manager.failure_app = CustomAuthenticationFailure
+  end
+end
+</code></pre>
+
+<pre><code class="ruby"># lib/custom_authentication_failure.rb
+class CustomAuthenticationFailure &lt; Devise::FailureApp
+  protected
+
+  def redirect_url
+    uri = URI.parse(warden_options[:attempted_path])
+    if uri.path.start_with?('/admin')
+      hogehoge_url # adminではじまる場合に飛ばしたいurl
+    else
+      super # それ以外の場合は通常のdeviseの処理へ流す
+    end
+  end
+end
+</code></pre>
+
+<p>warden_options[:attempted_path]でアクセスしようとしたパスが参照できます</p>
+
+<p>２. ログインエリアのurlにアクセスした時に保存するurlを操作</p>
+
+<p>deviseはデフォルトでログインエリアにアクセスした際に未ログイン状態だとそのアクセスしたパスをsessionに保存してくれ、<br/>
+ログイン後にそのurlにリダイレクトしてくれる機能があります。</p>
+
+<p>特定のurlを覚えさせたくなかったのでパッチをあてました。</p>
+
+<pre><code class="ruby"># config/initializers/devise.rb
+module StoreLocationPatch
+  def store_location_for(resource_or_scope, location)
+    return if URI.parse(location).path == '/' # rootへのアクセスは記憶させない
+    super
+  end
+end
+
+module Devise
+  module Controllers
+    module StoreLocation
+      prepend StoreLocationPatch
+    end
+  end
+end
+</code></pre>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[Grapeでskip_before_action]]></title>
@@ -188,123 +268,6 @@ end
 <p><a href="http://www.rubydoc.info/gems/rack/Rack/Response/Helpers#redirect%2F-instance_method">#redirect?</a></p>
 
 <pre><code class="ruby">response.redirect?
-</code></pre>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[GrapeでCSRF対策]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2018/02/26/csrf-with-grape/"/>
-        <updated>2018-02-26T17:38:51+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2018/02/26/csrf-with-grape</id>
-        <content type="html"><![CDATA[<p>セキュリティ試験を受けたらapiでpostしている箇所がcsrf違反でレポートが上がってきました。<br/>
-apiでcsrfって必要なの？<br/>
-って感じでしたが実際にレポートあがってきてしまっているしよくよく考えたら必要じゃんってなったので実装します。</p>
-
-<p>ググってみると情報が少ないですね。<br/>
-みなさんgrapeでcsrfどうしているんでしょう。</p>
-
-<!-- more -->
-
-
-<p></p>
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-
-
-<p>  <br/>
-<ins class="adsbygoogle"  
-     style="display:block; text-align:center;"  
-     data-ad-layout="in-article"  
-     data-ad-format="fluid"  
-     data-ad-client="ca-pub-7039502723411845"  
-     data-ad-slot="8206045005"></ins></p>
-
-<script>    
-     (adsbygoogle = window.adsbygoogle || []).push({});    
-</script>
-
-
-<p></p>
-
-<p>gistでサンプル見つけましたが、<br/>
-<a href="https://gist.github.com/jandudulski/f3799ca67b7b08ded0c6">jandudulski/auth.rb</a><br/>
-Rails5.1.4では動きません。</p>
-
-<p><a href="https://github.com/rails/rails/blob/master/actionpack/lib/action_controller/metal/request_forgery_protection.rb">actionpackのcsrfの実装</a><br/>
-をみながら実装してみます。</p>
-
-<p>結果としてはこんな感じになりました。</p>
-
-<pre><code class="ruby">module V1
-  module RequestForgeryProtectionHelper
-    def session
-      env['rack.session']
-    end
-
-    def protect_against_forgery
-      unless verified_request?
-        Rails.logger.error("[API] Can't verify CSRF token authenticity.")
-        error!(
-          {
-            result: 401,
-            status: 'error',
-            type: 'csrf_error',
-            message: "Can't verify CSRF token authenticity."
-          }, 401
-        )
-      end
-    end
-
-    def verified_request?
-      !protect_against_forgery? || request.get? || request.head? ||
-        authenticity_token_valid?
-    end
-
-    def authenticity_token_valid?
-      encoded_masked_token = request.headers['X-CSRF-Token'] || request.headers['X-Csrf-Token']
-      return false if encoded_masked_token.blank?
-      masked_token = Base64.strict_decode64(encoded_masked_token)
-
-      anonymous_controller = ApplicationController.new
-      if masked_token.length == ActionController::RequestForgeryProtection::AUTHENTICITY_TOKEN_LENGTH
-        anonymous_controller.send(:compare_with_real_token, masked_token, session)
-      elsif masked_token.length == ActionController::RequestForgeryProtection::AUTHENTICITY_TOKEN_LENGTH * 2
-        csrf_token = anonymous_controller.send(:unmask_token, masked_token)
-
-        anonymous_controller.send(:compare_with_real_token, csrf_token, session)
-      else
-        false # Token is malformed.
-      end
-    end
-
-    def protect_against_forgery?
-      allow_forgery_protection = Rails.configuration.action_controller.allow_forgery_protection
-      allow_forgery_protection.nil? || allow_forgery_protection
-    end
-  end
-end
-</code></pre>
-
-<pre><code class="ruby">module V1
-  class Root &lt; Grape::API
-    helpers RequestForgeryProtectionHelper
-
-    before do
-      protect_against_forgery
-    end
-  end
-end
-</code></pre>
-
-<p>クライアント側</p>
-
-<pre><code class="javascript">var token = $( 'meta[name="csrf-token"]' ).attr( 'content' );
-$.ajaxSetup({
-  beforeSend: function ( xhr ) {
-    xhr.setRequestHeader( 'X-CSRF-Token', token );
-  }
-});
 </code></pre>
 ]]></content>
     </entry>

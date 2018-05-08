@@ -4,7 +4,7 @@
     <title><![CDATA[Category: devise | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/devise/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2018-05-07T12:59:41+09:00</updated>
+    <updated>2018-05-08T10:48:15+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,86 @@
       </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[Deviseちょっとしたtips２つ]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2018/05/08/devise-kowaza/"/>
+        <updated>2018-05-08T10:38:56+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2018/05/08/devise-kowaza</id>
+        <content type="html"><![CDATA[<p><a href="https://github.com/plataformatec/devise">Devise</a>の小技２つです。</p>
+
+<!-- more -->
+
+
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p><ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-7039502723411845"
+     data-ad-slot="8206045005"></ins></p>
+
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+<p>１. deviseでログインに失敗した際にアクセスされたページを元に任意のページへ飛ばす。</p>
+
+<pre><code class="ruby"># config/initializers/devise.rb
+Devise.setup do |config|
+  config.warden do |manager|
+    manager.failure_app = CustomAuthenticationFailure
+  end
+end
+</code></pre>
+
+<pre><code class="ruby"># lib/custom_authentication_failure.rb
+class CustomAuthenticationFailure &lt; Devise::FailureApp
+  protected
+
+  def redirect_url
+    uri = URI.parse(warden_options[:attempted_path])
+    if uri.path.start_with?('/admin')
+      hogehoge_url # adminではじまる場合に飛ばしたいurl
+    else
+      super # それ以外の場合は通常のdeviseの処理へ流す
+    end
+  end
+end
+</code></pre>
+
+<p>warden_options[:attempted_path]でアクセスしようとしたパスが参照できます</p>
+
+<p>２. ログインエリアのurlにアクセスした時に保存するurlを操作</p>
+
+<p>deviseはデフォルトでログインエリアにアクセスした際に未ログイン状態だとそのアクセスしたパスをsessionに保存してくれ、<br/>
+ログイン後にそのurlにリダイレクトしてくれる機能があります。</p>
+
+<p>特定のurlを覚えさせたくなかったのでパッチをあてました。</p>
+
+<pre><code class="ruby"># config/initializers/devise.rb
+module StoreLocationPatch
+  def store_location_for(resource_or_scope, location)
+    return if URI.parse(location).path == '/' # rootへのアクセスは記憶させない
+    super
+  end
+end
+
+module Devise
+  module Controllers
+    module StoreLocation
+      prepend StoreLocationPatch
+    end
+  end
+end
+</code></pre>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[最後にサインアウトした時間が欲しい]]></title>
