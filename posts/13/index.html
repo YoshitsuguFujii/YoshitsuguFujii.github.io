@@ -83,6 +83,102 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2015/02/17/20150217112514/">trueとfalseにrefinmentsを使ってメソッド追加</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2015-02-17T11:25:00+09:00" pubdate><i class="fa fa-calendar"></i> Feb 17th, 2015</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>Rubyでモデルの値がtrueの場合は○。falseの場合は空文字を表示するメソッドが欲しかったのでrefimentsを使って実装したかったけどなかなかうまくいかない。<br/>
+trueはインスタンスだと思うんだけど何か普通のインスタンスと違うのだろうか。</p>
+
+<p>試行錯誤は省いて結論としてはこうしたらできました.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">BooleanEx</span>
+</span><span class='line'>  <span class="n">refine</span> <span class="no">TrueClass</span> <span class="k">do</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nc">true</span><span class="o">.</span><span class="nf">to_circle</span>
+</span><span class='line'>      <span class="s2">&quot;○&quot;</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">refine</span> <span class="no">FalseClass</span> <span class="k">do</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nc">false</span><span class="o">.</span><span class="nf">to_circle</span>
+</span><span class='line'>      <span class="s2">&quot;&quot;</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">using</span> <span class="no">BooleanEx</span>
+</span><span class='line'>
+</span><span class='line'><span class="kp">true</span><span class="o">.</span><span class="n">to_circle</span> <span class="c1"># =&gt; &quot;○&quot;</span>
+</span><span class='line'><span class="kp">false</span><span class="o">.</span><span class="n">to_circle</span> <span class="c1"># =&gt; &quot;&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2015/01/08/20150108182843/">cacheのキーを削除</a>
         </h1>
     
@@ -1009,113 +1105,6 @@ after  _remove<br/>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2014/11/21/20141121134825/">slimbarsを使ったらUnknown line indicator</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2014-11-21T13:48:00+09:00" pubdate><i class="fa fa-calendar"></i> Nov 21st, 2014</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/handlebars/'>handlebars</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>勉強がてらRailsのプロジェクトでBackBone.jsでテンプレートにはhandlebarsを使って処理を書いてみました。<br/>
-viewがslimなのでslimbarsで書いてます。</p>
-
-<p>変数を出力しようとしたら以下のエラー<br/>
-Unknown line indicator</p>
-
-<p>viewファイルはこんな感じ</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">.</span><span class="n">hoge</span>
-</span><span class='line'>  <span class="o">.</span><span class="n">fuga</span>
-</span><span class='line'>    <span class="p"></span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>ただしくはこう</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">.</span><span class="n">hoge</span>
-</span><span class='line'>  <span class="o">.</span><span class="n">fuga</span>
-</span><span class='line'>    <span class="o">|</span> <span class="p"></span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>hamlbarsではこう書けてしまうので、slimで書く場合は注意が必要だなと思いました。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">.</span><span class="n">hoge</span>
-</span><span class='line'>  <span class="o">.</span><span class="n">fuga</span>
-</span><span class='line'>    <span class="p"></span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>小ネタも小ネタでした。</p>
-
-<p>しかしeachの中ではslimの記法使えないのかな？<br/>
-こうやらないと出力されない・・・</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">select</span>
-</span><span class='line'>  <span class="o">|</span> <span class="p"></span>
-</span><span class='line'>    <span class="o">&lt;</span><span class="n">option</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="o">&gt;</span><span class="p"></span><span class="o">&lt;</span><span class="sr">/option&gt;</span>
-</span><span class='line'><span class="sr">  | </span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -1179,6 +1168,10 @@ Unknown line indicator</p>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2018/05/23/toushishintaku/">投資信託の本２冊</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2018/05/22/edogawa-tenagaebi/">江戸川 テナガエビ</a>
         </li>
         
@@ -1192,10 +1185,6 @@ Unknown line indicator</p>
         
         <li class="post">
             <a href="/blog/2018/05/08/devise-kowaza/">Deviseちょっとしたtips２つ</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2018/05/07/hiratsuka-20180506/">平塚新港 稚鮎 小サバ フグ</a>
         </li>
         
     </ul>
