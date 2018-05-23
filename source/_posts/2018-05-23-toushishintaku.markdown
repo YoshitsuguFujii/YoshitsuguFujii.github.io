@@ -1,0 +1,57 @@
+---
+layout: post
+title: "投資信託の本２冊"
+date: 2018-05-23 11:17:03 +0900
+comments: true
+categories: [生活, 投資信託]
+---
+
+将来のために少しでも効率よく貯金したくて、投資の本を買いました。  
+  
+基本的には二つともインデックスファンドを継続して(ドルコスト平均法)買おうという内容です。  
+  
+<!-- more -->  
+  
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>  
+<ins class="adsbygoogle"  
+     style="display:block; text-align:center;"  
+     data-ad-layout="in-article"  
+     data-ad-format="fluid"  
+     data-ad-client="ca-pub-7039502723411845"  
+     data-ad-slot="8206045005"></ins>  
+<script>  
+     (adsbygoogle = window.adsbygoogle || []).push({});  
+</script>  
+  
+<table  border="0" cellpadding="5" style="border:none"><tr><td style="border:none;text-align:left"><a href="https://www.amazon.co.jp/exec/obidos/ASIN/4866510420/gogosakura-22/" target="_blank" >図解・最新 難しいことはわかりませんが、お金の増やし方を教えてください!</a></td></tr><tr><td style="border:none"><table  border="0" cellpadding="0" style="border:none"><tr><td valign="top" style="border:none"><a href="https://www.amazon.co.jp/exec/obidos/ASIN/4866510420/gogosakura-22/" target="_blank" ><img src="https://images-fe.ssl-images-amazon.com/images/I/61OMJK9IiCL._SL160_.jpg" border="0" style="margin-right:10px" /></a></td><td valign="top" style="border:none;text-align:left"><div class="kaerebalink-detail" style="margin-bottom:5px;">山崎 元,大橋 弘祐 文響社 2017-11-29</div><div class="kaerebalink-salesranking" style="margin-bottom:5px">売り上げランキング : 744</div><table style="border:none;margin-top:10px"><tr><td style="border:none;text-align:left;"><div class="shoplinkamazon" style="margin-right:5px"><a href="https://www.amazon.co.jp/gp/search?keywords=%20%E5%9B%B3%E8%A7%A3%E3%83%BB%E6%9C%80%E6%96%B0%E3%80%80%E9%9B%A3%E3%81%97%E3%81%84%E3%81%93%E3%81%A8%E3%81%AF%E3%82%8F%E3%81%8B%E3%82%8A%E3%81%BE%E3%81%9B%E3%82%93%E3%81%8C%E3%80%81%E3%81%8A%E9%87%91%E3%81%AE%E5%A2%97%E3%82%84%E3%81%97%E6%96%B9%E3%82%92%E6%95%99%E3%81%88%E3%81%A6%E3%81%8F%E3%81%A0%E3%81%95%E3%81%84%EF%BC%81&__mk_ja_JP=%E3%82%AB%E3%82%BF%E3%82%AB%E3%83%8A&tag=gogosakura-22" target="_blank" >Amazon</a></div><div class="shoplinkrakuten" style="margin-right:5px"><a href="https://hb.afl.rakuten.co.jp/hgc/16102ad8.0804351d.16102ad9.09702e1c/?pc=https%3A%2F%2Fsearch.rakuten.co.jp%2Fsearch%2Fmall%2F%2520%25E5%259B%25B3%25E8%25A7%25A3%25E3%2583%25BB%25E6%259C%2580%25E6%2596%25B0%25E3%2580%2580%25E9%259B%25A3%25E3%2581%2597%25E3%2581%2584%25E3%2581%2593%25E3%2581%25A8%25E3%2581%25AF%25E3%2582%258F%25E3%2581%258B%25E3%2582%258A%25E3%2581%25BE%25E3%2581%259B%25E3%2582%2593%25E3%2581%258C%25E3%2580%2581%25E3%2581%258A%25E9%2587%2591%25E3%2581%25AE%25E5%25A2%2597%25E3%2582%2584%25E3%2581%2597%25E6%2596%25B9%25E3%2582%2592%25E6%2595%2599%25E3%2581%2588%25E3%2581%25A6%25E3%2581%258F%25E3%2581%25A0%25E3%2581%2595%25E3%2581%2584%25EF%25BC%2581%2F-%2Ff.1-p.1-s.1-sf.0-st.A-v.2%3Fx%3D0%26scid%3Daf_ich_link_urltxt%26m%3Dhttp%3A%2F%2Fm.rakuten.co.jp%2F" target="_blank" >楽天市場</a></div></td><td style="vertical-align:bottom;padding-left:10px;font-size:x-small;border:none">by <a href="https://kaereba.com" rel="nofollow" target="_blank">カエレバ</a></td></tr></table></font></td></tr></table></td></tr></table>  
+  
+  
+<table  border="0" cellpadding="5" style="border:none"><tr><td style="border:none;text-align:left"><a href="https://www.amazon.co.jp/exec/obidos/ASIN/4894517833/gogosakura-22/" target="_blank" >お金は寝かせて増やしなさい</a></td></tr><tr><td style="border:none"><table  border="0" cellpadding="0" style="border:none"><tr><td valign="top" style="border:none"><a href="https://www.amazon.co.jp/exec/obidos/ASIN/4894517833/gogosakura-22/" target="_blank" ><img src="https://images-fe.ssl-images-amazon.com/images/I/51xHIGALUZL._SL160_.jpg" border="0" style="margin-right:10px" /></a></td><td valign="top" style="border:none;text-align:left"><div class="kaerebalink-detail" style="margin-bottom:5px;">水瀬ケンイチ フォレスト出版 2017-12-08</div><div class="kaerebalink-salesranking" style="margin-bottom:5px">売り上げランキング : 468</div><table style="border:none;margin-top:10px"><tr><td style="border:none;text-align:left;"><div class="shoplinkamazon" style="margin-right:5px"><a href="https://www.amazon.co.jp/gp/search?keywords=%E3%81%8A%E9%87%91%E3%81%AF%E5%AF%9D%E3%81%8B%E3%81%9B%E3%81%A6%E5%A2%97%E3%82%84%E3%81%97%E3%81%AA%E3%81%95%E3%81%84&__mk_ja_JP=%E3%82%AB%E3%82%BF%E3%82%AB%E3%83%8A&tag=gogosakura-22" target="_blank" >Amazon</a></div><div class="shoplinkrakuten" style="margin-right:5px"><a href="https://hb.afl.rakuten.co.jp/hgc/16102ad8.0804351d.16102ad9.09702e1c/?pc=https%3A%2F%2Fsearch.rakuten.co.jp%2Fsearch%2Fmall%2F%25E3%2581%258A%25E9%2587%2591%25E3%2581%25AF%25E5%25AF%259D%25E3%2581%258B%25E3%2581%259B%25E3%2581%25A6%25E5%25A2%2597%25E3%2582%2584%25E3%2581%2597%25E3%2581%25AA%25E3%2581%2595%25E3%2581%2584%2F-%2Ff.1-p.1-s.1-sf.0-st.A-v.2%3Fx%3D0%26scid%3Daf_ich_link_urltxt%26m%3Dhttp%3A%2F%2Fm.rakuten.co.jp%2F" target="_blank" >楽天市場</a></div></td><td style="vertical-align:bottom;padding-left:10px;font-size:x-small;border:none">by <a href="https://kaereba.com" rel="nofollow" target="_blank">カエレバ</a></td></tr></table></font></td></tr></table></td></tr></table>  
+  
+どちらも大変タメになりました。  
+どちらかというとお金は寝かせて増やしなさいの方がよりオススメです。  
+  
+・実際にどんなファンドを買ったらいいか(具体的なファンド名も記載あり)  
+・効果的なアセットアロケーション(違う投資対象のファンドに分散させる)の比率  
+・有効なツールの使い方など  
+  
+かなり実践的な内容でした。  
+  
+お金の増やし方を教えてくださいの方は論理的にわかりやすい説明が多く面白かったです。  
+
+アベノミクスがなぜインフラを起こそうとしているかなど目からウロコでした。
+  
+日本のお金の多くは60代以上のシニア層がもっているが、その多くは貯蓄され経済を循環させる投資にはむかない。  
+インフラをおこすことで貯蓄されているお金は目減りする。  
+そしてインフラになると相対的に給料も上がるの稼ぐ若い世代は有利。  
+シニア層は貯蓄していると目減りするので稼ぐお金になる投資にいく(かどうかわからないけど)  
+  
+まぁ、シニア層は自分の財産が守られればいいと思っている人が多そうなので、若者世代にお金回らなくていいって考えて  
+アベノミクスやめろ。政府はインフラ政策やめろっていうのかもしれませんね。  
+  
+日本の金融資産のうち9割を60代以上が保有し、20代、30代は2、3%しかもっていないというような記事をみたことがあります。  
+  
+若者世代にもお金が回るといいですね。  
+  
+たまにはの書評でした。  
+  
