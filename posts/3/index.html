@@ -83,6 +83,99 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2018/02/09/carrierwave-expire-setting/">carrierwaveのリンクの有効期間を個別に設定</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2018-02-09T19:27:03+09:00" pubdate><i class="fa fa-calendar"></i> Feb 9th, 2018</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <div class="article__content clearfix">
+        <p>全体でかける場合はこうですかね。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># config/initializers/carrierwave.rb</span>
+</span><span class='line'><span class="no">CarrierWave</span><span class="o">::</span><span class="no">SanitizedFile</span><span class="o">.</span><span class="n">sanitize_regexp</span> <span class="o">=</span> <span class="sr">/[^[:word:]\.\-\+]/</span> <span class="c1"># for Japanese</span>
+</span><span class='line'><span class="no">CarrierWave</span><span class="o">.</span><span class="n">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">fog_credentials</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>    <span class="ss">provider</span><span class="p">:</span>              <span class="s1">&#39;AWS&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="ss">aws_access_key_id</span><span class="p">:</span>     <span class="no">ENV</span><span class="o">[</span><span class="ss">:access_key</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>    <span class="ss">aws_secret_access_key</span><span class="p">:</span> <span class="no">ENV</span><span class="o">[</span><span class="ss">:secret</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>    <span class="ss">region</span><span class="p">:</span>                <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;s3_region&#39;</span><span class="o">]</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">fog_public</span> <span class="o">=</span> <span class="kp">false</span>
+</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">fog_directory</span> <span class="o">=</span> <span class="no">Settings</span><span class="o">.</span><span class="n">aws</span><span class="o">[</span><span class="s1">&#39;s3_bucket&#39;</span><span class="o">]</span>
+</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">cache_storage</span> <span class="o">=</span> <span class="ss">:fog</span>
+</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">fog_authenticated_url_expiration</span> <span class="o">=</span> <span class="mi">1</span><span class="o">.</span><span class="n">minutes</span><span class="o">.</span><span class="n">to_i</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+
+        <a class="btn pull-right" href="/blog/2018/02/09/carrierwave-expire-setting/">Read on &rarr;</a>
+    </div>
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2018/01/31/no-backtrace/">ruby2.5にあげたら例外発生時にstacktraceが吐き出されなくなった</a>
         </h1>
     
@@ -662,74 +755,6 @@ dbのuniq indexで辛い感じになります。</p>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2017/11/25/ichikawa-kemigawahama/">市川->検見川浜突堤</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2017-11-25T23:16:06+09:00" pubdate><i class="fa fa-calendar"></i> Nov 25th, 2017</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/diao-ri/'>釣り</a></li>
-            
-                <li><a class='category' href='/blog/categories/jiang-hu-chuan-fang-shui-lu-he-kou/'>江戸川放水路河口</a></li>
-            
-                <li><a class='category' href='/blog/categories/jian-jian-chuan-bang-tu-di/'>検見川浜突堤</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <div class="article__content clearfix">
-        <p>釣行日 2017年11月25日(土)<br/>
-天気 晴<br/>
-場所 市川<br/>
-釣行時間: 9:00 〜 11:00</p>
-
-<p>釣行日 2017年11月25日(土)<br/>
-天気 晴<br/>
-場所 検見川浜突堤<br/>
-釣行時間: 15:30 〜 17:00</p>
-
-
-        <a class="btn pull-right" href="/blog/2017/11/25/ichikawa-kemigawahama/">Read on &rarr;</a>
-    </div>
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -793,6 +818,10 @@ dbのuniq indexで辛い感じになります。</p>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2018/05/28/gyoutokugyokou/">行徳港 タイワンガザミ</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2018/05/23/toushishintaku/">投資信託の本２冊</a>
         </li>
         
@@ -806,10 +835,6 @@ dbのuniq indexで辛い感じになります。</p>
         
         <li class="post">
             <a href="/blog/2018/05/09/shimano-radial-shoes/">梅雨用に防水の釣りシューズを買ったよ</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2018/05/08/devise-kowaza/">Deviseちょっとしたtips２つ</a>
         </li>
         
     </ul>

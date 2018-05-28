@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2018-05-23T11:31:54+09:00</updated>
+    <updated>2018-05-28T16:31:00+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,87 @@
     </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[行徳港 タイワンガザミ]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2018/05/28/gyoutokugyokou/"/>
+        <updated>2018-05-28T16:22:44+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2018/05/28/gyoutokugyokou</id>
+        <content type="html"><![CDATA[<p>釣行日 2018年5月26日(土)<br/>
+天気 曇<br/>
+場所 行徳漁港<br/>
+釣行時間: 12:00 〜 13:30</p>
+
+<p>ちょっぴり風邪気味だしどうしようか。<br/>
+若洲海浜公園に行こうとするも電話をかけてみるとコンサートやってるから駐車場はいれませんよという回答。</p>
+
+<p>レッドブルエアレースやってるからなー。<br/>
+どうしよう。<br/>
+ふっと思いついた行徳漁港。<br/>
+ちゃんと釣ったことなかったし、ひょっとしたら飛行機見れるかもしれないしで行徳漁港に釣りに行くことにしました。</p>
+
+<!-- more -->
+
+
+<p></p>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p>
+<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-7039502723411845"
+     data-ad-slot="8206045005"></ins></p>
+
+<script>  
+     (adsbygoogle = window.adsbygoogle || []).push({});  
+</script>
+
+
+<p></p>
+
+<p><img src="http://yoshitsugufujii.github.io/images/blog/20180528/IMG_4934.JPG"></p>
+
+<p>釣れない。飛行機もぼんやりと雲の隙間に見えるだけ・・・</p>
+
+<p>しばらくするとビール片手におじさんが登場。</p>
+
+<p>釣りやってるの？<br/>
+ここはハゼしか釣れない。<br/>
+ここで釣りするやつはいないよ。</p>
+
+<p>と色々とアドバイスをいただきました。</p>
+
+<p>それから別のおじさんには。</p>
+
+<p>今はギマしか釣れないよ。<br/>
+運がよくてクロダイ。<br/>
+もう少ししたらハゼが釣れるんだけどね。</p>
+
+<p>釣行後行った釣具屋さんでは</p>
+
+<p>ハゼですかね。<br/>
+たまにフッコかセイゴ。数は多くないです。<br/>
+アナゴですか？たまに間違えで釣れる程度ですね。</p>
+
+<p>なかなか厳しそうです。<br/>
+家からも近いしロケーションもいいしここで釣れると最高なんですけどね。</p>
+
+<p>しばらくぼーっとしているとカニが釣れました。</p>
+
+<p><img src="http://yoshitsugufujii.github.io/images/blog/20180528/IMG_4922.JPG"><br/>
+<img src="http://yoshitsugufujii.github.io/images/blog/20180528/IMG_4925.JPG"><br/>
+<img src="http://yoshitsugufujii.github.io/images/blog/20180528/IMG_4926.JPG"></p>
+
+<p>立派なサイズでした。<br/>
+娘に自慢げに見せたら怖がったのでリリースです。</p>
+
+<p><img src="http://yoshitsugufujii.github.io/images/blog/20180528/IMG_4928.JPG"></p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[投資信託の本２冊]]></title>
@@ -1815,91 +1896,6 @@ Rails5.1.4では動きません。</p>
 
 
 <p>carrierwave-attachmentscannerを使っていたんですが、これは直アップロードだと使えないので、保存と同時にafter_saveでsidekiqのキューに押し込んであとでウィルスチェックしています。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[carrierwaveのリンクの有効期間を個別に設定]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2018/02/09/carrierwave-expire-setting/"/>
-        <updated>2018-02-09T19:27:03+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2018/02/09/carrierwave-expire-setting</id>
-        <content type="html"><![CDATA[<p>全体でかける場合はこうですかね。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># config/initializers/carrierwave.rb</span>
-</span><span class='line'><span class="no">CarrierWave</span><span class="o">::</span><span class="no">SanitizedFile</span><span class="o">.</span><span class="n">sanitize_regexp</span> <span class="o">=</span> <span class="sr">/[^[:word:]\.\-\+]/</span> <span class="c1"># for Japanese</span>
-</span><span class='line'><span class="no">CarrierWave</span><span class="o">.</span><span class="n">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
-</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">fog_credentials</span> <span class="o">=</span> <span class="p">{</span>
-</span><span class='line'>    <span class="ss">provider</span><span class="p">:</span>              <span class="s1">&#39;AWS&#39;</span><span class="p">,</span>
-</span><span class='line'>    <span class="ss">aws_access_key_id</span><span class="p">:</span>     <span class="no">ENV</span><span class="o">[</span><span class="ss">:access_key</span><span class="o">]</span><span class="p">,</span>
-</span><span class='line'>    <span class="ss">aws_secret_access_key</span><span class="p">:</span> <span class="no">ENV</span><span class="o">[</span><span class="ss">:secret</span><span class="o">]</span><span class="p">,</span>
-</span><span class='line'>    <span class="ss">region</span><span class="p">:</span>                <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;s3_region&#39;</span><span class="o">]</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">fog_public</span> <span class="o">=</span> <span class="kp">false</span>
-</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">fog_directory</span> <span class="o">=</span> <span class="no">Settings</span><span class="o">.</span><span class="n">aws</span><span class="o">[</span><span class="s1">&#39;s3_bucket&#39;</span><span class="o">]</span>
-</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">cache_storage</span> <span class="o">=</span> <span class="ss">:fog</span>
-</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">fog_authenticated_url_expiration</span> <span class="o">=</span> <span class="mi">1</span><span class="o">.</span><span class="n">minutes</span><span class="o">.</span><span class="n">to_i</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<!-- more -->
-
-
-<p></p>
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-
-
-<p>  <br/>
-<ins class="adsbygoogle"  
-     style="display:block; text-align:center;"  
-     data-ad-layout="in-article"  
-     data-ad-format="fluid"  
-     data-ad-client="ca-pub-7039502723411845"  
-     data-ad-slot="8206045005"></ins></p>
-
-<script>    
-     (adsbygoogle = window.adsbygoogle || []).push({});    
-</script>
-
-
-<p></p>
-
-<p>個々のアップローダークラスでかける場合</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ImageUploader</span> <span class="o">&lt;</span> <span class="no">CarrierWave</span><span class="o">::</span><span class="no">Uploader</span><span class="o">::</span><span class="no">Base</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">fog_authenticated_url_expiration</span>
-</span><span class='line'>    <span class="mi">1</span><span class="o">.</span><span class="n">minutes</span><span class="o">.</span><span class="n">to_i</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>
-uploader内ではmodelでモデル側のインスタンスを参照できるのでmodel側の条件で動的に有効期限を変えるとかもできそうですね。</p>
 ]]></content>
     </entry>
     

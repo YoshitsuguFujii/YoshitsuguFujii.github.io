@@ -83,6 +83,117 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2015/02/21/20150221171638/">Axlsxでエクセルファイル作成時に注意する点とかはまりどころとか</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2015-02-21T17:16:00+09:00" pubdate><i class="fa fa-calendar"></i> Feb 21st, 2015</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+                <li><a class='category' href='/blog/categories/axlsx/'>axlsx</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>最近Railsを使う会社が増えてきて、2年前にRailsを扱う会社をエージェントに探してもらった時はなかなか見つからなかったんですが、今は楽に見つかりそうですね。
+そもそも登録した転職サイトがダメだったのかもしれないと思いますが。
+千葉でRuby、Railsメインでやってる会社ないかな。</p>
+
+<p>さてさて、ここのところずっと触っているAxlsxです。</p>
+
+<h3>型に気をつける</h3>
+
+<p>エクセルのセルが数値か文字列かで挙動が変わったりします。
+文字列型のカラムに"1000"とか入っていた場合、エクセルでは数値として認識されてしまってvloolupなどの関数が反応しないことがあります。
+その場合は明示的にtypeを指定しましょう。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span>
+</span><span class='line'>  <span class="o">[</span>
+</span><span class='line'>    <span class="s2">&quot;1000&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="mi">1000</span><span class="p">,</span>
+</span><span class='line'>  <span class="o">]</span><span class="p">,</span> <span class="ss">types</span><span class="p">:</span> <span class="o">[</span><span class="ss">:string</span><span class="p">,</span> <span class="ss">:float</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># もしくは</span>
+</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">rows</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">cells</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">type</span> <span class="o">=</span> <span class="o">[</span><span class="ss">:string</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>typesに設定できるシンボル
+<a href="http://www.rubydoc.info/github/randym/axlsx/master/Axlsx/Cell:type">Method: Axlsx::Cell  #type — Documentation for randym/axlsx
+(master)</a>
+[:date, :time, :float, :integer, :string, :boolean]</p>
+
+<h3>エクセルの関数を設定してダウンロード</h3>
+
+<p>そのままアップロードすると関数による値の設定が行われません。
+おそらく数式はエクセルを開いた時にエクセル側で計算されるので、エクセルを一回も開かずにアップロードすると値が設定されていないことになるのかと思います
+fomula  _valueを設定しましょう</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">add_row</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;=A1+B1&#39;</span><span class="o">]</span><span class="p">,</span> <span class="ss">:formula_values</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="kp">nil</span><span class="p">,</span> <span class="kp">nil</span><span class="p">,</span> <span class="mi">3</span><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">#_もしくは</span>
+</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">rows</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">cells</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">value</span>         <span class="o">=</span> <span class="s2">&quot;=A1+B1&quot;</span>
+</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">rows</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">cells</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">formula_value</span> <span class="o">=</span> <span class="s2">&quot;3&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2015/02/17/20150217112514/">trueとfalseにrefinmentsを使ってメソッド追加</a>
         </h1>
     
@@ -1010,101 +1121,6 @@ after  _remove<br/>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2014/11/28/20141128152410/">handlerbarsで現在のループ回数を知る</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2014-11-28T15:24:00+09:00" pubdate><i class="fa fa-calendar"></i> Nov 28th, 2014</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/handlebars/'>handlebars</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>@indexで取れます。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="p"></span>
-</span><span class='line'>  <span class="p">:</span> <span class="p"></span>
-</span><span class='line'>  <span class="n">isFirst?</span><span class="p">:</span> <span class="p"></span>
-</span><span class='line'>  <span class="n">isLast?</span><span class="p">:</span> <span class="p"></span>
-</span><span class='line'><span class="p"></span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>その他に@firstには最初の一回目のループの時にはtrueが<br/>
-@lastには最後のループの時にはtrueが入るようです。<br/>
-@indexは入力欄  _1とかの1とか表示する時に使えそうですね。</p>
-
-<p>2次元配列とか多次元配列を回す時はこうですね。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">多次元配列の回し方</span>
-</span><span class='line'><span class="p"></span>
-</span><span class='line'><span class="p"></span>
-</span><span class='line'>  <span class="p"></span>
-</span><span class='line'>    <span class="p"></span>
-</span><span class='line'>    <span class="p"></span>
-</span><span class='line'>    <span class="p"></span>
-</span><span class='line'>  <span class="p"></span>
-</span><span class='line'><span class="p"></span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>ちなみにでコメントです。<br/>
-という書き方もできます。</p>
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -1168,6 +1184,10 @@ after  _remove<br/>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2018/05/28/gyoutokugyokou/">行徳港 タイワンガザミ</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2018/05/23/toushishintaku/">投資信託の本２冊</a>
         </li>
         
@@ -1181,10 +1201,6 @@ after  _remove<br/>
         
         <li class="post">
             <a href="/blog/2018/05/09/shimano-radial-shoes/">梅雨用に防水の釣りシューズを買ったよ</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2018/05/08/devise-kowaza/">Deviseちょっとしたtips２つ</a>
         </li>
         
     </ul>
