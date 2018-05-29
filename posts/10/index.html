@@ -83,6 +83,70 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2015/08/27/vagrant-mysql/">VagrantとItamaeを使って5分でmysqlサーバー構築</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2015-08-27T15:42:59+09:00" pubdate><i class="fa fa-calendar"></i> Aug 27th, 2015</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/vagrant/'>vagrant</a></li>
+            
+                <li><a class='category' href='/blog/categories/mysql/'>mysql</a></li>
+            
+                <li><a class='category' href='/blog/categories/itamae/'>itamae</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <div class="article__content clearfix">
+        <p>普段はほぼモノシリックなサービスしか開発していないんだけど、去年の暮れぐらいからちょくちょく関わらせている案件がマイクロサービスで、新しい人が入るということで構築手順のまとめがてらVagrant + Itamaeで環境構築してみた。</p>
+
+<p>複数サーバーインスタンスを立ち上げて、各サーバーから一つのmysqlに接続できたらいいな。 (この構成ならdockerでやれという話もあるけど。先にvagrantを勉強してみたかったので）</p>
+
+<p>とりあえず192.168.55.55で接続可能なmysqlのvagrant(なんていうんだろう。dockerだとコンテナに相当するやつ)を作成してみます。</p>
+
+
+        <a class="btn pull-right" href="/blog/2015/08/27/vagrant-mysql/">Read on &rarr;</a>
+    </div>
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2015/07/28/axlsx-diagonal-border/">Axlsxでセルの中の斜線を引く</a>
         </h1>
     
@@ -663,78 +727,6 @@ WYSIWYGエディタの<a href="http://ckeditor.com/demo">ckeditor</a>がすご�
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2015/06/11/simple-form-error-full-message/">simple_formで表示されるエラーをfull_messagesのものにする</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2015-06-11T14:30:19+09:00" pubdate><i class="fa fa-calendar"></i> Jun 11th, 2015</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
-            
-                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <div class="article__content clearfix">
-        <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1">#開発環境</span>
-</span><span class='line'><span class="n">rails</span> <span class="p">(</span><span class="mi">4</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">1</span><span class="p">)</span>
-</span><span class='line'><span class="n">simple_form</span> <span class="p">(</span><span class="mi">3</span><span class="o">.</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>simple_formをそのまま使うとエラー発生時のエラーの表示がfull_messageではなく、object.errors[:name]みたいにした時の値しか表示してくれない。</p>
-
-<p>こんな感じ。<br/>
-<img src="/images/blog/simple_form_error2015-06-10.png" alt="normal error" /></p>
-
-<p>ちょっとこれだとあんまりなのでfull_messageでメッセージを表示したい</p>
-
-
-        <a class="btn pull-right" href="/blog/2015/06/11/simple-form-error-full-message/">Read on &rarr;</a>
-    </div>
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -798,6 +790,10 @@ WYSIWYGエディタの<a href="http://ckeditor.com/demo">ckeditor</a>がすご�
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2018/05/29/nagaurakou/">長浦港 イワシ 小アジ 小サバ</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2018/05/28/gyoutokugyokou/">行徳港 タイワンガザミ</a>
         </li>
         
@@ -811,10 +807,6 @@ WYSIWYGエディタの<a href="http://ckeditor.com/demo">ckeditor</a>がすご�
         
         <li class="post">
             <a href="/blog/2018/05/21/20180521-hanamigawa-tenagaebi/">花見川 テナガエビ</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2018/05/09/shimano-radial-shoes/">梅雨用に防水の釣りシューズを買ったよ</a>
         </li>
         
     </ul>
