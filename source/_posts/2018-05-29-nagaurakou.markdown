@@ -86,5 +86,3 @@ categories: [釣り, 長浦港]
 <img src="/images/blog/20180529/IMG_4972.JPG">  
   
 <img src="/images/blog/20180529/IMG_4984.JPG">  
-  
-その間犬は寝てました。  
