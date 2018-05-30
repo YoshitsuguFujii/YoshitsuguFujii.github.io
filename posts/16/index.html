@@ -83,6 +83,83 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2013/11/20/20131120192300/">vimでファイルのブックマーク</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2013-11-20T19:23:00+09:00" pubdate><i class="fa fa-calendar"></i> Nov 20th, 2013</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/vim/'>vim</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>vimを使っていて。<br/>
+ディレクトリはUniteBookmarkAdd使ってブックマークしてましたが。</p>
+
+<p>集中的にある機能のみを重点的に編集する時に、ファイルのブックマークしたくて調べたらあった。<br/>
+しかもデフォルトの機能っぽい。</p>
+
+<p>Hack   #16: 任意のファイルをブックマークする<br/>
+<a href="http://vim-users.jp/2009/05/hack16/">http://vim-users.jp/2009/05/hack16/</a></p>
+
+<p>例えば店舗とかっていう機能開発していて。</p>
+
+<p>StoreControllerのコントロールファイルではmC<br/>
+StoreのformのビューファイルではmF<br/>
+StoreのindexファイルではmS<br/>
+StoreのjsファイルではmJ</p>
+
+<p>しとくと編集していて、すぐにコントローラ開きたい時は<br/>
+  `C</p>
+
+<p>って押せばすぐ開く。<br/>
+簡単に設定できて、即応性があるのでいい感じですね。<br/>
+しかもブックマークとかにしちゃうと、設定後その機能の開発が終わったらブックマークを消さなきゃいけないと思いますが。<br/>
+今なにが設定されているとか気にせずに、常に上書きで使う感じもいいです。<br/>
+他にも色々便利機能ってあるのかな。</p>
+
+<p>vimの本ちゃんと読まないとなー</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2013/11/19/20131119145036/">fields_forに渡すrelationを絞る</a>
         </h1>
     
@@ -932,112 +1009,6 @@ How to fix libv8 error from Gemfile on Mavericks?<br/>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2013/10/10/20131010190956/">２つ以上のthrough</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2013-10-10T19:09:00+09:00" pubdate><i class="fa fa-calendar"></i> Oct 10th, 2013</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>モデルで以下のABCDというクラスがあって、それぞれに親子関係がある場合。</p>
-
-<p>A→B→C→D</p>
-
-<p>かなり適当に書くとこうやって取れる。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">User_1</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
-</span><span class='line'> <span class="n">has_many</span> <span class="n">user_2</span>
-</span><span class='line'> <span class="n">has_many</span> <span class="n">user_3</span><span class="p">,</span> <span class="ss">through</span><span class="p">:</span> <span class="n">user_2</span>
-</span><span class='line'> <span class="n">has_many</span> <span class="n">user_4</span><span class="p">,</span> <span class="ss">through</span><span class="p">:</span> <span class="n">user_3</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">User_2</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
-</span><span class='line'> <span class="n">belongs_to</span> <span class="n">user_1</span>
-</span><span class='line'> <span class="n">has_many</span> <span class="n">user_3</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">User_3</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
-</span><span class='line'> <span class="n">belongs_to</span> <span class="n">user_2</span>
-</span><span class='line'> <span class="n">has_many</span> <span class="n">user_4</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">User_4</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
-</span><span class='line'> <span class="n">belongs_to</span> <span class="n">user_3</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">User_1</span><span class="o">.</span><span class="n">user_4</span><span class="o">.</span><span class="n">first</span><span class="o">.</span><span class="n">class</span> <span class="c1"># =&gt; User_4</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>ちょっと感動したけど、普通にみんな使ってるのだろうか。</p>
-
-<p>しかし、言いたいことは伝わると思うのだが、<br/>
-コード適当すぎかも(&ndash;;)</p>
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -1101,6 +1072,10 @@ How to fix libv8 error from Gemfile on Mavericks?<br/>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2018/05/30/amazon-gulp-stick/">ガルプスティック買ってみたけど</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2018/05/29/nagaurakou/">長浦港 イワシ 小アジ 小サバ</a>
         </li>
         
@@ -1114,10 +1089,6 @@ How to fix libv8 error from Gemfile on Mavericks?<br/>
         
         <li class="post">
             <a href="/blog/2018/05/22/edogawa-tenagaebi/">江戸川 テナガエビ</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2018/05/21/20180521-hanamigawa-tenagaebi/">花見川 テナガエビ</a>
         </li>
         
     </ul>
