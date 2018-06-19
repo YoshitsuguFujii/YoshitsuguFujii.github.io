@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2018-06-18T17:25:38+09:00</updated>
+    <updated>2018-06-19T10:28:56+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,107 @@
     </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[今井岸壁 イワシ ウミタナゴ]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2018/06/19/imaiganpeki/"/>
+        <updated>2018-06-19T10:17:31+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2018/06/19/imaiganpeki</id>
+        <content type="html"><![CDATA[<p>釣行日 2018年6月16日(土)<br/>
+天気 曇<br/>
+場所 今井岸壁<br/>
+釣行時間: 13:00 〜 19:00</p>
+
+<p>土曜日はひとりまったりと釣りと思っていたら。<br/>
+さ、寒い&hellip;</p>
+
+<p>この気温差なんなんでしょうね。</p>
+
+<!-- more -->
+
+
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p><ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-7039502723411845"
+     data-ad-slot="8206045005"></ins></p>
+
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+<p>長浦見てみましたがほどよく混んでいてちょっとお邪魔するにはって感じでした。</p>
+
+<p>ということでお隣で竿だしです。</p>
+
+<p><img src="http://yoshitsugufujii.github.io/images/blog/20180619/IMG_5350.JPG"></p>
+
+<p>置き竿で２本、トリック1本です。<br/>
+みなさんイカ狙いですね。<br/>
+スミ跡も結構あるので釣れているんでしょう。</p>
+
+<p><img src="http://yoshitsugufujii.github.io/images/blog/20180619/IMG_5349.JPG"></p>
+
+<p>今日はゲストとして</p>
+
+<p>愛犬小春にも参加してもらいました。</p>
+
+<p><img src="http://yoshitsugufujii.github.io/images/blog/20180619/IMG_5358.JPG"></p>
+
+<p>沖縄生まれのフレブル５歳♀。</p>
+
+<p>しかし寒い上に釣れないなぁ。</p>
+
+<p>犬におかしあげたりと暇な時間が続きます 。</p>
+
+<p><img src="http://yoshitsugufujii.github.io/images/blog/20180619/IMG_5361.jpg"></p>
+
+<p>わーっと家族連れが騒いだとおもったらエギでタコ釣ったみたいです。</p>
+
+<p>いいなぁとか思っていたらトリックつけてる竿がしなっています。</p>
+
+<p>上がってきたのは</p>
+
+<p><img src="http://yoshitsugufujii.github.io/images/blog/20180619/IMG_5351.JPG"></p>
+
+<p>ウミタナゴ。<br/>
+持って帰りましょう。</p>
+
+<p><img src="http://yoshitsugufujii.github.io/images/blog/20180619/IMG_5355.JPG"></p>
+
+<p>そしてしばらくして</p>
+
+<p><img src="http://yoshitsugufujii.github.io/images/blog/20180619/IMG_5356.JPG"></p>
+
+<p>ウミタナゴ。</p>
+
+<p>17時半ぐらいからボラか何かがライズしまくっていました。</p>
+
+<p>足元にはイワシの群れが。</p>
+
+<p>ルアー投げて見ましたがそもそも動かし方もよくわからず何も釣れませんでした。</p>
+
+<p>合間にイワシ３匹だけゲット。</p>
+
+<p><img src="http://yoshitsugufujii.github.io/images/blog/20180619/IMG_5377.JPG"></p>
+
+<p>ウミタナゴとイワシは帰って久米島でもらった久米仙の泡盛とレモン汁にちょっとだけつけこみ塩焼きに</p>
+
+<p><img src="http://yoshitsugufujii.github.io/images/blog/20180619/IMG_5379.JPG"></p>
+
+<p>おいしかったです。</p>
+
+<p>釣行時間長かったわりに釣果が見合ってないですね。<br/>
+次こそは。</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[住民税の納税通知書がきたけど]]></title>
@@ -1566,42 +1667,6 @@ FilocoのManilaはちょっと気になってます。</p>
 </span><span class='line'>    <span class="n">user</span><span class="o">.</span><span class="n">update_column</span><span class="p">(</span><span class="ss">:current_sign_out_at</span><span class="p">,</span> <span class="no">Time</span><span class="o">.</span><span class="n">current</span><span class="p">)</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[Railsでredirect_toが呼ばれたか判定]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2018/03/05/rails-redirect-called/"/>
-        <updated>2018-03-05T11:34:15+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2018/03/05/rails-redirect-called</id>
-        <content type="html"><![CDATA[<p>アクションメソッドから呼び出したメソッドで呼ばれているかどうか</p>
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-
-
-<p>  <br/>
-<ins class="adsbygoogle"  
-     style="display:block; text-align:center;"  
-     data-ad-layout="in-article"  
-     data-ad-format="fluid"  
-     data-ad-client="ca-pub-7039502723411845"  
-     data-ad-slot="8206045005"></ins></p>
-
-<script>    
-     (adsbygoogle = window.adsbygoogle || []).push({});    
-</script>
-
-
-<p></p>
-
-<p><a href="http://www.rubydoc.info/gems/rack/Rack/Response/Helpers#redirect%2F-instance_method">#redirect?</a></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">response</span><span class="o">.</span><span class="n">redirect?</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
