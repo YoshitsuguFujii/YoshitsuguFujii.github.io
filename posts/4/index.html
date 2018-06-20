@@ -83,6 +83,72 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2018/01/22/ridgepole-partial-uniq-index/">ridgepoleの部分インデックスで毎回createとdrop indexをさせない書き方</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2018-01-22T14:44:35+09:00" pubdate><i class="fa fa-calendar"></i> Jan 22nd, 2018</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
+            
+                <li><a class='category' href='/blog/categories/ridgepole/'>ridgepole</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <div class="article__content clearfix">
+        <p>railsでparanoiaとか使っていて、<br/>
+mysqlで論理削除にdeleted_atがnullかどうかで論理削除判定していると<br/>
+dbのuniq indexで辛い感じになります。</p>
+
+<p>postgresqlでは部分インデックスなるものがあり、deleted_atがnullのものをuniq制約の条件に含めないとかいうことができます。</p>
+
+<p><a href="https://www.postgresql.jp/document/9.2/html/indexes-partial.html">部分インデックス</a></p>
+
+
+        <a class="btn pull-right" href="/blog/2018/01/22/ridgepole-partial-uniq-index/">Read on &rarr;</a>
+    </div>
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2017/12/26/soto-toach/">テーブルで手軽に炙りを体験</a>
         </h1>
     
@@ -642,69 +708,6 @@
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2017/11/07/futtushinko/">富津新港 アジ ウミタナゴ</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2017-11-07T11:00:23+09:00" pubdate><i class="fa fa-calendar"></i> Nov 7th, 2017</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/diao-ri/'>釣り</a></li>
-            
-                <li><a class='category' href='/blog/categories/fu-jin-xin-gang/'>富津新港</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <div class="article__content clearfix">
-        <p>釣行日 2017年11月06日(日)<br/>
-天気 曇<br/>
-場所 富津新港<br/>
-釣行時間: 13:30 〜 17:00</p>
-
-<p>久しぶりに富津新港に来ました。</p>
-
-
-        <a class="btn pull-right" href="/blog/2017/11/07/futtushinko/">Read on &rarr;</a>
-    </div>
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -768,6 +771,10 @@
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2018/06/20/taitou/">太東 イシモチ</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2018/06/19/imaiganpeki/">今井岸壁 イワシ ウミタナゴ</a>
         </li>
         
@@ -781,10 +788,6 @@
         
         <li class="post">
             <a href="/blog/2018/05/29/nagaurakou/">長浦港 イワシ 小アジ 小サバ</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2018/05/28/gyoutokugyokou/">行徳港 タイワンガザミ</a>
         </li>
         
     </ul>

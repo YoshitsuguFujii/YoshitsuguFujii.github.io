@@ -83,6 +83,79 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2014/07/31/20140731131925/">Facebookとのアプリの連携を解除する</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2014-07-31T13:19:00+09:00" pubdate><i class="fa fa-calendar"></i> Jul 31st, 2014</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/php/'>php</a></li>
+            
+                <li><a class='category' href='/blog/categories/facebook/'>facebook</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>調べてみたら自分所のDBからFacebookの情報を消すだけのものが多くて、大元のFacebookのアプリ設定から削除するのがあんまり載ってなかったようなきがするので</p>
+
+<p>以下の感じで、連携解除ができます。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vg">$facebook</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">Facebook</span><span class="p">(</span><span class="n">array</span><span class="p">(</span>
+</span><span class='line'><span class="s1">&#39;appId&#39;</span> <span class="o">=&gt;</span> <span class="err">アプリの</span><span class="n">app_id</span><span class="p">,</span>
+</span><span class='line'><span class="s1">&#39;secret&#39;</span> <span class="o">=&gt;</span> <span class="err">アプリの</span><span class="n">app_secret</span>
+</span><span class='line'><span class="p">));</span>
+</span><span class='line'>
+</span><span class='line'><span class="vg">$facebook</span><span class="o">-&gt;</span><span class="n">api</span><span class="p">(</span><span class="s2">&quot;/me/permissions&quot;</span><span class="p">,</span> <span class="s2">&quot;delete&quot;</span><span class="p">,</span> <span class="n">array</span><span class="p">(</span><span class="s1">&#39;access_token&#39;</span> <span class="o">=&gt;</span> <span class="err">ユーザーのアクセストークン</span><span class="p">));</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>珍しくPHPでした。</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2014/05/27/20140527111143/">s3からcliでファイルをまとめて落としたり、正規表現で落とせたりするツール</a>
         </h1>
     
@@ -1371,96 +1444,6 @@ CTRL + Z
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2013/12/11/20131211200817/">変数の初期化</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2013-12-11T20:08:00+09:00" pubdate><i class="fa fa-calendar"></i> Dec 11th, 2013</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>clearなんてあったんや。<br/>
-<a href="http://ref.xaio.jp/ruby/classes/array/clear">http://ref.xaio.jp/ruby/classes/array/clear</a></p>
-
-<p>今まで</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">array</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;hoge&quot;</span><span class="p">,</span> <span class="s2">&quot;fuga&quot;</span><span class="o">]</span>
-</span><span class='line'><span class="n">array</span> <span class="o">=</span> <span class="o">[]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>ってやってたのが、</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">array</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;hoge&quot;</span><span class="p">,</span> <span class="s2">&quot;fuga&quot;</span><span class="o">]</span>
-</span><span class='line'><span class="n">array</span><span class="o">.</span><span class="n">clear</span> <span class="c1"># =&gt; []</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>って書ける。より直感的ですね。</p>
-
-<p>ちなみに文字列もHashもあるみたいです。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">hash</span> <span class="o">=</span> <span class="p">{</span><span class="ss">hoge</span><span class="p">:</span> <span class="s2">&quot;fuga&quot;</span><span class="p">}</span>
-</span><span class='line'><span class="nb">hash</span><span class="o">.</span><span class="n">clear</span> <span class="c1"># {}</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">str</span> <span class="o">=</span> <span class="s2">&quot;fugafufa&quot;</span>
-</span><span class='line'><span class="n">str</span><span class="o">.</span><span class="n">clar</span> <span class="c1"># =&gt; &quot;&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>へー。</p>
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -1524,6 +1507,10 @@ CTRL + Z
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2018/06/20/taitou/">太東 イシモチ</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2018/06/19/imaiganpeki/">今井岸壁 イワシ ウミタナゴ</a>
         </li>
         
@@ -1537,10 +1524,6 @@ CTRL + Z
         
         <li class="post">
             <a href="/blog/2018/05/29/nagaurakou/">長浦港 イワシ 小アジ 小サバ</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2018/05/28/gyoutokugyokou/">行徳港 タイワンガザミ</a>
         </li>
         
     </ul>
