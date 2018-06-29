@@ -4,7 +4,7 @@
     <title><![CDATA[Category: ruby | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/ruby/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2018-06-20T10:53:25+09:00</updated>
+    <updated>2018-06-29T16:02:52+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,62 @@
       </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[grape-jbuilderでtimezoneをなんとかする]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2018/06/29/grape-jbuilder-timezone/"/>
+        <updated>2018-06-29T15:47:34+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2018/06/29/grape-jbuilder-timezone</id>
+        <content type="html"><![CDATA[<p>Grapeでtimezoneを考慮して日付を返す場合は<br/>
+この<a href="https://t.co/Fqt42F1M3H">What is the best way to emulate <code>around_filter</code> when using Grape?</a>のようにgrapeのbeforeとafterを使って設定するのが定石な気がしますが。<br/>
+<a href="https://github.com/milkcocoa/grape-jbuilder">grape-jbuilder</a>でjbuilderの中で書いた日付がbeforeで設定したtimezoneで表示してくれなかったので対応しました。</p>
+
+<!-- more -->
+
+
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p><ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-7039502723411845"
+     data-ad-slot="8206045005"></ins></p>
+
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+<p>grapeのendpoint(controllerでいうactionみたいな)で返すとtimezoneが考慮されていますが、jbuilderの中では考慮されていないっぽい。<br/>
+before -> grapeのendpointの処理 -> after -> jbuilderのrender<br/>
+という順番で動いているからですね。</p>
+
+<p>苦しいですがrenderの前後にtimezoneを変更するpatchをあてます。</p>
+
+<pre><code class="ruby"># config/initializers/grape_jbuilder_patch.rb
+module GrapeJbuilderPatch
+  def call
+    Time.zone = endpoint.current_user.time_zone # ユーザーのtimezoneを使う
+    result = super
+    Time.zone = Rails.configuration.time_zone # 戻す
+    result
+  end
+end
+
+module Grape
+  module Formatter
+    class Jbuilder
+      prepend GrapeJbuilderPatch
+    end
+  end
+end
+</code></pre>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[Deviseちょっとしたtips２つ]]></title>
@@ -236,38 +292,6 @@ end
     user.update_column(:current_sign_out_at, Time.current)
   end
 end
-</code></pre>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[Railsでredirect_toが呼ばれたか判定]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2018/03/05/rails-redirect-called/"/>
-        <updated>2018-03-05T11:34:15+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2018/03/05/rails-redirect-called</id>
-        <content type="html"><![CDATA[<p>アクションメソッドから呼び出したメソッドで呼ばれているかどうか</p>
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-
-
-<p>  <br/>
-<ins class="adsbygoogle"  
-     style="display:block; text-align:center;"  
-     data-ad-layout="in-article"  
-     data-ad-format="fluid"  
-     data-ad-client="ca-pub-7039502723411845"  
-     data-ad-slot="8206045005"></ins></p>
-
-<script>    
-     (adsbygoogle = window.adsbygoogle || []).push({});    
-</script>
-
-
-<p></p>
-
-<p><a href="http://www.rubydoc.info/gems/rack/Rack/Response/Helpers#redirect%2F-instance_method">#redirect?</a></p>
-
-<pre><code class="ruby">response.redirect?
 </code></pre>
 ]]></content>
     </entry>

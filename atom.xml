@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2018-06-20T10:53:25+09:00</updated>
+    <updated>2018-06-29T16:02:52+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,80 @@
     </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[grape-jbuilderでtimezoneをなんとかする]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2018/06/29/grape-jbuilder-timezone/"/>
+        <updated>2018-06-29T15:47:34+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2018/06/29/grape-jbuilder-timezone</id>
+        <content type="html"><![CDATA[<p>Grapeでtimezoneを考慮して日付を返す場合は<br/>
+この<a href="https://t.co/Fqt42F1M3H">What is the best way to emulate <code>around_filter</code> when using Grape?</a>のようにgrapeのbeforeとafterを使って設定するのが定石な気がしますが。<br/>
+<a href="https://github.com/milkcocoa/grape-jbuilder">grape-jbuilder</a>でjbuilderの中で書いた日付がbeforeで設定したtimezoneで表示してくれなかったので対応しました。</p>
+
+<!-- more -->
+
+
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p><ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-7039502723411845"
+     data-ad-slot="8206045005"></ins></p>
+
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+<p>grapeのendpoint(controllerでいうactionみたいな)で返すとtimezoneが考慮されていますが、jbuilderの中では考慮されていないっぽい。<br/>
+before -> grapeのendpointの処理 -> after -> jbuilderのrender<br/>
+という順番で動いているからですね。</p>
+
+<p>苦しいですがrenderの前後にtimezoneを変更するpatchをあてます。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># config/initializers/grape_jbuilder_patch.rb</span>
+</span><span class='line'><span class="k">module</span> <span class="nn">GrapeJbuilderPatch</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">call</span>
+</span><span class='line'>    <span class="no">Time</span><span class="o">.</span><span class="n">zone</span> <span class="o">=</span> <span class="n">endpoint</span><span class="o">.</span><span class="n">current_user</span><span class="o">.</span><span class="n">time_zone</span> <span class="c1"># ユーザーのtimezoneを使う</span>
+</span><span class='line'>    <span class="n">result</span> <span class="o">=</span> <span class="k">super</span>
+</span><span class='line'>    <span class="no">Time</span><span class="o">.</span><span class="n">zone</span> <span class="o">=</span> <span class="no">Rails</span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">time_zone</span> <span class="c1"># 戻す</span>
+</span><span class='line'>    <span class="n">result</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">module</span> <span class="nn">Grape</span>
+</span><span class='line'>  <span class="k">module</span> <span class="nn">Formatter</span>
+</span><span class='line'>    <span class="k">class</span> <span class="nc">Jbuilder</span>
+</span><span class='line'>      <span class="n">prepend</span> <span class="no">GrapeJbuilderPatch</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[太東 イシモチ]]></title>
@@ -1698,46 +1772,6 @@ FilocoのManilaはちょっと気になってます。</p>
 
 <p>帰りに太東港みてみましたが昼間だからもあったのか渋そうでした。<br/>
 小さい3〜5センチぐらいのイワシか何かが泳いでました。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[Heroku小ネタ]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2018/04/03/rack-attack/"/>
-        <updated>2018-04-03T11:43:22+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2018/04/03/rack-attack</id>
-        <content type="html"><![CDATA[<p>HerokuでRailsアプリ動かすときは<br/>
-<a href="https://github.com/kickstarter/rack-attack">rack-attack</a><br/>
-入れといたほうが良さそう。</p>
-
-<p><a href="https://help.heroku.com/HCCDCDYY/does-heroku-offer-ddos-denial-of-service-mitigation">https://help.heroku.com/HCCDCDYY/does-heroku-offer-ddos-denial-of-service-mitigation</a></p>
-
-<!-- more -->
-
-
-<p></p>
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-
-
-<p>  <br/>
-<ins class="adsbygoogle"  
-     style="display:block; text-align:center;"  
-     data-ad-layout="in-article"  
-     data-ad-format="fluid"  
-     data-ad-client="ca-pub-7039502723411845"  
-     data-ad-slot="8206045005"></ins></p>
-
-<script>    
-     (adsbygoogle = window.adsbygoogle || []).push({});    
-</script>
-
-
-<p></p>
-
-<p>ちなみにthrottleの機能を使ってみたんですが、cacheを使って試行回数を判定するのでcache storeをnull_storeとかにしちゃうといつまでもローカルではテストできません。</p>
-
-<p>最近釣りに行き始めてますが連続坊主中。</p>
 ]]></content>
     </entry>
     
