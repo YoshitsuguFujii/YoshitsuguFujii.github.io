@@ -52,7 +52,7 @@ window.NestedFormEvents.prototype.insertFields = function(content, assoc, link) 
 }
 ```
   
-linkのdata-destination=prependで対象の要素の上にprependで追加されるイメージです。  
+linkのdata-prepend=trueで対象の要素の上にprependで追加されるイメージです。  
   
 ```erb
 <table id="tasks">
