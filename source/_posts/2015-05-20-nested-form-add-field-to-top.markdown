@@ -40,7 +40,7 @@ application.jsで`//= require jquery_nested_form`の後に以下の処理を書�
 ```js
 window.NestedFormEvents.prototype.insertFields = function(content, assoc, link) {
   var target = $(link).data('target');
-  if ($(link).data('destination') == "prepend"){
+  if ($(link).data('prepend')){
     return $(target).prepend($(content));
   }else{
     if (target) {
