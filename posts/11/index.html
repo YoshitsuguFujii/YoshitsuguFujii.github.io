@@ -83,6 +83,69 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2015/07/21/pckeditor_add_plugin/">railsでckeditorにplugin追加</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2015-07-21T10:33:15+09:00" pubdate><i class="fa fa-calendar"></i> Jul 21st, 2015</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
+            
+                <li><a class='category' href='/blog/categories/ckeditor/'>ckeditor</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <div class="article__content clearfix">
+        <p>ckeditorで作成したinputがsubmitした時にemptyだったらエラーを出したい。<br/>
+いろいろ検索しましたが有用な情報がなく、inputにCKEDITOR.stylesSet.addでクラスを設定する方法もうまくいかず、若干途方に暮れましたが、プラグイン<a href="http://ckeditor.com/addon/html5validation">html5validation</a>をいれることで対応することにしました。</p>
+
+<p>導入手順です。</p>
+
+
+        <a class="btn pull-right" href="/blog/2015/07/21/pckeditor_add_plugin/">Read on &rarr;</a>
+    </div>
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2015/07/17/bootstrap-file-input-for-japanese/">Bootstrap FileInputで日本語の文字が表示されない</a>
         </h1>
     
@@ -693,94 +756,6 @@ WYSIWYGエディタの<a href="http://ckeditor.com/demo">ckeditor</a>がすご�
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2015/05/25/force-occur-callbacks/">モデルのattributeに変更がなくてもnested_attribute_forを使っているモデルでcallbackを発生させる</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2015-05-25T16:15:38+09:00" pubdate><i class="fa fa-calendar"></i> May 25th, 2015</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
-            
-                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <div class="article__content clearfix">
-        <p>任意の条件でnested_attribute_forの対象の保存処理を走らせる方法です</p>
-
-<p>ファイルのアップロード用のモデルを作っていて<code>ActionDispatch::Http::UploadedFile</code>を一旦attr_accessorのアクセサで受けたあとcallbackでファイル名やファイルサイズをmodelクラスの該当のカラムに設定するという処理を書いておりました。</p>
-
-<p>ファイルは可変にアップロードしたかったのでこのモデルの親モデルから参照するようにして、nested_attribute_forで親モデル更新時に一緒に更新するようにします。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Oya</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
-</span><span class='line'>  <span class="n">has_many</span> <span class="ss">:files</span><span class="p">,</span> <span class="ss">dependent</span><span class="p">:</span> <span class="ss">:destroy</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">accepts_nested_attributes_for</span> <span class="ss">:files</span><span class="p">,</span> <span class="ss">allow_destroy</span><span class="p">:</span> <span class="kp">true</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">File</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
-</span><span class='line'>  <span class="kp">attr_accessor</span> <span class="ss">:file</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-
-        <a class="btn pull-right" href="/blog/2015/05/25/force-occur-callbacks/">Read on &rarr;</a>
-    </div>
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -844,6 +819,10 @@ WYSIWYGエディタの<a href="http://ckeditor.com/demo">ckeditor</a>がすご�
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2018/07/30/edogawahousuiro-haze/">江戸川放水路 ハゼ</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2018/06/29/grape-jbuilder-timezone/">grape-jbuilderでtimezoneをなんとかする</a>
         </li>
         
@@ -857,10 +836,6 @@ WYSIWYGエディタの<a href="http://ckeditor.com/demo">ckeditor</a>がすご�
         
         <li class="post">
             <a href="/blog/2018/06/18/zyuminzei/">住民税の納税通知書がきたけど</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2018/05/31/shibauraunga/">芝浦運河 東芝ビル前 偵察</a>
         </li>
         
     </ul>
