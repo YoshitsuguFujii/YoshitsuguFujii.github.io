@@ -152,3 +152,27 @@ $.ajax({
 ```
   
 carrierwave-attachmentscannerを使っていたんですが、これは直アップロードだと使えないので、保存と同時にafter_saveでsidekiqのキューに押し込んであとでウィルスチェックしています。  
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>    
+<ins class="adsbygoogle"    
+     style="display:block; text-align:center;"    
+     data-ad-layout="in-article"    
+     data-ad-format="fluid"    
+     data-ad-client="ca-pub-7039502723411845"    
+     data-ad-slot="8206045005"></ins>    
+<script>    
+     (adsbygoogle = window.adsbygoogle || []).push({});    
+</script>    
+
+
+**追記**
+
+アットマークやスペースが含まれる場合にs3のファイルが参照できないことがあり調べてみたらクライアントサイドでのファイル名sanitizeが必要みたいです。  
+ちなみにcarrierwaveのコードはこちら  
+マネしてかいてみるといいと思います。  
+
+https://github.com/carrierwaveuploader/carrierwave/blob/master/lib/carrierwave/sanitized_file.rb#L324-L331
+
+
+
