@@ -4,7 +4,7 @@
     <title><![CDATA[Category: carrierwave | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/carrierwave/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2018-08-03T15:24:47+09:00</updated>
+    <updated>2018-08-06T12:22:04+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -165,6 +165,32 @@ $.ajax({
 </code></pre>
 
 <p>carrierwave-attachmentscannerを使っていたんですが、これは直アップロードだと使えないので、保存と同時にafter_saveでsidekiqのキューに押し込んであとでウィルスチェックしています。</p>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p>  <br/>
+<ins class="adsbygoogle"  
+     style="display:block; text-align:center;"  
+     data-ad-layout="in-article"  
+     data-ad-format="fluid"  
+     data-ad-client="ca-pub-7039502723411845"  
+     data-ad-slot="8206045005"></ins></p>
+
+<script>    
+     (adsbygoogle = window.adsbygoogle || []).push({});    
+</script>
+
+
+<p></p>
+
+<p><strong>追記</strong></p>
+
+<p>アットマークやスペースが含まれる場合にs3のファイルが参照できないことがあり調べてみたらクライアントサイドでのファイル名sanitizeが必要みたいです。<br/>
+ちなみにcarrierwaveのコードはこちら<br/>
+マネしてかいてみるといいと思います。</p>
+
+<p><a href="https://github.com/carrierwaveuploader/carrierwave/blob/master/lib/carrierwave/sanitized_file.rb#L324-L331">https://github.com/carrierwaveuploader/carrierwave/blob/master/lib/carrierwave/sanitized_file.rb#L324-L331</a></p>
 ]]></content>
     </entry>
     
