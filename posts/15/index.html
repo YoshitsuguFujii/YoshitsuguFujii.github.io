@@ -91,6 +91,178 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2014/12/07/20141207173028/">論理削除指定のモデルをhas_manyで参照し、かつnested_attributes_forにallow_destroyを指定するも物理削除になる。</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2014-12-07T17:30:00+09:00" pubdate><i class="fa fa-calendar"></i> Dec 7th, 2014</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/rails/'>rails</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>環境はこちら<br/>
+activerecord(4.1.6)<br/>
+rails4  <em>acts  </em>as  _paranoid (0.1.4)</p>
+
+<p>has  <em>manyのリレーション先でacts  </em>as  <em>paranoid指定しているのですが、<br/>
+nested  </em>attributes  <em>for リレーション先, allow  </em>destroy : true<br/>
+で何故か物理削除になっていまったので調べてみました。</p>
+
+<p>結論としては</p>
+
+<p>lib/active  <em>record/associations/has  </em>many  <em>association.rb<br/>
+の112行目で<br/>
+records.each(&amp;:destroy!)<br/>
+とdestroy!で消していて、acts  </em>as  _paranoidのdestroy!は物理削除になるためでした。</p>
+
+<p>何故destroyに!がついているのか
+上記が定義されているdelete  <em>recordsメソッドを遡ってみます。<br/>
+delete  </em>recordsメソッドはlib/active  <em>record/associations/collection  </em>association.rb<br/>
+のremove  _recordsの中で呼ばれています(ソースでは492行目)</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="c1"># lib/active_record/associations/collection_association.rb</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">remove_records</span><span class="p">(</span><span class="n">existing_records</span><span class="p">,</span> <span class="n">records</span><span class="p">,</span> <span class="nb">method</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">records</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">record</span><span class="o">|</span> <span class="n">callback</span><span class="p">(</span><span class="ss">:before_remove</span><span class="p">,</span> <span class="n">record</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">delete_records</span><span class="p">(</span><span class="n">existing_records</span><span class="p">,</span> <span class="nb">method</span><span class="p">)</span> <span class="k">if</span> <span class="n">existing_records</span><span class="o">.</span><span class="n">any?</span>
+</span><span class='line'>    <span class="n">records</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">record</span><span class="o">|</span> <span class="n">target</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">record</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">records</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">record</span><span class="o">|</span> <span class="n">callback</span><span class="p">(</span><span class="ss">:after_remove</span><span class="p">,</span> <span class="n">record</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>んでこれはどこで呼ばれるかというとここで呼ばれています(ソースでは485行目)</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="c1"># lib/active_record/associations/collection_association.rb</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">delete_or_destroy</span><span class="p">(</span><span class="n">records</span><span class="p">,</span> <span class="nb">method</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">records</span> <span class="o">=</span> <span class="n">records</span><span class="o">.</span><span class="n">flatten</span>
+</span><span class='line'>    <span class="n">records</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">record</span><span class="o">|</span> <span class="n">raise_on_type_mismatch!</span><span class="p">(</span><span class="n">record</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'>    <span class="n">existing_records</span> <span class="o">=</span> <span class="n">records</span><span class="o">.</span><span class="n">reject</span> <span class="p">{</span> <span class="o">|</span><span class="n">r</span><span class="o">|</span> <span class="n">r</span><span class="o">.</span><span class="n">new_record?</span> <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="n">existing_records</span><span class="o">.</span><span class="n">empty?</span>
+</span><span class='line'>      <span class="n">remove_records</span><span class="p">(</span><span class="n">existing_records</span><span class="p">,</span> <span class="n">records</span><span class="p">,</span> <span class="nb">method</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="n">transaction</span> <span class="p">{</span> <span class="n">remove_records</span><span class="p">(</span><span class="n">existing_records</span><span class="p">,</span> <span class="n">records</span><span class="p">,</span> <span class="nb">method</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>transactionで囲まれています。<br/>
+ということでdestroyに失敗した時にロールバックするために!をつけているようです。</p>
+
+<p>なのでparanoidのdestroy!をalias  <em>method  </em>chainで物理削除にしてしまうか。<br/>
+上記のrecords.each(&amp;:destroy!)をなんとか書き換えてあげると治りそうですね。</p>
+
+<p>今回はこうやって直しました。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">ActiveRecord</span>
+</span><span class='line'>  <span class="k">module</span> <span class="nn">Associations</span>
+</span><span class='line'>    <span class="k">module</span> <span class="nn">HasManyAssociationPatch</span>
+</span><span class='line'>      <span class="k">def</span> <span class="nf">delete_records</span><span class="p">(</span><span class="n">records</span><span class="p">,</span> <span class="nb">method</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">if</span> <span class="nb">method</span> <span class="o">==</span> <span class="ss">:destroy</span>
+</span><span class='line'>          <span class="n">records</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">record</span><span class="o">|</span>
+</span><span class='line'>            <span class="k">raise</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">ActiveRecordError</span> <span class="k">unless</span> <span class="n">record</span><span class="o">.</span><span class="n">destroy</span>
+</span><span class='line'>          <span class="k">end</span>
+</span><span class='line'>          <span class="n">update_counter</span><span class="p">(</span><span class="o">-</span><span class="n">records</span><span class="o">.</span><span class="n">length</span><span class="p">)</span> <span class="k">unless</span> <span class="n">inverse_updates_counter_cache?</span>
+</span><span class='line'>        <span class="k">else</span>
+</span><span class='line'>          <span class="k">super</span>
+</span><span class='line'>        <span class="k">end</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Associations</span><span class="o">::</span><span class="no">HasManyAssociation</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="ss">:prepend</span><span class="p">,</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Associations</span><span class="o">::</span><span class="no">HasManyAssociationPatch</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>今回ソース読んでいて知ったんですけど、has  <em>manyって削除する時に<br/>
+before  </em>remove<br/>
+after  _remove<br/>
+ってコールバックが発生するんですね。知らなかった。</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2014/12/05/20141205115627/">Nokogiriを使って部分的にhtmlを編集する</a>
         </h1>
     
@@ -1287,168 +1459,6 @@ gz圧縮以外にも対応したいとかあれば、ご自由に改変してお
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2014/03/24/20140324143648/">jQueryのappendが重かったので対応したこと</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2014-03-24T14:36:00+09:00" pubdate><i class="fa fa-calendar"></i> Mar 24th, 2014</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/jquery/'>jquery</a></li>
-            
-                <li><a class='category' href='/blog/categories/javascript/'>javascript</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>railsでチェックボックスで会社を選択して、ajax通信で返すjsの内容がこんな感じだった。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="o">&lt;</span><span class="sx">% @company.each </span><span class="k">do</span> <span class="o">|</span><span class="n">company</span><span class="o">|</span> <span class="sx">%&gt;</span>
-</span><span class='line'><span class="sx">    &lt;% company.member.each do |customer| %&gt;</span>
-</span><span class='line'>        <span class="err">$</span><span class="p">(</span><span class="s2">&quot;#customer_area&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&lt;%= escape_javascript(render(&quot;</span><span class="n">make_customer_area</span><span class="s2">&quot;, cid: customer.id)) %&gt;&quot;</span><span class="p">);</span>
-</span><span class='line'>    <span class="o">&lt;</span><span class="sx">% end %&gt;</span>
-</span><span class='line'><span class="sx">  &lt;% end %&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>重い。console.time仕込んで計測したらappendがめちゃめちゃ重い。<br/>
-一回のappendで1秒ぐらいかかってた。</p>
-
-<p>毎回appendじゃなくて、一回でappendしてみる</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">var</span> <span class="n">html</span> <span class="o">=</span> <span class="o">[]</span>
-</span><span class='line'>  <span class="n">var</span> <span class="n">customer_area</span> <span class="o">=</span> <span class="err">$</span><span class="p">(</span><span class="s2">&quot;#customer_area&quot;</span><span class="p">)</span>
-</span><span class='line'>  <span class="o">&lt;</span><span class="sx">% @company.each </span><span class="k">do</span> <span class="o">|</span><span class="n">company</span><span class="o">|</span> <span class="sx">%&gt;</span>
-</span><span class='line'><span class="sx">    &lt;% company.member.each do |customer| %&gt;</span>
-</span><span class='line'>        <span class="n">html</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="s2">&quot;&lt;%= escape_javascript(render(&quot;</span><span class="n">make_customer_area</span><span class="s2">&quot;, cid: customer.id)) %&gt;&quot;</span><span class="p">);</span>
-</span><span class='line'>    <span class="o">&lt;</span><span class="sx">% end %&gt;</span>
-</span><span class='line'><span class="sx">  &lt;% end %&gt;</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span> <span class="n">html</span><span class="o">.</span><span class="n">length</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">){</span>
-</span><span class='line'>    <span class="n">customer_area</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">html</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">))</span>
-</span><span class='line'>  <span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>あんまり変わらないなぁ。<br/>
-というかappendやめよ。もうやめよ。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">var</span> <span class="n">html</span> <span class="o">=</span> <span class="o">[]</span>
-</span><span class='line'>  <span class="n">var</span> <span class="n">customer_area</span> <span class="o">=</span> <span class="n">document</span><span class="o">.</span><span class="n">getElementById</span><span class="p">(</span><span class="s2">&quot;customer_area&quot;</span><span class="p">);</span>
-</span><span class='line'>  <span class="o">&lt;</span><span class="sx">% @company.each </span><span class="k">do</span> <span class="o">|</span><span class="n">company</span><span class="o">|</span> <span class="sx">%&gt;</span>
-</span><span class='line'><span class="sx">    &lt;% company.member.each do |customer| %&gt;</span>
-</span><span class='line'>        <span class="n">html</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="s2">&quot;&lt;%= escape_javascript(render(&quot;</span><span class="n">make_customer_area</span><span class="s2">&quot;, cid: customer.id)) %&gt;&quot;</span><span class="p">);</span>
-</span><span class='line'>    <span class="o">&lt;</span><span class="sx">% end %&gt;</span>
-</span><span class='line'><span class="sx">  &lt;% end %&gt;</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span> <span class="n">html</span><span class="o">.</span><span class="n">length</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">){</span>
-</span><span class='line'>    <span class="n">customer_area</span><span class="o">.</span><span class="n">innerHTML</span> <span class="o">=</span> <span class="n">customer_area</span><span class="o">.</span><span class="n">innerHTML</span> <span class="o">+</span> <span class="n">html</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
-</span><span class='line'>  <span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>約0.5秒ぐらい早くなった。いいね。<br/>
-でもinnnerHTML使ってるから、何回か会社をクリックするとinnerHTMLにテキストが溜まりすぎてだんだん重くなる。<br/>
-innnerHTML参照せずにappendChildで追加しよう。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">var</span> <span class="n">html</span> <span class="o">=</span> <span class="o">[]</span>
-</span><span class='line'>  <span class="n">var</span> <span class="n">customer_area</span> <span class="o">=</span> <span class="n">document</span><span class="o">.</span><span class="n">getElementById</span><span class="p">(</span><span class="s2">&quot;customer_area&quot;</span><span class="p">);</span>
-</span><span class='line'>  <span class="o">&lt;</span><span class="sx">% @company.each </span><span class="k">do</span> <span class="o">|</span><span class="n">company</span><span class="o">|</span> <span class="sx">%&gt;</span>
-</span><span class='line'><span class="sx">    &lt;% company.member.each do |customer| %&gt;</span>
-</span><span class='line'>        <span class="n">html</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="s2">&quot;&lt;%= escape_javascript(render(&quot;</span><span class="n">make_customer_area</span><span class="s2">&quot;, cid: customer.id)) %&gt;&quot;</span><span class="p">);</span>
-</span><span class='line'>    <span class="o">&lt;</span><span class="sx">% end %&gt;</span>
-</span><span class='line'><span class="sx">  &lt;% end %&gt;</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span> <span class="n">html</span><span class="o">.</span><span class="n">length</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">){</span>
-</span><span class='line'>    <span class="n">var</span> <span class="n">element</span> <span class="o">=</span> <span class="n">document</span><span class="o">.</span><span class="n">createElement</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">);</span>
-</span><span class='line'>    <span class="n">element</span><span class="o">.</span><span class="n">innerHTML</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">);</span>
-</span><span class='line'>    <span class="n">customer_area</span><span class="o">.</span><span class="n">appendChild</span><span class="p">(</span><span class="n">element</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>これで当初の半分ぐらいまでは処理時間が軽減されました。</p>
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -1512,6 +1522,10 @@ innnerHTML参照せずにappendChildで追加しよう。</p>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2018/09/20/edogawahousuiro/">江戸川放水路 ハゼ</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2018/09/10/edogawa-haze/">江戸川放水路 ハゼ</a>
         </li>
         
@@ -1525,10 +1539,6 @@ innnerHTML参照せずにappendChildで追加しよう。</p>
         
         <li class="post">
             <a href="/blog/2018/07/31/imaiganpeki/">今井岸壁 アジ チーバス</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2018/07/30/edogawahousuiro-haze/">江戸川放水路 ハゼ</a>
         </li>
         
     </ul>

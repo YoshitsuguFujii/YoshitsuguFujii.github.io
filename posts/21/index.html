@@ -91,6 +91,65 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2012/07/25/20120725140729/">Railsでアプリケーション名が取りたい場合</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2012-07-25T14:07:00+09:00" pubdate><i class="fa fa-calendar"></i> Jul 25th, 2012</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/rails/'>rails</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>こうすると取れる</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Rails</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">parent_name</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2012/07/24/20120724150437/">いっつも忘れるsanitizeメソッド</a>
         </h1>
     
@@ -744,55 +803,6 @@ jpmobile 1.0.0</p>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2012/03/09/20120309153620/">2012年4月2日追記。</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2012-03-09T15:36:00+09:00" pubdate><i class="fa fa-calendar"></i> Mar 9th, 2012</time>
-
-
-
-
-            
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>whereつけると戻り値がrelationになるから、to  _sqlが使える。<br/>
-scoped使うとrelation取れる。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">User</span><span class="o">.</span><span class="n">unscoped</span><span class="o">.</span><span class="n">to_sql</span><span class="err">　</span><span class="c1">#=&gt;　&quot;SELECT `users`.* FROM `users`&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -856,6 +866,10 @@ scoped使うとrelation取れる。</p>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2018/09/20/edogawahousuiro/">江戸川放水路 ハゼ</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2018/09/10/edogawa-haze/">江戸川放水路 ハゼ</a>
         </li>
         
@@ -869,10 +883,6 @@ scoped使うとrelation取れる。</p>
         
         <li class="post">
             <a href="/blog/2018/07/31/imaiganpeki/">今井岸壁 アジ チーバス</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2018/07/30/edogawahousuiro-haze/">江戸川放水路 ハゼ</a>
         </li>
         
     </ul>
