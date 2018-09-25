@@ -91,6 +91,72 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2012/03/19/20120319180847/">アクセス中のURL取得とホスト取得</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2012-03-19T18:08:00+09:00" pubdate><i class="fa fa-calendar"></i> Mar 19th, 2012</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>アクセス中のURL取得</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">request</span><span class="o">.</span><span class="n">url</span> <span class="c1">#=&gt; &quot;http://localhost:3000/users/index&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>アクセス中のホスト</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">request</span><span class="o">.</span><span class="n">host</span> <span class="c1">#=&gt; &quot;localhost&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2012/03/09/20120309153620/">2012年4月2日追記。</a>
         </h1>
     
@@ -822,147 +888,6 @@ rails 3.0.5</p>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2012/02/22/20120222112342/">フラットスコープ</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2012-02-22T11:23:00+09:00" pubdate><i class="fa fa-calendar"></i> Feb 22nd, 2012</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>rubyにはスコープゲートがある。<br/>
-スコープゲートを越えて変数は参照できない。</p>
-
-<p>スコープゲートには</p>
-
-<p>class<br/>
-module<br/>
-def</p>
-
-<p>があり、それぞれのブロックの中ではスコープが切り替わる。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Foo</span>
-</span><span class='line'>  <span class="n">str</span> <span class="o">=</span> <span class="s2">&quot;foo&quot;</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">print</span>
-</span><span class='line'>    <span class="n">str</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">foo</span> <span class="o">=</span> <span class="no">Foo</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'><span class="n">foo</span><span class="o">.</span><span class="n">print</span> <span class="c1"># =&gt; NameError: undefined local variable or method `str&#39;が発生する</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>def printでスコープが変わるので、外側のstrが参照できない。</p>
-
-<p>解決するには例えばフラットスコープ</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Bar</span>
-</span><span class='line'>  <span class="n">str</span> <span class="o">=</span> <span class="s2">&quot;bar&quot;</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">define_method</span> <span class="ss">:print</span> <span class="k">do</span>
-</span><span class='line'>    <span class="n">str</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">bar</span> <span class="o">=</span> <span class="no">Bar</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'><span class="n">bar</span><span class="o">.</span><span class="n">print</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>スコープゲート(class/module/def)を使わなければいいという話。<br/>
-今回はdefをdefine  _methodに変更した</p>
-
-<p>classはClass.new<br/>
-moduleはModule.new</p>
-
-<p>でブロック内部に中身を記述する。<br/>
-一応クラスの場合の例。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">str</span> <span class="o">=</span> <span class="s2">&quot;bar&quot;</span>
-</span><span class='line'><span class="no">Bar</span> <span class="o">=</span> <span class="no">Class</span><span class="o">.</span><span class="n">new</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">define_method</span> <span class="ss">:print</span> <span class="k">do</span>
-</span><span class='line'>    <span class="n">str</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">Bar</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">print</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -1026,6 +951,10 @@ moduleはModule.new</p>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2018/09/25/imaiganpeki/">今井岸壁 アジ サバ イワシ サヨリ</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2018/09/20/edogawahousuiro/">江戸川放水路 ハゼ</a>
         </li>
         
@@ -1039,10 +968,6 @@ moduleはModule.new</p>
         
         <li class="post">
             <a href="/blog/2018/08/03/titan-cup/">チタン製タンブラーを買ったよ</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2018/07/31/imaiganpeki/">今井岸壁 アジ チーバス</a>
         </li>
         
     </ul>

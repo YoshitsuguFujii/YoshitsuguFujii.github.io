@@ -91,6 +91,67 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2014/12/09/20141209150940/">特定のキーを除いたhashを返す</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2014-12-09T15:09:00+09:00" pubdate><i class="fa fa-calendar"></i> Dec 9th, 2014</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/rails/'>rails</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>今までdeleteでチクチク消したり、rejectで該当キーをひっかけてhash作り直しリしてました。</p>
+
+<p>exceptなんてあったんですね。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="p">{</span><span class="nb">name</span><span class="p">:</span> <span class="s2">&quot;藤井&quot;</span><span class="p">,</span> <span class="ss">age</span><span class="p">:</span> <span class="mi">34</span><span class="p">,</span> <span class="ss">job</span><span class="p">:</span> <span class="s2">&quot;developer&quot;</span><span class="p">}</span><span class="o">.</span><span class="n">except</span><span class="p">(</span><span class="ss">:age</span><span class="p">)</span> <span class="c1"># =&gt; { :name =&gt; &quot;藤井&quot;, :job =&gt; &quot;developer&quot; }</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2014/12/07/20141207173028/">論理削除指定のモデルをhas_manyで参照し、かつnested_attributes_forにallow_destroyを指定するも物理削除になる。</a>
         </h1>
     
@@ -1388,77 +1449,6 @@ gz圧縮以外にも対応したいとかあれば、ご自由に改変してお
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2014/05/09/20140509000000/">godでThe server is not available (or you do not have</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2014-05-09T00:00:00+09:00" pubdate><i class="fa fa-calendar"></i> May 9th, 2014</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
-            
-                <li><a class='category' href='/blog/categories/god/'>god</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>色々と設定をいじっていて、godのプロセスが立ち上がらなくなった。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rbenv</span> <span class="nb">exec</span> <span class="n">bundle</span> <span class="nb">exec</span> <span class="n">god</span> <span class="n">terminate</span>
-</span><span class='line'><span class="c1"># =&gt; The server is not available (or you do not have permissions to access it)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>多分rootとかで色々やった時に出きたpidファイルとかが悪さしてるんだろうなー。<br/>
-って思ったけどどこにあるのか？</p>
-
-<p>とりあえずRAILS  _ROOTのtmpを見てみるけど。ない</p>
-
-<p>軽くはまりつつも、/tmpにありました。<br/>
-/tmp/god.12223.sock</p>
-
-<p>コレを消して無事解決！</p>
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -1522,6 +1512,10 @@ gz圧縮以外にも対応したいとかあれば、ご自由に改変してお
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2018/09/25/imaiganpeki/">今井岸壁 アジ サバ イワシ サヨリ</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2018/09/20/edogawahousuiro/">江戸川放水路 ハゼ</a>
         </li>
         
@@ -1535,10 +1529,6 @@ gz圧縮以外にも対応したいとかあれば、ご自由に改変してお
         
         <li class="post">
             <a href="/blog/2018/08/03/titan-cup/">チタン製タンブラーを買ったよ</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2018/07/31/imaiganpeki/">今井岸壁 アジ チーバス</a>
         </li>
         
     </ul>
