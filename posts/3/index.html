@@ -91,6 +91,66 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2018/05/08/devise-kowaza/">Deviseちょっとしたtips２つ</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2018-05-08T10:38:56+09:00" pubdate><i class="fa fa-calendar"></i> May 8th, 2018</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
+            
+                <li><a class='category' href='/blog/categories/devise/'>devise</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <div class="article__content clearfix">
+        <p><a href="https://github.com/plataformatec/devise">Devise</a>の小技２つです。</p>
+
+
+        <a class="btn pull-right" href="/blog/2018/05/08/devise-kowaza/">Read on &rarr;</a>
+    </div>
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2018/05/07/hiratsuka-20180506/">平塚新港 稚鮎 小サバ フグ</a>
         </h1>
     
@@ -727,96 +787,6 @@ FilocoのManilaはちょっと気になってます。</p>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2018/03/12/current-sign-out-at/">最後にサインアウトした時間が欲しい</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2018-03-12T12:51:13+09:00" pubdate><i class="fa fa-calendar"></i> Mar 12th, 2018</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
-            
-                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
-            
-                <li><a class='category' href='/blog/categories/devise/'>devise</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-
-
-<p>  <br/>
-<ins class="adsbygoogle"  
-     style="display:block; text-align:center;"  
-     data-ad-layout="in-article"  
-     data-ad-format="fluid"  
-     data-ad-client="ca-pub-7039502723411845"  
-     data-ad-slot="8206045005"></ins></p>
-
-<script>    
-     (adsbygoogle = window.adsbygoogle || []).push({});    
-</script>
-
-
-<p></p>
-
-<p>before_logoutというwardenのフックメソッドがあるのでそこに追加<br/>
-自分はconfig/initializers/devise.rbに追加しちゃいました。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Warden</span><span class="o">::</span><span class="no">Manager</span><span class="o">.</span><span class="n">before_logout</span> <span class="k">do</span> <span class="o">|</span><span class="n">user</span><span class="p">,</span><span class="n">auth</span><span class="p">,</span><span class="n">opts</span><span class="o">|</span>
-</span><span class='line'>  <span class="k">if</span> <span class="n">user</span><span class="o">.</span><span class="n">is_a?</span><span class="p">(</span><span class="no">User</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">user</span><span class="o">.</span><span class="n">update_column</span><span class="p">(</span><span class="ss">:current_sign_out_at</span><span class="p">,</span> <span class="no">Time</span><span class="o">.</span><span class="n">current</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -880,6 +850,10 @@ FilocoのManilaはちょっと気になってます。</p>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2018/09/30/imaiganpeki/">今井岸壁 アジ イワシ</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2018/09/26/maximum/">マキシマム</a>
         </li>
         
@@ -893,10 +867,6 @@ FilocoのManilaはちょっと気になってます。</p>
         
         <li class="post">
             <a href="/blog/2018/09/10/edogawa-haze/">江戸川放水路 ハゼ</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2018/08/28/kemigawahama/">検見川浜突堤 チーバス チンチン ミニカマス</a>
         </li>
         
     </ul>

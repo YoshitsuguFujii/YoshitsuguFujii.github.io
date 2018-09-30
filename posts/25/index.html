@@ -91,6 +91,334 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2012/01/25/20120125110512/">pusherの助けを借りたWebSocketを使ったチャットシステム</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2012-01-25T11:05:00+09:00" pubdate><i class="fa fa-calendar"></i> Jan 25th, 2012</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/pusher/'>pusher</a></li>
+            
+                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>リアルタイムなchatを作りたい。<br/>
+そんな欲求誰にでもあるものです。</p>
+
+<p>時間のない主婦の方にも手軽にパパっとチャットシステムを作る方法を紹介しようと思います。</p>
+
+<p>材料は<br/>
+rails<br/>
+pusher</p>
+
+<p>作る料理は<br/>
+チャットシステム(現在の参加者表示機能付き)</p>
+
+<p>の二つです。</p>
+
+<p>変なテンションな書き方はここまで。</p>
+
+<p>今日の記事は全面的にここを参考にさせていだきました。<br/>
+<a href="http://yuno.heroku.com/blog/2011-06-23-Rails%E3%81%A6%E3%82%99WebSocket%E3%82%92%E6%89%8B%E8%BB%BD%E3%81%AB%E4%BD%BF%E3%81%86.md">Yuno</a></p>
+
+<p>pusherはWebSocketsを利用したAPIです。</p>
+
+<p><a href="http://pusher.com/">Leader in realtime technologies| Pusher</a></p>
+
+<p>わかりやすい図はっときます。</p>
+
+<p><a href="http://f.hatena.ne.jp/gogo_sakura/20120124124957"><img src="http://cdn-ak.f.st-hatena.com/images/fotolife/g/gogo_sakura/20120124/20120124124957.png" title="f:id:gogo_sakura:20120124124957p:image" alt="f:id:gogo  _sakura:20120124124957p:image" /></a></p>
+
+<p>例えばブラウザがpostリクエスト投げると、それを受け取ったサーバからpusherにそのデータを加工してパス。<br/>
+するとブラウザにpushしてくれるというイメージ。</p>
+
+<p>pusher利用にはユーザ登録で得られるAPI Credentialsが必要です。<br/>
+まずはpusherのサイトでユーザ登録して、</p>
+
+<p>app  _id<br/>
+key<br/>
+secret</p>
+
+<p>をゲットしてください。</p>
+
+<p>今日の記事は実際に作ったものからコピペで書いていますが。<br/>
+view部分はhamlで書いてるので、見ずらくてすいません。<br/>
+erbメインの方は脳内で変換かけてください。</p>
+
+<p>とりあえずGemfileに記述</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="s1">&#39;pusher&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>bundle install後、config/initializers内にpusher.rb作成</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="no">Pusher</span><span class="o">.</span><span class="n">app_id</span> <span class="o">=</span> <span class="err">ユーザ登録でゲットした</span><span class="n">app_id</span>
+</span><span class='line'>  <span class="no">Pusher</span><span class="o">.</span><span class="n">key</span> <span class="o">=</span> <span class="err">ユーザ登録でゲットした</span><span class="n">key</span>
+</span><span class='line'>  <span class="no">Pusher</span><span class="o">.</span><span class="n">secret</span> <span class="o">=</span> <span class="err">ユーザ登録でゲットした</span><span class="n">secret</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>config/route.rbにauthアクションへのルーティング追加</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">resources</span> <span class="ss">:chats</span> <span class="p">,</span> <span class="ss">:only</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:index</span> <span class="p">,</span> <span class="ss">:create</span> <span class="p">,</span> <span class="ss">:destroy</span><span class="o">]</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">post</span> <span class="ss">:auth</span> <span class="p">,</span> <span class="ss">:on</span> <span class="o">=&gt;</span> <span class="ss">:collection</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>現在の参加者を取得するためには、pusherの<a href="http://pusher.com/docs/client_api_guide/client_channels#presence-channels">Presence
+Channels</a>を使用しなければなりません。<br/>
+Presence
+Channelsを使用するためには、認証を受けること・channel名のprefixにpresence-つけないといけません。</p>
+
+<p>view</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">=</span> <span class="n">javascript_include_tag</span> <span class="s2">&quot;http://js.pusher.com/1.11/pusher.min.js&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="ss">:javascript</span>
+</span><span class='line'>  <span class="err">$</span><span class="p">(</span><span class="n">function</span><span class="p">(){</span>
+</span><span class='line'>    <span class="no">Pusher</span><span class="o">.</span><span class="n">channel_auth_endpoint</span> <span class="o">=</span> <span class="s1">&#39;/chats/auth&#39;</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">var</span> <span class="n">pusher</span>  <span class="o">=</span> <span class="kp">new</span> <span class="no">Pusher</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="err">ユーザ登録でゲットした</span><span class="n">key</span> <span class="si">}</span><span class="s2">&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">var</span> <span class="n">channel</span> <span class="o">=</span> <span class="n">pusher</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s2">&quot;presence-chat&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">channel</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s2">&quot;chatevent&quot;</span><span class="p">,</span> <span class="n">function</span><span class="p">(</span><span class="n">html</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="err">$</span><span class="p">(</span><span class="s2">&quot;#chat_body&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">val</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">);</span>
+</span><span class='line'>      <span class="err">$</span><span class="p">(</span><span class="s2">&quot;ul&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">prepend</span><span class="p">(</span><span class="n">html</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">channel</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s1">&#39;pusher:subscription_succeeded&#39;</span><span class="p">,</span> <span class="n">function</span><span class="p">(</span><span class="n">members</span><span class="p">){</span>
+</span><span class='line'>      <span class="n">members</span><span class="o">.</span><span class="n">each</span><span class="p">(</span><span class="n">add_member</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">channel</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s1">&#39;pusher:member_added&#39;</span><span class="p">,</span> <span class="n">function</span><span class="p">(</span><span class="n">member</span><span class="p">){</span>
+</span><span class='line'>      <span class="n">add_member</span><span class="p">(</span><span class="n">member</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">})</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">channel</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s1">&#39;pusher:member_removed&#39;</span><span class="p">,</span> <span class="n">function</span><span class="p">(</span><span class="n">member</span><span class="p">){</span>
+</span><span class='line'>      <span class="n">remove_member</span><span class="p">(</span><span class="n">member</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">})</span>
+</span><span class='line'>  <span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">function</span> <span class="n">add_member</span><span class="p">(</span><span class="n">member</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="n">container</span> <span class="o">=</span> <span class="err">$</span><span class="p">(</span><span class="s2">&quot;&lt;span&gt;&quot;</span><span class="p">,</span> <span class="p">{</span>
+</span><span class='line'>      <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="s2">&quot;member&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="nb">id</span><span class="p">:</span> <span class="s2">&quot;presence_&quot;</span> <span class="o">+</span> <span class="n">member</span><span class="o">.</span><span class="n">id</span>
+</span><span class='line'>    <span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="err">$</span><span class="p">(</span><span class="s1">&#39;.members&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">container</span><span class="o">.</span><span class="n">html</span><span class="p">(</span><span class="n">member</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span><span class="p">))</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">function</span> <span class="n">remove_member</span><span class="p">(</span><span class="n">member</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="err">$</span><span class="p">(</span><span class="s1">&#39;#presence_&#39;</span> <span class="o">+</span> <span class="n">member</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">remove</span><span class="p">();</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">=</span> <span class="n">render</span> <span class="s2">&quot;form&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">%</span><span class="n">div</span>
+</span><span class='line'>  <span class="err">現在の参加者</span>
+</span><span class='line'>  <span class="o">%</span><span class="n">span</span><span class="o">.</span><span class="n">members</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">%</span><span class="n">ul</span><span class="c1">#chat_list</span>
+</span><span class='line'>  <span class="o">=</span> <span class="n">render</span> <span class="ss">partial</span><span class="p">:</span> <span class="s2">&quot;list&quot;</span><span class="p">,</span> <span class="ss">locals</span><span class="p">:</span> <span class="p">{</span> <span class="ss">:chats</span> <span class="o">=&gt;</span> <span class="vi">@chats</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>フォームとリストの部分テンプレートは割愛。</p>
+
+<p>認証は</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Pusher</span><span class="o">.</span><span class="n">channel_auth_endpoint</span> <span class="o">=</span> <span class="s1">&#39;/chats/auth&#39;</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>で指定したエンドポイントにコールバックされます。</p>
+
+<p>controller</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ChatsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span><span class='line'>  <span class="n">protect_from_forgery</span> <span class="ss">:except</span> <span class="o">=&gt;</span> <span class="ss">:auth</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">create</span>
+</span><span class='line'>    <span class="vi">@new_post</span> <span class="o">=</span> <span class="no">Chat</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:chat</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@new_post</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="vi">@current_user</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="vi">@new_post</span><span class="o">.</span><span class="n">save</span>
+</span><span class='line'>      <span class="no">Pusher</span><span class="o">[</span><span class="s2">&quot;presence-chat&quot;</span><span class="o">].</span><span class="n">trigger!</span><span class="p">(</span>
+</span><span class='line'>        <span class="s2">&quot;chatevent&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="n">render_to_string</span><span class="p">(</span>
+</span><span class='line'>          <span class="ss">file</span><span class="p">:</span>   <span class="s2">&quot;chats/_list.html.haml&quot;</span><span class="p">,</span>
+</span><span class='line'>          <span class="ss">layout</span><span class="p">:</span> <span class="kp">false</span><span class="p">,</span>
+</span><span class='line'>          <span class="ss">locals</span><span class="p">:</span> <span class="p">{</span> <span class="ss">:chats</span> <span class="o">=&gt;</span> <span class="nb">Array</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="vi">@new_post</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'>        <span class="p">)</span>
+</span><span class='line'>      <span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">render</span> <span class="s1">&#39;index&#39;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">auth</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">current_user</span>
+</span><span class='line'>      <span class="n">auth</span> <span class="o">=</span> <span class="no">Pusher</span><span class="o">[</span><span class="s2">&quot;presence-chat&quot;</span><span class="o">].</span><span class="n">authenticate</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:socket_id</span><span class="o">]</span><span class="p">,{</span>
+</span><span class='line'>          <span class="ss">:user_id</span> <span class="o">=&gt;</span> <span class="vi">@current_user</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+</span><span class='line'>          <span class="ss">:user_info</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span><span class='line'>            <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="vi">@current_user</span><span class="o">.</span><span class="n">name</span>
+</span><span class='line'>          <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>      <span class="p">)</span>
+</span><span class='line'>      <span class="n">render</span> <span class="ss">:json</span> <span class="o">=&gt;</span> <span class="n">auth</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="n">render</span> <span class="ss">:text</span> <span class="o">=&gt;</span> <span class="s2">&quot;Not authorized&quot;</span><span class="p">,</span> <span class="ss">:status</span> <span class="o">=&gt;</span> <span class="s1">&#39;403&#39;</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>endpointで設定したauthアクションでは、コールバックされた際に渡されるsocket  _idを引数authenticateを実行しています。<br/>
+ちなみに自分はこの認証ではまりました。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">protect_from_forgery</span> <span class="ss">:except</span> <span class="o">=&gt;</span> <span class="ss">:auth</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>でコールバックで呼び出された際に、CSRFを無効にしてあげる必要があったんですねぇ。</p>
+
+<p>以上で多分動くはずです。</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2012/01/24/20120124115957/">同一の操作から呼ばれたかオブザーバで判定する方法</a>
         </h1>
     
@@ -835,6 +1163,10 @@ return link  </em>to( change  <em>value , disp  </em>path )<br/>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2018/09/30/imaiganpeki/">今井岸壁 アジ イワシ</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2018/09/26/maximum/">マキシマム</a>
         </li>
         
@@ -848,10 +1180,6 @@ return link  </em>to( change  <em>value , disp  </em>path )<br/>
         
         <li class="post">
             <a href="/blog/2018/09/10/edogawa-haze/">江戸川放水路 ハゼ</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2018/08/28/kemigawahama/">検見川浜突堤 チーバス チンチン ミニカマス</a>
         </li>
         
     </ul>
