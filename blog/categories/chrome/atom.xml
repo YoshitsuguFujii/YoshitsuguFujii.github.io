@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+    <title><![CDATA[Category: chrome | なんとなく日々徒然と]]></title>
+    <link href="http://yoshitsugufujii.github.io/blog/categories/chrome/atom.xml" rel="self"/>
+    <link href="http://yoshitsugufujii.github.io/"/>
+    <updated>2018-10-09T12:05:24+09:00</updated>
+    <id>http://yoshitsugufujii.github.io/</id>
+    <author>
+        <name><![CDATA[Yoshitsugu Fujii]]></name>
+        
+      </author>
+    <generator uri="http://octopress.org/">Octopress</generator>
+
+    
+    <entry>
+        <title type="html"><![CDATA[chromeで勝手に文字が変わってしまう]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2018/10/09/google-auto-translate/"/>
+        <updated>2018-10-09T10:55:42+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2018/10/09/google-auto-translate</id>
+        <content type="html"><![CDATA[<p>ユーザーからの問い合わせでプロフィール変更ができないという連絡がきました。<br/>
+ログをみるとプロフィールを登録するというボタンを押したはずなのに、プロファイルを登録するという文字で送られてきています。<br/>
+世にも奇妙なお話です。</p>
+
+<!-- more -->
+
+
+<p></p>
+
+<p>ちなみにformではキャンセルとプロフィールを登録するのボタンが二つあり、<br/>
+Railsのcontrollerではsubmitした時のボタンの名称で登録 or キャンセルと分岐させています。</p>
+
+<pre><code class="ruby  ">if params[:commit] == 'プロフィールを登録する'  
+  # 登録処理  
+else  
+  # render 編集画面  
+end  
+</code></pre>
+
+<p>上記のようなコードなのですが、なぜかsubmitしたボタンがプロファイルを登録するになっていて、常にキャンセル側のelseに流れてしまっている模様。</p>
+
+<p>色々と調べた結果google chromeの自動翻訳がonになっている場合に起こるようです。</p>
+
+<p>プロフィール → profile → プロファイル</p>
+
+<p>該当画面で日本語で表示されている状態で日本語に翻訳をすると再現しました。</p>
+
+<p>どうもhtmlタグのlangがen固定になっているのがいけなかったっぽい。</p>
+
+<pre><code class="html  ">&lt;html lang="en"&gt;  
+</code></pre>
+
+<p>jaにしたら日本語に翻訳をやってもプロファイルになりませんでした。</p>
+
+<p>多言語対応しているサイトなので現在表示している言語に応じてhtml langを切り替えるようにしました。</p>
+]]></content>
+    </entry>
+    
+</feed>

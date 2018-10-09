@@ -91,6 +91,61 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2012/02/08/20120208173152/">悲しいお話</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2012-02-08T17:31:00+09:00" pubdate><i class="fa fa-calendar"></i> Feb 8th, 2012</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/yu/'>魚</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>昨日降りしきる雨の中灯油をもったまま玄関前でよろけた拍子に水鉢を踏み割ってしまい。</p>
+
+<p>地面に放り出された冬眠中の金魚とメダカを救出して、４５センチのグッピー水槽に移したら<br/>
+ノロノロでかわせずにグッピー♀にいじめられて冬眠からさめたばかりの金魚が死んでしまってとても悲しいのです。</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2012/02/07/20120207141012/">rubyのオープンクラス</a>
         </h1>
     
@@ -862,108 +917,6 @@ sudo modprobe iwlagn 11n_disable=1
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2012/01/26/20120126104256/">指定した要素で指定した数分、配列を埋める</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2012-01-26T10:42:00+09:00" pubdate><i class="fa fa-calendar"></i> Jan 26th, 2012</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>初期値を指定して配列を作りたいならこうできる。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="nb">Array</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="kp">nil</span><span class="p">)</span> <span class="c1"># =&gt; [nil, nil, nil]</span>
-</span><span class='line'>  <span class="nb">Array</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;foo&quot;</span><span class="p">)</span> <span class="c1"># =&gt; [&quot;foo&quot;, &quot;foo&quot;]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>んで、指定した値で要素数Nの配列を要素数Mにしたい場合。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="err">変数</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="err">指定した値</span><span class="p">,</span><span class="err">変数</span><span class="o">.</span><span class="n">size</span><span class="o">.</span><span class="n">.</span><span class="p">(</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>で出来る。</p>
-
-<p>例）とりあえずMを５とする場合。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">ary</span> <span class="o">=</span> <span class="o">[</span><span class="mi">1</span><span class="o">]</span>
-</span><span class='line'>  <span class="n">ary</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="kp">nil</span><span class="p">,</span><span class="n">ary</span><span class="o">.</span><span class="n">size</span><span class="o">.</span><span class="n">.</span><span class="mi">4</span><span class="p">)</span> <span class="c1">#=&gt; [1, nil, nil, nil, nil]</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">ary</span> <span class="o">=</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="o">]</span>
-</span><span class='line'>  <span class="n">ary</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="s2">&quot;empty&quot;</span><span class="p">,</span><span class="n">a</span><span class="o">.</span><span class="n">size</span><span class="o">.</span><span class="n">.</span><span class="mi">4</span><span class="p">)</span> <span class="c1">#=&gt; [1, 2, &quot;empty&quot;, &quot;empty&quot;, &quot;empty&quot;]</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">ary</span> <span class="o">=</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="o">]</span>
-</span><span class='line'>  <span class="n">ary</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="kp">nil</span><span class="p">,</span><span class="n">a</span><span class="o">.</span><span class="n">size</span><span class="o">.</span><span class="n">.</span><span class="mi">4</span><span class="p">)</span> <span class="c1"># =&gt; [1, 2, 3, 4, 5] </span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>ちなみにfillは!ついてないけど破壊的メソッドなので、レシーバの値変わってしまうのがちょっと注意。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">ary</span> <span class="o">=</span> <span class="o">[</span><span class="mi">1</span><span class="o">]</span>
-</span><span class='line'>  <span class="n">ary</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="kp">nil</span><span class="p">,</span><span class="n">ary</span><span class="o">.</span><span class="n">size</span><span class="o">.</span><span class="n">.</span><span class="mi">4</span><span class="p">)</span> <span class="c1">#=&gt; [1, nil, nil, nil, nil]</span>
-</span><span class='line'>  <span class="nb">p</span> <span class="n">ary</span> <span class="c1">#=&gt; [1, nil, nil, nil, nil]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -1027,6 +980,10 @@ sudo modprobe iwlagn 11n_disable=1
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2018/10/09/google-auto-translate/">chromeで勝手に文字が変わってしまう</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2018/09/30/imaiganpeki/">今井岸壁 アジ イワシ</a>
         </li>
         
@@ -1040,10 +997,6 @@ sudo modprobe iwlagn 11n_disable=1
         
         <li class="post">
             <a href="/blog/2018/09/20/edogawahousuiro/">江戸川放水路 ハゼ</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2018/09/10/edogawa-haze/">江戸川放水路 ハゼ</a>
         </li>
         
     </ul>

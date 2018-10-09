@@ -91,6 +91,56 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2015/03/16/iryohi-koujo/">はじめて医療費控除を申告してみたよ</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2015-03-16T21:07:30+09:00" pubdate><i class="fa fa-calendar"></i> Mar 16th, 2015</time>
+
+
+
+
+            
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <div class="article__content clearfix">
+        <p>医療費控除。</p>
+
+<p>薄々は知っていたけどそんなに病院にお金を使うこともなく、領収書と取っといたりするのも面倒なのであまり意識したことはなかったのですが、<br/>
+去年はエクストルージョンという歯の処置を保険適用外(15万弱しました)でやったりとかなりお金を使ったので今回は医療費控除を請求してみることにしました。</p>
+
+<p>郵送で申し込みます。</p>
+
+
+        <a class="btn pull-right" href="/blog/2015/03/16/iryohi-koujo/">Read on &rarr;</a>
+    </div>
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2015/03/13/real-delete-discreetly/">関連先が存在していたら論理削除、関連先が存在していなかったら物理削除</a>
         </h1>
     
@@ -814,89 +864,6 @@ Rails.cache.delete(&lsquo;キー名&rsquo;)でできる。</p>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2014/12/19/20141219102458/">カリー化のお話</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2014-12-19T10:24:00+09:00" pubdate><i class="fa fa-calendar"></i> Dec 19th, 2014</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p><a href="http://qiita.com/lnznt/items/0b20440cecd6f4e348b9">Ruby のカリー化を日本語で説明してみる -
-Qiita</a><br/>
-という記事を見たので自分も食べられない方のカリーを使ったものをなんか書いてみました。</p>
-
-<p>irbで実行できます。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">meeting</span> <span class="o">=</span> <span class="no">Proc</span><span class="o">.</span><span class="n">new</span> <span class="k">do</span> <span class="o">|</span><span class="n">teacher</span><span class="p">,</span> <span class="n">student</span><span class="o">|</span>
-</span><span class='line'> <span class="nb">p</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">teacher</span><span class="si">}</span><span class="s2">は</span><span class="si">#{</span><span class="n">student</span><span class="si">}</span><span class="s2">くんとカレーについて話す&quot;</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">fujii_meeting</span> <span class="o">=</span> <span class="n">meeting</span><span class="o">.</span><span class="n">curry</span><span class="o">.</span><span class="p">(</span><span class="s2">&quot;藤井先生&quot;</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="sx">%w(田中 佐藤 斉藤 加藤)</span><span class="o">.</span><span class="n">each</span><span class="p">(</span><span class="o">&amp;</span><span class="n">fujii_meeting</span><span class="p">)</span>
-</span><span class='line'><span class="c1"># =&gt; &quot;藤井先生は田中くんとカレーについて話す&quot;</span>
-</span><span class='line'><span class="c1"># =&gt; &quot;藤井先生は佐藤くんとカレーについて話す&quot;</span>
-</span><span class='line'><span class="c1"># =&gt; &quot;藤井先生は斉藤くんとカレーについて話す&quot;</span>
-</span><span class='line'><span class="c1"># =&gt; &quot;藤井先生は加藤くんとカレーについて話す&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -960,6 +927,10 @@ Qiita</a><br/>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2018/10/09/google-auto-translate/">chromeで勝手に文字が変わってしまう</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2018/09/30/imaiganpeki/">今井岸壁 アジ イワシ</a>
         </li>
         
@@ -973,10 +944,6 @@ Qiita</a><br/>
         
         <li class="post">
             <a href="/blog/2018/09/20/edogawahousuiro/">江戸川放水路 ハゼ</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2018/09/10/edogawa-haze/">江戸川放水路 ハゼ</a>
         </li>
         
     </ul>

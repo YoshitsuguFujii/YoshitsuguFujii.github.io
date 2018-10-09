@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2018-09-30T17:10:00+09:00</updated>
+    <updated>2018-10-09T12:05:24+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,61 @@
     </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[chromeで勝手に文字が変わってしまう]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2018/10/09/google-auto-translate/"/>
+        <updated>2018-10-09T10:55:42+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2018/10/09/google-auto-translate</id>
+        <content type="html"><![CDATA[<p>ユーザーからの問い合わせでプロフィール変更ができないという連絡がきました。<br/>
+ログをみるとプロフィールを登録するというボタンを押したはずなのに、プロファイルを登録するという文字で送られてきています。<br/>
+世にも奇妙なお話です。</p>
+
+<!-- more -->
+
+
+<p></p>
+
+<p>ちなみにformではキャンセルとプロフィールを登録するのボタンが二つあり、<br/>
+Railsのcontrollerではsubmitした時のボタンの名称で登録 or キャンセルと分岐させています。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">if</span> <span class="n">params</span><span class="o">[</span><span class="ss">:commit</span><span class="o">]</span> <span class="o">==</span> <span class="s1">&#39;プロフィールを登録する&#39;</span>
+</span><span class='line'>  <span class="c1"># 登録処理  </span>
+</span><span class='line'><span class="k">else</span>
+</span><span class='line'>  <span class="c1"># render 編集画面  </span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>上記のようなコードなのですが、なぜかsubmitしたボタンがプロファイルを登録するになっていて、常にキャンセル側のelseに流れてしまっている模様。</p>
+
+<p>色々と調べた結果google chromeの自動翻訳がonになっている場合に起こるようです。</p>
+
+<p>プロフィール → profile → プロファイル</p>
+
+<p>該当画面で日本語で表示されている状態で日本語に翻訳をすると再現しました。</p>
+
+<p>どうもhtmlタグのlangがen固定になっているのがいけなかったっぽい。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">&quot;en&quot;</span><span class="nt">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>jaにしたら日本語に翻訳をやってもプロファイルになりませんでした。</p>
+
+<p>多言語対応しているサイトなので現在表示している言語に応じてhtml langを切り替えるようにしました。</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[今井岸壁 アジ イワシ]]></title>
@@ -1801,47 +1856,6 @@ before -> grapeのendpointの処理 -> after -> jbuilderのrender<br/>
 
 <p>採取した桑の実は晩御飯の食卓に。<br/>
 釣ったテナガエビは食べるほど釣れなかったので家の水槽で飼います。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[梅雨用に防水の釣りシューズを買ったよ]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2018/05/09/shimano-radial-shoes/"/>
-        <updated>2018-05-09T14:17:30+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2018/05/09/shimano-radial-shoes</id>
-        <content type="html"><![CDATA[<p>これから梅雨だし釣りでも使いそうだからとシマノ ドライシールド・デッキラジアルシューズを買おうとしてまちがえてスパイクの方買っちゃいました。</p>
-
-<!-- more -->
-
-
-
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-
-
-<p><ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-layout="in-article"
-     data-ad-format="fluid"
-     data-ad-client="ca-pub-7039502723411845"
-     data-ad-slot="8206045005"></ins></p>
-
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-
-<p><a href="http://yoshitsugufujii.github.io/images/blog/20180509/IMG_4737.JPG" data-lightbox="imaiganpeki" data-title=""/><br/>
-  <img src="http://yoshitsugufujii.github.io/images/blog/20180509/IMG_4737.JPG"><br/>
-</a></p>
-
-<p>道を歩くとちゃりちゃりうるさいし足の裏の突起が若干歩きづらいですね。<br/>
-失敗したorz</p>
-
-<p>色味が想像とちょっと違うなぁ。</p>
-
-<table  border="0" cellpadding="5" style="border:none"><tr><td style="border:none;text-align:left"><a href="https://www.amazon.co.jp/exec/obidos/ASIN/B0742R8FNY/gogosakura-22/" target="_blank" >シマノ ドライシールド・デッキラジアルシューズ(ハイカットタイプ) FS-061Q キャメルアイボリー 26.0</a></td></tr><tr><td style="border:none"><table  border="0" cellpadding="0" style="border:none"><tr><td valign="top" style="border:none"><a href="https://www.amazon.co.jp/exec/obidos/ASIN/B0742R8FNY/gogosakura-22/" target="_blank" ><img src="https://images-fe.ssl-images-amazon.com/images/I/41A7KcRvG-L._SL160_.jpg" border="0" style="margin-right:10px" /></a></td><td valign="top" style="border:none;text-align:left"><div class="kaerebalink-detail" style="margin-bottom:5px;"> シマノ(SHIMANO) </div><div class="kaerebalink-salesranking" style="margin-bottom:5px">売り上げランキング : 83897</div><table style="border:none;margin-top:10px"><tr><td style="border:none;text-align:left;"><div class="shoplinkamazon" style="margin-right:5px"><a href="https://www.amazon.co.jp/gp/search?keywords=FS-061Q&__mk_ja_JP=%E3%82%AB%E3%82%BF%E3%82%AB%E3%83%8A&tag=gogosakura-22" target="_blank" >Amazon</a></div><div class="shoplinkrakuten" style="margin-right:5px"><a href="https://hb.afl.rakuten.co.jp/hgc/16102ad8.0804351d.16102ad9.09702e1c/?pc=https%3A%2F%2Fsearch.rakuten.co.jp%2Fsearch%2Fmall%2FFS-061Q%2F-%2Ff.1-p.1-s.1-sf.0-st.A-v.2%3Fx%3D0%26scid%3Daf_ich_link_urltxt%26m%3Dhttp%3A%2F%2Fm.rakuten.co.jp%2F" target="_blank" >楽天市場</a></div></td><td style="vertical-align:bottom;padding-left:10px;font-size:x-small;border:none">by <a href="http://kaereba.com" rel="nofollow" target="_blank">カエレバ</a></td></tr></table></font></td></tr></table></td></tr></table>
-
 ]]></content>
     </entry>
     

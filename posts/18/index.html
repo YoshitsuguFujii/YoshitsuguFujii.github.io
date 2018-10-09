@@ -91,6 +91,83 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2013/10/29/20131029210140/">arel_table使いながら、たくさんの条件を配列にいれつつ検索</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2013-10-29T21:01:00+09:00" pubdate><i class="fa fa-calendar"></i> Oct 29th, 2013</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>何を言っているんでしょう。<br/>
+コード見たほうが早いですかね</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># andで条件組み立て</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">condition</span>
+</span><span class='line'>  <span class="n">cons</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'>  <span class="n">cons</span> <span class="o">&lt;&lt;</span> <span class="no">User</span><span class="o">.</span><span class="n">arel_table</span><span class="o">[</span><span class="ss">:name</span><span class="o">].</span><span class="n">matches</span><span class="p">(</span><span class="s2">&quot;%hoge%&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">cons</span> <span class="o">&lt;&lt;</span> <span class="no">User</span><span class="o">.</span><span class="n">arel_table</span><span class="o">[</span><span class="ss">:nick_name</span><span class="o">].</span><span class="n">matches</span><span class="p">(</span><span class="s2">&quot;%fuga%&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">cons</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:and</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">user</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">condition</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>配列の結合で一瞬悩んだのでメモ。<br/>
+andをorにすると、どれかに一致するという条件になります。</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2013/10/28/20131028135346/">macをmarvericksにしたら、rails server動かなくなった</a>
         </h1>
     
@@ -923,115 +1000,6 @@ bundle config &ndash;global キー　値で設定できる。</p>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2013/07/11/20130711114741/">N回injectしたいとき(数値型からinject)</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2013-07-11T11:47:00+09:00" pubdate><i class="fa fa-calendar"></i> Jul 11th, 2013</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p><a href="http://d.hatena.ne.jp/gogo_sakura/20120424">2012-04-24 -
-なんとなく日々徒然と</a>の日記からの焼きまわし感半端ない</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="mi">10</span><span class="o">.</span><span class="n">times</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span><span class="n">sum</span><span class="p">,</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span><span class="o">|</span> <span class="n">sum</span> <span class="o">+</span> <span class="n">i</span> <span class="p">}</span> <span class="c1"># =&gt; 0から9までを足して、結果は45</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>上記を1から10足して55にしたい場合(つまり１始まりにしたい)</p>
-
-<p>とりあえずこうしてみる</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="mi">10</span><span class="o">.</span><span class="n">times</span><span class="o">.</span><span class="n">with_index</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span><span class="n">sum</span><span class="p">,</span> <span class="n">i</span><span class="o">|</span> <span class="nb">p</span> <span class="n">i</span> <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># =&gt;</span>
-</span><span class='line'><span class="o">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="o">]</span>
-</span><span class='line'><span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="o">]</span>
-</span><span class='line'><span class="o">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="o">]</span>
-</span><span class='line'><span class="o">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="o">]</span>
-</span><span class='line'><span class="o">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="o">]</span>
-</span><span class='line'><span class="o">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="o">]</span>
-</span><span class='line'><span class="o">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="o">]</span>
-</span><span class='line'><span class="o">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="o">]</span>
-</span><span class='line'><span class="o">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="o">]</span>
-</span><span class='line'><span class="o">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="o">]</span>
-</span><span class='line'><span class="o">[</span>
-</span><span class='line'>    <span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="mi">9</span><span class="p">,</span>
-</span><span class='line'>    <span class="o">[</span><span class="mi">1</span><span class="o">]</span> <span class="mi">10</span>
-</span><span class='line'><span class="o">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>ふむ。<br/>
-展開させます</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="mi">10</span><span class="o">.</span><span class="n">times</span><span class="o">.</span><span class="n">with_index</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span><span class="n">sum</span><span class="p">,</span> <span class="p">(</span><span class="n">times_count</span><span class="p">,</span> <span class="n">index_count</span><span class="p">)</span><span class="o">|</span> <span class="n">sum</span> <span class="o">+</span> <span class="n">index_count</span> <span class="p">}</span> <span class="c1"># =&gt; 55</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -1095,6 +1063,10 @@ bundle config &ndash;global キー　値で設定できる。</p>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2018/10/09/google-auto-translate/">chromeで勝手に文字が変わってしまう</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2018/09/30/imaiganpeki/">今井岸壁 アジ イワシ</a>
         </li>
         
@@ -1108,10 +1080,6 @@ bundle config &ndash;global キー　値で設定できる。</p>
         
         <li class="post">
             <a href="/blog/2018/09/20/edogawahousuiro/">江戸川放水路 ハゼ</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2018/09/10/edogawa-haze/">江戸川放水路 ハゼ</a>
         </li>
         
     </ul>
