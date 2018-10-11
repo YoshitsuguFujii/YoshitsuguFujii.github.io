@@ -196,7 +196,7 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>HamlつかっているのがHamlと同じescape処理をかけていますが、ここはお好みで。</p>
+<p>HamlつかっているのでHamlと同じescape処理をかけていますが、ここはお好みで(ApplicationController.helpers.sanitizeとかも)。</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">json</span><span class="o">.</span><span class="n">body</span> <span class="s1">&#39;&lt;span&gt;raw&lt;/hoge&gt;&#39;</span><span class="p">,</span> <span class="ss">raw</span><span class="p">:</span> <span class="kp">true</span>
