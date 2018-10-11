@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-    <title><![CDATA[Category: grape-jbuilder | なんとなく日々徒然と]]></title>
-    <link href="http://yoshitsugufujii.github.io/blog/categories/grape-jbuilder/atom.xml" rel="self"/>
+    <title><![CDATA[Category: jbuilder | なんとなく日々徒然と]]></title>
+    <link href="http://yoshitsugufujii.github.io/blog/categories/jbuilder/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2018-10-10T10:31:41+09:00</updated>
+    <updated>2018-10-11T12:41:12+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,60 @@
       </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[常にjbuilderの値をescape]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2018/10/11/sanitize-jbuilder/"/>
+        <updated>2018-10-11T12:27:37+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2018/10/11/sanitize-jbuilder</id>
+        <content type="html"><![CDATA[<p>jbuliderを使っている時のapiの戻り値、js側でescapeするのかもしれませんが、サーバー側でやりたい時。</p>
+
+<!-- more -->
+
+
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p><ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-7039502723411845"
+     data-ad-slot="8206045005"></ins></p>
+
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+<pre><code class="ruby"># config/initializers/escape_jbuilder_value
+module EscapeJbuilderValue
+  def method_missing(*args)
+    option = args.extract_options!
+    if !::Kernel.block_given? &amp;&amp; !option[:raw]
+      if args[1].is_a?(String)
+        args[1] = Haml::Util.html_safe(ERB::Util.html_escape(args[1]))
+      end
+    end
+    super(*args)
+  end
+end
+
+class Jbuilder
+  prepend ::EscapeJbuilderValue
+end
+</code></pre>
+
+<p>HamlつかっているのがHamlと同じescape処理をかけていますが、ここはお好みで。</p>
+
+<pre><code class="ruby">json.body '&lt;span&gt;raw&lt;/hoge&gt;', raw: true
+</code></pre>
+
+<p>とかやるとescapeされずに使えます。</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[grape-jbuilderでtimezoneをなんとかする]]></title>
