@@ -40,7 +40,7 @@ class Jbuilder
   prepend ::EscapeJbuilderValue
 end
 ```
-HamlつかっているのがHamlと同じescape処理をかけていますが、ここはお好みで。  
+HamlつかっているのでHamlと同じescape処理をかけていますが、ここはお好みで(ApplicationController.helpers.sanitizeとかも)。  
 
 ```ruby
 json.body '<span>raw</hoge>', raw: true
