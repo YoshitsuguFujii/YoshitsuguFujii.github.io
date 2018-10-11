@@ -3,7 +3,7 @@ layout: post
 title: "grape-jbuilderでtimezoneをなんとかする"
 date: 2018-06-29 15:47:34 +0900
 comments: true
-categories: [ruby,ruby on rails, grape-jbuilder]
+categories: [ruby,ruby on rails, grape, jbuilder]
 ---
 
 Grapeでtimezoneを考慮して日付を返す場合は  
