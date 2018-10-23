@@ -91,6 +91,80 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2015/06/08/devise-skip-password-check/">Deviseで特定の条件のみパスワードの検証をスキップする</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2015-06-08T12:35:01+09:00" pubdate><i class="fa fa-calendar"></i> Jun 8th, 2015</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
+            
+                <li><a class='category' href='/blog/categories/devise/'>devise</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <div class="article__content clearfix">
+        <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1">#開発環境  </span>
+</span><span class='line'><span class="n">rails</span> <span class="mi">4</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">1</span>
+</span><span class='line'><span class="n">devise</span> <span class="mi">3</span><span class="o">.</span><span class="mi">4</span><span class="o">.</span><span class="mi">1</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>deviseを使っていて、ユーザモデルに仮登録状態を作りたいと思います。<br/>
+仮登録の段階ではパスワードはまだ要求されず。<br/>
+最後の最後でパスワードを設定して本会員登録完了といったフローです。</p>
+
+<p>deviseでは対象モデルに<code>devise :validatable</code>に設定している場合はメールアドレスやパスワードの検証が走ります。<br/>
+今回はパスワード以外のチェックはやってほしいため<code>:validatable</code>の宣言を外すだけではダメです。</p>
+
+
+        <a class="btn pull-right" href="/blog/2015/06/08/devise-skip-password-check/">Read on &rarr;</a>
+    </div>
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2015/05/26/deep-reject/">deep_rejectが欲しくてrefinementsで実装しようとした話</a>
         </h1>
     
@@ -704,73 +778,6 @@
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2015/03/21/mouse-pad/">今日 嫁にホワイトデーのお返しをしたよ</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2015-03-21T12:16:35+09:00" pubdate><i class="fa fa-calendar"></i> Mar 21st, 2015</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/self/'>self</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>嫁のホワイトデーのお返しがようやく届きました。</p>
-
-<p>かわいいマウスパッドというリクエストでしたが、探したけどかわいいマウスパッドがあまりなくどうしたものかと思ってましたが、
-商品を自由にカスタマイズできる <a href="http://www.zazzle.co.jp">Zazzle</a>というサービスがとても良さそうだったのでこれを利用しました。</p>
-
-<p>オーダーが3月9日。銀行振込も同日に行いました。<br/>
-振込確認したので作りますメールが12日にきて、13日に発送しますメールがきました。<br/>
-アメリカからの発送なので少し日数がたった3月16日に家に届きました。<br/>
-でも実際には仕事で受け取れず、受け取ったのは今日です(^^;)</p>
-
-<p>こんな感じのマウスパッドが届きました！
-素晴らしい出来！</p>
-
-<p><img src="/images/for_post/20150321_011205565_iOS.jpg"></p>
-
-<p>何か記念品を贈りたくなったらまた利用しようと思います。</p>
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -834,6 +841,10 @@
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2018/10/23/imaiganpeki/">袖ヶ浦 五目釣り</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2018/10/11/sanitize-jbuilder/">常にjbuilderの値をescape</a>
         </li>
         
@@ -847,10 +858,6 @@
         
         <li class="post">
             <a href="/blog/2018/09/30/imaiganpeki/">今井岸壁 アジ イワシ</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2018/09/26/maximum/">マキシマム</a>
         </li>
         
     </ul>

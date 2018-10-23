@@ -91,6 +91,72 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2018/01/31/no-backtrace/">ruby2.5にあげたら例外発生時にstacktraceが吐き出されなくなった</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2018-01-31T11:51:51+09:00" pubdate><i class="fa fa-calendar"></i> Jan 31st, 2018</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <div class="article__content clearfix">
+        <p>Railsである日を境に例外発生時にスタックトレースがでなくなっちゃいました。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>F, [2018-01-31T11:41:40.388898 #5662] FATAL -- : 
+</span><span class='line'>NoMethodError - undefined method `company_users' for nil:NilClass:</span></code></pre></td></tr></table></div></figure>
+
+
+<p>railsのlogにはこれしかでない。</p>
+
+
+        <a class="btn pull-right" href="/blog/2018/01/31/no-backtrace/">Read on &rarr;</a>
+    </div>
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2018/01/30/money-localization/">国際化対応(お金関連)</a>
         </h1>
     
@@ -672,73 +738,6 @@ dbのuniq indexで辛い感じになります。</p>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2017/11/24/hiratsuka/">平塚新港 ヒイラギ サッパ コノシロ イナッコ</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2017-11-24T17:23:41+09:00" pubdate><i class="fa fa-calendar"></i> Nov 24th, 2017</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/diao-ri/'>釣り</a></li>
-            
-                <li><a class='category' href='/blog/categories/ping-zhong-xin-gang/'>平塚新港</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <div class="article__content clearfix">
-        <p>釣行日 2017年11月23日(木)<br/>
-天気 晴れ時々曇<br/>
-場所 平塚新港<br/>
-釣行時間: 14:00 〜 16:30</p>
-
-<p>久しぶりの釣りです。<br/>
-実家に帰ってきたので平塚新港。</p>
-
-<p>夏に比べてだいぶ人が少ないです。<br/>
-夏の3分の1もいないんじゃないでしょうか。</p>
-
-
-        <a class="btn pull-right" href="/blog/2017/11/24/hiratsuka/">Read on &rarr;</a>
-    </div>
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -802,6 +801,10 @@ dbのuniq indexで辛い感じになります。</p>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2018/10/23/imaiganpeki/">袖ヶ浦 五目釣り</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2018/10/11/sanitize-jbuilder/">常にjbuilderの値をescape</a>
         </li>
         
@@ -815,10 +818,6 @@ dbのuniq indexで辛い感じになります。</p>
         
         <li class="post">
             <a href="/blog/2018/09/30/imaiganpeki/">今井岸壁 アジ イワシ</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2018/09/26/maximum/">マキシマム</a>
         </li>
         
     </ul>
