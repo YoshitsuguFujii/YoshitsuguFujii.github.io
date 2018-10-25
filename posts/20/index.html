@@ -91,6 +91,82 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2013/04/02/20130402181819/">applicatonControllerでイッテに例外を引き受ける</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2013-04-02T18:18:00+09:00" pubdate><i class="fa fa-calendar"></i> Apr 2nd, 2013</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>とりあえずエラー起こっても、なんとなくぼんやりとどうにかして欲しい時がある。<br/>
+たとえばAPIでなんらかのエラーがあったらとりあえずステータスコードに500を返すようにしたりとか。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ApiController</span> <span class="o">&lt;</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">rescue_from</span> <span class="no">Exception</span><span class="p">,</span> <span class="ss">with</span><span class="p">:</span> <span class="ss">:system_error</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">system_error</span><span class="p">(</span><span class="n">ex</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">ex</span><span class="o">.</span><span class="n">message</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">ex</span><span class="o">.</span><span class="n">backtrace</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">render</span> <span class="ss">json</span><span class="p">:</span> <span class="vi">@data</span> <span class="p">,</span> <span class="ss">:status</span> <span class="o">=&gt;</span> <span class="mi">500</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Exceptionを指定して、なんでもかんでもエラーが起きたらsystem  _errorに投げちゃう。みたいな</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2013/03/21/20130321200433/">今日の一言</a>
         </h1>
     
@@ -932,103 +1008,6 @@ images  <em>dirはどこにimagesがあるかを相対パスで指定し、gener
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2013/01/10/20130110152413/">こっそりと自社サービスでsassを使ってみる</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2013-01-10T15:24:00+09:00" pubdate><i class="fa fa-calendar"></i> Jan 10th, 2013</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/rails/'>rails</a></li>
-            
-                <li><a class='category' href='/blog/categories/sass/'>sass</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>hamlをGemfileに追加しました！と宣言し、実際にhamlを使ったら他のエンジニアに読めないヽ(ﾟ´Д｀)ﾉﾟと言われて数ヶ月がたちました。</p>
-
-<p>今日はRails3.0.5にこっそりとsassを導入しました。</p>
-
-<p>まずはGemfileに  <code>gem 'sass' </code>を追記して  <code>bundle install </code><br/>
-scssファイルの置き場所は将来のバージョンアップを見越して、  <code>app/assets/stylesheets/ </code>に作りました。<br/>
-お気に入りのディレクトリに変えてもいいですね。</p>
-
-<p>変更を監視して自動で変換してくれるようにコンソール上で  <code>sass --style --watch
-app/assets/stylesheets/:public/stylesheets </code>を実行。<br/>
-これで自動的にapp/assetstylesheets以下のscssファイルがcssにコンパイルされてpublic/stylesheetsの下に作成されます。</p>
-
-<p>  <code>app/assets/stylesheets/test.scss </code>を作成。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vg">$defaultFontSize</span><span class="p">:</span> <span class="mi">10</span><span class="n">px</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">.</span><span class="n">test</span><span class="p">{</span>
-</span><span class='line'>  <span class="n">font</span><span class="o">-</span><span class="ss">size</span><span class="p">:</span> <span class="vg">$defaultFontSize</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>watchしているコンソールを見てみると動いたっぽいメッセージが表示されていると思います。</p>
-
-<p>public/stylesheets/test.cssの中身を見てみると。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">.</span><span class="n">test</span> <span class="p">{</span>
-</span><span class='line'>  <span class="n">font</span><span class="o">-</span><span class="ss">size</span><span class="p">:</span> <span class="mi">10</span><span class="n">px</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>と出来てます。<br/>
-これでこっそりとsass書けますね！</p>
-
-<p>ここまできたら、compassも導入したいなぁ。</p>
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -1092,6 +1071,10 @@ app/assets/stylesheets/:public/stylesheets </code>を実行。<br/>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2018/10/25/cooler-ukesaburou/">クーラー受け三郎買いました</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2018/10/23/imaiganpeki/">袖ヶ浦 五目釣り</a>
         </li>
         
@@ -1105,10 +1088,6 @@ app/assets/stylesheets/:public/stylesheets </code>を実行。<br/>
         
         <li class="post">
             <a href="/blog/2018/10/09/google-auto-translate/">chromeで勝手に文字が変わってしまう</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2018/09/30/imaiganpeki/">今井岸壁 アジ イワシ</a>
         </li>
         
     </ul>
