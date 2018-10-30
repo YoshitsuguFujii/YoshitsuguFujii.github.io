@@ -91,6 +91,80 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2018/02/14/direct-upload-to-s3-with-rails-and-carrierwave/">S3に直接にファイルアップロード</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2018-02-14T18:35:13+09:00" pubdate><i class="fa fa-calendar"></i> Feb 14th, 2018</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
+            
+                <li><a class='category' href='/blog/categories/s3/'>s3</a></li>
+            
+                <li><a class='category' href='/blog/categories/carrierwave/'>carrierwave</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <div class="article__content clearfix">
+        <p>Herokuでの大きいファイルアップロードはリクエストタイムアウトが30秒に設定されているのでやっかいです。</p>
+
+<p>Herokuの公式でも4MBを超えるファイルをあげる場合はS3に直接あげてねって書いてあります。<br/>
+<a href="https://devcenter.heroku.com/articles/s3#direct-upload">https://devcenter.heroku.com/articles/s3#direct-upload</a></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>This is the preferred approach if you’re working with file uploads bigger than 4MB. The idea is to skip the hop to your dyno, making a direct connection from the end user browser to S3. While this reduces the processing required by your application it is a more complex implementation and limits the ability to modify (transform, filter, resize etc…) the file before storing in S3.</span></code></pre></td></tr></table></div></figure>
+
+
+<p>carriwaveを使っているのでcarriwave_directいいなと思いましたが、<br/>
+<a href="https://github.com/dwilkie/carrierwave_direct">carrierwave_direct</a></p>
+
+<p>最終更新日が結構前でメンテされていないのかな？ってのとgemを使いすぎるとわけわかめになるので自力でやることにしました。</p>
+
+
+        <a class="btn pull-right" href="/blog/2018/02/14/direct-upload-to-s3-with-rails-and-carrierwave/">Read on &rarr;</a>
+    </div>
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2018/02/09/carrierwave-expire-setting/">carrierwaveのリンクの有効期間を個別に設定</a>
         </h1>
     
@@ -698,71 +772,6 @@ dbのuniq indexで辛い感じになります。</p>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2017/12/05/takasukaihinkouen/">高須海浜公園</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2017-12-05T09:29:49+09:00" pubdate><i class="fa fa-calendar"></i> Dec 5th, 2017</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/diao-ri/'>釣り</a></li>
-            
-                <li><a class='category' href='/blog/categories/gao-xu-hai-bang-gong-yuan/'>高須海浜公園</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <div class="article__content clearfix">
-        <p>釣行日 2017年12月02日(土)<br/>
-天気 晴<br/>
-場所 高須海浜公園<br/>
-釣行時間: 15:30 〜 16:15</p>
-
-<p>ベビーが生まれる直前なので釣りは自粛かなぁ。<br/>
-と、前から行ってみたいと思っていた高須海浜公園のことを思い出し、<br/>
-妻に話すと短時間ならという話なので高須海浜公園に行ってみました。</p>
-
-
-        <a class="btn pull-right" href="/blog/2017/12/05/takasukaihinkouen/">Read on &rarr;</a>
-    </div>
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -826,6 +835,10 @@ dbのuniq indexで辛い感じになります。</p>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2018/10/30/sodegaura-hiika/">今井岸壁 イワシ アジ ヒイカ</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2018/10/25/cooler-ukesaburou/">クーラー受け三郎買いました</a>
         </li>
         
@@ -839,10 +852,6 @@ dbのuniq indexで辛い感じになります。</p>
         
         <li class="post">
             <a href="/blog/2018/10/10/imaiganpeki/">今井岸壁 アジ ガザミ</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2018/10/09/google-auto-translate/">chromeで勝手に文字が変わってしまう</a>
         </li>
         
     </ul>
