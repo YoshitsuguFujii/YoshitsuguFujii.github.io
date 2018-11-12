@@ -91,6 +91,111 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2013/11/29/20131129125427/">言語毎に異なるデバッグ文を挿入</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2013-11-29T12:54:00+09:00" pubdate><i class="fa fa-calendar"></i> Nov 29th, 2013</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/vim/'>vim</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>デバッグ文を仕込む場合に、私の環境ではインサートモードでCTRL+bするとデバッグ文を仕込むようにしています。<br/>
+その際に言語毎(ファイルタイプ毎)に異なるデバッグ文を打ち込めるようにしたら便利すぎて辛いです。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">function!</span> <span class="no">InsertDebugger</span><span class="p">()</span>
+</span><span class='line'>    <span class="k">if</span> <span class="o">&amp;</span><span class="n">filetype</span> <span class="o">==</span> <span class="s1">&#39;coffee&#39;</span> <span class="o">||</span> <span class="o">&amp;</span><span class="n">filetype</span> <span class="o">==</span> <span class="s1">&#39;javascript&#39;</span>
+</span><span class='line'>      <span class="n">let</span> <span class="n">debugger</span> <span class="o">=</span> <span class="s2">&quot;debugger&quot;</span>
+</span><span class='line'>    <span class="n">elseif</span> <span class="o">&amp;</span><span class="n">filetype</span> <span class="o">==</span> <span class="s1">&#39;ruby&#39;</span>
+</span><span class='line'>      <span class="n">let</span> <span class="n">debugger</span> <span class="o">=</span> <span class="s2">&quot;binding.pry&quot;</span>
+</span><span class='line'>    <span class="n">elseif</span> <span class="o">&amp;</span><span class="n">filetype</span> <span class="o">==</span> <span class="s1">&#39;eruby&#39;</span>
+</span><span class='line'>      <span class="n">let</span> <span class="n">debugger</span> <span class="o">=</span> <span class="s2">&quot;&lt;% binding.pry %&gt;&quot;</span>
+</span><span class='line'>    <span class="n">elseif</span> <span class="o">&amp;</span><span class="n">filetype</span> <span class="o">==</span> <span class="s1">&#39;haml&#39;</span>
+</span><span class='line'>      <span class="n">let</span> <span class="n">debugger</span> <span class="o">=</span> <span class="s2">&quot;- binding.pry&quot;</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="n">let</span> <span class="n">debugger</span> <span class="o">=</span> <span class="s2">&quot;binding.pry&quot;</span>
+</span><span class='line'>    <span class="n">endif</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">return</span> <span class="n">debugger</span>
+</span><span class='line'><span class="n">endfunction</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">inoremap</span> <span class="o">&lt;</span><span class="n">expr</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">C</span><span class="o">-</span><span class="n">b</span><span class="o">&gt;</span> <span class="no">InsertDebugger</span><span class="p">()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>編集中のファイルが<br/>
+coffeescrptかjabascriptの場合はdebuggerを(chrome使ってるので)<br/>
+rubyの場合はbinding.pryを<br/>
+erbの場合は  &lt;% binding.pry %  >を<br/>
+hamlの場合は- binding.pryを打ち込みます。</p>
+
+<p>ちなみに今編集中のファイルのファイル・タイプを知りたいばあいは該当のファイルを開いて</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="ss">:echo</span> <span class="o">&amp;</span><span class="n">filetpye</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ってうつと表示されます</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2013/11/20/20131120192300/">vimでファイルのブックマーク</a>
         </h1>
     
@@ -954,69 +1059,6 @@ How to fix libv8 error from Gemfile on Mavericks?<br/>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2013/10/17/20131017200941/">全モデルから特定の列を持つモデルを抽出</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2013-10-17T20:09:00+09:00" pubdate><i class="fa fa-calendar"></i> Oct 17th, 2013</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>全モデルから特定の列を持つモデルを抽出</p>
-
-<p>例えばzip</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="ss">:subclasses</span><span class="p">)</span><span class="o">.</span><span class="n">select</span><span class="p">{</span><span class="o">|</span><span class="n">m</span><span class="o">|</span> <span class="n">m</span><span class="o">.</span><span class="n">column_names</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="s2">&quot;zip&quot;</span><span class="p">)}</span>
-</span><span class='line'><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="ss">:subclasses</span><span class="p">)</span><span class="o">.</span><span class="n">select</span><span class="p">{</span><span class="o">|</span><span class="n">m</span><span class="o">|</span> <span class="n">m</span><span class="o">.</span><span class="n">column_names</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="s2">&quot;zip&quot;</span><span class="p">)}</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:name</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -1080,6 +1122,10 @@ How to fix libv8 error from Gemfile on Mavericks?<br/>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2018/11/12/kemigawa-kiss/">検見川浜 キス</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2018/11/07/sodegaura-no-squid/">今井岸壁 イワシ ワタリガニ</a>
         </li>
         
@@ -1093,10 +1139,6 @@ How to fix libv8 error from Gemfile on Mavericks?<br/>
         
         <li class="post">
             <a href="/blog/2018/10/23/imaiganpeki/">袖ヶ浦 五目釣り</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2018/10/11/sanitize-jbuilder/">常にjbuilderの値をescape</a>
         </li>
         
     </ul>
