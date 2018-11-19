@@ -91,6 +91,113 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2013/02/22/20130222113319/">ruby-1.9.3-p385入れたら、libyaml入れてと言われてしまった。</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2013-02-22T11:33:00+09:00" pubdate><i class="fa fa-calendar"></i> Feb 22nd, 2013</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>ruby-1.9.3-p385入れた。<br/>
+なんかしたら以下のwarningが出た。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="sr">/Users/use</span><span class="n">r_name</span><span class="o">/.</span><span class="n">rvm</span><span class="o">/</span><span class="n">rubies</span><span class="o">/</span><span class="n">ruby</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="o">-</span><span class="n">p385</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">ruby</span><span class="o">/</span><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">1</span><span class="o">/</span><span class="n">yaml</span><span class="o">.</span><span class="n">rb</span><span class="p">:</span><span class="mi">56</span><span class="ss">:in</span> <span class="sb">`&lt;top (required)&gt;&#39;:</span>
+</span><span class='line'><span class="sb">It seems your ruby installation is missing psych (for YAML output).</span>
+</span><span class='line'><span class="sb">To eliminate this warning, please install libyaml and reinstall your ruby.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>むむむ。<br/>
+素直に入れる</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rvm</span> <span class="n">pkg</span> <span class="n">install</span> <span class="n">libyaml</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Fetching</span> <span class="n">yaml</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">1</span><span class="o">.</span><span class="mi">4</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span> <span class="n">to</span> <span class="sr">/Users/use</span><span class="n">r_name</span><span class="o">/.</span><span class="n">rvm</span><span class="o">/</span><span class="n">archives</span>
+</span><span class='line'><span class="no">Extracting</span> <span class="n">yaml</span> <span class="n">to</span> <span class="sr">/Users/use</span><span class="n">r_name</span><span class="o">/.</span><span class="n">rvm</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">yaml</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">1</span><span class="o">.</span><span class="mi">4</span>
+</span><span class='line'><span class="no">Configuring</span> <span class="n">yaml</span> <span class="k">in</span> <span class="sr">/Users/use</span><span class="n">r_name</span><span class="o">/.</span><span class="n">rvm</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">yaml</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">1</span><span class="o">.</span><span class="mi">4</span><span class="o">.</span>
+</span><span class='line'><span class="no">Compiling</span> <span class="n">yaml</span> <span class="k">in</span> <span class="sr">/Users/use</span><span class="n">r_name</span><span class="o">/.</span><span class="n">rvm</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">yaml</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">1</span><span class="o">.</span><span class="mi">4</span><span class="o">.</span>
+</span><span class='line'><span class="no">Installing</span> <span class="n">yaml</span> <span class="n">to</span> <span class="sr">/Users/use</span><span class="n">r_name</span><span class="o">/.</span><span class="n">rvm</span><span class="o">/</span><span class="n">usr</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Please</span> <span class="n">note</span> <span class="n">that</span> <span class="n">it</span><span class="err">&#39;</span><span class="n">s</span> <span class="n">required</span> <span class="n">to</span> <span class="n">reinstall</span> <span class="n">all</span> <span class="ss">rubies</span><span class="p">:</span>
+</span><span class='line'>  <span class="n">rvm</span> <span class="n">reinstall</span> <span class="n">all</span> <span class="o">--</span><span class="n">force</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>む？<br/>
+個別指定できそうだけど、時間あったので言われた通りにやる</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rvm</span> <span class="n">reinstall</span> <span class="n">all</span> <span class="o">--</span><span class="n">force</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>結構な時間がかかる。<br/>
+個別にやった方が良さそう。<br/>
+ちなみに調べたらこれで行ける。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rvm</span> <span class="n">reinstall</span> <span class="n">ruby</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="o">-</span><span class="n">p385</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>以上で、メッセージ消えました。</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2013/02/20/20130220124535/">いろいろなgitignore</a>
         </h1>
     
@@ -844,83 +951,6 @@ format errorとなって落ちることがあった。<br/>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2012/10/30/20121030125752/">someone call me</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2012-10-30T12:57:00+09:00" pubdate><i class="fa fa-calendar"></i> Oct 30th, 2012</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>rubyで自分がどう呼び出されているかを調べる</p>
-
-<p>printstacktraceのようなもの。<br/>
-callerと書けば、どこから呼ばれたのかがわかる。</p>
-
-<p>本番環境でなんか２件データが出来る時があって、どうしても原因がわからないのでどこから呼ばれてるのか仕込んでみた。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;logger&#39;</span>
-</span><span class='line'><span class="n">logger</span> <span class="o">=</span> <span class="no">Logger</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;log/debug.log&#39;</span><span class="p">,</span> <span class="s1">&#39;daily&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="n">logger</span><span class="o">.</span><span class="n">level</span> <span class="o">=</span> <span class="no">Logger</span><span class="o">::</span><span class="no">DEBUG</span>
-</span><span class='line'><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span> <span class="s2">&quot;#####&quot;</span> <span class="o">+</span> <span class="no">DateTime</span><span class="o">.</span><span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y年%m月%d日 %H時%M分%S秒&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;#####&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="nb">self</span><span class="o">.</span><span class="n">inspect</span><span class="p">)</span>
-</span><span class='line'><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="nb">caller</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;  n&quot;</span><span class="p">))</span>
-</span><span class='line'><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span> <span class="s2">&quot;############&quot;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>ログは一日置きにローテートさせてみた。<br/>
-もう一週間ぐらいたつけど、罠しかけた途端現象が起きなくなるという。</p>
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -984,6 +1014,10 @@ callerと書けば、どこから呼ばれたのかがわかる。</p>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2018/11/19/kuzyukuri-sitabirame/">九十九里サーフ</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2018/11/12/kemigawa-kiss/">検見川浜 キス</a>
         </li>
         
@@ -997,10 +1031,6 @@ callerと書けば、どこから呼ばれたのかがわかる。</p>
         
         <li class="post">
             <a href="/blog/2018/10/25/cooler-ukesaburou/">クーラー受け三郎買いました</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2018/10/23/imaiganpeki/">袖ヶ浦 五目釣り</a>
         </li>
         
     </ul>
