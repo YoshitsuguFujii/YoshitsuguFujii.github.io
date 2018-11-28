@@ -91,6 +91,96 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2018/03/12/current-sign-out-at/">最後にサインアウトした時間が欲しい</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2018-03-12T12:51:13+09:00" pubdate><i class="fa fa-calendar"></i> Mar 12th, 2018</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
+            
+                <li><a class='category' href='/blog/categories/devise/'>devise</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p>  <br/>
+<ins class="adsbygoogle"  
+     style="display:block; text-align:center;"  
+     data-ad-layout="in-article"  
+     data-ad-format="fluid"  
+     data-ad-client="ca-pub-7039502723411845"  
+     data-ad-slot="8206045005"></ins></p>
+
+<script>    
+     (adsbygoogle = window.adsbygoogle || []).push({});    
+</script>
+
+
+<p></p>
+
+<p>before_logoutというwardenのフックメソッドがあるのでそこに追加<br/>
+自分はconfig/initializers/devise.rbに追加しちゃいました。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Warden</span><span class="o">::</span><span class="no">Manager</span><span class="o">.</span><span class="n">before_logout</span> <span class="k">do</span> <span class="o">|</span><span class="n">user</span><span class="p">,</span><span class="n">auth</span><span class="p">,</span><span class="n">opts</span><span class="o">|</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">user</span><span class="o">.</span><span class="n">is_a?</span><span class="p">(</span><span class="no">User</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">user</span><span class="o">.</span><span class="n">update_column</span><span class="p">(</span><span class="ss">:current_sign_out_at</span><span class="p">,</span> <span class="no">Time</span><span class="o">.</span><span class="n">current</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2018/03/05/rails-redirect-called/">Railsでredirect_toが呼ばれたか判定</a>
         </h1>
     
@@ -731,72 +821,6 @@ DBの日時はutcで保存して表示する時にユーザによって該当の
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2018/01/22/ridgepole-partial-uniq-index/">ridgepoleの部分インデックスで毎回createとdrop indexをさせない書き方</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2018-01-22T14:44:35+09:00" pubdate><i class="fa fa-calendar"></i> Jan 22nd, 2018</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
-            
-                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
-            
-                <li><a class='category' href='/blog/categories/ridgepole/'>ridgepole</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <div class="article__content clearfix">
-        <p>railsでparanoiaとか使っていて、<br/>
-mysqlで論理削除にdeleted_atがnullかどうかで論理削除判定していると<br/>
-dbのuniq indexで辛い感じになります。</p>
-
-<p>postgresqlでは部分インデックスなるものがあり、deleted_atがnullのものをuniq制約の条件に含めないとかいうことができます。</p>
-
-<p><a href="https://www.postgresql.jp/document/9.2/html/indexes-partial.html">部分インデックス</a></p>
-
-
-        <a class="btn pull-right" href="/blog/2018/01/22/ridgepole-partial-uniq-index/">Read on &rarr;</a>
-    </div>
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -860,6 +884,10 @@ dbのuniq indexで辛い感じになります。</p>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2018/11/28/kemigawahama-kissu/">検見川浜 キス</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2018/11/19/kuzyukuri-sitabirame/">九十九里サーフ</a>
         </li>
         
@@ -873,10 +901,6 @@ dbのuniq indexで辛い感じになります。</p>
         
         <li class="post">
             <a href="/blog/2018/10/30/sodegaura-hiika/">今井岸壁 イワシ アジ ヒイカ</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2018/10/25/cooler-ukesaburou/">クーラー受け三郎買いました</a>
         </li>
         
     </ul>
