@@ -4,7 +4,7 @@
     <title><![CDATA[Category: ruby | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/ruby/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2018-12-10T13:21:59+09:00</updated>
+    <updated>2018-12-21T18:09:47+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,41 @@
       </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[ExceptionNotificationがある環境でSlackNotifierだけ使う]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2018/12/21/slack-notifier-in-exception-notification/"/>
+        <updated>2018-12-21T17:53:59+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2018/12/21/slack-notifier-in-exception-notification</id>
+        <content type="html"><![CDATA[<p>ものぐさネタ。</p>
+
+<!-- more -->
+
+
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p><ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-7039502723411845"
+     data-ad-slot="8206045005"></ins></p>
+
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+<p>失敗レコード数とかraiseするほどではないんだけど、slackに通知だけしたい時。<br/>
+slack-notifierを設定するのがめんどくさいのでexception-notificationに設定されているslackのnotifierを取り出して使う。</p>
+
+<pre><code>ExceptionNotifier.class_variable_get('@@notifiers')[:slack].notifier.ping('hogehoge')
+</code></pre>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[たまにCan't verify CSRF token authenticity.]]></title>
@@ -239,78 +274,6 @@ module Devise
   module Controllers
     module StoreLocation
       prepend StoreLocationPatch
-    end
-  end
-end
-</code></pre>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[Grapeでskip_before_action]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2018/04/24/grape-skip-filter/"/>
-        <updated>2018-04-24T14:10:09+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2018/04/24/grape-skip-filter</id>
-        <content type="html"><![CDATA[<p>Deviseとか使っていて、ApplicationControllerに認証の仕組みを設ける時。</p>
-
-<pre><code class="ruby">class ApplicationController &lt; ActionController::Base
-  before_action :authenticate_user!
-end
-</code></pre>
-
-<p>こう書きますね。<br/>
-ログイン前のページではログイン判定は不要なのでskip_before_actionでskipさせるのが定石だと思います</p>
-
-<pre><code class="ruby">class HogeController &lt;  ActionController::Base
-  skip_before_action :authenticate_user!
-end
-</code></pre>
-
-<p>Grapeではどうやんのよっていう話し。</p>
-
-<!-- more -->
-
-
-<p></p>
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-
-
-<p>  <br/>
-<ins class="adsbygoogle"  
-     style="display:block; text-align:center;"  
-     data-ad-layout="in-article"  
-     data-ad-format="fluid"  
-     data-ad-client="ca-pub-7039502723411845"  
-     data-ad-slot="8206045005"></ins></p>
-
-<script>    
-     (adsbygoogle = window.adsbygoogle || []).push({});    
-</script>
-
-
-<p></p>
-
-<p>route.settingsを使うといいです</p>
-
-<pre><code class="ruby">module API::V1
-  class Root &lt; Grape::API
-    before do
-      user_authenticate! unless route.settings[:skip_user_authenticate]
-    end
-
-    mount Users
-  end
-end
-</code></pre>
-
-<pre><code class="ruby">module API::V1
-  class Users &lt; Grape::API
-    resource 'users' do
-      route_setting :skip_user_authenticate, true
-      get do
-        # do something
-      end
     end
   end
 end

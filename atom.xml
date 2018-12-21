@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2018-12-10T13:21:59+09:00</updated>
+    <updated>2018-12-21T18:09:47+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,44 @@
     </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[ExceptionNotificationがある環境でSlackNotifierだけ使う]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2018/12/21/slack-notifier-in-exception-notification/"/>
+        <updated>2018-12-21T17:53:59+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2018/12/21/slack-notifier-in-exception-notification</id>
+        <content type="html"><![CDATA[<p>ものぐさネタ。</p>
+
+<!-- more -->
+
+
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p><ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-7039502723411845"
+     data-ad-slot="8206045005"></ins></p>
+
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+<p>失敗レコード数とかraiseするほどではないんだけど、slackに通知だけしたい時。<br/>
+slack-notifierを設定するのがめんどくさいのでexception-notificationに設定されているslackのnotifierを取り出して使う。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ExceptionNotifier.class_variable_get('@@notifiers')[:slack].notifier.ping('hogehoge')</span></code></pre></td></tr></table></div></figure>
+
+
+
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[たまにCan't verify CSRF token authenticity.]]></title>
@@ -1850,109 +1888,6 @@ Railsのcontrollerではsubmitした時のボタンの名称で登録 or キャ�
 
 
 <p></p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[今井岸壁 アジ チーバス]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2018/07/31/imaiganpeki/"/>
-        <updated>2018-07-31T12:58:07+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2018/07/31/imaiganpeki</id>
-        <content type="html"><![CDATA[<p>釣行日 2018年7月29日(日)<br/>
-天気 晴<br/>
-場所 今井岸壁<br/>
-釣行時間: 12:45 〜 18:20</p>
-
-<p>暑いですね。<br/>
-子供と妻を市原の友人宅に送った後、晩飯釣ってくるよとでかけます。<br/>
-市原の海釣り公園で金曜日にイワシが結構あがっていたようなのでイワシ釣れるかなと期待しながら今井岸壁到着です。</p>
-
-<!-- more -->
-
-
-<p></p>
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-
-
-<p>
-<ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-layout="in-article"
-     data-ad-format="fluid"
-     data-ad-client="ca-pub-7039502723411845"
-     data-ad-slot="8206045005"></ins></p>
-
-<script>  
-     (adsbygoogle = window.adsbygoogle || []).push({});  
-</script>
-
-
-<p></p>
-
-<p>トリックサビキ2本セットです。<br/>
-一本を底べったり(針3号)、もう一本(針2.5号)を２ヒロぐらいのところに沈めます。</p>
-
-<p><img src="http://yoshitsugufujii.github.io/images/blog/20180731/IMG_5777.JPG"></p>
-
-<p>着いて海面見て見ると鉛筆サヨリがいっぱいいます。<br/>
-コマセまくと寄ってきてパクパクしてどっか行きます。</p>
-
-<p><img src="http://yoshitsugufujii.github.io/images/blog/20180731/IMG_5778.JPG"></p>
-
-<p>この写真の右下の方にいるんですがわかりますかね(^^;</p>
-
-<p>鉛筆サヨリ観察していたら、底べったりの竿に反応が。</p>
-
-<p><img src="http://yoshitsugufujii.github.io/images/blog/20180731/IMG_5782.JPG"></p>
-
-<p>釣れたのは</p>
-
-<p><img src="http://yoshitsugufujii.github.io/images/blog/20180731/IMG_5784.JPG"></p>
-
-<p>チーバスちゃんでした。</p>
-
-<p>大きくなって戻ってきてねと海にお帰りいただきます。</p>
-
-<p>そして何も釣れない時間が続きます 。</p>
-
-<p><img src="http://yoshitsugufujii.github.io/images/blog/20180731/IMG_5789.JPG"></p>
-
-<p>正直暑くて気が狂いそうですが、ルアー投げたりして遊んでました。</p>
-
-<p>17時20分になって時合到来。</p>
-
-<p>豆アジが釣れまくります。</p>
-
-<p><img src="http://yoshitsugufujii.github.io/images/blog/20180731/IMG_5792.JPG"></p>
-
-<p>底べったりの竿は全然反応せず、２ヒロ沈めの竿にばかりかかります。</p>
-
-<p>底べったりも２ヒロに設定しますが、0.5号の差なんですが6:1ぐらいで2.５号の針にばかりかかりました。</p>
-
-<p>針の大きさ重要ですね。</p>
-
-<p>時合は二十分ほどで終了。</p>
-
-<p>6時15分に２匹追加。</p>
-
-<p>ここで友人に豆アジ食べさせるべく撤収です。</p>
-
-<p><img src="http://yoshitsugufujii.github.io/images/blog/20180731/IMG_5795.JPG"></p>
-
-<p>大きいサイズのアジフライもおいしいけど、このサイズは頭ごと唐揚げにできてしかもかなり美味しいので大好きです。</p>
-
-<p><img src="http://yoshitsugufujii.github.io/images/blog/20180731/IMG_5799.JPG"><br/>
-<img src="http://yoshitsugufujii.github.io/images/blog/20180731/IMG_5802.JPG"></p>
-
-<p>大人５人、子供７人いましたが一瞬でなくなりました。</p>
-
-<p>使用後のトリックの保存方法ですが、色々ためしましたがトイレのロールが一番しっくりくることが判明。<br/>
-針を上下の縁にひっかけて一方方向に巻くことでテンションかけつつ安全に保管できます。</p>
-
-<p><img src="http://yoshitsugufujii.github.io/images/blog/20180731/IMG_5805.JPG"></p>
-
-<p>いい季節になりました(^^</p>
 ]]></content>
     </entry>
     
