@@ -21,7 +21,8 @@ categories: [ruby,ruby on rails]
      (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
 
-失敗レコード数とかraiseするほどではないんだけど、slackに通知だけしたい時。
+失敗レコード数とかraiseするほどではないんだけど、slackに通知だけしたい時。  
+slack-notifierを設定するのがめんどくさいのでexception-notificationに設定されているslackのnotifierを取り出して使う。  
 
 ```
 ExceptionNotifier.class_variable_get('@@notifiers')[:slack].notifier.ping('hogehoge')
