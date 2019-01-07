@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2018-12-25T17:37:41+09:00</updated>
+    <updated>2019-01-07T16:46:43+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,48 @@
     </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[メソッドの引数の値を全部表示したい時]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2019/01/07/show-arguments-to-logs/"/>
+        <updated>2019-01-07T16:44:35+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2019/01/07/show-arguments-to-logs</id>
+        <content type="html"><![CDATA[<p>あけましておめでとうございます。<br/>
+今年もよろしくお願いします。</p>
+
+<p>さっそくものぐさネタ。</p>
+
+<!-- more -->
+
+
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p><ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-7039502723411845"
+     data-ad-slot="8206045005"></ins></p>
+
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  method(__method__).parameters.each do |_, name|
+</span><span class='line'>    puts "#{name} =&gt; #{binding.local_variable_get(name)}"
+</span><span class='line'>  end</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[袖ヶ浦 五目釣り]]></title>
@@ -1831,128 +1873,6 @@ Railsのcontrollerではsubmitした時のボタンの名称で登録 or キャ�
 ワンポイントとかでのせてTシャツにしたい。</p>
 
 <p><img src="http://yoshitsugufujii.github.io/images/blog/20180909/IMG_6313.JPG"></p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[検見川浜突堤 チーバス チンチン ミニカマス]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2018/08/28/kemigawahama/"/>
-        <updated>2018-08-28T15:31:32+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2018/08/28/kemigawahama</id>
-        <content type="html"><![CDATA[<p>釣行日 2018年8月26日(日)<br/>
-天気 晴れ(強風)<br/>
-場所 検見川浜突堤<br/>
-釣行時間: 13:30 〜 17:30</p>
-
-<p>ふるさと納税の返礼品のうなぎが届くため、<br/>
-冷凍庫のこませをどうにかしろという命をうけました。<br/>
-じいちゃんの家に子供と妻を預けて稲毛ヨットハーバー前の突堤です。<br/>
-久しぶりの釣り。</p>
-
-<!-- more -->
-
-
-<p></p>
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-
-
-<p>
-<ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-layout="in-article"
-     data-ad-format="fluid"
-     data-ad-client="ca-pub-7039502723411845"
-     data-ad-slot="8206045005"></ins></p>
-
-<script>  
-     (adsbygoogle = window.adsbygoogle || []).push({});  
-</script>
-
-
-<p></p>
-
-<p><img src="http://yoshitsugufujii.github.io/images/blog/20180828/IMG_6071.JPG"><br/>
-<img src="http://yoshitsugufujii.github.io/images/blog/20180828/IMG_6072.JPG"><br/>
-<img src="http://yoshitsugufujii.github.io/images/blog/20180828/IMG_6070.JPG"></p>
-
-<p>日差しはサンサンで強風です。</p>
-
-<p>他の人はルアーの人とサヨリ狙いの人がいますが人はまばら。<br/>
-サビキやってる人はいませんね。</p>
-
-<p>そして自転車で来たのですがトリックこすりつけ器を忘れました。<br/>
-しょうがないので自作です。</p>
-
-<p>ゴミ箱からペットボトルを拾って来て半分に切ります。<br/>
-そしてコマセをこすりつけるための道として手前側に切り込みをいれます。</p>
-
-<p><img src="http://yoshitsugufujii.github.io/images/blog/20180828/IMG_6073.JPG"></p>
-
-<p>風で飛んでしまうので底に持っていた重りを入れます。</p>
-
-<p><img src="http://yoshitsugufujii.github.io/images/blog/20180828/IMG_6074.JPG"></p>
-
-<p>完成です。</p>
-
-<p><img src="http://yoshitsugufujii.github.io/images/blog/20180828/IMG_6090.JPG"></p>
-
-<p>つかいずらいけど使えますね。</p>
-
-<p>風がつよく手で持っていないと竿が倒れてしまうので磯竿2-530一本でやります。</p>
-
-<p>突堤のカーブのところ。波があたってしぶきがすごかったので、<br/>
-きっとここの水中は酸素が多くて魚の活性高かったりするかもという素人理論で場所決め。</p>
-
-<p>投入後すぐにあたり。</p>
-
-<p><img src="http://yoshitsugufujii.github.io/images/blog/20180828/IMG_6076.JPG"></p>
-
-<p><img src="http://yoshitsugufujii.github.io/images/blog/20180828/IMG_6078.JPG"></p>
-
-<p>15センチぐらいのチーバスちゃんでした。リリース。</p>
-
-<p>ふたたび投入。こんなに風強いとあたりわからんなー。<br/>
-しばらくしてあげてみるとスレがかりですでに絶命しているミニカマスちゃん。</p>
-
-<p><img src="http://yoshitsugufujii.github.io/images/blog/20180828/IMG_6079.JPG"></p>
-
-<p>からのチンチン。</p>
-
-<p><img src="http://yoshitsugufujii.github.io/images/blog/20180828/IMG_6082.JPG"></p>
-
-<p>しかし風が強く水面もボヨボヨですね。</p>
-
-<p><img src="http://yoshitsugufujii.github.io/images/blog/20180828/IMG_6086.JPG"><br/>
-<img src="http://yoshitsugufujii.github.io/images/blog/20180828/IMG_6087.JPG"></p>
-
-<p>ウィンドサーファーやヨットの人が多いです。<br/>
-目の前でヨットが沈しているの２回見ました(１回目は中々起き上がれずにボートの人に助けてもらってました)</p>
-
-<p>そんな様子をぼけーっと眺めていると竿がプルッと震えたのであげてみると再びのミニカマスちゃん。</p>
-
-<p><img src="http://yoshitsugufujii.github.io/images/blog/20180828/IMG_6093.jpg"></p>
-
-<p>そしてチンチン</p>
-
-<p><img src="http://yoshitsugufujii.github.io/images/blog/20180828/IMG_6092.JPG"></p>
-
-<p>その後まったくあたりなく。<br/>
-イワシ、サッパあたりの回遊を期待しましたが夜にお祭りに行く約束をしていたので終了。</p>
-
-<p>帰り道が水没していました。</p>
-
-<p><img src="http://yoshitsugufujii.github.io/images/blog/20180828/IMG_6094.JPG"></p>
-
-<p>帰ってミニカマスをフライパンで焼いて猫に進呈。</p>
-
-<p><img src="http://yoshitsugufujii.github.io/images/blog/20180828/IMG_6097.JPG"></p>
-
-<p>翌日うなぎ食べました。<br/>
-おいしい。ふるさと納税最高ですね。</p>
-
-<p><img src="http://yoshitsugufujii.github.io/images/blog/20180828/IMG_6123.JPG"><br/>
-<img src="http://yoshitsugufujii.github.io/images/blog/20180828/IMG_6125.jpg"></p>
 ]]></content>
     </entry>
     
