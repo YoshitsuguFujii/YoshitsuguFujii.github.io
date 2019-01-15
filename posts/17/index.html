@@ -91,6 +91,122 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2014/12/05/20141205115627/">Nokogiriを使って部分的にhtmlを編集する</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2014-12-05T11:56:00+09:00" pubdate><i class="fa fa-calendar"></i> Dec 5th, 2014</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/nokogiri/'>nokogiri</a></li>
+            
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>Nokogiriを使ってhelperメソッドで特定のinputに属性(クラス名)を追加したくなったのでやってみました。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">html</span> <span class="o">=</span> <span class="o">&lt;&lt;</span><span class="no">HTML</span>
+</span><span class='line'><span class="sh">&lt;div&gt;</span>
+</span><span class='line'><span class="sh">  &lt;input id=&quot;hoge&quot; class=&quot;field&quot;&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">HTML</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">doc</span> <span class="o">=</span> <span class="no">Nokogiri</span><span class="o">::</span><span class="no">HTML</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">html</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">doc</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s2">&quot;input#hoge&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">input</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">input</span><span class="o">[</span><span class="s1">&#39;class&#39;</span><span class="o">]</span> <span class="o">+=</span> <span class="s2">&quot; has_error&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">doc</span><span class="o">.</span><span class="n">to_html</span> <span class="c1"># =&gt; &quot;&lt;!DOCTYPE html PUBLIC   &quot;-//W3C//DTD HTML 4.0 Transitional//EN  &quot;   &quot;http://www.w3.org/TR/REC-html40/loose.dtd  &quot;&gt;  n&lt;html&gt;&lt;body&gt;  n&lt;div&gt;  n  &lt;input class=  &quot;field  &quot;&gt;  n  n&lt;/body&gt;&lt;/html&gt;  n&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Nokogiri::HTML.parseだとDOCTYPEとか  <html  >とか余計なものがついてくる。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">html</span> <span class="o">=</span> <span class="o">&lt;&lt;</span><span class="no">HTML</span>
+</span><span class='line'><span class="sh">&lt;div&gt;</span>
+</span><span class='line'><span class="sh">  &lt;input id=&quot;hoge&quot; class=&quot;field&quot;&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">HTML</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">doc</span> <span class="o">=</span> <span class="no">Nokogiri</span><span class="o">::</span><span class="no">HTML</span><span class="o">::</span><span class="no">DocumentFragment</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">html</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">doc</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s2">&quot;input#hoge&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">input</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">input</span><span class="o">[</span><span class="s1">&#39;class&#39;</span><span class="o">]</span> <span class="o">+=</span> <span class="s2">&quot; has_error&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">doc</span><span class="o">.</span><span class="n">to_html</span> <span class="c1"># =&gt; &quot;&lt;div&gt;  n  &lt;input id=  &quot;hoge  &quot; class=  &quot;field has_error  &quot;&gt;  n  n&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>そういう場合はDocumentFragmentを使うと部分的にhtmlを使える。</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2014/11/28/20141128152410/">handlerbarsで現在のループ回数を知る</a>
         </h1>
     
@@ -1333,83 +1449,6 @@ innnerHTML参照せずにappendChildで追加しよう。</p>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2014/03/14/20140314195912/">knexで外部キー制約のマイグレーション</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2014-03-14T19:59:00+09:00" pubdate><i class="fa fa-calendar"></i> Mar 14th, 2014</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/node-dot-js/'>node.js</a></li>
-            
-                <li><a class='category' href='/blog/categories/bookshelf/'>bookshelf</a></li>
-            
-                <li><a class='category' href='/blog/categories/knex/'>knex</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p><a href="http://tajimajunpei-blog.blogspot.jp/2013/12/nodejsorm-bookshelf.html">Node.js向けORM
-Bookshelfの紹介</a>を参照させていただきながら、Bookshelf触ってみている。</p>
-
-<p>ページではsqlite3だけど、自分はmysqlで使っている。</p>
-
-<p>外部キー制約の部分。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'> <span class="n">t</span><span class="o">.</span><span class="n">integer</span><span class="p">(</span><span class="s1">&#39;post_id&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">notNull</span><span class="p">()</span><span class="o">.</span><span class="n">references</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">inTable</span><span class="p">(</span><span class="s1">&#39;posts&#39;</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>がmysqlではCannot add foreign key constraintが出て動かなかった。</p>
-
-<p>これで動いた。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">t</span><span class="o">.</span><span class="n">integer</span><span class="p">(</span><span class="s1">&#39;post_id&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">unsigned</span><span class="p">()</span><span class="o">.</span><span class="n">notNullable</span><span class="p">()</span><span class="o">.</span><span class="n">references</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">inTable</span><span class="p">(</span><span class="s1">&#39;posts&#39;</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -1473,6 +1512,10 @@ Bookshelfの紹介</a>を参照させていただきながら、Bookshelf触っ�
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2019/01/15/takatakiko-wakasagi/">高滝湖 ワカサギ</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2019/01/07/show-arguments-to-logs/">メソッドの引数の値を全部表示したい時</a>
         </li>
         
@@ -1486,10 +1529,6 @@ Bookshelfの紹介</a>を参照させていただきながら、Bookshelf触っ�
         
         <li class="post">
             <a href="/blog/2018/12/10/rails-csrf/">たまにCan't verify CSRF token authenticity.</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2018/12/03/takasukaihinkouen/">高須海浜公園 コノシロ</a>
         </li>
         
     </ul>

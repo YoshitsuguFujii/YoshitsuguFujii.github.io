@@ -91,6 +91,176 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2013/01/11/20130111123918/">compassをこっそりと自社サービスで使ってみる</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2013-01-11T12:39:00+09:00" pubdate><i class="fa fa-calendar"></i> Jan 11th, 2013</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
+            
+                <li><a class='category' href='/blog/categories/sass/'>sass</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>昨日のエントリの続きになります。<br/>
+やっぱりcompassも使いたいということで、こっそりと入れてみました。<br/>
+compassはsassのfunctionやmixinなどが便利につまったフレームワークですね。</p>
+
+<p>rails3.0.5のプロジェクトで使用します。<br/>
+  #{RAILS  _ROOT}はrailsのアプリケーションルートに適宜読み替えてください。</p>
+
+<p>まずは  #{RAILS  _ROOT}/app/assets/stylesheets下に環境を作ってみたいと思います。</p>
+
+<p>まずはGemfileにgem &lsquo;compass'を追記して  <code>bundle install </code><br/>
+compassはsassに依存しているので、昨日のGemfileに記述したsassの行を削除してもいいかもしれません。</p>
+
+<p>compassの環境を作ります。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">cd</span> <span class="c1">#{RAILS_ROOT}/app/assets/stylesheets</span>
+</span><span class='line'><span class="n">compass</span> <span class="n">create</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>コンソールに色々ファイルが出来たと思います。<br/>
+デフォルトのファイル達は使わないので消しちゃいます。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rm</span> <span class="o">-</span><span class="n">r</span> <span class="n">sass</span>
+</span><span class='line'><span class="n">rm</span> <span class="o">-</span><span class="n">r</span> <span class="n">stylesheets</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>config.rbを開いて修正します。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Set this to the root of your project when deployed:</span>
+</span><span class='line'><span class="n">http_path</span> <span class="o">=</span> <span class="s2">&quot;/&quot;</span>
+</span><span class='line'><span class="n">css_dir</span> <span class="o">=</span> <span class="s2">&quot;../../../public/stylesheets&quot;</span>
+</span><span class='line'><span class="n">sass_dir</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span>
+</span><span class='line'><span class="n">images_dir</span> <span class="o">=</span> <span class="s2">&quot;../images&quot;</span>
+</span><span class='line'><span class="n">generated_images_dir</span> <span class="o">=</span> <span class="s2">&quot;../../../public/images&quot;</span>
+</span><span class='line'><span class="n">javascripts_dir</span> <span class="o">=</span> <span class="s2">&quot;../../../public/javascripts&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>sass  <em>dirがコンパイル対象のscssが置かれているパス。<br/>
+css  </em>dirがコンパイル後のcssの出力先ですね。</p>
+
+<p>変更を監視して自動で変換してくれるようにコンソール上でwatchスタートします。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">cd</span> <span class="c1">#{RAILS_ROOT}/app/assets/stylesheets</span>
+</span><span class='line'><span class="n">compass</span> <span class="n">watch</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>  #{RAILS  _ROOT}/app/assets/stylesheets/test.scssを作成してみます。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@import</span> <span class="s2">&quot;compass/css3&quot;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">.</span><span class="n">sample</span> <span class="p">{</span>
+</span><span class='line'>  <span class="vi">@include</span> <span class="n">border</span><span class="o">-</span><span class="n">radius</span><span class="p">(</span><span class="mi">25</span><span class="n">px</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>  #{RAILS  _ROOT}/public/stylesheets/test.cssを開いてみます。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="sr">/* line 3, ../</span><span class="o">.</span><span class="n">.</span><span class="o">/</span><span class="n">app</span><span class="o">/</span><span class="n">assets</span><span class="o">/</span><span class="n">stylesheets</span><span class="o">/</span><span class="nb">test</span><span class="o">.</span><span class="n">scss</span> <span class="o">*/</span>
+</span><span class='line'><span class="o">.</span><span class="n">sample</span> <span class="p">{</span>
+</span><span class='line'>  <span class="o">-</span><span class="n">webkit</span><span class="o">-</span><span class="n">border</span><span class="o">-</span><span class="ss">radius</span><span class="p">:</span> <span class="mi">25</span><span class="n">px</span><span class="p">;</span>
+</span><span class='line'>  <span class="o">-</span><span class="n">moz</span><span class="o">-</span><span class="n">border</span><span class="o">-</span><span class="ss">radius</span><span class="p">:</span> <span class="mi">25</span><span class="n">px</span><span class="p">;</span>
+</span><span class='line'>  <span class="o">-</span><span class="n">ms</span><span class="o">-</span><span class="n">border</span><span class="o">-</span><span class="ss">radius</span><span class="p">:</span> <span class="mi">25</span><span class="n">px</span><span class="p">;</span>
+</span><span class='line'>  <span class="o">-</span><span class="n">o</span><span class="o">-</span><span class="n">border</span><span class="o">-</span><span class="ss">radius</span><span class="p">:</span> <span class="mi">25</span><span class="n">px</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">border</span><span class="o">-</span><span class="ss">radius</span><span class="p">:</span> <span class="mi">25</span><span class="n">px</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>できてます。<br/>
+これでこっそりcompassが使えますね！</p>
+
+<p>compassのリファレンスは公式を参照です。<br/>
+<a href="http://compass-style.org/">http://compass-style.org/</a></p>
+
+<p>※2013年1月23日追記<br/>
+css
+spriteの機能が使えない指定だったので、config.rb以下二つを直しました。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">images_dir</span> <span class="o">=</span> <span class="s2">&quot;../images&quot;</span>
+</span><span class='line'><span class="n">generated_images_dir</span> <span class="o">=</span> <span class="s2">&quot;../../../public/images&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>css spriteを使う場合には。<br/>
+images  <em>dirはどこにimagesがあるかを相対パスで指定し、generated  </em>images  _dirはどこに結合した画像を吐き出すかの指定です。</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2013/01/10/20130110152413/">こっそりと自社サービスでsassを使ってみる</a>
         </h1>
     
@@ -751,72 +921,6 @@ callerと書けば、どこから呼ばれたのかがわかる。</p>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2012/07/24/20120724150437/">いっつも忘れるsanitizeメソッド</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2012-07-24T15:04:00+09:00" pubdate><i class="fa fa-calendar"></i> Jul 24th, 2012</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/rails/'>rails</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>完全備忘録<br/>
-除去したくないタグを第２引数に指定</p>
-
-<p>rails c</p>
-
-<p>で起動した体で</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">ApplicationController</span><span class="o">.</span><span class="n">helpers</span><span class="o">.</span><span class="n">sanitize</span> <span class="s2">&quot;&lt;div&gt;4文字以上で入力ください&lt;br /&gt;入力された文字は2文字です&quot;</span><span class="p">,</span> <span class="ss">:tags</span> <span class="o">=&gt;</span> <span class="sx">%(br)</span>
-</span><span class='line'><span class="c1"># =&gt; &quot;4文字以上で入力ください&lt;br /&gt;入力された文字は2文字です&quot; </span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -880,6 +984,10 @@ callerと書けば、どこから呼ばれたのかがわかる。</p>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2019/01/15/takatakiko-wakasagi/">高滝湖 ワカサギ</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2019/01/07/show-arguments-to-logs/">メソッドの引数の値を全部表示したい時</a>
         </li>
         
@@ -893,10 +1001,6 @@ callerと書けば、どこから呼ばれたのかがわかる。</p>
         
         <li class="post">
             <a href="/blog/2018/12/10/rails-csrf/">たまにCan't verify CSRF token authenticity.</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2018/12/03/takasukaihinkouen/">高須海浜公園 コノシロ</a>
         </li>
         
     </ul>

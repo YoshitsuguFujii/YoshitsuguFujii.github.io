@@ -91,6 +91,255 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2012/01/19/20120119105710/">rubyはブロックを引数に取れる</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2012-01-19T10:57:00+09:00" pubdate><i class="fa fa-calendar"></i> Jan 19th, 2012</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>わかりやすく書けるだろうか。</p>
+
+<p>railsのviewでログの出力を出し分けする以下のメソッドがあります。</p>
+
+<p>user  <em>profile  </em>log<br/>
+use  <em>favorite  </em>log</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">genarate_link_path</span><span class="p">(</span><span class="n">log_type</span><span class="p">,</span><span class="n">log</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">case</span> <span class="n">log_type</span>
+</span><span class='line'>  <span class="k">when</span> <span class="ss">:warm</span>
+</span><span class='line'>    <span class="s2">&quot;http://&quot;</span> <span class="o">+</span> <span class="n">config</span><span class="o">[</span><span class="ss">:host</span><span class="o">]</span> <span class="o">+</span> <span class="s2">&quot;/info/&quot;</span> <span class="o">+</span> <span class="s2">&quot;warm&quot;</span>
+</span><span class='line'>  <span class="k">when</span> <span class="ss">:error</span>
+</span><span class='line'>    <span class="s2">&quot;http://&quot;</span> <span class="o">+</span> <span class="n">config</span><span class="o">[</span><span class="ss">:host</span><span class="o">]</span> <span class="o">+</span> <span class="s2">&quot;/info/&quot;</span> <span class="o">+</span> <span class="s2">&quot;error&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">user_profile_log</span><span class="p">(</span><span class="n">log</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">disp_path</span> <span class="o">=</span> <span class="n">genarate_link_path</span><span class="p">(</span><span class="ss">:warn</span><span class="p">,</span><span class="n">log</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">case</span> <span class="n">log</span><span class="o">.</span><span class="n">operation_type</span>
+</span><span class='line'>  <span class="k">when</span> <span class="s2">&quot;insert&quot;</span>
+</span><span class='line'>    <span class="n">change_value</span> <span class="o">=</span> <span class="n">log</span><span class="o">.</span><span class="n">inspect</span> <span class="o">+</span> <span class="s2">&quot;ログを新規登録しました。&quot;</span>
+</span><span class='line'>  <span class="k">when</span> <span class="s2">&quot;update&quot;</span>
+</span><span class='line'>    <span class="n">change_value</span> <span class="o">=</span> <span class="n">log</span><span class="o">.</span><span class="n">inspect</span> <span class="o">+</span> <span class="s2">&quot;ログを更新しました。&quot;</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="s2">&quot;解析に失敗しました&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">return</span> <span class="n">link_to</span><span class="p">(</span> <span class="n">change_value</span> <span class="p">,</span> <span class="n">disp_path</span> <span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">use_favorite_log</span><span class="p">(</span><span class="n">log</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">disp_path</span> <span class="o">=</span> <span class="n">genarate_link_path</span><span class="p">(</span><span class="ss">:warn</span><span class="p">,</span><span class="n">log</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">case</span> <span class="n">log</span><span class="o">.</span><span class="n">operation_type</span>
+</span><span class='line'>  <span class="k">when</span> <span class="s2">&quot;insert&quot;</span>
+</span><span class='line'>    <span class="n">change_value</span> <span class="o">=</span> <span class="n">log</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;をお気に入りに追加しました。&quot;</span>
+</span><span class='line'>  <span class="k">when</span> <span class="s2">&quot;update&quot;</span>
+</span><span class='line'>    <span class="n">change_value</span> <span class="o">=</span> <span class="n">log</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;を更新しました。&quot;</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="s2">&quot;解析に失敗しました&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">return</span> <span class="n">link_to</span><span class="p">(</span> <span class="n">change_value</span> <span class="p">,</span> <span class="n">disp_path</span> <span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>DRYじゃないですよね。<br/>
+それぞれのメソッドでは<br/>
+disp  <em>path = genarate  </em>link  <em>path(:warn,log)<br/>
+return link  </em>to( change  <em>value , disp  </em>path )<br/>
+が二つのメソッドでかぶっております。</p>
+
+<p>これをブロックで書き直します。</p>
+
+<p>まずはブロックを引数に取るメソッド</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">output</span><span class="p">(</span><span class="n">log</span><span class="p">,</span><span class="n">log_type</span><span class="p">,</span><span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">disp_path</span> <span class="o">=</span> <span class="n">genarate_link_path</span><span class="p">(</span><span class="n">log_type</span><span class="p">,</span><span class="n">log</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">change_value</span> <span class="o">=</span> <span class="nb">block_given?</span> <span class="p">?</span> <span class="n">block</span><span class="o">.</span><span class="n">call</span> <span class="p">:</span> <span class="s2">&quot;ブロックもらえてないんで表示できません&quot;</span>
+</span><span class='line'>  <span class="n">link_to</span><span class="p">(</span> <span class="n">change_value</span> <span class="p">,</span> <span class="n">disp_path</span> <span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>&amp;blockでブロックを引数に取れます。<br/>
+受け取ったブロックはblock.callで実行できます。<br/>
+ブロックがもらえたかどうかはblock  _given?で判定できます。</p>
+
+<p>んでブロックを引数にouput呼び出す方も修正。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">user_profile_log</span><span class="p">(</span><span class="n">log</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">output</span><span class="p">(</span><span class="n">log</span><span class="p">,</span><span class="ss">:warm</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>    <span class="k">case</span> <span class="n">log</span><span class="o">.</span><span class="n">operation_type</span>
+</span><span class='line'>    <span class="k">when</span> <span class="s2">&quot;insert&quot;</span>
+</span><span class='line'>      <span class="n">change_value</span> <span class="o">=</span> <span class="n">log</span><span class="o">.</span><span class="n">inspect</span> <span class="o">+</span> <span class="s2">&quot;ログを新規登録しました。&quot;</span>
+</span><span class='line'>    <span class="k">when</span> <span class="s2">&quot;update&quot;</span>
+</span><span class='line'>      <span class="n">change_value</span> <span class="o">=</span> <span class="n">log</span><span class="o">.</span><span class="n">inspect</span> <span class="o">+</span> <span class="s2">&quot;ログを更新しました。&quot;</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="s2">&quot;解析に失敗しました&quot;</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">use_favorite_log</span><span class="p">(</span><span class="n">log</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">output</span><span class="p">(</span><span class="n">log</span><span class="p">,</span><span class="ss">:error</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>    <span class="k">case</span> <span class="n">log</span><span class="o">.</span><span class="n">operation_type</span>
+</span><span class='line'>    <span class="k">when</span> <span class="s2">&quot;insert&quot;</span>
+</span><span class='line'>      <span class="n">change_value</span> <span class="o">=</span> <span class="n">log</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;をお気に入りに追加しました。&quot;</span>
+</span><span class='line'>    <span class="k">when</span> <span class="s2">&quot;update&quot;</span>
+</span><span class='line'>      <span class="n">change_value</span> <span class="o">=</span> <span class="n">log</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;を更新しました。&quot;</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="s2">&quot;解析に失敗しました&quot;</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>っていう。</p>
+
+<p>説明できたか以前にソース汚いという。<br/>
+あと思ったより再利用性の高いコードが書けなかったという。</p>
+
+<p>ちなみに&amp;blockしなくてもブロックは受け取れてその場合は</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">output</span><span class="p">(</span><span class="n">log</span><span class="p">,</span><span class="n">log_type</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">disp_path</span> <span class="o">=</span> <span class="n">genarate_link_path</span><span class="p">(</span><span class="n">log_type</span><span class="p">,</span><span class="n">log</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">change_value</span> <span class="o">=</span> <span class="k">yield</span>
+</span><span class='line'>  <span class="n">link_to</span><span class="p">(</span> <span class="n">change_value</span> <span class="p">,</span> <span class="n">disp_path</span> <span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>となります。<br/>
+ブロックが渡されることが確実に保証されているならばこっちの方がいいのかな</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2012/01/18/20120118121739/">20120118121739</a>
         </h1>
     
@@ -270,6 +519,10 @@
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2019/01/15/takatakiko-wakasagi/">高滝湖 ワカサギ</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2019/01/07/show-arguments-to-logs/">メソッドの引数の値を全部表示したい時</a>
         </li>
         
@@ -283,10 +536,6 @@
         
         <li class="post">
             <a href="/blog/2018/12/10/rails-csrf/">たまにCan't verify CSRF token authenticity.</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2018/12/03/takasukaihinkouen/">高須海浜公園 コノシロ</a>
         </li>
         
     </ul>
