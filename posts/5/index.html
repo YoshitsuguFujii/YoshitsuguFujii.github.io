@@ -91,6 +91,89 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2018/04/24/grape-skip-filter/">Grapeでskip_before_action</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2018-04-24T14:10:09+09:00" pubdate><i class="fa fa-calendar"></i> Apr 24th, 2018</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
+            
+                <li><a class='category' href='/blog/categories/grape/'>grape</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <div class="article__content clearfix">
+        <p>Deviseとか使っていて、ApplicationControllerに認証の仕組みを設ける時。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ApplicationController</span> <span class="o">&lt;</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">before_action</span> <span class="ss">:authenticate_user!</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>こう書きますね。<br/>
+ログイン前のページではログイン判定は不要なのでskip_before_actionでskipさせるのが定石だと思います</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">HogeController</span> <span class="o">&lt;</span>  <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">skip_before_action</span> <span class="ss">:authenticate_user!</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Grapeではどうやんのよっていう話し。</p>
+
+
+        <a class="btn pull-right" href="/blog/2018/04/24/grape-skip-filter/">Read on &rarr;</a>
+    </div>
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2018/04/23/shiohigari/">潮干狩り 江戸川放水路</a>
         </h1>
     
@@ -685,72 +768,6 @@ apiでcsrfって必要なの？<br/>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2018/02/15/get-doorkeeper-token/">Doorkeeperの認証で使われるtokenを取得</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2018-02-15T11:46:00+09:00" pubdate><i class="fa fa-calendar"></i> Feb 15th, 2018</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
-            
-                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
-            
-                <li><a class='category' href='/blog/categories/doorkeeper/'>doorkeeper</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <div class="article__content clearfix">
-        <p>doorkeeprの処理のなかで削除済のユーザのステータスが取りたくて、tokenを取得できるかやってみました。</p>
-
-<p>イレギュラーアクセス -> tokenが取れない。<br/>
-通常のアクセス -> tokenが取れる。ユーザがひける。<br/>
-削除済または退会済みユーザへのアクセス -> tokenが取れる。ユーザがひけない。</p>
-
-<p>って感じでしょうか？</p>
-
-
-        <a class="btn pull-right" href="/blog/2018/02/15/get-doorkeeper-token/">Read on &rarr;</a>
-    </div>
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -814,6 +831,10 @@ apiでcsrfって必要なの？<br/>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2019/01/21/sodegaura/">袖ヶ浦 イシモチ</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2019/01/15/takatakiko-wakasagi/">高滝湖 ワカサギ</a>
         </li>
         
@@ -827,10 +848,6 @@ apiでcsrfって必要なの？<br/>
         
         <li class="post">
             <a href="/blog/2018/12/21/slack-notifier-in-exception-notification/">ExceptionNotificationがある環境でSlackNotifierだけ使う</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2018/12/10/rails-csrf/">たまにCan't verify CSRF token authenticity.</a>
         </li>
         
     </ul>
