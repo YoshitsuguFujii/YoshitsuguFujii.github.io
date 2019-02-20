@@ -91,6 +91,63 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2013/02/20/20130220124535/">いろいろなgitignore</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2013-02-20T12:45:00+09:00" pubdate><i class="fa fa-calendar"></i> Feb 20th, 2013</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/git/'>git</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>色々な言語やフレームワークのgitignoreのテンプレート</p>
+
+<p>とりあえず新規でプロジェクト作ったなら、適用してみると少しだけハッピーになれる気がしますね。<br/>
+<a href="https://github.com/github/gitignore">https://github.com/github/gitignore</a></p>
+
+<p>色々あるもんです。</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2013/02/12/20130212155915/">httpリクエストを投げまくれるRuby製のCLIツール作ってみました</a>
         </h1>
     
@@ -864,97 +921,6 @@ callerと書けば、どこから呼ばれたのかがわかる。</p>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2012/08/08/20120808132015/">if文でメソッド定義したりしなかったり</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2012-08-08T13:20:00+09:00" pubdate><i class="fa fa-calendar"></i> Aug 8th, 2012</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>表題の通り</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">hoge</span>
-</span><span class='line'>  <span class="nb">p</span> <span class="s2">&quot;hoge&quot;</span>
-</span><span class='line'><span class="k">end</span> <span class="k">if</span> <span class="kp">true</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">hoge</span> <span class="c1"># =&gt; &quot;hoge&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">def</span> <span class="nf">bar</span>
-</span><span class='line'>  <span class="nb">p</span> <span class="s2">&quot;bar&quot;</span>
-</span><span class='line'><span class="k">end</span> <span class="k">if</span> <span class="kp">false</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">bar</span> <span class="c1"># =&gt; NameError: undefined local variable or method `bar&#39; for main:Object</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">def</span> <span class="nf">hogefuga</span>
-</span><span class='line'> <span class="nb">puts</span> <span class="n">hoge</span> <span class="o">+</span> <span class="s2">&quot;fuga&quot;</span>
-</span><span class='line'><span class="k">end</span> <span class="k">if</span> <span class="nb">respond_to?</span><span class="p">(</span><span class="n">hoge</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">hogefuga</span> <span class="c1"># =&gt; # hogefuga</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -1018,6 +984,10 @@ callerと書けば、どこから呼ばれたのかがわかる。</p>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2019/02/20/takatakiko-wakasagi/">高滝湖 ワカサギ</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2019/01/21/sodegaura/">袖ヶ浦 イシモチ</a>
         </li>
         
@@ -1031,10 +1001,6 @@ callerと書けば、どこから呼ばれたのかがわかる。</p>
         
         <li class="post">
             <a href="/blog/2018/12/25/sodegaura/">袖ヶ浦 五目釣り</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2018/12/21/slack-notifier-in-exception-notification/">ExceptionNotificationがある環境でSlackNotifierだけ使う</a>
         </li>
         
     </ul>
