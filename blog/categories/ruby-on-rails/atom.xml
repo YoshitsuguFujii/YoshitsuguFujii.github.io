@@ -4,7 +4,7 @@
     <title><![CDATA[Category: ruby on rails | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/ruby-on-rails/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2019-02-20T12:13:53+09:00</updated>
+    <updated>2019-02-27T17:07:56+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,66 @@
       </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[GCSとActiveStorageを使った時に秘密鍵でエラー]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2019/02/27/gcs-private-key/"/>
+        <updated>2019-02-27T16:57:03+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2019/02/27/gcs-private-key</id>
+        <content type="html"><![CDATA[<p>サービスアカウントを発行して、キーを発行してその中身を</p>
+
+<pre><code class="">bundle exec rails credentials:edit    
+</code></pre>
+
+<p>してstorage.ymlで読み出そうとした時にprivate_keyに改行があるためにうまくいかなかった。</p>
+
+<!-- more -->
+
+
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p><ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-7039502723411845"
+     data-ad-slot="8206045005"></ins></p>
+
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+<p>dumpを使えばおっけー</p>
+
+<pre><code>Rails.application.credentials.gcs[:private_key].dump
+</code></pre>
+
+<p>全体はこう。</p>
+
+<pre><code>google:
+  service: GCS
+  credentials:
+    type: "service_account"
+    project_id: &lt;%= Rails.application.credentials.gcs[:project_id] %&gt;
+    private_key_id: &lt;%= Rails.application.credentials.gcs[:private_key_id] %&gt;
+    private_key: &lt;%= Rails.application.credentials.gcs[:private_key].dump %&gt;
+    client_email: &lt;%= Rails.application.credentials.gcs[:client_email] %&gt;
+    client_id: &lt;%= Rails.application.credentials.gcs[:client_id] %&gt;
+    auth_uri: "https://accounts.google.com/o/oauth2/auth"
+    token_uri: "https://accounts.google.com/o/oauth2/token"
+    auth_provider_x509_cert_url: "https://www.googleapis.com/oauth2/v1/certs"
+    client_x509_cert_url: &lt;%= Rails.application.credentials.gcs[:client_x509_cert_url] %&gt;
+  project: ''
+</code></pre>
+
+<p>参考
+<a href="https://github.com/rails/rails/blob/master/guides/source/active_storage_overview.md">https://github.com/rails/rails/blob/master/guides/source/active_storage_overview.md</a></p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[メソッドの引数の値を全部表示したい時]]></title>
@@ -179,62 +239,6 @@ end
 </code></pre>
 
 <p>とかやるとescapeされずに使えます。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[grape-jbuilderでtimezoneをなんとかする]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2018/06/29/grape-jbuilder-timezone/"/>
-        <updated>2018-06-29T15:47:34+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2018/06/29/grape-jbuilder-timezone</id>
-        <content type="html"><![CDATA[<p>Grapeでtimezoneを考慮して日付を返す場合は<br/>
-この<a href="https://t.co/Fqt42F1M3H">What is the best way to emulate <code>around_filter</code> when using Grape?</a>のようにgrapeのbeforeとafterを使って設定するのが定石な気がしますが。<br/>
-<a href="https://github.com/milkcocoa/grape-jbuilder">grape-jbuilder</a>でjbuilderの中で書いた日付がbeforeで設定したtimezoneで表示してくれなかったので対応しました。</p>
-
-<!-- more -->
-
-
-
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-
-
-<p><ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-layout="in-article"
-     data-ad-format="fluid"
-     data-ad-client="ca-pub-7039502723411845"
-     data-ad-slot="8206045005"></ins></p>
-
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-
-<p>grapeのendpoint(controllerでいうactionみたいな)で返すとtimezoneが考慮されていますが、jbuilderの中では考慮されていないっぽい。<br/>
-before -> grapeのendpointの処理 -> after -> jbuilderのrender<br/>
-という順番で動いているからですね。</p>
-
-<p>苦しいですがrenderの前後にtimezoneを変更するpatchをあてます。</p>
-
-<pre><code class="ruby"># config/initializers/grape_jbuilder_patch.rb
-module GrapeJbuilderPatch
-  def call
-    Time.zone = endpoint.current_user.time_zone # ユーザーのtimezoneを使う
-    result = super
-    Time.zone = Rails.configuration.time_zone # 戻す
-    result
-  end
-end
-
-module Grape
-  module Formatter
-    class Jbuilder
-      prepend GrapeJbuilderPatch
-    end
-  end
-end
-</code></pre>
 ]]></content>
     </entry>
     

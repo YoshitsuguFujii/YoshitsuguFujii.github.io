@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2019-02-20T12:13:53+09:00</updated>
+    <updated>2019-02-27T17:07:56+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,84 @@
     </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[GCSとActiveStorageを使った時に秘密鍵でエラー]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2019/02/27/gcs-private-key/"/>
+        <updated>2019-02-27T16:57:03+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2019/02/27/gcs-private-key</id>
+        <content type="html"><![CDATA[<p>サービスアカウントを発行して、キーを発行してその中身を</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>bundle exec rails credentials:edit    </span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>してstorage.ymlで読み出そうとした時にprivate_keyに改行があるためにうまくいかなかった。</p>
+
+<!-- more -->
+
+
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p><ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-7039502723411845"
+     data-ad-slot="8206045005"></ins></p>
+
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+<p>dumpを使えばおっけー</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Rails.application.credentials.gcs[:private_key].dump</span></code></pre></td></tr></table></div></figure>
+
+
+<p>全体はこう。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>google:
+</span><span class='line'>  service: GCS
+</span><span class='line'>  credentials:
+</span><span class='line'>    type: "service_account"
+</span><span class='line'>    project_id: &lt;%= Rails.application.credentials.gcs[:project_id] %&gt;
+</span><span class='line'>    private_key_id: &lt;%= Rails.application.credentials.gcs[:private_key_id] %&gt;
+</span><span class='line'>    private_key: &lt;%= Rails.application.credentials.gcs[:private_key].dump %&gt;
+</span><span class='line'>    client_email: &lt;%= Rails.application.credentials.gcs[:client_email] %&gt;
+</span><span class='line'>    client_id: &lt;%= Rails.application.credentials.gcs[:client_id] %&gt;
+</span><span class='line'>    auth_uri: "https://accounts.google.com/o/oauth2/auth"
+</span><span class='line'>    token_uri: "https://accounts.google.com/o/oauth2/token"
+</span><span class='line'>    auth_provider_x509_cert_url: "https://www.googleapis.com/oauth2/v1/certs"
+</span><span class='line'>    client_x509_cert_url: &lt;%= Rails.application.credentials.gcs[:client_x509_cert_url] %&gt;
+</span><span class='line'>  project: ''</span></code></pre></td></tr></table></div></figure>
+
+
+<p>参考
+<a href="https://github.com/rails/rails/blob/master/guides/source/active_storage_overview.md">https://github.com/rails/rails/blob/master/guides/source/active_storage_overview.md</a></p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[高滝湖 ワカサギ]]></title>
@@ -1720,66 +1798,6 @@ Railsのcontrollerではsubmitした時のボタンの名称で登録 or キャ�
 <img src="http://yoshitsugufujii.github.io/images/blog/20180928/IMG_6777.JPG">
 百均のペンケースサイズのビニールの袋にいれて竿から垂らしたまま持っていきます。
 <img src="http://yoshitsugufujii.github.io/images/blog/20180928/IMG_6776.JPG"></p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[マキシマム]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2018/09/26/maximum/"/>
-        <updated>2018-09-26T10:29:18+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2018/09/26/maximum</id>
-        <content type="html"><![CDATA[<p>自宅のある駅の二駅手前で降りて走る帰宅ランですが、最近はYoutubeにあがっているハライチのターンの録音を聞きながら走っています。<br/>
-ハライチのお二人のトークは面白く、また誰もバカにしたり貶めたりするような笑いが全くないです。<br/>
-誰も傷つかない笑いがとてもいいです。</p>
-
-<p>これが爆笑問題みたいな辛辣なことをいうようなラジオだと。<br/>
-ただでさえ走ってきついのに、耳から聞こえるラジオもきついというダブルアタックに精神的にゲンナリしてしまうのでハライチのターンは帰宅ランのお供に激しくおすすめです。</p>
-
-<!-- more -->
-
-
-<p></p>
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-
-
-<p>
-<ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-layout="in-article"
-     data-ad-format="fluid"
-     data-ad-client="ca-pub-7039502723411845"
-     data-ad-slot="8206045005"></ins></p>
-
-<script>  
-     (adsbygoogle = window.adsbygoogle || []).push({});  
-</script>
-
-
-<p></p>
-
-<p>そんなハライチのターンで岩井さんがオススメしていたマキシマムを思わず購入してしまいました。</p>
-
-<p><img src="http://yoshitsugufujii.github.io/images/blog/20180926/IMG_6513.JPG"></p>
-
-<p>肉にかけてもいいし、スープにいれてもいいし、なんならご飯にかけてもいい。<br/>
-ご飯にかけてみると肉味になるらしいです。</p>
-
-<p>実際に食べてみた感じ。<br/>
-ピリッと胡椒が効いていて肉のような風味があり甘いです。</p>
-
-<p>ちょっとお菓子っぽい味になります。</p>
-
-<p>娘が気に入って食べてます。</p>
-
-<p>この間コンソメスープ作ったのでこれいれたらおいしくなりました。</p>
-
-<p>まだお肉にかけるのは挑戦できていないので、今度コストコのプライムビーフ帰ってきてやってみよう。</p>
-
-<table  border="0" cellpadding="5" style="border:none"><tr><td valign="top" style="border:none"><a href="https://www.amazon.co.jp/exec/obidos/ASIN/B076Q2MP8N/gogosakura-22/" target="_blank" ><img src="https://images-fe.ssl-images-amazon.com/images/I/51swoqO6D3L._SL160_.jpg" border="0" style="margin-right:10px" /></a></td><td valign="top" style="border:none;text-align:left"><div class="kaerebalink-name" style="margin-bottom:10px;line-height:120%"><a href="https://www.amazon.co.jp/exec/obidos/ASIN/B076Q2MP8N/gogosakura-22/" target="_blank" >マキシマム (120g×3)〔チャック付〕/詰め替え用</a></div><div class="kaerebalink-detail" style="margin-bottom:5px;"> 株式会社中村食肉 </div><div class="kaerebalink-salesranking" style="margin-bottom:5px">売り上げランキング : 11166</div><table style="border:none;margin-top:10px"><tr><td style="border:none;text-align:left;"><div class="shoplinkamazon" style="margin-right:5px"><a href="https://www.amazon.co.jp/gp/search?keywords=%E3%83%9E%E3%82%AD%E3%82%B7%E3%83%9E%E3%83%A0&__mk_ja_JP=%E3%82%AB%E3%82%BF%E3%82%AB%E3%83%8A&tag=gogosakura-22" target="_blank" >Amazon</a></div><div class="shoplinkrakuten" style="margin-right:5px"><a href="https://hb.afl.rakuten.co.jp/hgc/16102ad8.0804351d.16102ad9.09702e1c/?pc=https%3A%2F%2Fsearch.rakuten.co.jp%2Fsearch%2Fmall%2F%25E3%2583%259E%25E3%2582%25AD%25E3%2582%25B7%25E3%2583%259E%25E3%2583%25A0%2F-%2Ff.1-p.1-s.1-sf.0-st.A-v.2%3Fx%3D0%26scid%3Daf_ich_link_urltxt%26m%3Dhttp%3A%2F%2Fm.rakuten.co.jp%2F" target="_blank" >楽天市場</a></div></td><td style="vertical-align:bottom;padding-left:10px;font-size:x-small;border:none">by <a href="https://kaereba.com" rel="nofollow" target="_blank">カエレバ</a></td></tr></table></font></td></tr></table>
-
-
-<p></p>
 ]]></content>
     </entry>
     
