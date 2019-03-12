@@ -3,7 +3,7 @@ layout: post
 title: "GCSとActiveStorageを使った時に秘密鍵でエラー"
 date: 2019-02-27 16:57:03 +0900
 comments: true
-categories: [ruby,ruby on rails]
+categories: [ruby,ruby on rails, google cloud platform, gcp]
 ---
 
 サービスアカウントを発行して、キーを発行してその中身を  
