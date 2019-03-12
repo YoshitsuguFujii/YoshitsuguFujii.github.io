@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+    <title><![CDATA[Category: gcp | なんとなく日々徒然と]]></title>
+    <link href="http://yoshitsugufujii.github.io/blog/categories/gcp/atom.xml" rel="self"/>
+    <link href="http://yoshitsugufujii.github.io/"/>
+    <updated>2019-03-12T15:46:16+09:00</updated>
+    <id>http://yoshitsugufujii.github.io/</id>
+    <author>
+        <name><![CDATA[Yoshitsugu Fujii]]></name>
+        
+      </author>
+    <generator uri="http://octopress.org/">Octopress</generator>
+
+    
+    <entry>
+        <title type="html"><![CDATA[stackdriverを使ったらwarningメッセージがでる]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2019/03/12/stack-driver-waring/"/>
+        <updated>2019-03-12T15:32:23+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2019/03/12/stack-driver-waring</id>
+        <content type="html"><![CDATA[<p>StackdriverをGemfileのstagingとproduction Groupに追加した後に以下のwarningが表示されるようになった。</p>
+
+<pre><code>Your application has authenticated using end user credentials from Google Cloud SDK.
+We recommend that most server applications use service accounts instead.
+If your application continues to use end user credentials from Cloud SDK, you might receive a "quota exceeded" or "API not enabled" error.
+For more information about service accounts, see https://cloud.google.com/docs/authentication/.
+</code></pre>
+
+<!-- more -->
+
+
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p><ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-7039502723411845"
+     data-ad-slot="8206045005"></ins></p>
+
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+<p><a href="https://github.com/googleapis/google-cloud-ruby/blob/master/google-cloud-trace/lib/google/cloud/trace/rails.rb#L131">ここ</a></p>
+
+<pre><code># Done if Google::Cloud.configure.use_trace is explicitly false
+return if Google::Cloud.configure.use_trace == false
+</code></pre>
+
+<p>でreturnしてくれそうだがreturnせずに後続の処理が行われてgcpのcredentialチェックまで走ってしまいエラーになっている模様<br/>
+Google::Cloud.configure.use_traceの中身はnilになっているので条件一致せずに後続の処理が実行されている模様。<br/>
+falseにしろってコメント書いてあるし。</p>
+
+<p>なので設定してあげる。</p>
+
+<pre><code class=""># config/environments/development.rbに追記  
+Google::Cloud.configure.use_trace = false  
+Google::Cloud.configure.use_error_reporting = false  
+</code></pre>
+
+<p>これでwargingはでなくなりました。</p>
+]]></content>
+    </entry>
+    
+    <entry>
+        <title type="html"><![CDATA[GCSとActiveStorageを使った時に秘密鍵でエラー]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2019/02/27/gcs-private-key/"/>
+        <updated>2019-02-27T16:57:03+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2019/02/27/gcs-private-key</id>
+        <content type="html"><![CDATA[<p>サービスアカウントを発行して、キーを発行してその中身を</p>
+
+<pre><code class="">bundle exec rails credentials:edit    
+</code></pre>
+
+<p>してstorage.ymlで読み出そうとした時にprivate_keyに改行があるためにうまくいかなかった。</p>
+
+<!-- more -->
+
+
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p><ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-7039502723411845"
+     data-ad-slot="8206045005"></ins></p>
+
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+<p>dumpを使えばおっけー</p>
+
+<pre><code>Rails.application.credentials.gcs[:private_key].dump
+</code></pre>
+
+<p>全体はこう。</p>
+
+<pre><code>google:
+  service: GCS
+  credentials:
+    type: "service_account"
+    project_id: &lt;%= Rails.application.credentials.gcs[:project_id] %&gt;
+    private_key_id: &lt;%= Rails.application.credentials.gcs[:private_key_id] %&gt;
+    private_key: &lt;%= Rails.application.credentials.gcs[:private_key].dump %&gt;
+    client_email: &lt;%= Rails.application.credentials.gcs[:client_email] %&gt;
+    client_id: &lt;%= Rails.application.credentials.gcs[:client_id] %&gt;
+    auth_uri: "https://accounts.google.com/o/oauth2/auth"
+    token_uri: "https://accounts.google.com/o/oauth2/token"
+    auth_provider_x509_cert_url: "https://www.googleapis.com/oauth2/v1/certs"
+    client_x509_cert_url: &lt;%= Rails.application.credentials.gcs[:client_x509_cert_url] %&gt;
+  project: ''
+</code></pre>
+
+<p>参考
+<a href="https://github.com/rails/rails/blob/master/guides/source/active_storage_overview.md">https://github.com/rails/rails/blob/master/guides/source/active_storage_overview.md</a></p>
+]]></content>
+    </entry>
+    
+</feed>

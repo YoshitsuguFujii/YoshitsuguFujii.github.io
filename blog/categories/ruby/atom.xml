@@ -4,7 +4,7 @@
     <title><![CDATA[Category: ruby | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/ruby/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2019-02-27T17:07:56+09:00</updated>
+    <updated>2019-03-12T15:46:16+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,60 @@
       </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[stackdriverを使ったらwarningメッセージがでる]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2019/03/12/stack-driver-waring/"/>
+        <updated>2019-03-12T15:32:23+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2019/03/12/stack-driver-waring</id>
+        <content type="html"><![CDATA[<p>StackdriverをGemfileのstagingとproduction Groupに追加した後に以下のwarningが表示されるようになった。</p>
+
+<pre><code>Your application has authenticated using end user credentials from Google Cloud SDK.
+We recommend that most server applications use service accounts instead.
+If your application continues to use end user credentials from Cloud SDK, you might receive a "quota exceeded" or "API not enabled" error.
+For more information about service accounts, see https://cloud.google.com/docs/authentication/.
+</code></pre>
+
+<!-- more -->
+
+
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p><ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-7039502723411845"
+     data-ad-slot="8206045005"></ins></p>
+
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+<p><a href="https://github.com/googleapis/google-cloud-ruby/blob/master/google-cloud-trace/lib/google/cloud/trace/rails.rb#L131">ここ</a></p>
+
+<pre><code># Done if Google::Cloud.configure.use_trace is explicitly false
+return if Google::Cloud.configure.use_trace == false
+</code></pre>
+
+<p>でreturnしてくれそうだがreturnせずに後続の処理が行われてgcpのcredentialチェックまで走ってしまいエラーになっている模様<br/>
+Google::Cloud.configure.use_traceの中身はnilになっているので条件一致せずに後続の処理が実行されている模様。<br/>
+falseにしろってコメント書いてあるし。</p>
+
+<p>なので設定してあげる。</p>
+
+<pre><code class=""># config/environments/development.rbに追記  
+Google::Cloud.configure.use_trace = false  
+Google::Cloud.configure.use_error_reporting = false  
+</code></pre>
+
+<p>これでwargingはでなくなりました。</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[GCSとActiveStorageを使った時に秘密鍵でエラー]]></title>
@@ -185,60 +239,6 @@ slack-notifierを設定するのがめんどくさいのでexception-notificatio
 Aフォームのcsrf tokenが古くなってしまいcsrfエラーが発生します。</p>
 
 <p>ごく稀によくあるやつでした。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[常にjbuilderの値をescape]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2018/10/11/sanitize-jbuilder/"/>
-        <updated>2018-10-11T12:27:37+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2018/10/11/sanitize-jbuilder</id>
-        <content type="html"><![CDATA[<p>jbuliderを使っている時のapiの戻り値、js側でescapeするのかもしれませんが、サーバー側でやりたい時。</p>
-
-<!-- more -->
-
-
-
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-
-
-<p><ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-layout="in-article"
-     data-ad-format="fluid"
-     data-ad-client="ca-pub-7039502723411845"
-     data-ad-slot="8206045005"></ins></p>
-
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-
-<pre><code class="ruby"># config/initializers/escape_jbuilder_value
-module EscapeJbuilderValue
-  def method_missing(*args)
-    option = args.extract_options!
-    if !::Kernel.block_given? &amp;&amp; !option[:raw]
-      if args[1].is_a?(String)
-        args[1] = Haml::Util.html_safe(ERB::Util.html_escape(args[1]))
-      end
-    end
-    super(*args)
-  end
-end
-
-class Jbuilder
-  prepend ::EscapeJbuilderValue
-end
-</code></pre>
-
-<p>HamlつかっているのでHamlと同じescape処理をかけていますが、ここはお好みで(ApplicationController.helpers.sanitizeとかも)。</p>
-
-<pre><code class="ruby">json.body '&lt;span&gt;raw&lt;/hoge&gt;', raw: true
-</code></pre>
-
-<p>とかやるとescapeされずに使えます。</p>
 ]]></content>
     </entry>
     

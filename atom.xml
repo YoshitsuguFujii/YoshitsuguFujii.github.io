@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2019-02-27T17:07:56+09:00</updated>
+    <updated>2019-03-12T15:46:16+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,73 @@
     </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[stackdriverを使ったらwarningメッセージがでる]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2019/03/12/stack-driver-waring/"/>
+        <updated>2019-03-12T15:32:23+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2019/03/12/stack-driver-waring</id>
+        <content type="html"><![CDATA[<p>StackdriverをGemfileのstagingとproduction Groupに追加した後に以下のwarningが表示されるようになった。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Your application has authenticated using end user credentials from Google Cloud SDK.
+</span><span class='line'>We recommend that most server applications use service accounts instead.
+</span><span class='line'>If your application continues to use end user credentials from Cloud SDK, you might receive a "quota exceeded" or "API not enabled" error.
+</span><span class='line'>For more information about service accounts, see https://cloud.google.com/docs/authentication/.</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<!-- more -->
+
+
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p><ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-7039502723411845"
+     data-ad-slot="8206045005"></ins></p>
+
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+<p><a href="https://github.com/googleapis/google-cloud-ruby/blob/master/google-cloud-trace/lib/google/cloud/trace/rails.rb#L131">ここ</a></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Done if Google::Cloud.configure.use_trace is explicitly false
+</span><span class='line'>return if Google::Cloud.configure.use_trace == false</span></code></pre></td></tr></table></div></figure>
+
+
+<p>でreturnしてくれそうだがreturnせずに後続の処理が行われてgcpのcredentialチェックまで走ってしまいエラーになっている模様<br/>
+Google::Cloud.configure.use_traceの中身はnilになっているので条件一致せずに後続の処理が実行されている模様。<br/>
+falseにしろってコメント書いてあるし。</p>
+
+<p>なので設定してあげる。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># config/environments/development.rbに追記  
+</span><span class='line'>Google::Cloud.configure.use_trace = false  
+</span><span class='line'>Google::Cloud.configure.use_error_reporting = false  </span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>これでwargingはでなくなりました。</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[GCSとActiveStorageを使った時に秘密鍵でエラー]]></title>
@@ -1676,128 +1743,6 @@ Railsのcontrollerではsubmitした時のボタンの名称で登録 or キャ�
 <p>jaにしたら日本語に翻訳をやってもプロファイルになりませんでした。</p>
 
 <p>多言語対応しているサイトなので現在表示している言語に応じてhtml langを切り替えるようにしました。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[今井岸壁 アジ イワシ]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2018/09/30/imaiganpeki/"/>
-        <updated>2018-09-30T16:14:33+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2018/09/30/imaiganpeki</id>
-        <content type="html"><![CDATA[<p>釣行日 2018年9月28日(金)<br/>
-天気 晴<br/>
-場所 今井岸壁<br/>
-釣行時間: 00:30 〜 5:00</p>
-
-<p>台風で土曜日から何もできなくなりそうだったので袖ヶ浦へ急遽夜釣りにきました。</p>
-
-<!-- more -->
-
-
-
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-
-
-<p><ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-layout="in-article"
-     data-ad-format="fluid"
-     data-ad-client="ca-pub-7039502723411845"
-     data-ad-slot="8206045005"></ins></p>
-
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-
-<p><img src="http://yoshitsugufujii.github.io/images/blog/20180928/IMG_6711.JPG"></p>
-
-<p>釣り場は混んでますね。富津新港ほどではないですが。</p>
-
-<p><img src="http://yoshitsugufujii.github.io/images/blog/20180928/IMG_6719.JPG">
-<img src="http://yoshitsugufujii.github.io/images/blog/20180928/IMG_6717.JPG"></p>
-
-<p>釣り座をかまえたらコマセの山とイソメが塊で置いてありました。</p>
-
-<p><img src="http://yoshitsugufujii.github.io/images/blog/20180928/IMG_6708.JPG"></p>
-
-<p>前の人があまった餌を次の人用においていったんでしょうか？</p>
-
-<p>投入すぐに時合っぽいものが。
-あわてて釣ったので良い写真なし。</p>
-
-<p><img src="http://yoshitsugufujii.github.io/images/blog/20180928/IMG_6702.JPG"></p>
-
-<p>2時すぎると急に釣れなくなります。
-それでもポツポツ釣れます。</p>
-
-<p><img src="http://yoshitsugufujii.github.io/images/blog/20180928/IMG_6713.JPG"></p>
-
-<p>ブレブレだけどフグ。</p>
-
-<p>あとカニが結構泳いでました。
-何度か玉網ですくおうとしましたが失敗。</p>
-
-<p>夜の間はアジのサイズが少しデカかったですが、朝になると小アジに。</p>
-
-<p><img src="http://yoshitsugufujii.github.io/images/blog/20180928/IMG_6716.JPG"></p>
-
-<p><img src="http://yoshitsugufujii.github.io/images/blog/20180928/IMG_6727.JPG"></p>
-
-<p>上が夜中釣れるサイズで下が朝です。</p>
-
-<p>上層での反応がよくて底まで落とすと反応なかったです。
-針をいっぱいつけているぶっ込みサビキ師たちは苦戦してました。</p>
-
-<p>針は３号がちょうどいいかも。</p>
-
-<p>隣の人に聞いたんですがここ4日間はすごく良かったんだそう。
-昨日は1束釣った人もいたそう。
-サバのことも聞いてみましたがサバは急にいなくなったらしいです(でも釣り場で一匹だけつれてました)</p>
-
-<p>そんなこんなで夜明け。</p>
-
-<p><img src="http://yoshitsugufujii.github.io/images/blog/20180928/IMG_6721.JPG">
-<img src="http://yoshitsugufujii.github.io/images/blog/20180928/IMG_6723.JPG"></p>
-
-<p>夜明けの綺麗さは夜釣りの魅力のひとつですね。</p>
-
-<p><img src="http://yoshitsugufujii.github.io/images/blog/20180928/IMG_6724.JPG"></p>
-
-<p>4時半ぐらいからまた釣れだします。</p>
-
-<p><img src="http://yoshitsugufujii.github.io/images/blog/20180928/IMG_6725.JPG"></p>
-
-<p>アジ２匹のイワシ一匹。</p>
-
-<p>そして娘を水泳教室に連れていかなければならないので納竿です。</p>
-
-<p><img src="http://yoshitsugufujii.github.io/images/blog/20180928/IMG_6733.JPG">
-<img src="http://yoshitsugufujii.github.io/images/blog/20180928/IMG_6732.JPG"></p>
-
-<p>さばいていると今日も黒いやつが。</p>
-
-<p><img src="http://yoshitsugufujii.github.io/images/blog/20180928/IMG_6735.JPG">
-<img src="http://yoshitsugufujii.github.io/images/blog/20180928/IMG_6736.JPG">
-<img src="http://yoshitsugufujii.github.io/images/blog/20180928/IMG_6737.JPG">
-<img src="http://yoshitsugufujii.github.io/images/blog/20180928/IMG_6740.JPG"></p>
-
-<p>全部フライにしました。</p>
-
-<p><img src="http://yoshitsugufujii.github.io/images/blog/20180928/IMG_6758.JPG">
-<img src="http://yoshitsugufujii.github.io/images/blog/20180928/IMG_6759.JPG"></p>
-
-<p>最近発見したんですが、トイレにおいてある洗った手をふく紙。
-釣りにすごくいいです。手の汚れをぬぐってそのままぽいっ。
-タオルだとどうしても匂いが移っちゃうので最近はこればっかり使ってます。</p>
-
-<p><img src="http://yoshitsugufujii.github.io/images/blog/20180928/IMG_6720.JPG"></p>
-
-<p>あと釣り場についたら最短で釣りを開始したいのですがトリックサビキはトイレットペーパーの芯に巻きつけるのが一番よく(テンションかけながら上下のフチに針をかける)。
-<img src="http://yoshitsugufujii.github.io/images/blog/20180928/IMG_6777.JPG">
-百均のペンケースサイズのビニールの袋にいれて竿から垂らしたまま持っていきます。
-<img src="http://yoshitsugufujii.github.io/images/blog/20180928/IMG_6776.JPG"></p>
 ]]></content>
     </entry>
     
