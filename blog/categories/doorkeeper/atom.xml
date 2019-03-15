@@ -4,7 +4,7 @@
     <title><![CDATA[Category: doorkeeper | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/doorkeeper/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2019-03-12T15:46:16+09:00</updated>
+    <updated>2019-03-15T12:20:40+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -26,10 +26,10 @@
 
 <p>って感じでしょうか？</p>
 
-<!-- more -->
+<!-- more -->    
 
 
-<p></p>
+
 
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
@@ -86,10 +86,10 @@ end
         <id>http://yoshitsugufujii.github.io/blog/2018/01/29/logout-when-doorkeeper-password-change</id>
         <content type="html"><![CDATA[<p><a href="https://github.com/doorkeeper-gem/doorkeeper">Doorkeeper</a>を使ったoauthの仕組みでプラットフォーム側でパスワード変更の処理を書いててパスワード変更しても現在ログイン状態のユーザーがログアウトされなくて久しぶりにどっぷりハマったのでメモ。</p>
 
-<!-- more -->
+<!-- more -->    
 
 
-<p></p>
+
 
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 

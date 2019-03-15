@@ -4,7 +4,7 @@
     <title><![CDATA[Category: tmux | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/tmux/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2019-03-12T15:46:16+09:00</updated>
+    <updated>2019-03-15T12:20:40+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -21,10 +21,8 @@
         <content type="html"><![CDATA[<p>冗長構成となっている本番環境でlogを調べたい時とかそれぞれのサーバーにsshしてはいってそれぞれのサーバーで同じコマンド打つのが面倒くさい。<br/>
 tmuxを使っていれば複数ペインで同時操作できます。</p>
 
-<!-- more -->
+<!-- more -->  
 
-
-<p></p>
 
 <p>.tmux.confに設定追加</p>
 

@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2019-03-12T15:46:16+09:00</updated>
+    <updated>2019-03-15T12:20:40+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,65 @@
     </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[railsでsubmitした後にsubmitボタンが押せない現象]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2019/03/14/disable-with-specific-button-diabled/"/>
+        <updated>2019-03-14T19:00:25+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2019/03/14/disable-with-specific-button-diabled</id>
+        <content type="html"><![CDATA[<p>だいぶ前にdisable_withの挙動デフォルトになったらしいです。<br/>
+<a href="https://github.com/rails/rails/pull/21135/files">https://github.com/rails/rails/pull/21135/files</a></p>
+
+<p>検索結果を絞り込んでCSV出力をしたい時等の画面遷移が発生しないsubmitでは非活性になると困りますね。</p>
+
+<p>全体で無効にもできますが、disable_withを個別に無効にする方法です。</p>
+
+<!-- more -->  
+
+
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p>
+<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-7039502723411845"
+     data-ad-slot="8206045005"></ins></p>
+
+<script>  
+     (adsbygoogle = window.adsbygoogle || []).push({});  
+</script>
+
+
+<p></p>
+
+<p>submitボタンに'data-disable-with' => falseを設定してあげると無効になります。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>= f.button :submit, I18n.t(".csv_download"), class: "btn-primary", 'data-disable-with' =&gt; false  </span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>ちなみに全体でfalseにしたい場合はこう</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class Application &lt; Rails::Application  
+</span><span class='line'>  config.action_view.automatically_disable_submit_tag = false # この行を追加  
+</span><span class='line'>end  </span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>ソース見る限り全体禁止にして、各ボタンで有効にとかはできなさそうなので全体は注意が必要ですね。</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[stackdriverを使ったらwarningメッセージがでる]]></title>
@@ -171,10 +230,10 @@ falseにしろってコメント書いてあるし。</p>
 <p>寒いのでドームだなと高滝湖ワカサギ釣りです。<br/>
 前回初めて釣りで魚を釣った妻もいくというので家族で釣りです。</p>
 
-<!-- more -->
+<!-- more -->    
 
 
-<p></p>
+
 
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
@@ -230,10 +289,10 @@ falseにしろってコメント書いてあるし。</p>
 場所 今井岸壁<br/>
 釣行時間: 23:45 〜 7:00</p>
 
-<!-- more -->
+<!-- more -->  
 
 
-<p></p>
+
 
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
@@ -302,10 +361,10 @@ falseにしろってコメント書いてあるし。</p>
 子連れでもできそうだし、ドームなら暖かそうだしと思ってあの手この手で妻と娘を説得して家族で久しぶりの釣行です。<br/>
 そしてなんと釣りを毛嫌いしていた妻もやるというから驚き。</p>
 
-<!-- more -->
+<!-- more -->  
 
 
-<p></p>
+
 
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
@@ -466,10 +525,10 @@ falseにしろってコメント書いてあるし。</p>
 雲のお布団効果で気温が下がらず、終わりまで暖かくて手袋一回もしませんでした。<br/>
 水はもうだいぶ冷たいですね。</p>
 
-<!-- more -->
+<!-- more -->  
 
 
-<p></p>
+
 
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
@@ -671,10 +730,10 @@ Aフォームのcsrf tokenが古くなってしまいcsrfエラーが発生し�
 場所 市川<br/>
 釣行時間: 15:00 〜 17:00</p>
 
-<!-- more -->
+<!-- more -->  
 
 
-<p></p>
+
 
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
@@ -777,10 +836,10 @@ Aフォームのcsrf tokenが古くなってしまいcsrfエラーが発生し�
 場所 検見川浜突堤<br/>
 釣行時間: 14:50 〜 17:00</p>
 
-<!-- more -->
+<!-- more -->  
 
 
-<p></p>
+
 
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
@@ -858,10 +917,10 @@ Aフォームのcsrf tokenが古くなってしまいcsrfエラーが発生し�
 
 <p>とイマイチだったので白子でサーフで釣りです。</p>
 
-<!-- more -->
+<!-- more -->  
 
 
-<p></p>
+
 
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
@@ -926,10 +985,10 @@ Aフォームのcsrf tokenが古くなってしまいcsrfエラーが発生し�
 行きたい行きたいと思いながら行けなかった検見川はピンギスです。<br/>
 まだ釣れるのかな？</p>
 
-<!-- more -->
+<!-- more -->  
 
 
-<p></p>
+
 
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
@@ -1038,10 +1097,10 @@ Aフォームのcsrf tokenが古くなってしまいcsrfエラーが発生し�
 <p>袖ヶ浦で夜釣り。<br/>
 いつも娘が寝てから出かけるんですが、娘がなかなか寝なかったので出発が遅くなりました。</p>
 
-<!-- more -->
+<!-- more -->  
 
 
-<p></p>
+
 
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
@@ -1128,10 +1187,10 @@ Aフォームのcsrf tokenが古くなってしまいcsrfエラーが発生し�
 毎週きてますね。手頃でいいんですよね。<br/>
 Yahoo天気では曇りでしたが、行きの車中のニュースの天気予報で雨予報ということを知ります。</p>
 
-<!-- more -->
+<!-- more -->  
 
 
-<p></p>
+
 
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
@@ -1254,10 +1313,10 @@ Yahoo天気では曇りでしたが、行きの車中のニュースの天気予
         <content type="html"><![CDATA[<p>バッカン受け三郎の存在はしっていて便利らしいよと聞いていたのですが、<br/>
 クーラー版があるのしって即買いました。</p>
 
-<!-- more -->
+<!-- more -->  
 
 
-<p></p>
+
 
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
@@ -1311,10 +1370,10 @@ Yahoo天気では曇りでしたが、行きの車中のニュースの天気予
 そして釣れてなさそうな匂いがプンプンします。<br/>
 泣きそうですが、始めます。</p>
 
-<!-- more -->
+<!-- more -->  
 
 
-<p></p>
+
 
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
@@ -1529,10 +1588,10 @@ Yahoo天気では曇りでしたが、行きの車中のニュースの天気予
 <p>袖ヶ浦で夜釣りです。<br/>
 台風の影響でだいぶ風が強いです。</p>
 
-<!-- more -->
+<!-- more -->  
 
 
-<p></p>
+
 
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
@@ -1688,61 +1747,6 @@ Yahoo天気では曇りでしたが、行きの車中のニュースの天気予
 
 <p>丸干しをはじめてやったんですが、干しおわると臭くなくなるんですね。<br/>
 お酒のつまみにちょっと焼いてができそうでいい感じです。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[chromeで勝手に文字が変わってしまう]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2018/10/09/google-auto-translate/"/>
-        <updated>2018-10-09T10:55:42+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2018/10/09/google-auto-translate</id>
-        <content type="html"><![CDATA[<p>ユーザーからの問い合わせでプロフィール変更ができないという連絡がきました。<br/>
-ログをみるとプロフィールを登録するというボタンを押したはずなのに、プロファイルを登録するという文字で送られてきています。<br/>
-世にも奇妙なお話です。</p>
-
-<!-- more -->
-
-
-<p></p>
-
-<p>ちなみにformではキャンセルとプロフィールを登録するのボタンが二つあり、<br/>
-Railsのcontrollerではsubmitした時のボタンの名称で登録 or キャンセルと分岐させています。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">if</span> <span class="n">params</span><span class="o">[</span><span class="ss">:commit</span><span class="o">]</span> <span class="o">==</span> <span class="s1">&#39;プロフィールを登録する&#39;</span>
-</span><span class='line'>  <span class="c1"># 登録処理  </span>
-</span><span class='line'><span class="k">else</span>
-</span><span class='line'>  <span class="c1"># render 編集画面  </span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<p>上記のようなコードなのですが、なぜかsubmitしたボタンがプロファイルを登録するになっていて、常にキャンセル側のelseに流れてしまっている模様。</p>
-
-<p>色々と調べた結果google chromeの自動翻訳がonになっている場合に起こるようです。</p>
-
-<p>プロフィール → profile → プロファイル</p>
-
-<p>該当画面で日本語で表示されている状態で日本語に翻訳をすると再現しました。</p>
-
-<p>どうもhtmlタグのlangがen固定になっているのがいけなかったっぽい。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">&quot;en&quot;</span><span class="nt">&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<p>jaにしたら日本語に翻訳をやってもプロファイルになりませんでした。</p>
-
-<p>多言語対応しているサイトなので現在表示している言語に応じてhtml langを切り替えるようにしました。</p>
 ]]></content>
     </entry>
     

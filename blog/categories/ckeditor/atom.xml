@@ -4,7 +4,7 @@
     <title><![CDATA[Category: ckeditor | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/ckeditor/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2019-03-12T15:46:16+09:00</updated>
+    <updated>2019-03-15T12:20:40+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -26,10 +26,8 @@ gemのckeditorで</p>
 
 <p>とかやってそのままデフォで使うと画像の最大サイズが800pxになります。</p>
 
-<!-- more -->
+<!-- more -->  
 
-
-<p></p>
 
 <p>なんでかなーと思って調べてみたら、画像のサイズは生成されるcarrierwaveのuploaderクラスのversion contentの値を使うらしくここが800がデフォルトになっているからでした。<br/>
 <a href="https://github.com/galetahub/ckeditor/blob/master/lib/generators/ckeditor/templates/base/carrierwave/uploaders/ckeditor_picture_uploader.rb#L39">ckeditor_picture_uploader.rb#L39</a></p>

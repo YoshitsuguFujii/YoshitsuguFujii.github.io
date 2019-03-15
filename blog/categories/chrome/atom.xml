@@ -4,7 +4,7 @@
     <title><![CDATA[Category: chrome | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/chrome/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2019-03-12T15:46:16+09:00</updated>
+    <updated>2019-03-15T12:20:40+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -22,10 +22,8 @@
 ログをみるとプロフィールを登録するというボタンを押したはずなのに、プロファイルを登録するという文字で送られてきています。<br/>
 世にも奇妙なお話です。</p>
 
-<!-- more -->
+<!-- more -->  
 
-
-<p></p>
 
 <p>ちなみにformではキャンセルとプロフィールを登録するのボタンが二つあり、<br/>
 Railsのcontrollerではsubmitした時のボタンの名称で登録 or キャンセルと分岐させています。</p>
