@@ -91,6 +91,105 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2013/07/19/20130719000000/">bunlderのデフォルトオプション</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2013-07-19T00:00:00+09:00" pubdate><i class="fa fa-calendar"></i> Jul 19th, 2013</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/bunlder/'>bunlder</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">bundle</span> <span class="n">install</span> <span class="o">--</span><span class="n">without</span> <span class="n">production</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>とか毎回オプション設定がめんどくさい。<br/>
+gemrcみたいなのないのかなーと思って探してみたら答えはここにあった。<br/>
+<a href="http://bundler.io/bundle_config.html">http://bundler.io/bundle_config.html</a></p>
+
+<p>bundle config &ndash;globalでglobalな設定を見れる。<br/>
+bundle config &ndash;global キー　値で設定できる。</p>
+
+<p>よって</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">bundle</span> <span class="n">config</span> <span class="o">--</span><span class="n">global</span> <span class="n">without</span> <span class="n">production</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ってやったら、出来た。</p>
+
+<p>確認してみる</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">bundle</span> <span class="n">config</span>
+</span><span class='line'><span class="no">Settings</span> <span class="n">are</span> <span class="n">listed</span> <span class="k">in</span> <span class="n">order</span> <span class="n">of</span> <span class="n">priority</span><span class="o">.</span> <span class="no">The</span> <span class="n">top</span> <span class="n">value</span> <span class="n">will</span> <span class="n">be</span> <span class="n">used</span><span class="o">.</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">without</span>
+</span><span class='line'><span class="no">Set</span> <span class="k">for</span> <span class="n">the</span> <span class="n">current</span> <span class="n">user</span> <span class="p">(</span><span class="o">~</span><span class="sr">/.bundle/</span><span class="n">config</span><span class="p">):</span> <span class="s2">&quot;production&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ファイルも見てみる</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">vim</span> <span class="o">~</span><span class="sr">/.bundle/</span><span class="n">config</span>
+</span><span class='line'><span class="o">---</span>
+</span><span class='line'><span class="ss">BUNDLE_WITHOUT</span><span class="p">:</span> <span class="n">production</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>できましたー。</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2013/07/11/20130711114741/">N回injectしたいとき(数値型からinject)</a>
         </h1>
     
@@ -857,89 +956,6 @@ PC起動してからの経過時間。<br/>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2013/02/27/20130227120457/">simple_formで必須に設定した時に、必須のマークを右に出す</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2013-02-27T12:04:00+09:00" pubdate><i class="fa fa-calendar"></i> Feb 27th, 2013</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/rails/'>rails</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>{RAILS  <em>ROOT}/config/initializers/simple  </em>form.rbの</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># config.label_text = lambda { |label, required| &quot;#{required} #{label}&quot; }</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>のコメントアウトを外して、左右を入れ替える。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">label_text</span> <span class="o">=</span> <span class="nb">lambda</span> <span class="p">{</span> <span class="o">|</span><span class="n">label</span><span class="p">,</span> <span class="n">required</span><span class="o">|</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">label</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">required</span><span class="si">}</span><span class="s2">&quot;</span> <span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>文言はlocaleで設定する。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="ss">ja</span><span class="p">:</span>
-</span><span class='line'>  <span class="ss">simple_form</span><span class="p">:</span>
-</span><span class='line'>    <span class="s2">&quot;yes&quot;</span><span class="p">:</span> <span class="s1">&#39;Yes&#39;</span>
-</span><span class='line'>    <span class="s2">&quot;no&quot;</span><span class="p">:</span> <span class="s1">&#39;No&#39;</span>
-</span><span class='line'>    <span class="ss">required</span><span class="p">:</span>
-</span><span class='line'>      <span class="ss">html</span><span class="p">:</span> <span class="s1">&#39;&lt;abbr title=&quot;required&quot;&gt;[必須]&lt;/abbr&gt;&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -1003,6 +1019,10 @@ PC起動してからの経過時間。<br/>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2019/05/13/kemigawahama-iwashi/">検見川浜突堤 イワシ</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2019/03/14/disable-with-specific-button-diabled/">railsでsubmitした後にsubmitボタンが押せない現象</a>
         </li>
         
@@ -1016,10 +1036,6 @@ PC起動してからの経過時間。<br/>
         
         <li class="post">
             <a href="/blog/2019/02/20/takatakiko-wakasagi/">高滝湖 ワカサギ</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2019/01/21/sodegaura/">袖ヶ浦 イシモチ</a>
         </li>
         
     </ul>
