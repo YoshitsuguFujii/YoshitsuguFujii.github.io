@@ -4,7 +4,7 @@
     <title><![CDATA[Category: ruby | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/ruby/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2019-05-13T14:00:48+09:00</updated>
+    <updated>2019-05-17T18:21:23+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,64 @@
       </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[CSVで文字列だけダブルクォートで囲みたい場合]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2019/05/17/csv-only-quoate-string/"/>
+        <updated>2019-05-17T18:11:31+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2019/05/17/csv-only-quoate-string</id>
+        <content type="html"><![CDATA[<p>数値は囲わず、文字列はダブルクォートで囲みたい。<br/>
+<code>force_quotes: true</code>だと数値もクォートされる。</p>
+
+<!-- more -->
+
+
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p>
+<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-7039502723411845"
+     data-ad-slot="8206045005"></ins></p>
+
+<script>  
+     (adsbygoogle = window.adsbygoogle || []).push({});  
+</script>
+
+
+<p></p>
+
+<h3>結論</h3>
+
+<p><code>quote_char: ''</code>をオプションに指定して、渡す文字列の前後をダブルクォートで囲む。</p>
+
+<h3>解説</h3>
+
+<p>ここで<code>force_quotes:true</code>の分岐</p>
+
+<p><a href="https://github.com/ruby/csv/blob/master/lib/csv/writer.rb#L139">https://github.com/ruby/csv/blob/master/lib/csv/writer.rb#L139</a></p>
+
+<p>ここで<code>force_quotes:false</code>だった場合の分岐</p>
+
+<p><a href="https://github.com/ruby/csv/blob/master/lib/csv/writer.rb#L147">https://github.com/ruby/csv/blob/master/lib/csv/writer.rb#L147</a></p>
+
+<p>&ldquo;"hoge&rdquo;"</p>
+
+<p>のような文字列を作っていると@quotable_patternに一致してしまい、</p>
+
+<p>&ldquo;&rdquo;&ldquo;hoge&rdquo;&ldquo;&rdquo;</p>
+
+<p>のような文字になってしまう。</p>
+
+<p>のでquate_fieldで囲まれても問題ないようにから文字を設定してあげる。<br/>
+<a href="https://github.com/ruby/csv/blob/master/lib/csv/writer.rb#L129-L136">https://github.com/ruby/csv/blob/master/lib/csv/writer.rb#L129-L136</a></p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[railsでsubmitした後にsubmitボタンが押せない現象]]></title>
@@ -211,41 +269,6 @@ Google::Cloud.configure.use_error_reporting = false
 <pre><code>  method(__method__).parameters.each do |_, name|
     puts "#{name} =&gt; #{binding.local_variable_get(name)}"
   end
-</code></pre>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[ExceptionNotificationがある環境でSlackNotifierだけ使う]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2018/12/21/slack-notifier-in-exception-notification/"/>
-        <updated>2018-12-21T17:53:59+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2018/12/21/slack-notifier-in-exception-notification</id>
-        <content type="html"><![CDATA[<p>ものぐさネタ。</p>
-
-<!-- more -->
-
-
-
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-
-
-<p><ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-layout="in-article"
-     data-ad-format="fluid"
-     data-ad-client="ca-pub-7039502723411845"
-     data-ad-slot="8206045005"></ins></p>
-
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-
-<p>バッチ処理での失敗レコード数とかraiseするほどではないんだけど、slackに通知だけしたい時。<br/>
-slack-notifierを設定するのがめんどくさいのでexception-notificationに設定されているslackのnotifierを取り出して使う。</p>
-
-<pre><code>ExceptionNotifier.class_variable_get('@@notifiers')[:slack].notifier.ping('hogehoge')
 </code></pre>
 ]]></content>
     </entry>
