@@ -91,6 +91,73 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2016/02/02/rails-config-check-load-files-path/">RailsConfig(現Config)で読み込んでいるファイルのパスを得る</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2016-02-02T11:13:32+09:00" pubdate><i class="fa fa-calendar"></i> Feb 2nd, 2016</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+                <li><a class='category' href='/blog/categories/rails-config/'>rails config</a></li>
+            
+                <li><a class='category' href='/blog/categories/config/'>config</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>内部的にrails_envを書き換えたりしていて、rails_configの値がただしくRAILS_ENVの設定通りにファイルを読み込んでくれない事象が発生したので。</p>
+
+<p>rails_config (0.4.2)</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">irb</span><span class="p">(</span><span class="n">main</span><span class="p">):</span><span class="mo">014</span><span class="p">:</span><span class="mi">0</span><span class="o">&gt;</span> <span class="no">Settings</span><span class="o">.</span><span class="n">instance_variable_get</span><span class="p">(</span><span class="ss">:@config_sources</span><span class="p">)</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="o">[</span><span class="c1">#&lt;RailsConfig::Sources::YAMLSource:0x0055a28d40ab48 @path=&quot;Rails_rootへのパス/current/config/settings.yml&quot;&gt;, #&lt;RailsConfig::Sources::YAMLSource:0x0055a28d40aa30 @path=&quot;Rails_rootへのパス/current/config/settings/hoge.yml&quot;&gt;, #&lt;RailsConfig::Sources::YAMLSource:0x0055a28d40a9e0 @path=&quot;Rails_rootへのパス/current/config/environments/hoge.yml&quot;&gt;]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2016/01/22/jpmobile-enforce-sp-view-for-pc/">jpmobileでPCでスマートフォンのビューを表示する場合</a>
         </h1>
     
@@ -745,69 +812,6 @@ slackにデフォルトで用意されているslackbotってお願いします�
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2015/07/27/orientation-xlvertical-with-axlsx/">Axlsxで縦書き</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2015-07-27T18:19:53+09:00" pubdate><i class="fa fa-calendar"></i> Jul 27th, 2015</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
-            
-                <li><a class='category' href='/blog/categories/gem/'>gem</a></li>
-            
-                <li><a class='category' href='/blog/categories/axlsx/'>axlsx</a></li>
-            
-                <li><a class='category' href='/blog/categories/excel/'>excel</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <div class="article__content clearfix">
-        <p>Axlsxでセルの内容を縦書きにする方法がわかったので日記に記します。<br/>
-セルに角度を付ける方法は見つかったんですが、縦書きにする方法が全然見つからずかなりはまりました。</p>
-
-
-        <a class="btn pull-right" href="/blog/2015/07/27/orientation-xlvertical-with-axlsx/">Read on &rarr;</a>
-    </div>
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -871,6 +875,10 @@ slackにデフォルトで用意されているslackbotってお願いします�
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2019/05/22/shiohigari-sanbanse/">船橋三番瀬 潮干狩り攻略</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2019/05/17/csv-only-quoate-string/">CSVで文字列だけダブルクォートで囲みたい場合</a>
         </li>
         
@@ -884,10 +892,6 @@ slackにデフォルトで用意されているslackbotってお願いします�
         
         <li class="post">
             <a href="/blog/2019/03/12/stack-driver-waring/">stackdriverを使ったらwarningメッセージがでる</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2019/02/27/gcs-private-key/">GCSとActiveStorageを使った時に秘密鍵でエラー</a>
         </li>
         
     </ul>
