@@ -3,7 +3,7 @@ layout: post
 title: "船橋三番瀬で潮干狩り"
 date: 2016-05-06 11:09:41 +0900
 comments: true
-categories: [生活]
+categories: [ふなばし 三番瀬海浜公園]
 ---
   
 昨日妻と娘と3人で[ふなばし 三番瀬海浜公園](http://www.park-funabashi.or.jp/bay/)に潮干狩りにいってきました。  
@@ -12,6 +12,17 @@ categories: [生活]
 GWということもあり駐車場は朝6時半には満車になっていたようですね。  
   
 <!-- more -->
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>  
+<ins class="adsbygoogle"  
+     style="display:block; text-align:center;"  
+     data-ad-layout="in-article"  
+     data-ad-format="fluid"  
+     data-ad-client="ca-pub-7039502723411845"  
+     data-ad-slot="8206045005"></ins>  
+<script>  
+     (adsbygoogle = window.adsbygoogle || []).push({});  
+</script>  
   
 三番瀬海浜公園に近づくにつれて路駐路駐路駐。  
 １キロ以上離れたところから路駐して歩いている人がいっぱいいました。  
