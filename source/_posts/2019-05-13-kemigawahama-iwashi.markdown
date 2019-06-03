@@ -3,7 +3,7 @@ layout: post
 title: "検見川浜突堤 イワシ"
 date: 2019-05-13 13:48:58 +0900
 comments: true
-categories: [釣り, 検見川浜突堤]
+categories: [釣り, 検見川浜突堤, イワシ]
 ---
 
 釣行日 2019年5月13日(日)  
