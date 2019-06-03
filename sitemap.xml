@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://yoshitsugufujii.github.io/blog/2019/06/03/urayasu-kisu/</loc>
+<lastmod>2019-06-03T15:03:30+09:00</lastmod>
+</url>
+<url>
 <loc>http://yoshitsugufujii.github.io/blog/2019/05/30/dog-eats-xylitol/</loc>
 <lastmod>2019-05-30T11:00:36+09:00</lastmod>
 </url>
@@ -1426,6 +1430,12 @@
 <loc>http://yoshitsugufujii.github.io/blog/categories/gcp/</loc>
 </url>
 <url>
+<loc>http://yoshitsugufujii.github.io/blog/categories/iwasi/</loc>
+</url>
+<url>
 <loc>http://yoshitsugufujii.github.io/blog/categories/quan-kisiritoru/</loc>
+</url>
+<url>
+<loc>http://yoshitsugufujii.github.io/blog/categories/pu-an/</loc>
 </url>
 </urlset>
