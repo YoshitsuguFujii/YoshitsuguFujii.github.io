@@ -91,6 +91,168 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2014/03/24/20140324143648/">jQueryのappendが重かったので対応したこと</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2014-03-24T14:36:00+09:00" pubdate><i class="fa fa-calendar"></i> Mar 24th, 2014</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/jquery/'>jquery</a></li>
+            
+                <li><a class='category' href='/blog/categories/javascript/'>javascript</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>railsでチェックボックスで会社を選択して、ajax通信で返すjsの内容がこんな感じだった。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="o">&lt;</span><span class="sx">% @company.each </span><span class="k">do</span> <span class="o">|</span><span class="n">company</span><span class="o">|</span> <span class="sx">%&gt;</span>
+</span><span class='line'><span class="sx">    &lt;% company.member.each do |customer| %&gt;</span>
+</span><span class='line'>        <span class="err">$</span><span class="p">(</span><span class="s2">&quot;#customer_area&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&lt;%= escape_javascript(render(&quot;</span><span class="n">make_customer_area</span><span class="s2">&quot;, cid: customer.id)) %&gt;&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="o">&lt;</span><span class="sx">% end %&gt;</span>
+</span><span class='line'><span class="sx">  &lt;% end %&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>重い。console.time仕込んで計測したらappendがめちゃめちゃ重い。<br/>
+一回のappendで1秒ぐらいかかってた。</p>
+
+<p>毎回appendじゃなくて、一回でappendしてみる</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">var</span> <span class="n">html</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'>  <span class="n">var</span> <span class="n">customer_area</span> <span class="o">=</span> <span class="err">$</span><span class="p">(</span><span class="s2">&quot;#customer_area&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="sx">% @company.each </span><span class="k">do</span> <span class="o">|</span><span class="n">company</span><span class="o">|</span> <span class="sx">%&gt;</span>
+</span><span class='line'><span class="sx">    &lt;% company.member.each do |customer| %&gt;</span>
+</span><span class='line'>        <span class="n">html</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="s2">&quot;&lt;%= escape_javascript(render(&quot;</span><span class="n">make_customer_area</span><span class="s2">&quot;, cid: customer.id)) %&gt;&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="o">&lt;</span><span class="sx">% end %&gt;</span>
+</span><span class='line'><span class="sx">  &lt;% end %&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span> <span class="n">html</span><span class="o">.</span><span class="n">length</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">){</span>
+</span><span class='line'>    <span class="n">customer_area</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">html</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">))</span>
+</span><span class='line'>  <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>あんまり変わらないなぁ。<br/>
+というかappendやめよ。もうやめよ。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">var</span> <span class="n">html</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'>  <span class="n">var</span> <span class="n">customer_area</span> <span class="o">=</span> <span class="n">document</span><span class="o">.</span><span class="n">getElementById</span><span class="p">(</span><span class="s2">&quot;customer_area&quot;</span><span class="p">);</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="sx">% @company.each </span><span class="k">do</span> <span class="o">|</span><span class="n">company</span><span class="o">|</span> <span class="sx">%&gt;</span>
+</span><span class='line'><span class="sx">    &lt;% company.member.each do |customer| %&gt;</span>
+</span><span class='line'>        <span class="n">html</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="s2">&quot;&lt;%= escape_javascript(render(&quot;</span><span class="n">make_customer_area</span><span class="s2">&quot;, cid: customer.id)) %&gt;&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="o">&lt;</span><span class="sx">% end %&gt;</span>
+</span><span class='line'><span class="sx">  &lt;% end %&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span> <span class="n">html</span><span class="o">.</span><span class="n">length</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">){</span>
+</span><span class='line'>    <span class="n">customer_area</span><span class="o">.</span><span class="n">innerHTML</span> <span class="o">=</span> <span class="n">customer_area</span><span class="o">.</span><span class="n">innerHTML</span> <span class="o">+</span> <span class="n">html</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>約0.5秒ぐらい早くなった。いいね。<br/>
+でもinnnerHTML使ってるから、何回か会社をクリックするとinnerHTMLにテキストが溜まりすぎてだんだん重くなる。<br/>
+innnerHTML参照せずにappendChildで追加しよう。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">var</span> <span class="n">html</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'>  <span class="n">var</span> <span class="n">customer_area</span> <span class="o">=</span> <span class="n">document</span><span class="o">.</span><span class="n">getElementById</span><span class="p">(</span><span class="s2">&quot;customer_area&quot;</span><span class="p">);</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="sx">% @company.each </span><span class="k">do</span> <span class="o">|</span><span class="n">company</span><span class="o">|</span> <span class="sx">%&gt;</span>
+</span><span class='line'><span class="sx">    &lt;% company.member.each do |customer| %&gt;</span>
+</span><span class='line'>        <span class="n">html</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="s2">&quot;&lt;%= escape_javascript(render(&quot;</span><span class="n">make_customer_area</span><span class="s2">&quot;, cid: customer.id)) %&gt;&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="o">&lt;</span><span class="sx">% end %&gt;</span>
+</span><span class='line'><span class="sx">  &lt;% end %&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span> <span class="n">html</span><span class="o">.</span><span class="n">length</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">){</span>
+</span><span class='line'>    <span class="n">var</span> <span class="n">element</span> <span class="o">=</span> <span class="n">document</span><span class="o">.</span><span class="n">createElement</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">element</span><span class="o">.</span><span class="n">innerHTML</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">customer_area</span><span class="o">.</span><span class="n">appendChild</span><span class="p">(</span><span class="n">element</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>これで当初の半分ぐらいまでは処理時間が軽減されました。</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2014/03/14/20140314195912/">knexで外部キー制約のマイグレーション</a>
         </h1>
     
@@ -1024,83 +1186,6 @@ hamlの場合は- binding.pryを打ち込みます。</p>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2013/11/20/20131120192300/">vimでファイルのブックマーク</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2013-11-20T19:23:00+09:00" pubdate><i class="fa fa-calendar"></i> Nov 20th, 2013</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/vim/'>vim</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>vimを使っていて。<br/>
-ディレクトリはUniteBookmarkAdd使ってブックマークしてましたが。</p>
-
-<p>集中的にある機能のみを重点的に編集する時に、ファイルのブックマークしたくて調べたらあった。<br/>
-しかもデフォルトの機能っぽい。</p>
-
-<p>Hack   #16: 任意のファイルをブックマークする<br/>
-<a href="http://vim-users.jp/2009/05/hack16/">http://vim-users.jp/2009/05/hack16/</a></p>
-
-<p>例えば店舗とかっていう機能開発していて。</p>
-
-<p>StoreControllerのコントロールファイルではmC<br/>
-StoreのformのビューファイルではmF<br/>
-StoreのindexファイルではmS<br/>
-StoreのjsファイルではmJ</p>
-
-<p>しとくと編集していて、すぐにコントローラ開きたい時は<br/>
-  `C</p>
-
-<p>って押せばすぐ開く。<br/>
-簡単に設定できて、即応性があるのでいい感じですね。<br/>
-しかもブックマークとかにしちゃうと、設定後その機能の開発が終わったらブックマークを消さなきゃいけないと思いますが。<br/>
-今なにが設定されているとか気にせずに、常に上書きで使う感じもいいです。<br/>
-他にも色々便利機能ってあるのかな。</p>
-
-<p>vimの本ちゃんと読まないとなー</p>
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -1164,6 +1249,10 @@ StoreのjsファイルではmJ</p>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2019/06/06/urayasu-kisu/">浦安 キス</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2019/06/03/urayasu-kisu/">浦安 キス</a>
         </li>
         
@@ -1177,10 +1266,6 @@ StoreのjsファイルではmJ</p>
         
         <li class="post">
             <a href="/blog/2019/05/17/csv-only-quoate-string/">CSVで文字列だけダブルクォートで囲みたい場合</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2019/05/13/kemigawahama-iwashi/">検見川浜突堤 イワシ</a>
         </li>
         
     </ul>
