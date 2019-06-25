@@ -91,6 +91,71 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2015/10/16/set-cookie-with-faraday-or-httparty/">FaradayとHttpartyでクッキーを付与したい場合</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2015-10-16T17:33:25+09:00" pubdate><i class="fa fa-calendar"></i> Oct 16th, 2015</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
+            
+                <li><a class='category' href='/blog/categories/faraday/'>faraday</a></li>
+            
+                <li><a class='category' href='/blog/categories/httparty/'>httparty</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <div class="article__content clearfix">
+        <p>同一ドメインなんだけどホスト名が違うシステムがあり、WEBサーバーからApiサーバーへjsonを取得するべくgetリクエストを投げる。<br/>
+その際にWEBサーバーでログイン時に発行されたクッキーをリクエストに付与してapiサーバーではそのクッキーからユーザを特定するような処理が必要になった。</p>
+
+<p>FaradayとHttpartyでクッキーを付与する方法を調べた。</p>
+
+
+        <a class="btn pull-right" href="/blog/2015/10/16/set-cookie-with-faraday-or-httparty/">Read on &rarr;</a>
+    </div>
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2015/09/04/golang-bot-for-slack/">Go言語を使ってローカルマシンに簡易botを作ってSlackに投稿</a>
         </h1>
     
@@ -671,74 +736,6 @@ Axlsx::RichTextを使います。<br/>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2015/07/09/rename-file-name-for-jp-mobile/">ファイル名に_smart_phoneをつけて複製</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2015-07-09T12:09:42+09:00" pubdate><i class="fa fa-calendar"></i> Jul 9th, 2015</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
-            
-                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <div class="article__content clearfix">
-        <p>スマートフォンサイトの表示に<a href="https://github.com/jpmobile/jpmobile">jpmobile</a>を使ってます。<br/>
-これはこのようにApplicationcontrollerとかに書くと</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ApplicationController</span> <span class="o">&lt;</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span>
-</span><span class='line'>  <span class="kp">include</span> <span class="no">Jpmobile</span><span class="o">::</span><span class="no">ViewSelector</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-        <a class="btn pull-right" href="/blog/2015/07/09/rename-file-name-for-jp-mobile/">Read on &rarr;</a>
-    </div>
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -802,6 +799,10 @@ Axlsx::RichTextを使います。<br/>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2019/06/25/rails-auto-logging/">Railsが自動で出すログ</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2019/06/06/urayasu-kisu/">浦安 キス</a>
         </li>
         
@@ -815,10 +816,6 @@ Axlsx::RichTextを使います。<br/>
         
         <li class="post">
             <a href="/blog/2019/05/22/shiohigari-sanbanse/">船橋三番瀬 潮干狩り攻略</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2019/05/17/csv-only-quoate-string/">CSVで文字列だけダブルクォートで囲みたい場合</a>
         </li>
         
     </ul>

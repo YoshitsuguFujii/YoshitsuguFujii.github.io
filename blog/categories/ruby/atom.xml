@@ -4,7 +4,7 @@
     <title><![CDATA[Category: ruby | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/ruby/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2019-06-06T12:41:21+09:00</updated>
+    <updated>2019-06-25T18:06:59+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,61 @@
       </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[Railsが自動で出すログ]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2019/06/25/rails-auto-logging/"/>
+        <updated>2019-06-25T17:58:29+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2019/06/25/rails-auto-logging</id>
+        <content type="html"><![CDATA[<p>StackDriverのgemを入れたらRails.loggerでlog/以下に出力できなくなってしまって調べたのでメモ。</p>
+
+<!-- more -->
+
+
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p>
+<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-7039502723411845"
+     data-ad-slot="8206045005"></ins></p>
+
+<script>  
+     (adsbygoogle = window.adsbygoogle || []).push({});  
+</script>
+
+
+<p></p>
+
+<p>StackDriverを利用するとCloudLogging用のLoggerにRails.loggerが差し変わります。</p>
+
+<pre><code class="ruby">Rails.logger.info('hogehoge')
+</code></pre>
+
+<p>とやってもRAILS_ROOT/log/production.logには表示されません。</p>
+
+<p>だけどRailsが自動で出力してくれるController名やAction名。レンダリングしたviewの情報はlog/production.logに表示されます。</p>
+
+<p>なんでかなと思って調べてみたらこちらControllerはRails.loggerに設定されているloggerを使ってませんでした。</p>
+
+<p><a href="https://github.com/rails/rails/blob/master/actionpack/lib/action_controller/log_subscriber.rb#L76">https://github.com/rails/rails/blob/master/actionpack/lib/action_controller/log_subscriber.rb#L76</a></p>
+
+<p>結局サーバー側でGoogle fluendが動かしてそっちで吸い上げることができるので</p>
+
+<pre><code class="ruby">Rails.application.configure do
+  config.google_cloud.use_logging = false
+end
+</code></pre>
+
+<p>にしました。<br/>
+お手軽にlog/production.logで確認できて良い感じです。</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[CSVで文字列だけダブルクォートで囲みたい場合]]></title>
@@ -233,43 +288,6 @@ Google::Cloud.configure.use_error_reporting = false
 
 <p>参考
 <a href="https://github.com/rails/rails/blob/master/guides/source/active_storage_overview.md">https://github.com/rails/rails/blob/master/guides/source/active_storage_overview.md</a></p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[メソッドの引数の値を全部表示したい時]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2019/01/07/show-arguments-to-logs/"/>
-        <updated>2019-01-07T16:44:35+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2019/01/07/show-arguments-to-logs</id>
-        <content type="html"><![CDATA[<p>あけましておめでとうございます。<br/>
-今年もよろしくお願いします。</p>
-
-<p>さっそくものぐさネタ。</p>
-
-<!-- more -->
-
-
-
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-
-
-<p><ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-layout="in-article"
-     data-ad-format="fluid"
-     data-ad-client="ca-pub-7039502723411845"
-     data-ad-slot="8206045005"></ins></p>
-
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-
-<pre><code>  method(__method__).parameters.each do |_, name|
-    puts "#{name} =&gt; #{binding.local_variable_get(name)}"
-  end
-</code></pre>
 ]]></content>
     </entry>
     
