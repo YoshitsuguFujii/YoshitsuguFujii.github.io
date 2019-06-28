@@ -4,7 +4,7 @@
     <title><![CDATA[Category: ruby on rails | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/ruby-on-rails/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2019-06-28T20:34:35+09:00</updated>
+    <updated>2019-06-28T20:45:36+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -120,7 +120,7 @@ waiterを使いたいのであれば、自作オーダーシステムの管理�
 <p><img src="http://yoshitsugufujii.github.io/images/blog/20190628/regi_1.jpg"><br/>
 ※青が開発範囲</p>
 
-<p>またレシート印刷ができるようになったことで、システムで発行した一位な数値をバーコードでお客様伝票に印刷することができるようになりました。<br/>
+<p>またレシート印刷ができるようになったことで、システムで発行した一意な数値をバーコードでお客様伝票に印刷することができるようになりました。<br/>
 これによりお客様がお客様伝票をレジにもってきたら、そのバーコードを読み取ることでお会計ができるようになります。</p>
 
 <p>また、お会計へのレシートにはapiにあるreceiptMemoという項目を使ってオーダーシステムの獲得と累計会員ポイント数を表示するようにしています。</p>
