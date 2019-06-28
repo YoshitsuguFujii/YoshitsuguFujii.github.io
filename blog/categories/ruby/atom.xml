@@ -4,7 +4,7 @@
     <title><![CDATA[Category: ruby | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/ruby/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2019-06-28T20:23:16+09:00</updated>
+    <updated>2019-06-28T20:34:35+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -25,9 +25,9 @@
 <p>いくつかの特殊な要件を含む飲食店向けのオーダーシステムの新規開発。<br/>
 細かいものもいくつかありますが、大きなカスタマイズ要件としては</p>
 
-<p>・初回チャージと延長で料金が違う<br/>
+<p>・１回目のチャージと２回目以降のチャージで料金が違う<br/>
 ・独自のポイント体系。<br/>
-・初回チャージか延長ごとにドリンクの注文が必要<br/>
+・チャージごとにドリンクの注文が必要<br/>
 ・お会計時に会計情報を別システムへFTP + CSV連携(かつAPIでも情報を取りたい)<br/>
 ・特定の注文が入った場合にアクションを起こしたい。</p>
 
