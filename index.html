@@ -91,6 +91,81 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2019/06/28/custom-order-system-development/">飲食店向けオーダーシステムを作った話</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2019-06-28T13:50:12+09:00" pubdate><i class="fa fa-calendar"></i> Jun 28th, 2019</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
+            
+                <li><a class='category' href='/blog/categories/google-cloud-platform/'>google cloud platform</a></li>
+            
+                <li><a class='category' href='/blog/categories/gcp/'>gcp</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <div class="article__content clearfix">
+        <h2>要件</h2>
+
+<p>飲食店向けレジジステム</p>
+
+<p>いくつかの特殊な要件を含む飲食店向けのオーダーシステムの新規開発。<br/>
+細かいものもいくつかありますが、大きなカスタマイズ要件としては</p>
+
+<p>・初回チャージと延長で料金が違う<br/>
+・独自のポイント体系。<br/>
+・初回チャージか延長ごとにドリンクの注文が必要<br/>
+・お会計時に会計情報を別システムへFTP + CSV連携(かつAPIでも情報を取りたい)<br/>
+・特定の注文が入った場合にアクションを起こしたい。</p>
+
+<p>またレジは自動釣銭機に対応していなければなりません。</p>
+
+
+        <a class="btn pull-right" href="/blog/2019/06/28/custom-order-system-development/">Read on &rarr;</a>
+    </div>
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2019/06/25/rails-auto-logging/">Railsが自動で出すログ</a>
         </h1>
     
@@ -650,76 +725,6 @@
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2019/02/27/gcs-private-key/">GCSとActiveStorageを使った時に秘密鍵でエラー</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2019-02-27T16:57:03+09:00" pubdate><i class="fa fa-calendar"></i> Feb 27th, 2019</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
-            
-                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
-            
-                <li><a class='category' href='/blog/categories/google-cloud-platform/'>google cloud platform</a></li>
-            
-                <li><a class='category' href='/blog/categories/gcp/'>gcp</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <div class="article__content clearfix">
-        <p>サービスアカウントを発行して、キーを発行してその中身を</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>bundle exec rails credentials:edit    </span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<p>してstorage.ymlで読み出そうとした時にprivate_keyに改行があるためにうまくいかなかった。</p>
-
-
-        <a class="btn pull-right" href="/blog/2019/02/27/gcs-private-key/">Read on &rarr;</a>
-    </div>
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -781,6 +786,10 @@
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2019/06/28/custom-order-system-development/">飲食店向けオーダーシステムを作った話</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2019/06/25/rails-auto-logging/">Railsが自動で出すログ</a>
         </li>
         
@@ -794,10 +803,6 @@
         
         <li class="post">
             <a href="/blog/2019/05/30/dog-eats-xylitol/">犬がキシリトールを食べました</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2019/05/22/shiohigari-sanbanse/">船橋三番瀬 潮干狩り攻略</a>
         </li>
         
     </ul>

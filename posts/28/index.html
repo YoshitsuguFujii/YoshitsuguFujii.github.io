@@ -91,6 +91,138 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2012/01/24/20120124115957/">同一の操作から呼ばれたかオブザーバで判定する方法</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2012-01-24T11:59:00+09:00" pubdate><i class="fa fa-calendar"></i> Jan 24th, 2012</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>railsのobserverでユーザ情報とプロフィール情報を監視していて、<br/>
+例えば１つのフォームにユーザ情報とプロフィール情報の編集項目があった場合。</p>
+
+<p>after  <em>saveでフックした際には<br/>
+after  </em>saveは２回。それぞれのモデルで呼ばれる。</p>
+
+<p>んでその二つ呼ばれたafter  _saveが同じ処理で呼ばれたのかってわかんないと思っていた。</p>
+
+<p>先日入れたuserstampの処理がどうなっているのだろうかと見たら、<br/>
+ActionControllerのbefore  _filterでThread.currentにuserのIDを押し込んでいた。</p>
+
+<p>実際のソースは以下のとおり。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">stamper</span><span class="o">=</span><span class="p">(</span><span class="n">object</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">object_stamper</span> <span class="o">=</span> <span class="k">if</span> <span class="n">object</span><span class="o">.</span><span class="n">is_a?</span><span class="p">(</span><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">object</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="n">object</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">primary_key</span><span class="si">}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">to_sym</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="n">object</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="no">Thread</span><span class="o">.</span><span class="n">current</span><span class="o">[</span><span class="s2">&quot;</span><span class="si">#{</span><span class="nb">self</span><span class="o">.</span><span class="n">to_s</span><span class="o">.</span><span class="n">downcase</span><span class="si">}</span><span class="s2">_</span><span class="si">#{</span><span class="nb">self</span><span class="o">.</span><span class="n">object_id</span><span class="si">}</span><span class="s2">_stamper&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="n">object_stamper</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>キーにはobject  <em>id(デフォルトではUserのobject  </em>id)使ってる。<br/>
+controller側で毎回Thread.currentに操作者のidを保存して、それをmodelで取り出している。</p>
+
+<p>んでobserverで同一の処理で呼ばれたのか判定する方法は。</p>
+
+<p>同じようにThread.currentに設定してるキーと値を任意の値にすれば良さそう。<br/>
+ActionControllerのbefore  <em>filterでキーはuserstampと同じようにobject  </em>idを使って、適当にkey  _とかprefixつけてみる。<br/>
+んで値はユニークな値を設定する。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">set_key</span>
+</span><span class='line'>  <span class="no">Thread</span><span class="o">.</span><span class="n">current</span><span class="o">[</span><span class="s2">&quot;key_</span><span class="si">#{</span><span class="no">User</span><span class="o">.</span><span class="n">object_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m%d%H%M%S&quot;</span><span class="p">)</span> <span class="c1">#ミリ秒まで含めた方がいいと思われ。</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>observerでは</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">observe</span> <span class="ss">:user</span><span class="p">,</span><span class="ss">:user_profile</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">after_save</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">case</span> <span class="n">model</span>
+</span><span class='line'>  <span class="k">when</span> <span class="no">User</span>
+</span><span class='line'>    <span class="nb">p</span> <span class="no">Thread</span><span class="o">.</span><span class="n">current</span><span class="o">[</span><span class="s2">&quot;key_</span><span class="si">#{</span><span class="no">User</span><span class="o">.</span><span class="n">object_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">when</span> <span class="no">UserProfile</span>
+</span><span class='line'>    <span class="nb">p</span> <span class="no">Thread</span><span class="o">.</span><span class="n">current</span><span class="o">[</span><span class="s2">&quot;key_</span><span class="si">#{</span><span class="no">User</span><span class="o">.</span><span class="n">object_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>で同じ値が取得できた場合には同一の操作から呼ばれたものと考えられる。</p>
+
+<p>この方法は副作用とかどうなんだろう。<br/>
+そしてもっとスマートな方法はあるのだろうか・・・</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2012/01/23/20120123121409/">jQuery Mobile 勝手に不正なページへ遷移してしまう時の対応</a>
         </h1>
     
@@ -703,6 +835,10 @@ return link  </em>to( change  <em>value , disp  </em>path )<br/>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2019/06/28/custom-order-system-development/">飲食店向けオーダーシステムを作った話</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2019/06/25/rails-auto-logging/">Railsが自動で出すログ</a>
         </li>
         
@@ -716,10 +852,6 @@ return link  </em>to( change  <em>value , disp  </em>path )<br/>
         
         <li class="post">
             <a href="/blog/2019/05/30/dog-eats-xylitol/">犬がキシリトールを食べました</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2019/05/22/shiohigari-sanbanse/">船橋三番瀬 潮干狩り攻略</a>
         </li>
         
     </ul>

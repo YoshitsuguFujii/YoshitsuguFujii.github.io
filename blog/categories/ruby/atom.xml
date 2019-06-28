@@ -4,7 +4,7 @@
     <title><![CDATA[Category: ruby | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/ruby/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2019-06-25T18:06:59+09:00</updated>
+    <updated>2019-06-28T20:23:16+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,142 @@
       </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[飲食店向けオーダーシステムを作った話]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2019/06/28/custom-order-system-development/"/>
+        <updated>2019-06-28T13:50:12+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2019/06/28/custom-order-system-development</id>
+        <content type="html"><![CDATA[<h2>要件</h2>
+
+<p>飲食店向けレジジステム</p>
+
+<p>いくつかの特殊な要件を含む飲食店向けのオーダーシステムの新規開発。<br/>
+細かいものもいくつかありますが、大きなカスタマイズ要件としては</p>
+
+<p>・初回チャージと延長で料金が違う<br/>
+・独自のポイント体系。<br/>
+・初回チャージか延長ごとにドリンクの注文が必要<br/>
+・お会計時に会計情報を別システムへFTP + CSV連携(かつAPIでも情報を取りたい)<br/>
+・特定の注文が入った場合にアクションを起こしたい。</p>
+
+<p>またレジは自動釣銭機に対応していなければなりません。</p>
+
+<!-- more -->
+
+
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p><ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-7039502723411845"
+     data-ad-slot="8206045005"></ins></p>
+
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+<h2>選定</h2>
+
+<p>まず最初に思い描いた図はこうです。</p>
+
+<p><img src="http://yoshitsugufujii.github.io/images/blog/20190628/regi_0.jpg"><br/>
+※青が開発範囲</p>
+
+<p>オーダーはクラウドPOSで完結し、お会計が終わったら自分たちで開発したサーバーを経由して外部システムへお会計情報を流すようなイメージです。</p>
+
+<p>まずは上記条件を元に製品のカスタマイズ可能なこと。APIを提供していてカスタマイズ可能なPOSレジを提供しているサービスの選定から行いました。<br/>
+残念だったのはPOS業界どこの会社も問い合わせに対するレスポンスが非常に悪かったです。</p>
+
+<p>POS CUBE・・・レスポンスなしのため除外<br/>
+okage ・・・一番正解に近かったが、見送り<br/>
+まかせてタッチ・・・自動釣銭金未対応のため除外<br/>
+Uレジ・・・api未対応のため除外<br/>
+スマレジ ・・・apiも自動釣銭機もあるが、カスタマイズ不可。<br/>
+Airレジ・・・api未対応のため除外</p>
+
+<p>結果スマレジを採用しました。</p>
+
+<p>レスポンスが悪いという話がありましたがスマレジサポートはしっかりしていて問い合わせにかなり正確な答えをレスポンス良く返してくれたので非常にありがたかったです(だいたい1営業日以内にレスポンスしてくれます)</p>
+
+<p>カスタマイズできない部分はオーダーシステムを自作してapi経由でデータを連携することにしました。</p>
+
+<h2>実装</h2>
+
+<h3>技術</h3>
+
+<p>Ruby 2.6.1<br/>
+Ruby on Rails: 5.2.2<br/>
+Vue.js: 2.6.6</p>
+
+<h3>環境</h3>
+
+<p>Google Cloud Platform<br/>
+- Google Computer Engine<br/>
+- Cloud SQL<br/>
+- Cloud Storage<br/>
+- Cloud Load Balancing<br/>
+- Firebase</p>
+
+<h3>プロジェクトチーム</h3>
+
+<p>ディレクター 2名(稼働はほぼ1名)<br/>
+サーバーサイド 1名(私)<br/>
+アプリ/フロントエンド 1名<br/>
+デザイナー 1名</p>
+
+<p>オーダーシステム自作の気になる点としてはレシートプリンタの知識がなかったため、プリンタをどうするかという問題がありました。<br/>
+スマレジwaiterを使えば、waiterのサーバーサイド印刷の機能でプリンタへ直接サーバーからレシートを印刷できるのでプリンタの制御もスマレジ側の仕組みに乗っかれることになります。</p>
+
+<p><img src="http://yoshitsugufujii.github.io/images/blog/20190628/regi_2.jpg"><br/>
+※青が開発範囲</p>
+
+<p>が、自作オーダーシステム管理画面からwaiterへのメニューのapiに金額がなく、メニューの同期項目が名称と出力プリンターの設定だけで、<br/>
+waiterを使いたいのであれば、自作オーダーシステムの管理画面とwaiterの管理画面両方からメニューを入れる必要がでてきました。<br/>
+プリンタの制御だけでwaiterを使うのは２重管理になる上に、スマレジPOSだけでなくスマレジ waiter側のシステムの制約も意識しなければならなくなる。<br/>
+といったことが考えられ、デメリットの方が無視できなかったのでレシートプリンターも自前で制御することにしました。</p>
+
+<p>自作に踏み切るためにエプソンの方にお話を伺うことができてかなり役立つ知識を得られたのがでかかったです。<br/>
+ちなみにレシートプリンタはTM-m30が、キッチンとかハードに使う場面ではTM-T90KPがスタンダードみたいです。<br/>
+テストは無償レンタルでTM-m30を利用し、本番環境ではTM-T90KPを利用しました。</p>
+
+<p><img src="http://yoshitsugufujii.github.io/images/blog/20190628/regi_1.jpg"><br/>
+※青が開発範囲</p>
+
+<p>またレシート印刷ができるようになったことで、システムで発行した一位な数値をバーコードでお客様伝票に印刷することができるようになりました。<br/>
+これによりお客様がお客様伝票をレジにもってきたら、そのバーコードを読み取ることでお会計ができるようになります。</p>
+
+<p>また、お会計へのレシートにはapiにあるreceiptMemoという項目を使ってオーダーシステムの獲得と累計会員ポイント数を表示するようにしています。</p>
+
+<h1>振り返り</h1>
+
+<p>当初の予定ではオーダーシステムもPOSも全て外部サービスを利用して、必要なデータをapiから取得するという構成を想定していたため最終的には全然違う形になりました。</p>
+
+<p>カスタマイズ可能なクラウドPOSを提供している会社を見つけ、<br/>
+発注したものの全然動いてくれないという状態に直面し、<br/>
+いつできるのかわからない、こちら側が頑張ってもどうにもならないという状況になり、<br/>
+プロジェクトが完全にアンコントロールな状態であったため、<br/>
+プロジェクト運営が困難になることは予想されましたが、プロジェクトの健全度合いが著しく悪い状態であったためお断りをしてもらいました。<br/>
+自分たちでプロジェクトをハンドリングできるようになって、いろいろと大変なこともありましたが終わってみるとやはり英断だったのかなと思います。</p>
+
+<p>最近は外部の状況に振り回されることがあまりなかったのでやりたきことはそれほど難易度が高くないにも関わらず久しぶりに少し大変な案件でした。<br/>
+一時期は迷走しすぎて自動釣銭機も自分たちで制御しようかとしたことさえありました。</p>
+
+<p>が、最終的にはスマレジを利用することでかなりいい感じに仕上がったのではないかと思います。</p>
+
+<p>またカスタムオーダーシステムにしたことでお客様の要望をかなり柔軟に取り入れることができ、クラウドPOSを使った場合にくらべるとかなり満足度が高いものになったのではないかと思います。</p>
+
+<h1>最後に</h1>
+
+<p>オーダーシステム開発のご要望がある方お待ちしております。</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[Railsが自動で出すログ]]></title>
@@ -228,66 +364,6 @@ Google::Cloud.configure.use_error_reporting = false
 </code></pre>
 
 <p>これでwargingはでなくなりました。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[GCSとActiveStorageを使った時に秘密鍵でエラー]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2019/02/27/gcs-private-key/"/>
-        <updated>2019-02-27T16:57:03+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2019/02/27/gcs-private-key</id>
-        <content type="html"><![CDATA[<p>サービスアカウントを発行して、キーを発行してその中身を</p>
-
-<pre><code class="">bundle exec rails credentials:edit    
-</code></pre>
-
-<p>してstorage.ymlで読み出そうとした時にprivate_keyに改行があるためにうまくいかなかった。</p>
-
-<!-- more -->
-
-
-
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-
-
-<p><ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-layout="in-article"
-     data-ad-format="fluid"
-     data-ad-client="ca-pub-7039502723411845"
-     data-ad-slot="8206045005"></ins></p>
-
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-
-<p>dumpを使えばおっけー</p>
-
-<pre><code>Rails.application.credentials.gcs[:private_key].dump
-</code></pre>
-
-<p>全体はこう。</p>
-
-<pre><code>google:
-  service: GCS
-  credentials:
-    type: "service_account"
-    project_id: &lt;%= Rails.application.credentials.gcs[:project_id] %&gt;
-    private_key_id: &lt;%= Rails.application.credentials.gcs[:private_key_id] %&gt;
-    private_key: &lt;%= Rails.application.credentials.gcs[:private_key].dump %&gt;
-    client_email: &lt;%= Rails.application.credentials.gcs[:client_email] %&gt;
-    client_id: &lt;%= Rails.application.credentials.gcs[:client_id] %&gt;
-    auth_uri: "https://accounts.google.com/o/oauth2/auth"
-    token_uri: "https://accounts.google.com/o/oauth2/token"
-    auth_provider_x509_cert_url: "https://www.googleapis.com/oauth2/v1/certs"
-    client_x509_cert_url: &lt;%= Rails.application.credentials.gcs[:client_x509_cert_url] %&gt;
-  project: ''
-</code></pre>
-
-<p>参考
-<a href="https://github.com/rails/rails/blob/master/guides/source/active_storage_overview.md">https://github.com/rails/rails/blob/master/guides/source/active_storage_overview.md</a></p>
 ]]></content>
     </entry>
     
