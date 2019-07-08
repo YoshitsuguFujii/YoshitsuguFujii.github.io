@@ -92,6 +92,115 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2015/11/10/slack-todo-bot/">Go言語を使ってローカルマシン上でbotを動かしSlackでtodo管理をする</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2015-11-10T20:29:05+09:00" pubdate><i class="fa fa-calendar"></i> Nov 10th, 2015</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/go/'>go</a></li>
+            
+                <li><a class='category' href='/blog/categories/golang/'>golang</a></li>
+            
+                <li><a class='category' href='/blog/categories/slack/'>slack</a></li>
+            
+                <li><a class='category' href='/blog/categories/bot/'>bot</a></li>
+            
+                <li><a class='category' href='/blog/categories/slackbot/'>slackbot</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <div class="article__content clearfix">
+        <p>前回の続編です。</p>
+
+<p><a href="http://yoshitsugufujii.github.io/blog/2015/09/04/golang-bot-for-slack/">Go言語を使ってローカルマシンに簡易botを作ってSlackに投稿</a></p>
+
+<p>botを使ったtodo機能をslackに付与するべくgoのコードを書いてみました。</p>
+
+<p><code>todo コマンド</code></p>
+
+<p>という感じでつぶやくと、</p>
+
+<p>チャンネル毎にtodoリストが管理できるようにしたいと思います。<br/>
+dbがなくても動くようにファイルに保存します。</p>
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">操作</th>
+<th style="text-align:left;">コマンド</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">追加</td>
+<td style="text-align:left;"> add 追加したいテキスト </td>
+</tr>
+<tr>
+<td style="text-align:left;">削除</td>
+<td style="text-align:left;"> del 削除したいテキスト </td>
+</tr>
+<tr>
+<td style="text-align:left;">一覧</td>
+<td style="text-align:left;"> list </td>
+</tr>
+<tr>
+<td style="text-align:left;">全削除</td>
+<td style="text-align:left;"> clear </td>
+</tr>
+</tbody>
+</table>
+
+
+<p>こんな感じで動きます。</p>
+
+<p><img src="/images/blog/todo_bot_sample.gif" alt="todobot" /></p>
+
+<p>便利そうですね！</p>
+
+
+        <a class="btn pull-right" href="/blog/2015/11/10/slack-todo-bot/">Read on &rarr;</a>
+    </div>
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2015/10/28/inject-identifier-from-context/">i18nで例えば大人と子供で文言を変えたい場合</a>
         </h1>
     
@@ -693,68 +802,6 @@ gemのckeditorで</p>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2015/07/15/ckeditor-table-width/">ckeditorのテーブルのデフォルト値を変更</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2015-07-15T16:56:33+09:00" pubdate><i class="fa fa-calendar"></i> Jul 15th, 2015</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
-            
-                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
-            
-                <li><a class='category' href='/blog/categories/ckeditor/'>ckeditor</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <div class="article__content clearfix">
-        <p>相変わらず使わせてもらってます。<a href="https://github.com/galetahub/ckeditor">ckeditor</a><br/>
-デフォルトでテーブルのサイズが500pxとなっておりますが、スマートフォンでも表示する必要がありこれを100%にしたくてしらべました。<br/>
-ついでに邪魔なのでborderとcellspacingの値も0にしちゃいましょう。</p>
-
-
-        <a class="btn pull-right" href="/blog/2015/07/15/ckeditor-table-width/">Read on &rarr;</a>
-    </div>
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -818,6 +865,10 @@ gemのckeditorで</p>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2019/07/08/simple-email-send/">Railsでお手軽にメールを送る</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2019/06/28/custom-order-system-development/">飲食店向けオーダーシステムを作った話</a>
         </li>
         
@@ -831,10 +882,6 @@ gemのckeditorで</p>
         
         <li class="post">
             <a href="/blog/2019/06/03/urayasu-kisu/">浦安 キス</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2019/05/30/dog-eats-xylitol/">犬がキシリトールを食べました</a>
         </li>
         
     </ul>

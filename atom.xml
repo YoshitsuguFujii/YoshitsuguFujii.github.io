@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2019-07-03T11:20:22+09:00</updated>
+    <updated>2019-07-08T11:23:25+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,52 @@
     </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[Railsでお手軽にメールを送る]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2019/07/08/simple-email-send/"/>
+        <updated>2019-07-08T11:15:30+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2019/07/08/simple-email-send</id>
+        <content type="html"><![CDATA[<p>お手軽にある特定のエラーなどの情報を簡単なワンメッセージを関係者に送りたい場合、</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rails generate mailer UserMailer</span></code></pre></td></tr></table></div></figure>
+
+
+<p>とかやってテンプレートつかってってやると重厚すぎてつらい。</p>
+
+<!-- more -->
+
+
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p>
+<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-7039502723411845"
+     data-ad-slot="8206045005"></ins></p>
+
+<script>  
+     (adsbygoogle = window.adsbygoogle || []).push({});  
+</script>
+
+
+<p></p>
+
+<p>ワンライナーでメールを送るにはこうやればいい。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ActionMailer::Base.mail(from: 'error@example.com', to: 'admin@example.com', subject: '何かエラーが発生しました', body: '設定を見直してください').deliver</span></code></pre></td></tr></table></div></figure>
+
+
+<p>現場からは以上です。</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[飲食店向けオーダーシステムを作った話]]></title>
@@ -1440,76 +1486,6 @@ Aフォームのcsrf tokenが古くなってしまいcsrfエラーが発生し�
 <p>帰ってお酢につけました。明後日ぐらいに食べようかな。</p>
 
 <p><img src="http://yoshitsugufujii.github.io/images/blog/20181202/IMG_7546.JPG"></p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[検見川浜 キス]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2018/11/28/kemigawahama-kissu/"/>
-        <updated>2018-11-28T16:38:14+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2018/11/28/kemigawahama-kissu</id>
-        <content type="html"><![CDATA[<p>風邪をひいてしまって辛いですが釣りをしました。</p>
-
-<p>釣行日 2018年11月25日(日)<br/>
-天気 晴<br/>
-場所 検見川浜突堤<br/>
-釣行時間: 14:50 〜 17:00</p>
-
-<!-- more -->  
-
-
-
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-
-
-<p>
-<ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-layout="in-article"
-     data-ad-format="fluid"
-     data-ad-client="ca-pub-7039502723411845"
-     data-ad-slot="8206045005"></ins></p>
-
-<script>  
-     (adsbygoogle = window.adsbygoogle || []).push({});  
-</script>
-
-
-<p></p>
-
-<p>キスはまだ釣れるのかな？</p>
-
-<p><img src="http://yoshitsugufujii.github.io/images/blog/20181125/IMG_7494.JPG"></p>
-
-<p>ジャリメでやりたかったんですが絶対に余るなと思ったのと風邪が辛かったらすぐに帰ろうと目論んでのパワーイソメです。</p>
-
-<p>細いのだったらよかったんですが中サイズ。</p>
-
-<p><img src="http://yoshitsugufujii.github.io/images/blog/20181125/IMG_7495.JPG"></p>
-
-<p>パワーイソメで釣れたことないんですよね。<br/>
-本当に釣れるのかな？</p>
-
-<p><img src="http://yoshitsugufujii.github.io/images/blog/20181125/IMG_7496.JPG"></p>
-
-<p>１投目で釣れました(^^;</p>
-
-<p>が、そのあと続かず。たまに忘れた頃にアタリがありますが全くのらず。</p>
-
-<p><img src="http://yoshitsugufujii.github.io/images/blog/20181125/IMG_7497.JPG"></p>
-
-<p>そして結構な頻度でプニプニしていて押すと水がでるやつが針に刺さります。</p>
-
-<p>全然ダメなのでエギなげたりしてましたがこちらもダメ。</p>
-
-<p>外側に竿出している人たちはサヨリをかなり釣っていました。<br/>
-型もよかったです。<br/>
-サヨリの仕掛けもってくればよかったかな(竿出すスペースないですが)</p>
-
-<p>結局1匹しか釣れず、綺麗な夕日を見ながら撤収です。</p>
-
-<p><img src="http://yoshitsugufujii.github.io/images/blog/20181125/IMG_7498.JPG"></p>
 ]]></content>
     </entry>
     
