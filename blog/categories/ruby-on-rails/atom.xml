@@ -4,7 +4,7 @@
     <title><![CDATA[Category: ruby on rails | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/ruby-on-rails/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2019-07-08T11:23:25+09:00</updated>
+    <updated>2019-07-12T11:11:05+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,78 @@
       </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[ActiveStorageのDirectUploadでGCSでCORS]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2019/07/12/gcs-cors/"/>
+        <updated>2019-07-12T10:55:48+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2019/07/12/gcs-cors</id>
+        <content type="html"><![CDATA[<p>GCP上で動かしたらエラーになったのでメモ。</p>
+
+<!-- more -->
+
+
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p><ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-7039502723411845"
+     data-ad-slot="8206045005"></ins></p>
+
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+<p>GCSにアップしようとしたら、こんなエラーがでました。</p>
+
+<p>Access to XMLHttpRequest at &lsquo;<a href="https://storage.googleapis.com/">https://storage.googleapis.com/</a><BUCKET NAME>/&lt;ずらずらとcredentialやexpireの情報>&rsquo; from origin &lsquo;<a href="https://hogehoge.com">https://hogehoge.com</a>&rsquo; has been blocked by CORS policy: Response to preflight request doesn&rsquo;t pass access control check: No &lsquo;Access-Control-Allow-Origin&rsquo; header is present on the requested resource.</p>
+
+<p>いくつか設定の仕方があるらしいですがgsutilを使ったやり方でGCSのBucketにCORS対応します。<br/>
+(AWSみたいにWEBからは設定できないようです)</p>
+
+<p>まずjsonファイルを作ります。</p>
+
+<pre><code>[
+  {
+    "origin": ["https://hogehoge.com"],
+    "responseHeader": ["Content-Type", "Content-Md5"],
+    "method": ["*"],
+    "maxAgeSeconds": 3600
+  }
+]
+</code></pre>
+
+<p>originは全部許可する場合はアスタリスクでも可です。<br/>
+<code>
+[
+  {
+    "origin": ["*"],
+    "responseHeader": ["Content-Type", "Content-Md5"],
+    "method": ["*"],
+    "maxAgeSeconds": 3600
+  }
+]
+</code></p>
+
+<p>これを設定します。<br/>
+<code>
+gsutil cors set &lt;上記作成したjson&gt; gs://&lt;bucket name&gt;  
+</code></p>
+
+<p>確認<br/>
+<code>
+gsutil cors get gs://&lt;bucket name&gt;  
+</code></p>
+
+<p>で通るようになります。</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[Railsでお手軽にメールを送る]]></title>
@@ -303,57 +375,6 @@ end
 
 <p>のでquate_fieldで囲まれても問題ないようにから文字を設定してあげる。<br/>
 <a href="https://github.com/ruby/csv/blob/master/lib/csv/writer.rb#L129-L136">https://github.com/ruby/csv/blob/master/lib/csv/writer.rb#L129-L136</a></p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[railsでsubmitした後にsubmitボタンが押せない現象]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2019/03/14/disable-with-specific-button-diabled/"/>
-        <updated>2019-03-14T19:00:25+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2019/03/14/disable-with-specific-button-diabled</id>
-        <content type="html"><![CDATA[<p>だいぶ前にdisable_withの挙動デフォルトになったらしいです。<br/>
-<a href="https://github.com/rails/rails/pull/21135/files">https://github.com/rails/rails/pull/21135/files</a></p>
-
-<p>検索結果を絞り込んでCSV出力をしたい時等の画面遷移が発生しないsubmitでは非活性になると困りますね。</p>
-
-<p>全体で無効にもできますが、disable_withを個別に無効にする方法です。</p>
-
-<!-- more -->  
-
-
-
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-
-
-<p>
-<ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-layout="in-article"
-     data-ad-format="fluid"
-     data-ad-client="ca-pub-7039502723411845"
-     data-ad-slot="8206045005"></ins></p>
-
-<script>  
-     (adsbygoogle = window.adsbygoogle || []).push({});  
-</script>
-
-
-<p></p>
-
-<p>submitボタンに'data-disable-with' => falseを設定してあげると無効になります。</p>
-
-<pre><code class="">= f.button :submit, I18n.t(".csv_download"), class: "btn-primary", 'data-disable-with' =&gt; false  
-</code></pre>
-
-<p>ちなみに全体でfalseにしたい場合はこう</p>
-
-<pre><code class="">class Application &lt; Rails::Application  
-  config.action_view.automatically_disable_submit_tag = false # この行を追加  
-end  
-</code></pre>
-
-<p>ソース見る限り全体禁止にして、各ボタンで有効にとかはできなさそうなので全体は注意が必要ですね。</p>
 ]]></content>
     </entry>
     

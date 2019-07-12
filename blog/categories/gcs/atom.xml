@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+    <title><![CDATA[Category: gcs | なんとなく日々徒然と]]></title>
+    <link href="http://yoshitsugufujii.github.io/blog/categories/gcs/atom.xml" rel="self"/>
+    <link href="http://yoshitsugufujii.github.io/"/>
+    <updated>2019-07-12T11:11:11+09:00</updated>
+    <id>http://yoshitsugufujii.github.io/</id>
+    <author>
+        <name><![CDATA[Yoshitsugu Fujii]]></name>
+        
+      </author>
+    <generator uri="http://octopress.org/">Octopress</generator>
+
+    
+    <entry>
+        <title type="html"><![CDATA[ActiveStorageのDirectUploadでGCSでCORS]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2019/07/12/gcs-cors/"/>
+        <updated>2019-07-12T10:55:48+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2019/07/12/gcs-cors</id>
+        <content type="html"><![CDATA[<p>GCP上で動かしたらエラーになったのでメモ。</p>
+
+<!-- more -->
+
+
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p><ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-7039502723411845"
+     data-ad-slot="8206045005"></ins></p>
+
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+<p>GCSにアップしようとしたら、こんなエラーがでました。</p>
+
+<p>Access to XMLHttpRequest at &lsquo;<a href="https://storage.googleapis.com/">https://storage.googleapis.com/</a><BUCKET NAME>/&lt;ずらずらとcredentialやexpireの情報>&rsquo; from origin &lsquo;<a href="https://hogehoge.com">https://hogehoge.com</a>&rsquo; has been blocked by CORS policy: Response to preflight request doesn&rsquo;t pass access control check: No &lsquo;Access-Control-Allow-Origin&rsquo; header is present on the requested resource.</p>
+
+<p>いくつか設定の仕方があるらしいですがgsutilを使ったやり方でGCSのBucketにCORS対応します。<br/>
+(AWSみたいにWEBからは設定できないようです)</p>
+
+<p>まずjsonファイルを作ります。</p>
+
+<pre><code>[
+  {
+    "origin": ["https://hogehoge.com"],
+    "responseHeader": ["Content-Type", "Content-Md5"],
+    "method": ["*"],
+    "maxAgeSeconds": 3600
+  }
+]
+</code></pre>
+
+<p>originは全部許可する場合はアスタリスクでも可です。<br/>
+<code>
+[
+  {
+    "origin": ["*"],
+    "responseHeader": ["Content-Type", "Content-Md5"],
+    "method": ["*"],
+    "maxAgeSeconds": 3600
+  }
+]
+</code></p>
+
+<p>これを設定します。<br/>
+<code>
+gsutil cors set &lt;上記作成したjson&gt; gs://&lt;bucket name&gt;  
+</code></p>
+
+<p>確認<br/>
+<code>
+gsutil cors get gs://&lt;bucket name&gt;  
+</code></p>
+
+<p>で通るようになります。</p>
+]]></content>
+    </entry>
+    
+</feed>
