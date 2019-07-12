@@ -1,0 +1,66 @@
+---
+layout: post
+title: "ActiveStorageのDirectUploadでGCSでCORS"
+date: 2019-07-12 10:55:48 +0900
+comments: true
+categories: [ruby,ruby on rails, google cloud platform, gcp, gcs]
+---
+
+GCP上で動かしたらエラーになったのでメモ。  
+
+<!-- more -->
+  
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-7039502723411845"
+     data-ad-slot="8206045005"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+GCSにアップしようとしたら、こんなエラーがでました。  
+
+Access to XMLHttpRequest at 'https://storage.googleapis.com/<BUCKET NAME>/<ずらずらとcredentialやexpireの情報>' from origin 'https://hogehoge.com' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.  
+  
+いくつか設定の仕方があるらしいですがgsutilを使ったやり方でGCSのBucketにCORS対応します。  
+(AWSみたいにWEBからは設定できないようです)  
+  
+まずjsonファイルを作ります。  
+
+```
+[
+  {
+    "origin": ["https://hogehoge.com"],
+    "responseHeader": ["Content-Type", "Content-Md5"],
+    "method": ["*"],
+    "maxAgeSeconds": 3600
+  }
+]
+```
+
+originは全部許可する場合はアスタリスクでも可です。  
+```
+[
+  {
+    "origin": ["*"],
+    "responseHeader": ["Content-Type", "Content-Md5"],
+    "method": ["*"],
+    "maxAgeSeconds": 3600
+  }
+]
+```
+
+これを設定します。  
+```
+gsutil cors set <上記作成したjson> gs://<bucket name>  
+```
+  
+確認  
+```
+gsutil cors get gs://<bucket name>  
+```
+  
+で通るようになります。  
