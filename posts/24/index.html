@@ -92,6 +92,77 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2013/01/08/20130108134910/">文字列に二つ以上の同一指定文字が使われているかどうか？</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2013-01-08T13:49:00+09:00" pubdate><i class="fa fa-calendar"></i> Jan 8th, 2013</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">str</span> <span class="o">=</span> <span class="s2">&quot;@123@56&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">str</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;@&quot;</span><span class="p">)</span> <span class="c1">#=&gt; 0</span>
+</span><span class='line'><span class="n">str</span><span class="o">.</span><span class="n">rindex</span><span class="p">(</span><span class="s2">&quot;@&quot;</span><span class="p">)</span> <span class="c1">#=&gt;4</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">str</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;@&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="n">str</span><span class="o">.</span><span class="n">rindex</span><span class="p">(</span><span class="s2">&quot;@&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>左からと右からの指定文字の位置を調べて違ってたら、同じ文字が二回使われているねというだけのロジック。</p>
+
+<p>僕は文系ロジックと勝手に命名しているロジックがあります。<br/>
+どういったのが文系ロジック？と聞かれると困りますが。なんかにおいです。<br/>
+上記は文系ロジックっぽいかなと思うのですが。どうでしょうか？</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2012/12/21/20121221170513/">リクエストメソッドを取得</a>
         </h1>
     
@@ -779,74 +850,6 @@ ActiveSupportでArrayクラスで定義されてます。</p>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2012/06/14/20120614151703/">xxx_pathからurlを取りたい</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2012-06-14T15:17:00+09:00" pubdate><i class="fa fa-calendar"></i> Jun 14th, 2012</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/rails/'>rails</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>通常使ってたらあんまりないのかもしれないけど。</p>
-
-<p>libとかでxxx  _path(rake routesで一番左にでるやつ)のurlを取りたいとき。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Rails</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">routes</span><span class="o">.</span><span class="n">url_helpers</span><span class="o">.</span><span class="n">xxx_path</span><span class="p">(</span><span class="vi">@user</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>で取れる。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Rails</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">routes</span><span class="o">.</span><span class="n">url_helpers</span><span class="o">.</span><span class="n">user_register_shop_staffs_path</span><span class="p">(</span><span class="n">shop</span><span class="p">)</span> <span class="c1"># =&gt; &quot;/shops/1/staffs/user_register&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -910,6 +913,10 @@ ActiveSupportでArrayクラスで定義されてます。</p>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2019/09/02/edogawa-housuiro-haze/">江戸川放水路 ハゼ</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2019/07/22/edogawahosuiro-haze/">江戸川放水路 ハゼクラ</a>
         </li>
         
@@ -923,10 +930,6 @@ ActiveSupportでArrayクラスで定義されてます。</p>
         
         <li class="post">
             <a href="/blog/2019/06/28/custom-order-system-development/">飲食店向けオーダーシステムを作った話</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2019/06/25/rails-auto-logging/">Railsが自動で出すログ</a>
         </li>
         
     </ul>
