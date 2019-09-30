@@ -92,6 +92,140 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2014/01/30/20140130114654/">半角カナが入力されているファイルを抽出</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2014-01-30T11:46:00+09:00" pubdate><i class="fa fa-calendar"></i> Jan 30th, 2014</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>お客様から、半角カナを全角カナにしておくれと依頼がきていたので、railsのrootから半角カナを含むファイルを抜き出したくてスクリプト書きました。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1">#!/usr/bin/env ruby</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;find&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">except_ext</span> <span class="o">=</span> <span class="sx">%w(.log .yml .jpg .JPG .jpeg .png .pid .ttf .woff .md .json .ico .eot .gif)</span>                                                    <span class="c1"># 除外するファイル拡張子を設定</span>
+</span><span class='line'><span class="n">except_pattern</span> <span class="o">=</span> <span class="sx">%w(.git test .DS_Store migrate hankaku_kana_checker RackMultipart sprockets letter_opener underscore cache)</span>                <span class="c1"># 除外するパスに含まれる文字列を指定</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># チェックする半角カナの配列</span>
+</span><span class='line'><span class="n">han_kana</span> <span class="o">=</span>  <span class="sx">%w{ｱ ｲ ｳ ｴ ｵ ｶ ｷ ｸ ｹ ｺ ｻ ｼ ｽ ｾ ｿ ﾀ ﾁ ﾂ ﾃ ﾄ ﾅ ﾆ ﾇ ﾈ ﾉ ﾊ ﾋ ﾌ ﾍ ﾎ ﾏ ﾐ ﾑ ﾒ ﾓ ﾔ ﾕ ﾖ ﾗ ﾘ ﾙ ﾚ ﾛ ﾜ ｦ ﾝ ｧ ｨ ｩ ｪ ｫ ｬ ｭ ｮ ｯ ﾞ ﾟ ､ ｡ ｰ ｢ ｣}</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Find</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="s1">&#39;./&#39;</span><span class="p">))</span> <span class="k">do</span> <span class="o">|</span><span class="n">path</span><span class="o">|</span>
+</span><span class='line'>  <span class="k">next</span> <span class="k">if</span> <span class="no">File</span><span class="o">.</span><span class="n">directory?</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">next</span> <span class="k">if</span> <span class="n">except_ext</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">extname</span><span class="p">(</span><span class="n">path</span><span class="p">))</span> <span class="c1"># 調査しない拡張子</span>
+</span><span class='line'>  <span class="k">next</span> <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="no">Regexp</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">except_pattern</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;|&quot;</span><span class="p">)))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">begin</span>
+</span><span class='line'>    <span class="no">File</span><span class="o">.</span><span class="n">readlines</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">each</span><span class="o">.</span><span class="n">with_index</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">line</span><span class="p">,</span> <span class="n">idx</span><span class="o">|</span>
+</span><span class='line'>      <span class="vi">@idx</span><span class="p">,</span> <span class="vi">@line</span> <span class="o">=</span> <span class="n">idx</span><span class="p">,</span> <span class="n">line</span>
+</span><span class='line'>      <span class="c1"># CP932のファイルが混在してたのでダメならCP932で変換</span>
+</span><span class='line'>      <span class="n">include_han_kana</span> <span class="o">=</span> <span class="k">begin</span>
+</span><span class='line'>                           <span class="n">line</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="no">Regexp</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">han_kana</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;|&quot;</span><span class="p">)))</span>
+</span><span class='line'>                         <span class="k">rescue</span>
+</span><span class='line'>                           <span class="n">line</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;UTF-8&quot;</span><span class="p">,</span> <span class="s2">&quot;CP932&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="no">Regexp</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">han_kana</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;|&quot;</span><span class="p">)))</span>
+</span><span class='line'>                         <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="k">if</span> <span class="n">include_han_kana</span>
+</span><span class='line'>        <span class="nb">p</span> <span class="o">[</span><span class="n">idx</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">line</span><span class="o">].</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;: &quot;</span><span class="p">)</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">rescue</span> <span class="o">=&gt;</span> <span class="n">ex</span>
+</span><span class='line'>    <span class="nb">p</span> <span class="s2">&quot;####################################################################################################&quot;</span>
+</span><span class='line'>    <span class="nb">p</span> <span class="o">[</span><span class="vi">@idx</span><span class="p">,</span> <span class="vi">@line</span><span class="o">].</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;: &quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="nb">p</span> <span class="o">[</span> <span class="n">path</span><span class="p">,</span> <span class="n">ex</span><span class="o">.</span><span class="n">message</span> <span class="o">].</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="nb">p</span> <span class="n">ex</span><span class="o">.</span><span class="n">backtrace</span><span class="o">.</span><span class="n">first</span>
+</span><span class='line'>    <span class="nb">p</span> <span class="s2">&quot;####################################################################################################&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>再帰的にディレクトリをくだって、探します。<br/>
+含めたくないファイル名やディレクトリ名。拡張子を指定できます。</p>
+
+<p>良かったら使ってみてください。</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2014/01/24/20140124122500/">Terminalでsshするときに、接続先に応じて背景色を変える方法</a>
         </h1>
     
@@ -923,75 +1057,6 @@ Time  #all  _monthで取れる(要ActiveSupport)<br/>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2013/11/13/20131113112323/">Excelとか使う時はマウス使ってたんだけど。センタークリックでMission Controlを開きたい</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2013-11-13T11:23:00+09:00" pubdate><i class="fa fa-calendar"></i> Nov 13th, 2013</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/mac/'>mac</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>Mac Book Airで仕事しています。<br/>
-普段はTrack pad使っているんだけど。</p>
-
-<p>Excelとか使う時はやっぱりマウス使いたいってことで。<br/>
-その辺に転がっていたUSBマウスを接続して作業している。</p>
-
-<p>その際に他のワークスペース(デスクトップ？)に切り替えたい時はわざわざマウスから手を話して、トラックパッドの方で３本指スワイプしていた。<br/>
-これが超絶面倒なので、マウスのセンタークリックでできないかとやってみたら出きた。</p>
-
-<p>システム環境設定   > Mission Control</p>
-
-<p><a href="http://f.hatena.ne.jp/gogo_sakura/20131113112104"><img src="http://cdn-ak.f.st-hatena.com/images/fotolife/g/gogo_sakura/20131113/20131113112104.png" title="f:id:gogo_sakura:20131113112104p:image" alt="f:id:gogo  _sakura:20131113112104p:image" /></a></p>
-
-<p>ただchrome使っててタブ消したい時はセンタークリックで消してたけど。<br/>
-それが効かなくなるのが難点か・・・<br/>
-欲張り過ぎかなぁ。</p>
-
-<p>※Magic Mouseはお金ないので買えない人なのです</p>
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -1055,6 +1120,10 @@ Time  #all  _monthで取れる(要ActiveSupport)<br/>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2019/09/30/urayasushi-sougou-parke-sayori/">浦安市総合公園 サヨリ</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2019/09/02/edogawa-housuiro-haze/">江戸川放水路 ハゼ</a>
         </li>
         
@@ -1068,10 +1137,6 @@ Time  #all  _monthで取れる(要ActiveSupport)<br/>
         
         <li class="post">
             <a href="/blog/2019/07/08/simple-email-send/">Railsでお手軽にメールを送る</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2019/06/28/custom-order-system-development/">飲食店向けオーダーシステムを作った話</a>
         </li>
         
     </ul>

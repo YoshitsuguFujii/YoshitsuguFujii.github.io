@@ -92,6 +92,57 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2012/02/13/20120213123359/">vimのキーマップとleader</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2012-02-13T12:33:00+09:00" pubdate><i class="fa fa-calendar"></i> Feb 13th, 2012</time>
+
+
+
+
+            
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>vimで</p>
+
+<pre><code>:map
+</code></pre>
+
+<p>とすればキーマッピングの確認ができる</p>
+
+<p>  <leader  >を変更したい場合は、.vimrcにこう書くと変更できる。</p>
+
+<pre><code>let mapleader = "任意のキー"
+</code></pre>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2012/02/10/20120210102000/">既存のメソッドをすり替える方法</a>
         </h1>
     
@@ -949,87 +1000,6 @@ debugger.txtが実行されます(表示は画面に収まるまで)</p>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2012/01/30/20120130121056/">コマンドの繋ぎ方</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2012-01-30T12:10:00+09:00" pubdate><i class="fa fa-calendar"></i> Jan 30th, 2012</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/linux/'>linux</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>コマンドの繋ぎ方は</p>
-
-<p>パイプ(|)とかファイルに書き込むリダイレクション(  > もしくは   >  >
-もしくは   &lt;)が有名ですが。</p>
-
-<pre><code>ps aux | grep postfix
-</code></pre>
-
-<p>他にもあるんですね。</p>
-
-<p>下の例のコマンド自体は意味のないコマンドですが。</p>
-
-<pre><code>1 cd /var/www/app/log/ ; scp app.log 192.168.X.XX:/home/user
-2 cd /var/www/app/log/ &amp;&amp; scp app.log 192.168.X.XX:/home/user
-3 cd /var/www/app/log/ || scp app.log 192.168.X.XX:/home/user
-</code></pre>
-
-<p>1がコマンドを実行した後に次のコマンドを実行する方法。<br/>
-2が移動に成功した場合のみ次のコマンドを実行する方法。<br/>
-3が移動に失敗した場合のみ次のコマンドを実行する方法。</p>
-
-<p>cronで指定するコマンドや、postfixのエイリアスで標準入力にメールの内容渡してプログラムを起動する際に使ったり。</p>
-
-<p>例えばrailsのスクリプトランナー使いたい場合に。</p>
-
-<pre><code>cd rails appのルートディレクトリ ; rails runner "Calender.generated" RAILS_ENV=production
-</code></pre>
-
-<p>ルートに移動してからスクリプトランナー起動。<br/>
-とか。</p>
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -1093,6 +1063,10 @@ debugger.txtが実行されます(表示は画面に収まるまで)</p>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2019/09/30/urayasushi-sougou-parke-sayori/">浦安市総合公園 サヨリ</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2019/09/02/edogawa-housuiro-haze/">江戸川放水路 ハゼ</a>
         </li>
         
@@ -1106,10 +1080,6 @@ debugger.txtが実行されます(表示は画面に収まるまで)</p>
         
         <li class="post">
             <a href="/blog/2019/07/08/simple-email-send/">Railsでお手軽にメールを送る</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2019/06/28/custom-order-system-development/">飲食店向けオーダーシステムを作った話</a>
         </li>
         
     </ul>
