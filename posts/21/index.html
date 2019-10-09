@@ -92,6 +92,97 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2013/11/18/20131118152008/">ある月に指定日が含まれるんか判定したい(要ActiveSupport)</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2013-11-18T15:20:00+09:00" pubdate><i class="fa fa-calendar"></i> Nov 18th, 2013</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/rails/'>rails</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>ある月に指定日が含まれるんか判定したい</p>
+
+<p>月のRangeオブジェクトは<br/>
+Time  #all  _monthで取れる(要ActiveSupport)<br/>
+含まれるってことはbetween?かな</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="o">.</span><span class="n">between?</span><span class="p">(</span><span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="o">.</span><span class="n">all_month</span><span class="p">)</span>
+</span><span class='line'><span class="c1"># ArgumentError: wrong number of arguments (1 for 2)</span>
+</span><span class='line'><span class="c1"># from (pry):8:in `between?&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ありゃ。<br/>
+あ、include?だったかな？</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="o">.</span><span class="n">all_month</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="p">)</span>
+</span><span class='line'><span class="c1"># TypeError: can&#39;t iterate from Time</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>むむ。<br/>
+じゃ、じゃあcovers</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="o">.</span><span class="n">all_month</span><span class="o">.</span><span class="n">cover?</span><span class="p">(</span><span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="p">)</span>
+</span><span class='line'><span class="c1"># -&gt; true</span>
+</span><span class='line'><span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="o">.</span><span class="n">all_month</span><span class="o">.</span><span class="n">cover?</span><span class="p">(</span><span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="o">.</span><span class="n">prev_month</span><span class="p">)</span>
+</span><span class='line'><span class="c1"># -&gt;false</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>できたヽ(｀▽´)/</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2013/11/13/20131113112323/">Excelとか使う時はマウス使ってたんだけど。センタークリックでMission Controlを開きたい</a>
         </h1>
     
@@ -923,71 +1014,6 @@ How to fix libv8 error from Gemfile on Mavericks?<br/>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2013/09/24/20130924200108/">Signature expired</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2013-09-24T20:01:00+09:00" pubdate><i class="fa fa-calendar"></i> Sep 24th, 2013</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
-            
-                <li><a class='category' href='/blog/categories/aws/'>aws</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>踏み台サーバー上でcapistranoで</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="sb">`return_or_raise&#39;: Signature expired: 20130924T043045Z is now earlier than 20130924T043046Z (20130924T043546Z - 5 min.) (AWS::ELB::Errors::SignatureDoesNotMatch)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>って出て、デプロイ出来ない。</p>
-
-<p>結論。<br/>
-サーバーの時刻が遅れてたからでした。<br/>
-はまったので、みなさんも同じことにならないように。</p>
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -1051,6 +1077,10 @@ How to fix libv8 error from Gemfile on Mavericks?<br/>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2019/10/09/zushi-boat/">逗子 ボート釣り イナダ シイラ フグ ソウダガツオ サバ</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2019/09/30/urayasushi-sougou-parke-sayori/">浦安市総合公園 サヨリ</a>
         </li>
         
@@ -1064,10 +1094,6 @@ How to fix libv8 error from Gemfile on Mavericks?<br/>
         
         <li class="post">
             <a href="/blog/2019/07/12/gcs-cors/">ActiveStorageのDirectUploadでGCSでCORS</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2019/07/08/simple-email-send/">Railsでお手軽にメールを送る</a>
         </li>
         
     </ul>

@@ -92,6 +92,103 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2013/01/10/20130110152413/">こっそりと自社サービスでsassを使ってみる</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2013-01-10T15:24:00+09:00" pubdate><i class="fa fa-calendar"></i> Jan 10th, 2013</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/rails/'>rails</a></li>
+            
+                <li><a class='category' href='/blog/categories/sass/'>sass</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>hamlをGemfileに追加しました！と宣言し、実際にhamlを使ったら他のエンジニアに読めないヽ(ﾟ´Д｀)ﾉﾟと言われて数ヶ月がたちました。</p>
+
+<p>今日はRails3.0.5にこっそりとsassを導入しました。</p>
+
+<p>まずはGemfileに  <code>gem 'sass' </code>を追記して  <code>bundle install </code><br/>
+scssファイルの置き場所は将来のバージョンアップを見越して、  <code>app/assets/stylesheets/ </code>に作りました。<br/>
+お気に入りのディレクトリに変えてもいいですね。</p>
+
+<p>変更を監視して自動で変換してくれるようにコンソール上で  <code>sass --style --watch
+app/assets/stylesheets/:public/stylesheets </code>を実行。<br/>
+これで自動的にapp/assetstylesheets以下のscssファイルがcssにコンパイルされてpublic/stylesheetsの下に作成されます。</p>
+
+<p>  <code>app/assets/stylesheets/test.scss </code>を作成。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vg">$defaultFontSize</span><span class="p">:</span> <span class="mi">10</span><span class="n">px</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">.</span><span class="n">test</span><span class="p">{</span>
+</span><span class='line'>  <span class="n">font</span><span class="o">-</span><span class="ss">size</span><span class="p">:</span> <span class="vg">$defaultFontSize</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>watchしているコンソールを見てみると動いたっぽいメッセージが表示されていると思います。</p>
+
+<p>public/stylesheets/test.cssの中身を見てみると。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">.</span><span class="n">test</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">font</span><span class="o">-</span><span class="ss">size</span><span class="p">:</span> <span class="mi">10</span><span class="n">px</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>と出来てます。<br/>
+これでこっそりとsass書けますね！</p>
+
+<p>ここまできたら、compassも導入したいなぁ。</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2013/01/09/20130109142651/">配列内部に同一値が存在するかどうか</a>
         </h1>
     
@@ -721,79 +818,6 @@ callerと書けば、どこから呼ばれたのかがわかる。</p>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2012/06/25/20120625170641/">メソッドに引数。yieldにも引数</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2012-06-25T17:06:00+09:00" pubdate><i class="fa fa-calendar"></i> Jun 25th, 2012</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>yieldするメソッドの引数とblockに引数とかあると混乱するのでメモっとく。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">hoge</span><span class="p">(</span><span class="n">hoge</span><span class="p">)</span>
-</span><span class='line'>  <span class="nb">p</span> <span class="n">hoge</span>
-</span><span class='line'>  <span class="k">yield</span><span class="p">(</span><span class="s2">&quot;bar&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">hoge</span><span class="p">(</span><span class="s2">&quot;hoge&quot;</span><span class="p">){</span><span class="o">|</span><span class="n">bar</span><span class="o">|</span> <span class="nb">p</span> <span class="n">bar</span><span class="p">}</span>
-</span><span class='line'><span class="c1"># &quot;hoge&quot;</span>
-</span><span class='line'><span class="c1"># &quot;bar&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -857,6 +881,10 @@ callerと書けば、どこから呼ばれたのかがわかる。</p>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2019/10/09/zushi-boat/">逗子 ボート釣り イナダ シイラ フグ ソウダガツオ サバ</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2019/09/30/urayasushi-sougou-parke-sayori/">浦安市総合公園 サヨリ</a>
         </li>
         
@@ -870,10 +898,6 @@ callerと書けば、どこから呼ばれたのかがわかる。</p>
         
         <li class="post">
             <a href="/blog/2019/07/12/gcs-cors/">ActiveStorageのDirectUploadでGCSでCORS</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2019/07/08/simple-email-send/">Railsでお手軽にメールを送る</a>
         </li>
         
     </ul>
