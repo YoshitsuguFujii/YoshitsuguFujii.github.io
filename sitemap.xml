@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://yoshitsugufujii.github.io/blog/2019/10/10/sayori/</loc>
+<lastmod>2019-10-10T14:48:46+09:00</lastmod>
+</url>
+<url>
 <loc>http://yoshitsugufujii.github.io/blog/2019/10/09/zushi-boat/</loc>
 <lastmod>2019-10-09T15:07:21+09:00</lastmod>
 </url>
@@ -1493,7 +1497,7 @@
 <loc>http://yoshitsugufujii.github.io/blog/categories/sayori/</loc>
 </url>
 <url>
-<loc>http://yoshitsugufujii.github.io/blog/categories/dou-zi-botodiao-ri/</loc>
+<loc>http://yoshitsugufujii.github.io/blog/categories/xie-shan-botodiao-ri/</loc>
 </url>
 <url>
 <loc>http://yoshitsugufujii.github.io/blog/categories/inada/</loc>
@@ -1506,6 +1510,9 @@
 </url>
 <url>
 <loc>http://yoshitsugufujii.github.io/blog/categories/saba/</loc>
+</url>
+<url>
+<loc>http://yoshitsugufujii.github.io/blog/categories/shi-chuan/</loc>
 </url>
 <url>
 <loc>http://yoshitsugufujii.github.io/posts/2/</loc>
