@@ -4,7 +4,7 @@
     <title><![CDATA[Category: ruby | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/ruby/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2019-10-10T14:55:23+09:00</updated>
+    <updated>2019-12-19T12:35:39+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,57 @@
       </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[jbuilderのtemplateを使ってhashを取得]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2019/12/19/jbuilder-export-hash/"/>
+        <updated>2019-12-19T12:26:18+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2019/12/19/jbuilder-export-hash</id>
+        <content type="html"><![CDATA[<p>grape-jbuilderの環境でapi/view/api/users/index.jbuilderを使ってjsonを返しているエンドポイントがある。<br/>
+これをcontrollerでhashで取得したい場合。</p>
+
+<p>またapi/view/api/users/index.jbuilderでは@usersを使って値を取り出している。</p>
+
+<p>config/application.rbに以下の設定を想定</p>
+
+<pre><code>class Application &lt; Rails::Application
+  config.middleware.use(Rack::Config) do |env|
+    env['api.tilt.root'] = Rails.root.join 'app', 'views', 'api'
+  end
+end
+</code></pre>
+
+<!-- more -->
+
+
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p>
+<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-7039502723411845"
+     data-ad-slot="8206045005"></ins></p>
+
+<script>  
+     (adsbygoogle = window.adsbygoogle || []).push({});  
+</script>
+
+
+<p></p>
+
+<p>コントローラーでの取り出し例</p>
+
+<pre><code>@users = User.all
+engine = ::Tilt.new(request.env['api.tilt.root'] / 'users/index.jbuilder', nil, view_path: request.env['api.tilt.root'])
+hash = JSON.parse(engine.render(self))
+</code></pre>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[ActiveStorageのDirectUploadでGCSでCORS]]></title>
@@ -317,64 +368,6 @@ end
 
 <p>にしました。<br/>
 お手軽にlog/production.logで確認できて良い感じです。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[CSVで文字列だけダブルクォートで囲みたい場合]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2019/05/17/csv-only-quoate-string/"/>
-        <updated>2019-05-17T18:11:31+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2019/05/17/csv-only-quoate-string</id>
-        <content type="html"><![CDATA[<p>数値は囲わず、文字列はダブルクォートで囲みたい。<br/>
-<code>force_quotes: true</code>だと数値もクォートされる。</p>
-
-<!-- more -->
-
-
-
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-
-
-<p>
-<ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-layout="in-article"
-     data-ad-format="fluid"
-     data-ad-client="ca-pub-7039502723411845"
-     data-ad-slot="8206045005"></ins></p>
-
-<script>  
-     (adsbygoogle = window.adsbygoogle || []).push({});  
-</script>
-
-
-<p></p>
-
-<h3>結論</h3>
-
-<p><code>quote_char: ''</code>をオプションに指定して、渡す文字列の前後をダブルクォートで囲む。</p>
-
-<h3>解説</h3>
-
-<p>ここで<code>force_quotes:true</code>の分岐</p>
-
-<p><a href="https://github.com/ruby/csv/blob/master/lib/csv/writer.rb#L139">https://github.com/ruby/csv/blob/master/lib/csv/writer.rb#L139</a></p>
-
-<p>ここで<code>force_quotes:false</code>だった場合の分岐</p>
-
-<p><a href="https://github.com/ruby/csv/blob/master/lib/csv/writer.rb#L147">https://github.com/ruby/csv/blob/master/lib/csv/writer.rb#L147</a></p>
-
-<p>&ldquo;"hoge&rdquo;"</p>
-
-<p>のような文字列を作っていると@quotable_patternに一致してしまい、</p>
-
-<p>&ldquo;&rdquo;&ldquo;hoge&rdquo;&ldquo;&rdquo;</p>
-
-<p>のような文字になってしまう。</p>
-
-<p>のでquate_fieldで囲まれても問題ないようにから文字を設定してあげる。<br/>
-<a href="https://github.com/ruby/csv/blob/master/lib/csv/writer.rb#L129-L136">https://github.com/ruby/csv/blob/master/lib/csv/writer.rb#L129-L136</a></p>
 ]]></content>
     </entry>
     
