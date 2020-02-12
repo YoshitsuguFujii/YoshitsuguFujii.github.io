@@ -4,7 +4,7 @@
     <title><![CDATA[Category: ckeditor | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/ckeditor/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2020-01-06T12:48:02+09:00</updated>
+    <updated>2020-02-12T16:48:56+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -78,24 +78,39 @@ CKEDITOR.plugins.setLang('html5validation', 'ja', {
 
 <p>次に言語を追加します。<br/>
 app/assets/javascripts/ckeditor/plugins/html5validation/plugin.jsを開いて8行目のlangにjaを足します。<br/>
-```js app/assets/javascripts/ckeditor/plugins/html5validation/plugin.js
-/<em>*
- * @license Copyright &copy; 2015, Total Web Services. All rights reserved.
- </em>/</p>
-
-<p>CKEDITOR.plugins.add(&lsquo;html5validation&rsquo;, {
-  icons: false,
-  lang: &lsquo;ja,en,fr,es,ru,it&rsquo;, // ここにjaを追加
-  init: function(editor) {
-    var lang = editor.lang.html5validation;
-    editor.filter.allow( {
-      textarea: {
-        attributes: &lsquo;required,pattern&rsquo;,
-        propertiesOnly: true
-       },
-       input: {
-        attributes: &lsquo;required,pattern&rsquo;,
-```</p>
+<figure class='code'><figcaption><span>app/assets/javascripts/ckeditor/plugins/html5validation/plugin.js</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="err">/&lt;em&gt;*</span>
+</span><span class='line'> <span class="o">*</span> <span class="err">@</span><span class="nx">license</span> <span class="nx">Copyright</span> <span class="o">&amp;</span><span class="nx">copy</span><span class="p">;</span> <span class="mi">2015</span><span class="p">,</span> <span class="nx">Total</span> <span class="nx">Web</span> <span class="nx">Services</span><span class="p">.</span> <span class="nx">All</span> <span class="nx">rights</span> <span class="nx">reserved</span><span class="p">.</span>
+</span><span class='line'> <span class="o">&lt;</span><span class="sr">/em&gt;/</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="nx">CKEDITOR</span><span class="p">.</span><span class="nx">plugins</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="nx">html5validation</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;,</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">icons</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">lang</span><span class="o">:</span> <span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="nx">ja</span><span class="p">,</span><span class="nx">en</span><span class="p">,</span><span class="nx">fr</span><span class="p">,</span><span class="nx">es</span><span class="p">,</span><span class="nx">ru</span><span class="p">,</span><span class="nx">it</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;,</span> <span class="c1">// ここにjaを追加</span>
+</span><span class='line'>  <span class="nx">init</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">editor</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">lang</span> <span class="o">=</span> <span class="nx">editor</span><span class="p">.</span><span class="nx">lang</span><span class="p">.</span><span class="nx">html5validation</span><span class="p">;</span>
+</span><span class='line'>    <span class="nx">editor</span><span class="p">.</span><span class="nx">filter</span><span class="p">.</span><span class="nx">allow</span><span class="p">(</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">textarea</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">attributes</span><span class="o">:</span> <span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="nx">required</span><span class="p">,</span><span class="nx">pattern</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;,</span>
+</span><span class='line'>        <span class="nx">propertiesOnly</span><span class="o">:</span> <span class="kc">true</span>
+</span><span class='line'>       <span class="p">},</span>
+</span><span class='line'>       <span class="nx">input</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">attributes</span><span class="o">:</span> <span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="nx">required</span><span class="p">,</span><span class="nx">pattern</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;,</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>次にconfig.jsに追記します。</p>
 

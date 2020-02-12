@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2020-01-06T12:47:09+09:00</updated>
+    <updated>2020-02-12T16:48:56+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,99 @@
     </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[葉山 ボート釣り フグ]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2020/02/12/hayama-boat/"/>
+        <updated>2020-02-12T16:11:49+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2020/02/12/hayama-boat</id>
+        <content type="html"><![CDATA[<p>ずっと行きたくて中々タイミングが合わず、ずっといきそびれていたボート釣り第3回目です。<br/>
+今回は友人が行けなかったのでドキドキのソロです。<br/>
+車は妻が使うので千葉県から葉山までバイクでいきました。<br/>
+去年の11月に中免とって初めての長距離 and 高速でこれもドキドキでした。<br/>
+愛車v-strom250のならしも終わったばかりです。</p>
+
+<!-- more -->    
+
+
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p>  <br/>
+<ins class="adsbygoogle"  
+     style="display:block; text-align:center;"  
+     data-ad-layout="in-article"  
+     data-ad-format="fluid"  
+     data-ad-client="ca-pub-7039502723411845"  
+     data-ad-slot="8206045005"></ins></p>
+
+<script>    
+     (adsbygoogle = window.adsbygoogle || []).push({});    
+</script>
+
+
+<p></p>
+
+<p>4時に自宅を出発して凍りつきながら湾岸線を飛ばし途中コンビニで食料買って現地到着が6時半。</p>
+
+<p><img src="http://yoshitsugufujii.github.io/images/blog/20200208/IMG_4239.JPG"></p>
+
+<p>写真ではここに止めてますが、ここダメらしいです。<br/>
+上の駐車場の黄色のクッションドラムの中に停め直しました。</p>
+
+<p>ついてすぐにトイレに行ったら秒でカラスにメロンパンやられました。</p>
+
+<p><img src="http://yoshitsugufujii.github.io/images/blog/20200208/IMG_4319.PNG"></p>
+
+<p><img src="http://yoshitsugufujii.github.io/images/blog/20200208/IMG_4243.JPG"></p>
+
+<p>気をつけましょう&hellip;.</p>
+
+<p>さて海はおだやかそうですが、沖の方はどうなのか。</p>
+
+<p><img src="http://yoshitsugufujii.github.io/images/blog/20200208/IMG_4244.JPG"></p>
+
+<p>この日のお客さんは4隻分のみ。</p>
+
+<p><img src="http://yoshitsugufujii.github.io/images/blog/20200208/IMG_4248.JPG"></p>
+
+<p>受付で沖ブイリクエストしますが、午後から風が強くなりそうだから風が強くなったら浅場に移動ねって言われました。</p>
+
+<p>7時半曳舟で沖ブイへ移動(正面は富士山)</p>
+
+<p><img src="http://yoshitsugufujii.github.io/images/blog/20200208/IMG_3789.JPG"></p>
+
+<p>沖ブイに係留してもらって釣り始めますが、結構波があって揺れます。</p>
+
+<p>あ、これはやばいかもなんて思っているとフグ。</p>
+
+<p><img src="http://yoshitsugufujii.github.io/images/blog/20200208/IMG_3794.JPG"></p>
+
+<p>からのフグ。</p>
+
+<p><img src="http://yoshitsugufujii.github.io/images/blog/20200208/IMG_3798.JPG"></p>
+
+<p>フグ&hellip;</p>
+
+<p><img src="http://yoshitsugufujii.github.io/images/blog/20200208/IMG_3801.JPG"></p>
+
+<p>揺れがひどくて酔わないように必死です。</p>
+
+<p>最後に無駄にでかいフグを釣ったところで風がでてきたので浅瀬に移動しますということで11時頃には浅瀬に</p>
+
+<p><img src="http://yoshitsugufujii.github.io/images/blog/20200208/IMG_3803.JPG"></p>
+
+<p>浅瀬に移動しましたが釣れる気がしなかったので早上がりしました。</p>
+
+<p>帰りに一枚パシャり。海凪いでいるようにみえますけど沖ブイは中々大変でした。</p>
+
+<p><img src="http://yoshitsugufujii.github.io/images/blog/20200208/IMG_4250.JPG"></p>
+
+<p>厳しいが、楽しい。また行きたい</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[高滝湖 ワカサギ]]></title>
@@ -1527,84 +1620,6 @@ falseにしろってコメント書いてあるし。</p>
 <p></p>
 
 <p>これでwargingはでなくなりました。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[GCSとActiveStorageを使った時に秘密鍵でエラー]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2019/02/27/gcs-private-key/"/>
-        <updated>2019-02-27T16:57:03+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2019/02/27/gcs-private-key</id>
-        <content type="html"><![CDATA[<p>サービスアカウントを発行して、キーを発行してその中身を</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>bundle exec rails credentials:edit    </span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<p>してstorage.ymlで読み出そうとした時にprivate_keyに改行があるためにうまくいかなかった。</p>
-
-<!-- more -->
-
-
-
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-
-
-<p><ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-layout="in-article"
-     data-ad-format="fluid"
-     data-ad-client="ca-pub-7039502723411845"
-     data-ad-slot="8206045005"></ins></p>
-
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-
-<p>dumpを使えばおっけー</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Rails.application.credentials.gcs[:private_key].dump</span></code></pre></td></tr></table></div></figure>
-
-
-<p>全体はこう。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>google:
-</span><span class='line'>  service: GCS
-</span><span class='line'>  credentials:
-</span><span class='line'>    type: "service_account"
-</span><span class='line'>    project_id: &lt;%= Rails.application.credentials.gcs[:project_id] %&gt;
-</span><span class='line'>    private_key_id: &lt;%= Rails.application.credentials.gcs[:private_key_id] %&gt;
-</span><span class='line'>    private_key: &lt;%= Rails.application.credentials.gcs[:private_key].dump %&gt;
-</span><span class='line'>    client_email: &lt;%= Rails.application.credentials.gcs[:client_email] %&gt;
-</span><span class='line'>    client_id: &lt;%= Rails.application.credentials.gcs[:client_id] %&gt;
-</span><span class='line'>    auth_uri: "https://accounts.google.com/o/oauth2/auth"
-</span><span class='line'>    token_uri: "https://accounts.google.com/o/oauth2/token"
-</span><span class='line'>    auth_provider_x509_cert_url: "https://www.googleapis.com/oauth2/v1/certs"
-</span><span class='line'>    client_x509_cert_url: &lt;%= Rails.application.credentials.gcs[:client_x509_cert_url] %&gt;
-</span><span class='line'>  project: ''</span></code></pre></td></tr></table></div></figure>
-
-
-<p>参考
-<a href="https://github.com/rails/rails/blob/master/guides/source/active_storage_overview.md">https://github.com/rails/rails/blob/master/guides/source/active_storage_overview.md</a></p>
 ]]></content>
     </entry>
     
