@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2020-02-17T17:36:01+09:00</updated>
+    <updated>2020-03-16T16:24:00+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,62 @@
     </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[v-strom250にリムステッカー]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2020/03/16/v-strom-250-rim-sticker/"/>
+        <updated>2020-03-16T15:58:51+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2020/03/16/v-strom-250-rim-sticker</id>
+        <content type="html"><![CDATA[<p>コロナですねー。うちには喘息の毛がある子供がいるので外出は自粛モード。<br/>
+じゃあ釣りに行くかって思ったんですが、爆風だったり寒かったり雨だったり。<br/>
+ということで愛車v-strom250を洗車したついでにリムステッカーを貼ってみました。</p>
+
+<!-- more -->  
+
+
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p>
+<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-7039502723411845"
+     data-ad-slot="8206045005"></ins></p>
+
+<script>  
+     (adsbygoogle = window.adsbygoogle || []).push({});  
+</script>
+
+
+<p></p>
+
+<p>貼ったリムステッカーはこれです。</p>
+
+<p>（モノクラフト）MonoCraft スズキ Vストローム250 リムステッカー SET TYPE-01 (イエロー) MC-VST_01-Y MonoCraft（モノクラフト）</p>
+
+<iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&bc1=000000&IS2=1&bg1=FFFFFF&fc1=000000&lc1=0000FF&t=gogosakura-22&language=ja_JP&o=9&p=8&l=as4&m=amazon&f=ifr&ref=as_ss_li_til&asins=B07KD7YPSJ&linkId=72c8f1af18ffcb6a9b75ab050dc823bd"></iframe>
+
+
+<p>Amazonで買った脱脂剤を使ってホイールを綺麗に。</p>
+
+<iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&bc1=000000&IS2=1&bg1=FFFFFF&fc1=000000&lc1=0000FF&t=gogosakura-22&language=ja_JP&o=9&p=8&l=as4&m=amazon&f=ifr&ref=as_ss_li_til&asins=B00363PTSG&linkId=8785c3f87ea4cf2506b353e82b42609d"></iframe>
+
+
+<p><img src="http://yoshitsugufujii.github.io/images/blog/20200316/IMG_4770.JPG"></p>
+
+<p><img src="http://yoshitsugufujii.github.io/images/blog/20200316/IMG_4769.JPG"></p>
+
+<p><img src="http://yoshitsugufujii.github.io/images/blog/20200316/IMG_4775.JPG"></p>
+
+<p><img src="http://yoshitsugufujii.github.io/images/blog/20200316/IMG_4777.JPG"></p>
+
+<p>うーん。頑張った割に思ったよりかっこよくはなかったなという印象w</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[葉山 ボート釣り フグ]]></title>
@@ -1586,65 +1642,6 @@ waiterを使いたいのであれば、自作オーダーシステムの管理�
 <p><img src="http://yoshitsugufujii.github.io/images/blog/20190512/IMG_9568.JPG"></p>
 
 <p>久しぶりのイワシフライとなりました。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[railsでsubmitした後にsubmitボタンが押せない現象]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2019/03/14/disable-with-specific-button-diabled/"/>
-        <updated>2019-03-14T19:00:25+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2019/03/14/disable-with-specific-button-diabled</id>
-        <content type="html"><![CDATA[<p>だいぶ前にdisable_withの挙動デフォルトになったらしいです。<br/>
-<a href="https://github.com/rails/rails/pull/21135/files">https://github.com/rails/rails/pull/21135/files</a></p>
-
-<p>検索結果を絞り込んでCSV出力をしたい時等の画面遷移が発生しないsubmitでは非活性になると困りますね。</p>
-
-<p>全体で無効にもできますが、disable_withを個別に無効にする方法です。</p>
-
-<!-- more -->  
-
-
-
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-
-
-<p>
-<ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-layout="in-article"
-     data-ad-format="fluid"
-     data-ad-client="ca-pub-7039502723411845"
-     data-ad-slot="8206045005"></ins></p>
-
-<script>  
-     (adsbygoogle = window.adsbygoogle || []).push({});  
-</script>
-
-
-<p></p>
-
-<p>submitボタンに'data-disable-with' => falseを設定してあげると無効になります。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>= f.button :submit, I18n.t(".csv_download"), class: "btn-primary", 'data-disable-with' =&gt; false  </span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<p>ちなみに全体でfalseにしたい場合はこう</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class Application &lt; Rails::Application  
-</span><span class='line'>  config.action_view.automatically_disable_submit_tag = false # この行を追加  
-</span><span class='line'>end  </span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<p>ソース見る限り全体禁止にして、各ボタンで有効にとかはできなさそうなので全体は注意が必要ですね。</p>
 ]]></content>
     </entry>
     

@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://yoshitsugufujii.github.io/blog/2020/03/16/v-strom-250-rim-sticker/</loc>
+<lastmod>2020-03-16T15:58:51+09:00</lastmod>
+</url>
+<url>
 <loc>http://yoshitsugufujii.github.io/blog/2020/02/17/hayama-boat/</loc>
 <lastmod>2020-02-17T17:26:49+09:00</lastmod>
 </url>
@@ -1529,6 +1533,15 @@
 </url>
 <url>
 <loc>http://yoshitsugufujii.github.io/blog/categories/shi-chuan/</loc>
+</url>
+<url>
+<loc>http://yoshitsugufujii.github.io/blog/categories/baiku/</loc>
+</url>
+<url>
+<loc>http://yoshitsugufujii.github.io/blog/categories/v-strom/</loc>
+</url>
+<url>
+<loc>http://yoshitsugufujii.github.io/blog/categories/v-strom250/</loc>
 </url>
 <url>
 <loc>http://yoshitsugufujii.github.io/posts/2/</loc>
