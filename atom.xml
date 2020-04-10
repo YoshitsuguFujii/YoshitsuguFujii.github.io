@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2020-03-16T16:24:00+09:00</updated>
+    <updated>2020-04-10T17:02:40+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,82 @@
     </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[includeしたmoduleでextendとprepend]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2020/04/10/include-extend-prepend/"/>
+        <updated>2020-04-10T16:50:31+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2020/04/10/include-extend-prepend</id>
+        <content type="html"><![CDATA[<p>既存の処理を書き換えつつ、さらに機能追加する。
+includeとprependとextendを一個のmoduleで実現するサンプル。</p>
+
+<!-- more -->
+
+
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p>
+<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-7039502723411845"
+     data-ad-slot="8206045005"></ins></p>
+
+<script>  
+     (adsbygoogle = window.adsbygoogle || []).push({});  
+</script>
+
+
+<p></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># frozen_string_literal: true</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">module</span> <span class="nn">Hoge</span>
+</span><span class='line'>  <span class="kp">extend</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">Concern</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">included</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">singleton_class</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="ss">:prepend</span><span class="p">,</span> <span class="no">Module</span><span class="o">.</span><span class="n">new</span> <span class="k">do</span>
+</span><span class='line'>      <span class="k">def</span> <span class="nf">override</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">module</span> <span class="nn">ClassMethods</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">class_method</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">instance_method</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[v-strom250にリムステッカー]]></title>
@@ -1579,69 +1655,6 @@ waiterを使いたいのであれば、自作オーダーシステムの管理�
 
 <p>のでquate_fieldで囲まれても問題ないようにから文字を設定してあげる。<br/>
 <a href="https://github.com/ruby/csv/blob/master/lib/csv/writer.rb#L129-L136">https://github.com/ruby/csv/blob/master/lib/csv/writer.rb#L129-L136</a></p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[検見川浜突堤 イワシ]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2019/05/13/kemigawahama-iwashi/"/>
-        <updated>2019-05-13T13:48:58+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2019/05/13/kemigawahama-iwashi</id>
-        <content type="html"><![CDATA[<p>釣行日 2019年5月13日(日)<br/>
-天気 曇<br/>
-場所 検見川浜突堤<br/>
-釣行時間: 16:00 〜 17:30</p>
-
-<p>2年前から熟成している常温保存のコマセがあまっていて、いつか使い切らなきゃと思っていたところ。<br/>
-検見川でイワシ釣れているようなので、久しぶりに釣りです。</p>
-
-<!-- more -->  
-
-
-
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-
-
-<p>
-<ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-layout="in-article"
-     data-ad-format="fluid"
-     data-ad-client="ca-pub-7039502723411845"
-     data-ad-slot="8206045005"></ins></p>
-
-<script>  
-     (adsbygoogle = window.adsbygoogle || []).push({});  
-</script>
-
-
-<p></p>
-
-<p><img src="http://yoshitsugufujii.github.io/images/blog/20190512/IMG_9564.JPG"></p>
-
-<p>手前側はあまり釣れてなさそう。<br/>
-カーブの終点手前ぐらいに釣り座を構えて釣ります。</p>
-
-<p>にごりが強いです。</p>
-
-<p>ダイソー百均4号の白スキンサビキでやります。</p>
-
-<p>開始すぐにあたり。</p>
-
-<p><img src="http://yoshitsugufujii.github.io/images/blog/20190512/IMG_9565.JPG"></p>
-
-<p>サイズいいです。</p>
-
-<p>その後ずーっと釣れ続け。</p>
-
-<p><img src="http://yoshitsugufujii.github.io/images/blog/20190512/IMG_9567.JPG"></p>
-
-<p>40匹ぐらい。まだまだ釣れそうでしたが処理を考えると大変だったので帰宅。</p>
-
-<p><img src="http://yoshitsugufujii.github.io/images/blog/20190512/IMG_9568.JPG"></p>
-
-<p>久しぶりのイワシフライとなりました。</p>
 ]]></content>
     </entry>
     

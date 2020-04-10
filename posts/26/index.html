@@ -92,6 +92,67 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2012/06/12/20120612172917/">jpmobileでredirect_toした時にflashが取得できない</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2012-06-12T17:29:00+09:00" pubdate><i class="fa fa-calendar"></i> Jun 12th, 2012</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/rails/'>rails</a></li>
+            
+                <li><a class='category' href='/blog/categories/jpmobile/'>jpmobile</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>軽くはまった。</p>
+
+<p>rails 3.0.5<br/>
+jpmobile 1.0.0</p>
+
+<p>最初にアクセスしたコントローラで、flashを設定しつつredirect  _toしたらflashから値が取り出せなかった。</p>
+
+<p>flashはsession使っているから、初回のみsession作ってあげる必要があったみたい。</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2012/04/24/20120424124400/">配列の配列をループするときとか</a>
         </h1>
     
@@ -725,180 +786,6 @@ rails 3.0.5</p>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2012/02/28/20120228113656/">ある特定のオブジェクトにメソッドを追加する</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2012-02-28T11:36:00+09:00" pubdate><i class="fa fa-calendar"></i> Feb 28th, 2012</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>前に書いた<a href="http://d.hatena.ne.jp/gogo_sakura/20120207">オープンクラス</a>では、クラスを再オープンしてメソッドを追加した場合に。<br/>
-同じクラスから生成されたオブジェクト全てにメソッドが追加されました。<br/>
-もう一回やってみましょう。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Hoge</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">aaa</span>
-</span><span class='line'>    <span class="nb">p</span> <span class="s1">&#39;aaa&#39;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">hoge1</span> <span class="o">=</span> <span class="no">Hoge</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'><span class="n">hoge2</span> <span class="o">=</span> <span class="no">Hoge</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="n">hoge1</span><span class="o">.</span><span class="n">methods</span><span class="o">.</span><span class="n">grep</span><span class="p">(</span><span class="sr">/aaa|bbb/</span><span class="p">)</span> <span class="c1"># =&gt; [:aaa]</span>
-</span><span class='line'><span class="n">hoge2</span><span class="o">.</span><span class="n">methods</span><span class="o">.</span><span class="n">grep</span><span class="p">(</span><span class="sr">/aaa|bbb/</span><span class="p">)</span> <span class="c1"># =&gt; [:aaa]</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">Hoge</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">bbb</span>
-</span><span class='line'>    <span class="nb">p</span> <span class="s1">&#39;bbb&#39;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">hoge1</span><span class="o">.</span><span class="n">methods</span><span class="o">.</span><span class="n">grep</span><span class="p">(</span><span class="sr">/aaa|bbb/</span><span class="p">)</span> <span class="c1"># =&gt; [:aaa, :bbb]</span>
-</span><span class='line'><span class="n">hoge2</span><span class="o">.</span><span class="n">methods</span><span class="o">.</span><span class="n">grep</span><span class="p">(</span><span class="sr">/aaa|bbb/</span><span class="p">)</span> <span class="c1"># =&gt; [:aaa, :bbb]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>生成されたオブジェクトがメソッドを呼ぶとき。<br/>
-オブジェクトはクラスにメソッドを探しにいき、クラスに定義したメソッドがあった場合にそれを実行します。<br/>
-つまりクラスのメソッドに対する変更はそのクラスから生成された全オブジェクトに影響があるということです。</p>
-
-<p>でも実際には特定のオブジェクトにのみ処理を追加したい場合があります。<br/>
-特異なんとかを使います。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Hoge</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">aaa</span>
-</span><span class='line'>    <span class="nb">p</span> <span class="s1">&#39;aaa&#39;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">hoge1</span> <span class="o">=</span> <span class="no">Hoge</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'><span class="n">hoge2</span> <span class="o">=</span> <span class="no">Hoge</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">hoge1</span><span class="o">.</span><span class="n">methods</span><span class="o">.</span><span class="n">grep</span><span class="p">(</span><span class="sr">/aaa|bbb/</span><span class="p">)</span> <span class="c1"># =&gt; [:aaa]</span>
-</span><span class='line'><span class="n">hoge2</span><span class="o">.</span><span class="n">methods</span><span class="o">.</span><span class="n">grep</span><span class="p">(</span><span class="sr">/aaa|bbb/</span><span class="p">)</span> <span class="c1"># =&gt; [:aaa]</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">def</span> <span class="nc">hoge1</span><span class="o">.</span><span class="nf">bbb</span>
-</span><span class='line'>  <span class="nb">p</span> <span class="s2">&quot;bbb&quot;</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">hoge1</span><span class="o">.</span><span class="n">methods</span><span class="o">.</span><span class="n">grep</span><span class="p">(</span><span class="sr">/aaa|bbb/</span><span class="p">)</span> <span class="c1"># =&gt; [:bbb,:aaa]</span>
-</span><span class='line'><span class="n">hoge2</span><span class="o">.</span><span class="n">methods</span><span class="o">.</span><span class="n">grep</span><span class="p">(</span><span class="sr">/aaa|bbb/</span><span class="p">)</span> <span class="c1"># =&gt; [:aaa]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>hoge1のみにメソッドbbbが追加されました。<br/>
-他にinstance  _evalも使えます。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">hoge1</span><span class="o">.</span><span class="n">instance_eval</span> <span class="p">{</span>  <span class="k">def</span> <span class="nf">ccc</span><span class="p">;</span> <span class="nb">p</span> <span class="s2">&quot;ccc&quot;</span><span class="p">;</span><span class="k">end</span><span class="p">}</span>
-</span><span class='line'>  <span class="n">hoge1</span><span class="o">.</span><span class="n">methods</span><span class="o">.</span><span class="n">grep</span><span class="p">(</span><span class="sr">/aaa|bbb|ccc/</span><span class="p">)</span> <span class="c1"># =&gt; [:bbb, :ccc, :aaa]</span>
-</span><span class='line'>  <span class="n">hoge2</span><span class="o">.</span><span class="n">methods</span><span class="o">.</span><span class="n">grep</span><span class="p">(</span><span class="sr">/aaa|bbb|ccc/</span><span class="p">)</span> <span class="c1"># =&gt; [:aaa]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>蛇足ですが。class  _eval</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="no">Hoge</span><span class="o">.</span><span class="n">class_eval</span> <span class="p">{</span>  <span class="k">def</span> <span class="nf">ddd</span><span class="p">;</span> <span class="nb">p</span> <span class="s2">&quot;ddd&quot;</span><span class="p">;</span><span class="k">end</span><span class="p">}</span>
-</span><span class='line'>  <span class="n">hoge1</span><span class="o">.</span><span class="n">methods</span><span class="o">.</span><span class="n">grep</span><span class="p">(</span><span class="sr">/aaa|bbb|ccc|ddd/</span><span class="p">)</span> <span class="c1"># =&gt; [:bbb, :ccc, :aaa, :ddd]</span>
-</span><span class='line'>  <span class="n">hoge2</span><span class="o">.</span><span class="n">methods</span><span class="o">.</span><span class="n">grep</span><span class="p">(</span><span class="sr">/aaa|bbb|ccc|ddd/</span><span class="p">)</span> <span class="c1"># =&gt; [:aaa, :ddd]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>class  <em>evalはclassのメソッドなのでHoge.class  </em>evalで呼びます。<br/>
-全オブジェクトに影響しています。</p>
-
-<p>class  _eval(classのメソッド)はクラスのコンテキスト内で評価されるので、クラスメソッドとして追加されます。<br/>
-これはオープンクラスで追加したのと処理と同じような動きです。</p>
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -962,6 +849,10 @@ rails 3.0.5</p>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2020/04/10/include-extend-prepend/">includeしたmoduleでextendとprepend</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2020/03/16/v-strom-250-rim-sticker/">v-strom250にリムステッカー</a>
         </li>
         
@@ -975,10 +866,6 @@ rails 3.0.5</p>
         
         <li class="post">
             <a href="/blog/2020/01/06/takatakiko-wakasagi/">高滝湖 ワカサギ</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2019/12/19/jbuilder-export-hash/">jbuilderのtemplateを使ってhashを取得</a>
         </li>
         
     </ul>

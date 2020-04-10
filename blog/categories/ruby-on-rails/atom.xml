@@ -4,7 +4,7 @@
     <title><![CDATA[Category: ruby on rails | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/ruby-on-rails/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2020-03-16T16:24:00+09:00</updated>
+    <updated>2020-04-10T17:02:40+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,61 @@
       </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[includeしたmoduleでextendとprepend]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2020/04/10/include-extend-prepend/"/>
+        <updated>2020-04-10T16:50:31+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2020/04/10/include-extend-prepend</id>
+        <content type="html"><![CDATA[<p>既存の処理を書き換えつつ、さらに機能追加する。
+includeとprependとextendを一個のmoduleで実現するサンプル。</p>
+
+<!-- more -->
+
+
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p>
+<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-7039502723411845"
+     data-ad-slot="8206045005"></ins></p>
+
+<script>  
+     (adsbygoogle = window.adsbygoogle || []).push({});  
+</script>
+
+
+<p></p>
+
+<pre><code class="ruby"># frozen_string_literal: true
+
+module Hoge
+  extend ActiveSupport::Concern
+
+  included do
+    singleton_class.send(:prepend, Module.new do
+      def override
+      end
+    end
+  end
+
+  module ClassMethods
+    def class_method
+    end
+  end
+
+  def instance_method
+  end
+end
+</code></pre>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[jbuilderのtemplateを使ってhashを取得]]></title>
@@ -313,61 +368,6 @@ waiterを使いたいのであれば、自作オーダーシステムの管理�
 <h1>最後に</h1>
 
 <p>オーダーシステム開発のご要望がある方お待ちしております。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[Railsが自動で出すログ]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2019/06/25/rails-auto-logging/"/>
-        <updated>2019-06-25T17:58:29+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2019/06/25/rails-auto-logging</id>
-        <content type="html"><![CDATA[<p>StackDriverのgemを入れたらRails.loggerでlog/以下に出力できなくなってしまって調べたのでメモ。</p>
-
-<!-- more -->
-
-
-
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-
-
-<p>
-<ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-layout="in-article"
-     data-ad-format="fluid"
-     data-ad-client="ca-pub-7039502723411845"
-     data-ad-slot="8206045005"></ins></p>
-
-<script>  
-     (adsbygoogle = window.adsbygoogle || []).push({});  
-</script>
-
-
-<p></p>
-
-<p>StackDriverを利用するとCloudLogging用のLoggerにRails.loggerが差し変わります。</p>
-
-<pre><code class="ruby">Rails.logger.info('hogehoge')
-</code></pre>
-
-<p>とやってもRAILS_ROOT/log/production.logには表示されません。</p>
-
-<p>だけどRailsが自動で出力してくれるController名やAction名。レンダリングしたviewの情報はlog/production.logに表示されます。</p>
-
-<p>なんでかなと思って調べてみたらこちらControllerはRails.loggerに設定されているloggerを使ってませんでした。</p>
-
-<p><a href="https://github.com/rails/rails/blob/master/actionpack/lib/action_controller/log_subscriber.rb#L76">https://github.com/rails/rails/blob/master/actionpack/lib/action_controller/log_subscriber.rb#L76</a></p>
-
-<p>結局サーバー側でGoogle fluendが動かしてそっちで吸い上げることができるので</p>
-
-<pre><code class="ruby">Rails.application.configure do
-  config.google_cloud.use_logging = false
-end
-</code></pre>
-
-<p>にしました。<br/>
-お手軽にlog/production.logで確認できて良い感じです。</p>
 ]]></content>
     </entry>
     
