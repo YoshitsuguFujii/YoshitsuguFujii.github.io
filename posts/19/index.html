@@ -92,6 +92,76 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2015/01/08/20150108182843/">cacheのキーを削除</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2015-01-08T18:28:00+09:00" pubdate><i class="fa fa-calendar"></i> Jan 8th, 2015</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>例えばmodelへの問い合わせ結果をキャッシュに保存していて、after  _saveなどで消したい場合などは<br/>
+Rails.cache.delete(&lsquo;キー名&rsquo;)でできる。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">users</span> <span class="o">=</span> <span class="no">Rails</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s2">&quot;users&quot;</span><span class="p">,</span> <span class="ss">expires_in</span><span class="p">:</span> <span class="mi">30</span><span class="o">.</span><span class="n">seconds</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>  <span class="no">User</span><span class="o">.</span><span class="n">all</span><span class="o">.</span><span class="n">to_a</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># 消す</span>
+</span><span class='line'><span class="no">Rails</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="s1">&#39;users&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2014/12/26/20141226142144/">関連を保存時に削除する</a>
         </h1>
     
@@ -1055,147 +1125,6 @@ Unknown line indicator</p>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2014/11/18/20141118110832/">railsで任意のタイミングで処理を開始</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2014-11-18T11:08:00+09:00" pubdate><i class="fa fa-calendar"></i> Nov 18th, 2014</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
-            
-                <li><a class='category' href='/blog/categories/rails/'>rails</a></li>
-            
-                <li><a class='category' href='/blog/categories/activesupport/'>activesupport</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>おかあさんといっしょを娘が見るので、毎朝のテレビチャンネルはEテレです。</p>
-
-<p>さてrailsでapp/model/concerns以下のモジュールを勝手にapp/modelにincludeしたいと考えました。<br/>
-命名規則でファイルを拾って、includeすることにします。<br/>
-例えば以下のファイル名をつけた場合に</p>
-
-<p>app/model/user.rb<br/>
-app/model/user  <em>auto  </em>load  _concern.rb</p>
-
-<p>userクラスに自動でuser  <em>auto  </em>load  _concern.rbの内容がincludeされる感じです。</p>
-
-<p>config/initializerに置きます。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="sx">%w(models)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">elem</span><span class="o">|</span>
-</span><span class='line'>    <span class="no">Pathname</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="no">Rails</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;app&quot;</span><span class="p">,</span> <span class="n">elem</span><span class="p">,</span> <span class="s2">&quot;concerns&quot;</span><span class="p">,</span> <span class="s2">&quot;*&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">file</span><span class="o">|</span>
-</span><span class='line'>      <span class="k">if</span> <span class="n">file</span><span class="o">.</span><span class="n">file?</span>
-</span><span class='line'>        <span class="n">file</span><span class="o">.</span><span class="n">basename</span><span class="o">.</span><span class="n">to_s</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="sr">/(.*)(_auto_load_concern.rb)$/</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">class_name</span><span class="o">|</span>
-</span><span class='line'>          <span class="k">if</span> <span class="n">class_name</span><span class="o">.</span><span class="n">present?</span>
-</span><span class='line'>            <span class="n">model</span> <span class="o">=</span> <span class="n">class_name</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">classify</span><span class="o">.</span><span class="n">constantize</span>
-</span><span class='line'>            <span class="n">model</span><span class="o">.</span><span class="n">class_eval</span> <span class="p">{</span>  <span class="kp">include</span> <span class="n">file</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="s2">&quot;.rb&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to_s</span><span class="o">.</span><span class="n">classify</span><span class="o">.</span><span class="n">constantize</span> <span class="p">}</span>
-</span><span class='line'>          <span class="k">end</span>
-</span><span class='line'>        <span class="k">end</span>
-</span><span class='line'>      <span class="k">end</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>でもこのプロジェクトにはmodelクラスを拡張するプログラムがlib下にあります。<br/>
-それを読み込まない限りはmodelを参照するとエラーになるようになっています(上記class  _name[0].classify.constantizeでエラーとなる)</p>
-
-<p>そこでlib以下のそのプログラム群を読み込んだ後に読み込むようにしたいと思います。</p>
-
-<p>まず先ほどのコードを以下のようにActiveSupport.on  _loadで囲みます。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">ActiveSupport</span><span class="o">.</span><span class="n">on_load</span><span class="p">(</span><span class="ss">:hoge</span><span class="p">)</span> <span class="k">do</span>
-</span><span class='line'>  <span class="sx">%w(models)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">elem</span><span class="o">|</span>
-</span><span class='line'>    <span class="no">Pathname</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="no">Rails</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;app&quot;</span><span class="p">,</span> <span class="n">elem</span><span class="p">,</span> <span class="s2">&quot;concerns&quot;</span><span class="p">,</span> <span class="s2">&quot;*&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">file</span><span class="o">|</span>
-</span><span class='line'>      <span class="k">if</span> <span class="n">file</span><span class="o">.</span><span class="n">file?</span>
-</span><span class='line'>        <span class="n">file</span><span class="o">.</span><span class="n">basename</span><span class="o">.</span><span class="n">to_s</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="sr">/(.*)(_auto_load_concern.rb)$/</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">class_name</span><span class="o">|</span>
-</span><span class='line'>          <span class="k">if</span> <span class="n">class_name</span><span class="o">.</span><span class="n">present?</span>
-</span><span class='line'>            <span class="n">model</span> <span class="o">=</span> <span class="n">class_name</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">classify</span><span class="o">.</span><span class="n">constantize</span>
-</span><span class='line'>            <span class="n">model</span><span class="o">.</span><span class="n">class_eval</span> <span class="p">{</span>  <span class="kp">include</span> <span class="n">file</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="s2">&quot;.rb&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to_s</span><span class="o">.</span><span class="n">classify</span><span class="o">.</span><span class="n">constantize</span> <span class="p">}</span>
-</span><span class='line'>          <span class="k">end</span>
-</span><span class='line'>        <span class="k">end</span>
-</span><span class='line'>      <span class="k">end</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>lib下のプログラム群で処理が終わった後に以下を差し込みます。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="no">ActiveSupport</span><span class="o">.</span><span class="n">run_load_hooks</span> <span class="ss">:hoge</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>そうするとrun  <em>load  </em>hooksが呼ばれたタイミングでhogeがついていてるActiveSupport.on  _loadのブロック処理が開始されます。</p>
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -1259,6 +1188,10 @@ app/model/user  <em>auto  </em>load  _concern.rb</p>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2020/07/04/system-stick/">昌栄 システムスティック 説明書</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2020/04/10/include-extend-prepend/">includeしたmoduleでextendとprepend</a>
         </li>
         
@@ -1272,10 +1205,6 @@ app/model/user  <em>auto  </em>load  _concern.rb</p>
         
         <li class="post">
             <a href="/blog/2020/02/12/hayama-boat/">葉山 ボート釣り フグ</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2020/01/06/takatakiko-wakasagi/">高滝湖 ワカサギ</a>
         </li>
         
     </ul>
