@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://yoshitsugufujii.github.io/blog/2020/07/27/okitsu/</loc>
+<lastmod>2020-07-27T10:54:29+09:00</lastmod>
+</url>
+<url>
 <loc>http://yoshitsugufujii.github.io/blog/2020/07/09/hayama-boat/</loc>
 <lastmod>2020-07-09T13:06:17+09:00</lastmod>
 </url>
@@ -1557,5 +1561,11 @@
 </url>
 <url>
 <loc>http://yoshitsugufujii.github.io/blog/categories/dao-ju/</loc>
+</url>
+<url>
+<loc>http://yoshitsugufujii.github.io/blog/categories/sheng-pu/</loc>
+</url>
+<url>
+<loc>http://yoshitsugufujii.github.io/blog/categories/takafalsehadai/</loc>
 </url>
 </urlset>

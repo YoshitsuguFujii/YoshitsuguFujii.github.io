@@ -92,6 +92,71 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2015/06/10/append-user-id-to-url/">railsでuser_idをurlに付与して引き回す方法</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2015-06-10T12:01:49+09:00" pubdate><i class="fa fa-calendar"></i> Jun 10th, 2015</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <div class="article__content clearfix">
+        <p>特定のパラメータを常にurlに付与する方法です。</p>
+
+<p>urlにuser_idをクエリなどにふくめておくとgoogle analyticsとか使った時に、特定のユーザがどういうページにアクセスしたかわかりユーザの行動分析に使えたりします。</p>
+
+<p>なのでurlに自動でuser_id=[:user_id]の形式でアクセスしてるページのuser_idが付与されると非常に便利そうです。</p>
+
+<p>参考になったのはjpmobileのソースでした(docomo端末の場合にguidを自動付与したりしています)<br/>
+<a href="https://github.com/jpmobile/jpmobile/blob/master/lib/jpmobile/docomo_guid.rb">docomo_guid.rb</a></p>
+
+
+        <a class="btn pull-right" href="/blog/2015/06/10/append-user-id-to-url/">Read on &rarr;</a>
+    </div>
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2015/06/08/devise-skip-password-check/">Deviseで特定の条件のみパスワードの検証をスキップする</a>
         </h1>
     
@@ -721,64 +786,6 @@
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2015/03/24/select-narrowing-down/">同一のselectボックスを複数設置した場合に、選択された項目を他のプルダウンから削除するjs</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2015-03-24T14:39:06+09:00" pubdate><i class="fa fa-calendar"></i> Mar 24th, 2015</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/javascript/'>javascript</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <div class="article__content clearfix">
-        <p>作成したのはだいぶ前ですが、先日昔お世話になった人からselect-narrowing-downを使いたいんだけどという有難い言葉をいただき、そういえば作ったなぁと思い見返してみました。</p>
-
-<p>デモはこんな感じです。</p>
-
-
-        <a class="btn pull-right" href="/blog/2015/03/24/select-narrowing-down/">Read on &rarr;</a>
-    </div>
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -842,6 +849,10 @@
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2020/07/27/okitsu/">勝浦方面 サバ</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2020/07/09/hayama-boat/">葉山 ボート釣り カマス</a>
         </li>
         
@@ -855,10 +866,6 @@
         
         <li class="post">
             <a href="/blog/2020/03/16/v-strom-250-rim-sticker/">v-strom250にリムステッカー</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2020/02/17/hayama-boat/">葉山 ボート釣り フグ</a>
         </li>
         
     </ul>
