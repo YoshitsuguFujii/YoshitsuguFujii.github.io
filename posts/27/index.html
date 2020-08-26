@@ -92,6 +92,92 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2012/03/09/20120309104103/">アソシエーション参照時のrailsで発行されるSQLを取得</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2012-03-09T10:41:00+09:00" pubdate><i class="fa fa-calendar"></i> Mar 9th, 2012</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>まぁ、ログ見りゃいいんだけど。デバッグで止めてちょっとずつ条件変えながらSQL見たい時とかデフォルトスコープを確認したいけどモデル見るの面倒な時とか。</p>
+
+<p>環境は引き続き<br/>
+ruby 1.9.2<br/>
+rails 3.0.5</p>
+
+<p>まず、ActiveRecordにto  _sqlってのがあります。<br/>
+これ使うとSQL文を確認できる。</p>
+
+<p>ちなみにモデルにはact  <em>as  </em>paranoid使ってdestroyは全て論理削除状態。<br/>
+デフォルトのスコープでdeleted  _at is nullの条件がつく状態。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">User</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="s2">&quot;created_at &gt; ?&quot;</span><span class="p">,</span><span class="no">Date</span><span class="o">.</span><span class="n">yesterday</span><span class="p">)</span><span class="o">.</span><span class="n">to_sql</span><span class="err">　</span><span class="c1"># =&gt; &quot;SELECT `users`.* FROM `users` WHERE (users.deleted_at IS NULL) AND (created_at &gt; &#39;2012-03-08&#39;)&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>whereの後に使えば、とりあえずは使えるみたい。<br/>
+んでuserクラスにimagesがhas  _manyで宣言されている場合。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span><span class='line'><span class="n">user</span><span class="o">.</span><span class="n">images</span><span class="o">.</span><span class="n">to_sql</span><span class="err">　</span><span class="c1">#=&gt; NoMethodError: undefined method `to_sql&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>whereを付ければto  _sql使えたのでwhereつける。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">user</span><span class="o">.</span><span class="n">images</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to_sql</span><span class="err">　</span><span class="c1">#=&gt; &quot;SELECT `user_images`.* FROM `user_images` WHERE (user_images.deleted_at IS NULL) AND (`user_images`.user_id = 1) ORDER BY position ASC, `sequence` ASC&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>とれた。</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2012/03/05/20120305122515/">radio_button_tagとradio_button</a>
         </h1>
     
@@ -1013,63 +1099,6 @@ moduleはModule.new</p>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2012/02/20/20120220162255/">複数の変数を一気に初期化</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2012-02-20T16:22:00+09:00" pubdate><i class="fa fa-calendar"></i> Feb 20th, 2012</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">str1</span> <span class="o">=</span> <span class="n">str2</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>他にありますでしょうか。</p>
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -1133,6 +1162,10 @@ moduleはModule.new</p>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2020/08/26/hayama-boat-saba/">葉山 ボート釣り サバ ソーダ ワカシ</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2020/07/27/okitsu/">勝浦方面 サバ</a>
         </li>
         
@@ -1146,10 +1179,6 @@ moduleはModule.new</p>
         
         <li class="post">
             <a href="/blog/2020/04/10/include-extend-prepend/">includeしたmoduleでextendとprepend</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2020/03/16/v-strom-250-rim-sticker/">v-strom250にリムステッカー</a>
         </li>
         
     </ul>
