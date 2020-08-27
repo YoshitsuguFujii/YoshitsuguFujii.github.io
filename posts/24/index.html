@@ -92,6 +92,136 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2013/04/22/20130422125606/">ファイアーウォールとかで守られている社内gitサーバーに置かれたgemを使いたい</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2013-04-22T12:56:00+09:00" pubdate><i class="fa fa-calendar"></i> Apr 22nd, 2013</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
+            
+                <li><a class='category' href='/blog/categories/capistrano/'>capistrano</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>弊社はgithub enterpriseで運営しています。<br/>
+外部からは自由にアクセスできないように、ファイアーウォールで社内アクセスのみに接続を限定しています。</p>
+
+<p>が、今やっている案件ではお客様が用意したサーバーにアクセスしなければならず。<br/>
+社内gitサーバーにアクセスできない状態です。</p>
+
+<p>そういった場合、capistranoでローカルにソースを先にダウンロードしてtarで固めてサーバーに送信するという指定ができます。</p>
+
+<p>config/deploy.rb</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">set</span> <span class="ss">:deploy_via</span><span class="p">,</span> <span class="ss">:copy</span>
+</span><span class='line'><span class="n">set</span> <span class="ss">:copy_cache</span><span class="p">,</span> <span class="kp">true</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ですが、Gemfileにか書かれているGemファイルはbundle
+installで入れるようなので、社内gitサーバーに置かれたgemを参照しようとしたら落ちました。</p>
+
+<p>うーん。gemも一式ローカルに落としてくれんか？と探していたらありました。<br/>
+<a href="https://github.com/rudionrails/capistrano-strategy-copy-bundled">rudionrails/capistrano-strategy-copy-bundled ?
+GitHub</a></p>
+
+<p>Gemfileにgem &lsquo;capistrano-strategy-copy-bundled'と書いてbundle install。</p>
+
+<p>config/deploy.rb</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">set</span> <span class="ss">:deploy_via</span><span class="p">,</span>    <span class="ss">:copy_bundled</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>でもcap deploy:updateしたら、</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">executing</span> <span class="ss">locally</span><span class="p">:</span> <span class="s2">&quot;cd /var/folders/dl/n1zf4q750msgc9jcd99hdq3c0000gn/T/20130422015014 &amp;&amp; bundle package --all&quot;</span>
+</span><span class='line'><span class="no">Error</span> <span class="n">loading</span> <span class="no">RubyGems</span> <span class="n">plugin</span> <span class="s2">&quot;/Users/gogosakrua/.rvm/gems/ruby-1.9.3-p385@global/gems/rubygems-bundler-1.1.0/lib/rubygems_plugin.rb&quot;</span><span class="p">:</span> <span class="no">Could</span> <span class="ow">not</span> <span class="n">find</span> <span class="n">rubygems</span><span class="o">-</span><span class="n">bundler</span> <span class="p">(</span><span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="n">amongst</span> <span class="o">[</span><span class="n">actionmailer</span><span class="o">-</span><span class="mi">3</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">12</span><span class="p">,</span> <span class="n">actionpack</span><span class="o">-</span><span class="mi">3</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">12</span><span class="p">,</span> <span class="n">active_decorato</span>
+</span><span class='line'><span class="n">r</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">3</span><span class="o">.</span><span class="mi">4</span><span class="p">,</span> <span class="n">activemodel</span><span class="o">-</span><span class="mi">3</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">12</span><span class="p">,</span> <span class="n">activerecord</span><span class="o">-</span><span class="mi">3</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">12</span><span class="p">,</span> <span class="n">activeresource</span><span class="o">-</span><span class="mi">3</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">12</span><span class="p">,</span> <span class="n">activesupport</span><span class="o">-</span><span class="mi">3</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">12</span><span class="p">,</span> <span class="n">arel</span><span class="o">-</span><span class="mi">3</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">2</span><span class="p">,</span> <span class="n">builder</span><span class="o">-</span><span class="mi">3</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">4</span><span class="p">,</span> <span class="n">cancan</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">6</span><span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="n">chronic</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">1</span><span class="p">,</span> <span class="n">chunky_png</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">7</span><span class="p">,</span> <span class="n">coffee</span><span class="o">-</span><span class="n">rails</span><span class="o">-</span><span class="mi">3</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">2</span><span class="p">,</span> <span class="n">coffee</span><span class="o">-</span><span class="n">script</span><span class="o">-</span><span class="mi">2</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span> <span class="n">coffee</span><span class="o">-</span><span class="n">script</span><span class="o">-</span><span class="n">source</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">6</span><span class="o">.</span><span class="mi">1</span><span class="p">,</span>
+</span><span class='line'><span class="n">compass</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">12</span><span class="o">.</span><span class="mi">2</span><span class="p">,</span> <span class="n">compass</span><span class="o">-</span><span class="n">colors</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span> <span class="n">compass</span><span class="o">-</span><span class="n">rails</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">3</span><span class="p">,</span> <span class="n">compass_twitter_bootstrap</span><span class="o">-</span><span class="mi">2</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">2</span><span class="p">,</span> <span class="n">country_select</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">1</span><span class="o">.</span><span class="mi">3</span><span class="p">,</span> <span class="n">erubis</span><span class="o">-</span><span class="mi">2</span><span class="o">.</span><span class="mi">7</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span> <span class="n">execjs</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">4</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span> <span class="n">fssm</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">10</span><span class="p">,</span> <span class="n">gruff</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">3</span><span class="o">.</span><span class="mi">7</span><span class="p">,</span> <span class="n">haml</span><span class="o">-</span><span class="mi">4</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span> <span class="n">haml</span><span class="o">-</span><span class="n">rails</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">4</span><span class="p">,</span> <span class="n">hike</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">1</span><span class="p">,</span> <span class="n">i18n</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">6</span><span class="o">.</span><span class="mi">4</span><span class="p">,</span> <span class="n">jbuilder</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">2</span><span class="p">,</span>
+</span><span class='line'><span class="n">journey</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">4</span><span class="p">,</span> <span class="n">jquery</span><span class="o">-</span><span class="n">rails</span><span class="o">-</span><span class="mi">2</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">1</span><span class="p">,</span> <span class="n">json</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">7</span><span class="o">.</span><span class="mi">7</span><span class="p">,</span> <span class="n">kaminari</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">14</span><span class="o">.</span><span class="mi">1</span><span class="p">,</span> <span class="n">libv8</span><span class="o">-</span><span class="mi">3</span><span class="o">.</span><span class="mi">11</span><span class="o">.</span><span class="mi">8</span><span class="o">.</span><span class="mi">13</span><span class="o">-</span><span class="n">x86_64</span><span class="o">-</span><span class="n">darwin</span><span class="o">-</span><span class="mi">12</span><span class="p">,</span> <span class="n">log4r</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">1</span><span class="o">.</span><span class="mi">10</span><span class="p">,</span> <span class="n">mail</span><span class="o">-</span><span class="mi">2</span><span class="o">.</span><span class="mi">4</span><span class="o">.</span><span class="mi">4</span><span class="p">,</span> <span class="n">mime</span><span class="o">-</span><span class="n">types</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">21</span><span class="p">,</span> <span class="n">multi_json</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">6</span><span class="o">.</span><span class="mi">1</span><span class="p">,</span> <span class="n">pg</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">14</span><span class="o">.</span><span class="mi">1</span><span class="p">,</span> <span class="n">polyamorous</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span> <span class="n">polyglot</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">3</span><span class="o">.</span><span class="mi">3</span><span class="p">,</span> <span class="n">rack</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">4</span><span class="o">.</span><span class="mi">5</span><span class="p">,</span> <span class="n">rack</span><span class="o">-</span><span class="n">cache</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">2</span><span class="p">,</span> <span class="n">rack</span><span class="o">-</span>
+</span><span class='line'><span class="n">mini</span><span class="o">-</span><span class="n">profiler</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">1</span><span class="o">.</span><span class="mi">23</span><span class="p">,</span> <span class="n">rack</span><span class="o">-</span><span class="n">ssl</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">3</span><span class="o">.</span><span class="mi">3</span><span class="p">,</span> <span class="n">rack</span><span class="o">-</span><span class="nb">test</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">6</span><span class="o">.</span><span class="mi">2</span><span class="p">,</span> <span class="n">rails</span><span class="o">-</span><span class="mi">3</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">12</span><span class="p">,</span> <span class="n">rails3_acts_as_paranoid</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">5</span><span class="p">,</span> <span class="n">railties</span><span class="o">-</span><span class="mi">3</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">12</span><span class="p">,</span> <span class="n">rake</span><span class="o">-</span><span class="mi">10</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">3</span><span class="p">,</span> <span class="n">ransack</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">7</span><span class="o">.</span><span class="mi">2</span><span class="p">,</span> <span class="n">rdoc</span><span class="o">-</span><span class="mi">3</span><span class="o">.</span><span class="mi">12</span><span class="o">.</span><span class="mi">2</span><span class="p">,</span> <span class="n">ref</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">2</span><span class="p">,</span> <span class="n">rjb</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">4</span><span class="o">.</span><span class="mi">6</span><span class="p">,</span> <span class="n">rmagick</span><span class="o">-</span><span class="mi">2</span><span class="o">.</span><span class="mi">13</span><span class="o">.</span><span class="mi">2</span><span class="p">,</span> <span class="n">rubyzip</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="n">sass</span><span class="o">-</span><span class="mi">3</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">6</span><span class="p">,</span> <span class="n">sass</span><span class="o">-</span><span class="n">rails</span><span class="o">-</span><span class="mi">3</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span>
+</span><span class='line'><span class="mi">6</span><span class="p">,</span> <span class="n">seed</span><span class="o">-</span><span class="n">fu</span><span class="o">-</span><span class="mi">2</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span> <span class="n">settingslogic</span><span class="o">-</span><span class="mi">2</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="n">simple_form</span><span class="o">-</span><span class="mi">2</span><span class="o">.</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span> <span class="n">sprockets</span><span class="o">-</span><span class="mi">2</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">2</span><span class="p">,</span> <span class="n">therubyracer</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">11</span><span class="o">.</span><span class="mi">4</span><span class="p">,</span> <span class="n">thor</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">17</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span> <span class="n">tilt</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">3</span><span class="o">.</span><span class="mi">4</span><span class="p">,</span> <span class="n">treetop</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">4</span><span class="o">.</span><span class="mi">12</span><span class="p">,</span> <span class="n">turbo</span><span class="o">-</span><span class="n">sprockets</span><span class="o">-</span><span class="n">rails3</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">3</span><span class="o">.</span><span class="mi">6</span><span class="p">,</span> <span class="n">tzinfo</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">3</span><span class="o">.</span><span class="mi">36</span><span class="p">,</span> <span class="n">uglifier</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">3</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span> <span class="n">whenever</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">8</span><span class="o">.</span><span class="mi">2</span><span class="o">]</span> <span class="p">(</span><span class="no">Gem</span><span class="o">::</span><span class="no">LoadError</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">command</span> <span class="n">finished</span> <span class="k">in</span> <span class="mi">3794</span><span class="n">ms</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>って怒られる。<br/>
+うーん。gemsetがdefault使われてるなー。ってことで。<br/>
+いい機会なので、rbenvにしてみました。<br/>
+<a href="http://ksauzz.github.io/blog/2012/03/23/rbenv-ruby-build-rbenv-gemset/">http://ksauzz.github.io/blog/2012/03/23/rbenv-ruby-build-rbenv-gemset/</a><a href="http://d.hatena.ne.jp/keyword/http%3A//ksauzz%2Egithub%2Eio/blog/2012/03/23/rbenv%2Druby%2Dbuild%2Drbenv%2Dgemset/?mode=edit">?</a></p>
+
+<p>んで cap deploy:update</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">undefined</span> <span class="nb">method</span> <span class="sb">`with_clean_env&#39; for Bundler:Module (NoMethodError)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>また怒られる。なんでだ。ぐぐっても有益な情報なし。<br/>
+あ、ひょっとしてbundle exec必要？</p>
+
+<p>ってことでbundle exec cap deploy:update</p>
+
+<p>んで行くはず。</p>
+
+<p>はずって言うのも。あまりにGem一式のダウンロードが重くて、やってらんねぇってなったので。<br/>
+急遽ファイアーウォールに穴開けてもらうことになったからです。</p>
+
+<p>中途半端ですまんです。</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2013/04/17/20130417140214/">動的メソッドで呼び出すメソッドが引数ありと引数なしの場合の呼び出し方</a>
         </h1>
     
@@ -827,99 +957,6 @@ PC起動してからの経過時間。<br/>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2013/02/12/20130212155915/">httpリクエストを投げまくれるRuby製のCLIツール作ってみました</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2013-02-12T15:59:00+09:00" pubdate><i class="fa fa-calendar"></i> Feb 12th, 2013</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p><a href="http://qiita.com/items/96f2c57111b1162f80f1">Rubyでサブコマンド付きのコマンドを簡単に書けるThor</a>を見て勉強がてらに作ってみました。</p>
-
-<p>コマンドラインから指定したURLやPORTに任意のデータをつけてGET POST PUT
-DELETEを指定回数分投げることができるGemを作りました。<br/>
-負荷をかけたい時とか、APIで同一のコンテンツを複数作成する時とかというニッチなユースケースに使うといいんではないでしょうか。</p>
-
-<p>rubyはthreadプログラムを書いても、ネイティブスレッドの実行は一つという状態になってしまうようなので。<br/>
-いい感じに並列処理を実行してくれるparallelというGemを使っています。</p>
-
-<p><a href="http://subtech.g.hatena.ne.jp/secondlife/20110927/1317123109">Rubyで並列実行処理を簡単に書く</a></p>
-
-<p>使い方です。</p>
-
-<p>インストール</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="n">install</span> <span class="n">http_machinegun</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>使ってみる</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># 一回だけgetリクエスト発行</span>
-</span><span class='line'><span class="n">http_machinegun</span> <span class="n">fire</span> <span class="o">-</span><span class="n">u</span> <span class="ss">http</span><span class="p">:</span><span class="sr">//</span><span class="n">localhost</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># 80番ポートにabcdeという文字列のpostリクエストを10回とばす</span>
-</span><span class='line'><span class="n">http_machinegun</span> <span class="n">fire</span> <span class="o">-</span><span class="n">u</span> <span class="ss">http</span><span class="p">:</span><span class="sr">//</span><span class="n">localhost</span> <span class="o">-</span><span class="nb">p</span> <span class="mi">80</span> <span class="o">-</span><span class="n">t</span> <span class="mi">10</span>  <span class="o">-</span><span class="n">d</span> <span class="n">abcde</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>特に実際に使う場面があって作ったわけではないので、抜けとか多いかもしれません。<br/>
-改善ポイントとか教えてもらえると嬉しいです。<br/>
-あと出力される内容に微妙に変な改行が入ってしまうのは何故だろうorz</p>
-
-<p>ソースはこちら<br/>
-<a href="https://github.com/YoshitsuguFujii/http_machinegun">YoshitsuguFujii/http  _machinegun ?
-GitHub</a></p>
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -983,6 +1020,10 @@ GitHub</a></p>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2020/08/27/katsuura-saba/">勝浦方面 サバ</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2020/08/26/hayama-boat-saba/">葉山 ボート釣り サバ ソーダ ワカシ</a>
         </li>
         
@@ -996,10 +1037,6 @@ GitHub</a></p>
         
         <li class="post">
             <a href="/blog/2020/07/04/system-stick/">昌栄 システムスティック 説明書</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2020/04/10/include-extend-prepend/">includeしたmoduleでextendとprepend</a>
         </li>
         
     </ul>
