@@ -92,6 +92,69 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2017/09/12/alternative-not-working/">Railsでtextとhtmlのviewを用意するもmultipart/alternativeにならない問題</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2017-09-12T18:36:54+09:00" pubdate><i class="fa fa-calendar"></i> Sep 12th, 2017</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>Ruby: 2.4.1<br/>
+Rails: 4.2.8</p>
+
+<p>ActionMailerでhogehoge.html.hamlとhogehoge.text.hamlを用意しているのにtext/htmlの形式でしか送信されなくてはまりかけた。<br/>
+hogehoge.text.hamlをhogehoge.text.erbに直したらmultipart/alternativeになってくれた。</p>
+
+<p>textの方はerbじゃないとダメっぽい。</p>
+
+<p>そしてletter_openerってalternativeなメールの時って右上にHTMLメールとプレーンテキストメールの切り替えリンクが付いているんですね。<br/>
+めっちゃ便利！</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2017/09/11/kashima-ammonia/">鹿島港 アンモニア岸壁 イナッコ</a>
         </h1>
     
@@ -687,68 +750,6 @@ PCとお弁当と水筒と着替えをいれて走ってます。</p>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2016/05/12/magnet-bookmarker/">最近買って良かったもの</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2016-05-12T11:33:55+09:00" pubdate><i class="fa fa-calendar"></i> May 12th, 2016</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/sheng-huo/'>生活</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <div class="article__content clearfix">
-        <p>上野公園でかったマグネット型のブックマーカー。</p>
-
-<p><a  href="http://www.amazon.co.jp/gp/product/B00H1L1AXW/ref=as_li_ss_il?ie=UTF8&camp=247&creative=7399&creativeASIN=B00H1L1AXW&linkCode=as2&tag=gogosakura-22"><img border="0" src="http://ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B00H1L1AXW&Format=_SL250_&ID=AsinImage&MarketPlace=JP&ServiceVersion=20070822&WS=1&tag=gogosakura-22" ></a><img src="http://ir-jp.amazon-adsystem.com/e/ir?t=gogosakura-22&l=as2&o=9&a=B00H1L1AXW" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /></p>
-
-<p>従来のしおりだとはさんだままだとしおりがページめくる時に邪魔になったり、<br/>
-読んでいる最中しおりを手にもったままなのもわずらわしく、<br/>
-大きめのカバンにいれてるとしおりが知らない間にはずれていたります。</p>
-
-
-        <a class="btn pull-right" href="/blog/2016/05/12/magnet-bookmarker/">Read on &rarr;</a>
-    </div>
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -812,6 +813,10 @@ PCとお弁当と水筒と着替えをいれて走ってます。</p>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2020/08/31/hayama-boat-syogo/">葉山 ボート釣り イワシ ショゴ</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2020/08/27/katsuura-saba/">勝浦方面 サバ</a>
         </li>
         
@@ -825,10 +830,6 @@ PCとお弁当と水筒と着替えをいれて走ってます。</p>
         
         <li class="post">
             <a href="/blog/2020/07/09/hayama-boat/">葉山 ボート釣り カマス</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2020/07/04/system-stick/">昌栄 システムスティック 説明書</a>
         </li>
         
     </ul>

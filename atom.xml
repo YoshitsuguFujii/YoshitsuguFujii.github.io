@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2020-08-27T16:35:39+09:00</updated>
+    <updated>2020-08-31T16:24:58+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,92 @@
     </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[葉山 ボート釣り イワシ ショゴ]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2020/08/31/hayama-boat-syogo/"/>
+        <updated>2020-08-31T15:58:55+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2020/08/31/hayama-boat-syogo</id>
+        <content type="html"><![CDATA[<p>ショゴが一週間前ぐらいに釣れているという情報があったのでボート釣り。<br/>
+初ショゴ釣れるか。</p>
+
+<!-- more -->
+
+
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p><ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-7039502723411845"
+     data-ad-slot="8206045005"></ins></p>
+
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+<p>予約で一杯となっていたのに着いてみると船が少ない。</p>
+
+<p><img src="http://yoshitsugufujii.github.io/images/blog/20200831/IMG_7220.JPG"></p>
+
+<p>これから気温が上昇して南風が吹くから浅場限定ね。まず間違いなく早上がりになるよ。とのこと。</p>
+
+<p>ボート屋さんはこういった天候管理が含まれているから安心。</p>
+
+<p>準備が早く終わったので空いた船の中をパシャり。</p>
+
+<p>こんな感じです。</p>
+
+<p><img src="http://yoshitsugufujii.github.io/images/blog/20200831/IMG_7222.JPG"></p>
+
+<p>根周りまでボートを曳いてもらって、アンカー落として早速サビキと置き竿でオキアミつけた仕掛けを放置すると、サビキの方にススメダイ。</p>
+
+<p>それが２回連続ぐらいであってからしばらく何も釣れない。</p>
+
+<p>潮は全然動いてない。</p>
+
+<p>そしてしばらくして魚探が反応して、イワシの群れが入り始める。</p>
+
+<p>イワシがかかったら放置してみるが、釣れそうな気配はない。</p>
+
+<p>水面直下からは渦のようなイワシの群れがさかんにサビキ仕掛けの周りを泳いでいるが、何かに逃げている様子もなし。</p>
+
+<p>針が大きかったのもあるのかもしれないけど、イワシはピンクスキン、白スキン、サバ皮はほとんど釣れない。</p>
+
+<p>ケイムラのサビキが一番ヒット。全部の針に鈴なりかかることも何回も。</p>
+
+<p>スキンって大事。あとMIXの緑スキンだけ釣れる。</p>
+
+<p>しかし肝心のショゴは一体&hellip;</p>
+
+<p>一緒に行った友人は早々にイワシを持ち帰ろうとジップロックにイワシをつめはじめている。</p>
+
+<p>これじゃ堤防釣りと変わらんとか話しながら友達が持っていたケイムラサビキをもらってジギングサビキにして巻いていると、イワシがかかったなーと思ったらズンと竿がしなる。</p>
+
+<p>奇跡のショゴ</p>
+
+<p><img src="http://yoshitsugufujii.github.io/images/blog/20200831/IMG_7223.JPG"></p>
+
+<p>それから昼にかけてぱったりとイワシの群れも入れなくなり、イワシの群れがまた反応でてきたところで早上がりとなりました(12時撤収)</p>
+
+<p>帰ってイワシは唐揚げに。</p>
+
+<p><img src="http://yoshitsugufujii.github.io/images/blog/20200831/IMG_7246.JPG"></p>
+
+<p><img src="http://yoshitsugufujii.github.io/images/blog/20200831/IMG_7247.JPG"></p>
+
+<p><img src="http://yoshitsugufujii.github.io/images/blog/20200831/IMG_7250.JPG"></p>
+
+<p>このサイズのイワシ。なかなか売ってないですがあげると頭から骨ごと食べられるし美味しいですよね。</p>
+
+<p>初ショゴは熟成させた方がおいしいそうなので、現在冷蔵庫で寝かせてます。</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[勝浦方面 サバ]]></title>
@@ -1657,67 +1743,6 @@ waiterを使いたいのであれば、自作オーダーシステムの管理�
 <h1>最後に</h1>
 
 <p>オーダーシステム開発のご要望がある方お待ちしております。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[Railsが自動で出すログ]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2019/06/25/rails-auto-logging/"/>
-        <updated>2019-06-25T17:58:29+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2019/06/25/rails-auto-logging</id>
-        <content type="html"><![CDATA[<p>StackDriverのgemを入れたらRails.loggerでlog/以下に出力できなくなってしまって調べたのでメモ。</p>
-
-<!-- more -->
-
-
-
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-
-
-<p>
-<ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-layout="in-article"
-     data-ad-format="fluid"
-     data-ad-client="ca-pub-7039502723411845"
-     data-ad-slot="8206045005"></ins></p>
-
-<script>  
-     (adsbygoogle = window.adsbygoogle || []).push({});  
-</script>
-
-
-<p></p>
-
-<p>StackDriverを利用するとCloudLogging用のLoggerにRails.loggerが差し変わります。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Rails</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;hogehoge&#39;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>とやってもRAILS_ROOT/log/production.logには表示されません。</p>
-
-<p>だけどRailsが自動で出力してくれるController名やAction名。レンダリングしたviewの情報はlog/production.logに表示されます。</p>
-
-<p>なんでかなと思って調べてみたらこちらControllerはRails.loggerに設定されているloggerを使ってませんでした。</p>
-
-<p><a href="https://github.com/rails/rails/blob/master/actionpack/lib/action_controller/log_subscriber.rb#L76">https://github.com/rails/rails/blob/master/actionpack/lib/action_controller/log_subscriber.rb#L76</a></p>
-
-<p>結局サーバー側でGoogle fluendが動かしてそっちで吸い上げることができるので</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Rails</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">configure</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">google_cloud</span><span class="o">.</span><span class="n">use_logging</span> <span class="o">=</span> <span class="kp">false</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>にしました。<br/>
-お手軽にlog/production.logで確認できて良い感じです。</p>
 ]]></content>
     </entry>
     
