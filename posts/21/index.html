@@ -92,6 +92,382 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2014/05/27/20140527111143/">s3からcliでファイルをまとめて落としたり、正規表現で落とせたりするツール</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2014-05-27T11:11:00+09:00" pubdate><i class="fa fa-calendar"></i> May 27th, 2014</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/aws/'>aws</a></li>
+            
+                <li><a class='category' href='/blog/categories/s3/'>s3</a></li>
+            
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>s3  <em>getter.rbとか名前つけて保存して<br/>
+ruby s3  </em>getter.rbとかで起動すると</p>
+
+<p>最初にbucket選ぶ選択肢が出てきて選択すると、bucketのディレクトリかファイルか、ファイル全てダウンロードが選べ。<br/>
+ディレクトリを選ぶと再帰的にまたディレクトリかファイルかファイル全てをダウンロードが選べます。</p>
+
+<p>ファイルもしくは全てダウンロードを選ぶと、ダウンロードと同時に解答するか選べ(すいません。現状gzの解凍のみ)<br/>
+また抽出するファイル名を正規表現で絞り込めるかを選べます。</p>
+
+<p>動くの重視で片手間に作ったのでノー例外処理でございます。<br/>
+gz圧縮以外にも対応したいとかあれば、ご自由に改変してお使いください。</p>
+
+<p>Gist<br/>
+<a href="https://gist.github.com/YoshitsuguFujii/349069b2e74c28153a17">https://gist.github.com/YoshitsuguFujii/349069b2e74c28153a17</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+<span class='line-number'>123</span>
+<span class='line-number'>124</span>
+<span class='line-number'>125</span>
+<span class='line-number'>126</span>
+<span class='line-number'>127</span>
+<span class='line-number'>128</span>
+<span class='line-number'>129</span>
+<span class='line-number'>130</span>
+<span class='line-number'>131</span>
+<span class='line-number'>132</span>
+<span class='line-number'>133</span>
+<span class='line-number'>134</span>
+<span class='line-number'>135</span>
+<span class='line-number'>136</span>
+<span class='line-number'>137</span>
+<span class='line-number'>138</span>
+<span class='line-number'>139</span>
+<span class='line-number'>140</span>
+<span class='line-number'>141</span>
+<span class='line-number'>142</span>
+<span class='line-number'>143</span>
+<span class='line-number'>144</span>
+<span class='line-number'>145</span>
+<span class='line-number'>146</span>
+<span class='line-number'>147</span>
+<span class='line-number'>148</span>
+<span class='line-number'>149</span>
+<span class='line-number'>150</span>
+<span class='line-number'>151</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># coding: utf-8</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">require</span> <span class="s2">&quot;aws-sdk&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">S3_SAVE_DIR</span> <span class="o">=</span> <span class="s2">&quot;s3/&quot;</span>
+</span><span class='line'><span class="no">ALL_FILE_DOWNLOAD</span> <span class="o">=</span> <span class="s2">&quot;全てのファイルを落とす&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">s3</span> <span class="o">=</span> <span class="no">AWS</span><span class="o">::</span><span class="no">S3</span><span class="o">.</span><span class="n">new</span><span class="p">(</span>
+</span><span class='line'>  <span class="ss">access_key_id</span><span class="p">:</span> <span class="s2">&quot;YOUR AWS ACCESS KEY&quot;</span>
+</span><span class='line'>  <span class="ss">secret_access_key</span><span class="p">:</span> <span class="s2">&quot;YOUR AWS SECRET&quot;</span>
+</span><span class='line'><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">show_item_with_pointer</span><span class="p">(</span><span class="n">iterator</span><span class="p">,</span> <span class="n">console_print</span> <span class="o">=</span> <span class="kp">true</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">rtn_hash</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span class='line'>  <span class="n">iterator</span><span class="o">.</span><span class="n">each_with_index</span> <span class="k">do</span> <span class="o">|</span><span class="n">value</span><span class="p">,</span> <span class="n">idx</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">rtn_hash</span><span class="o">[</span><span class="n">idx</span><span class="o">.</span><span class="n">to_s</span><span class="o">]</span> <span class="o">=</span> <span class="n">value</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">console_print</span>
+</span><span class='line'>      <span class="nb">p</span> <span class="s2">&quot;[&quot;</span> <span class="o">+</span> <span class="p">(</span><span class="n">idx</span><span class="p">)</span><span class="o">.</span><span class="n">to_s</span> <span class="o">+</span> <span class="s2">&quot;] &quot;</span> <span class="o">+</span> <span class="n">value</span><span class="o">.</span><span class="n">inspect</span><span class="o">.</span><span class="n">to_s</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">rtn_hash</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">ls</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">ls</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'>  <span class="n">directories</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">children</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:branch?</span><span class="p">)</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:prefix</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">files</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">children</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:leaf?</span><span class="p">)</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:key</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">#all_select = files.length &gt; 1 ?  [ALL_FILE_DOWNLOAD] : []</span>
+</span><span class='line'>  <span class="n">all_select</span> <span class="o">=</span> <span class="o">[</span><span class="no">ALL_FILE_DOWNLOAD</span><span class="o">]</span>
+</span><span class='line'>  <span class="n">ls</span> <span class="o">=</span> <span class="n">all_select</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">directories</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">files</span><span class="p">))</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">get_or_into_directory_recursive</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">file_and_directories</span> <span class="o">=</span> <span class="n">show_item_with_pointer</span><span class="p">(</span><span class="n">ls</span><span class="p">(</span><span class="n">tree</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">idx</span> <span class="o">=</span> <span class="n">gets_from_stdin</span><span class="p">(</span><span class="s2">&quot;fileまたはdirectoryを数値で選択&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">file_or_directory</span> <span class="o">=</span> <span class="n">file_and_directories</span><span class="o">[</span><span class="n">idx</span><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># select dir</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">file_or_directory</span><span class="o">.</span><span class="n">end_with?</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">tree</span> <span class="o">=</span> <span class="vi">@bucket</span><span class="o">.</span><span class="n">as_tree</span><span class="p">({</span><span class="ss">prefix</span><span class="p">:</span> <span class="n">file_or_directory</span><span class="p">})</span>
+</span><span class='line'>    <span class="n">objs</span> <span class="o">=</span> <span class="n">get_or_into_directory_recursive</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="n">objs</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'>    <span class="c1"># select all</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">file_or_directory</span> <span class="o">==</span> <span class="no">ALL_FILE_DOWNLOAD</span>
+</span><span class='line'>      <span class="n">objs</span> <span class="o">=</span> <span class="n">get_objects</span><span class="p">(</span><span class="n">file_and_directories</span><span class="p">)</span>
+</span><span class='line'>    <span class="c1"># select file</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="n">objs</span> <span class="o">&lt;&lt;</span> <span class="vi">@bucket</span><span class="o">.</span><span class="n">objects</span><span class="o">[</span><span class="n">file_or_directory</span><span class="o">]</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">return</span> <span class="n">objs</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># http://qiita.com/riocampos/items/cf71862bf975e13bdb4a</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">progress_bar</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">max</span> <span class="o">=</span> <span class="mi">100</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">i</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">to_f</span>
+</span><span class='line'>  <span class="n">max</span> <span class="o">=</span> <span class="n">max</span><span class="o">.</span><span class="n">to_f</span>
+</span><span class='line'>  <span class="n">i</span> <span class="o">=</span> <span class="n">max</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="n">max</span>
+</span><span class='line'>  <span class="n">percent</span> <span class="o">=</span> <span class="n">i</span> <span class="o">/</span> <span class="n">max</span> <span class="o">*</span> <span class="mi">100</span><span class="o">.</span><span class="mi">0</span>
+</span><span class='line'>  <span class="n">rest_size</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">5</span> <span class="o">+</span> <span class="mi">1</span> <span class="c1"># space + progress_num + %</span>
+</span><span class='line'>  <span class="n">bar_size</span> <span class="o">=</span> <span class="mi">79</span> <span class="o">-</span> <span class="n">rest_size</span> <span class="c1"># (width - 1) - rest_size</span>
+</span><span class='line'>  <span class="n">bar_str</span> <span class="o">=</span> <span class="s1">&#39;%-*s&#39;</span> <span class="o">%</span> <span class="o">[</span><span class="n">bar_size</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;#&#39;</span> <span class="o">*</span> <span class="p">(</span><span class="n">percent</span> <span class="o">*</span> <span class="n">bar_size</span> <span class="o">/</span> <span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">to_i</span><span class="p">)</span><span class="o">]</span>
+</span><span class='line'>  <span class="n">progress_num</span> <span class="o">=</span> <span class="s1">&#39;%3.1f&#39;</span> <span class="o">%</span> <span class="n">percent</span>
+</span><span class='line'>  <span class="nb">print</span> <span class="s2">&quot;  r</span><span class="si">#{</span><span class="n">bar_str</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="s1">&#39;%5s&#39;</span> <span class="o">%</span> <span class="n">progress_num</span><span class="si">}</span><span class="s2">%&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">get_objects</span><span class="p">(</span><span class="n">file_and_directories</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">objs</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'>  <span class="n">file_and_directories</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">idx</span><span class="p">,</span> <span class="n">path</span><span class="o">|</span>
+</span><span class='line'>    <span class="k">next</span> <span class="k">if</span> <span class="n">path</span> <span class="o">==</span> <span class="no">ALL_FILE_DOWNLOAD</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">end_with?</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">tree</span> <span class="o">=</span> <span class="vi">@bucket</span><span class="o">.</span><span class="n">as_tree</span><span class="p">({</span><span class="ss">prefix</span><span class="p">:</span> <span class="n">path</span><span class="p">})</span>
+</span><span class='line'>      <span class="n">recursive_file_and_directories</span> <span class="o">=</span> <span class="n">show_item_with_pointer</span><span class="p">(</span><span class="n">ls</span><span class="p">(</span><span class="n">tree</span><span class="p">),</span> <span class="kp">false</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">objs</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">get_objects</span><span class="p">(</span><span class="n">recursive_file_and_directories</span><span class="p">))</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="n">objs</span> <span class="o">&lt;&lt;</span> <span class="vi">@bucket</span><span class="o">.</span><span class="n">objects</span><span class="o">[</span><span class="n">path</span><span class="o">]</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">objs</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">gets_from_stdin</span><span class="p">(</span><span class="n">message</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">)</span>
+</span><span class='line'>  <span class="nb">print</span> <span class="n">message</span> <span class="k">unless</span> <span class="n">message</span><span class="o">.</span><span class="n">nil?</span>
+</span><span class='line'>  <span class="n">str</span> <span class="o">=</span> <span class="no">STDIN</span><span class="o">.</span><span class="n">gets</span><span class="o">.</span><span class="n">chomp</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">get_y_or_n_from_stdin</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">bol</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+</span><span class='line'>  <span class="k">while</span> <span class="o">!</span><span class="sx">%w(Y N)</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="n">bol</span><span class="o">.</span><span class="n">upcase</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">bol</span> <span class="o">=</span> <span class="n">gets_from_stdin</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="n">message</span><span class="si">}</span><span class="s2">(y/n)&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="n">bol</span><span class="o">.</span><span class="n">upcase</span> <span class="o">==</span> <span class="s2">&quot;Y&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">all_buckets</span> <span class="o">=</span> <span class="n">show_item_with_pointer</span><span class="p">(</span><span class="n">s3</span><span class="o">.</span><span class="n">buckets</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">idx</span> <span class="o">=</span> <span class="n">gets_from_stdin</span><span class="p">(</span><span class="s2">&quot;bucketを数値で選択&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="vi">@bucket</span> <span class="o">=</span> <span class="n">all_buckets</span><span class="o">[</span><span class="n">idx</span><span class="o">]</span>
+</span><span class='line'><span class="n">tree</span> <span class="o">=</span> <span class="vi">@bucket</span><span class="o">.</span><span class="n">as_tree</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">files</span> <span class="o">=</span> <span class="n">get_or_into_directory_recursive</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">s3_dir</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="no">S3_SAVE_DIR</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># gz圧縮なら解凍するか問う</span>
+</span><span class='line'><span class="n">extract_bol</span> <span class="o">=</span> <span class="k">if</span> <span class="n">files</span><span class="o">.</span><span class="n">any?</span><span class="p">{</span><span class="o">|</span><span class="n">file</span><span class="o">|</span> <span class="n">file</span><span class="o">.</span><span class="n">key</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="s2">&quot;gz&quot;</span><span class="p">)}</span>
+</span><span class='line'>                <span class="n">get_y_or_n_from_stdin</span><span class="p">(</span><span class="s2">&quot;解凍を同時に行いますか？&quot;</span><span class="p">)</span>
+</span><span class='line'>              <span class="k">else</span>
+</span><span class='line'>                <span class="kp">false</span>
+</span><span class='line'>              <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># 正規表現抜き出しを行うか問う</span>
+</span><span class='line'><span class="n">regexp</span> <span class="o">=</span> <span class="kp">nil</span>
+</span><span class='line'><span class="k">if</span> <span class="n">get_y_or_n_from_stdin</span><span class="p">(</span><span class="s2">&quot;正規表現によるファイル名絞り込みを行いますか？&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">regexp</span> <span class="o">=</span> <span class="no">Regexp</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">gets_from_stdin</span><span class="p">(</span><span class="s2">&quot;正規表現を入力してください&quot;</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">files</span> <span class="o">=</span> <span class="n">files</span><span class="o">.</span><span class="n">reject</span> <span class="k">do</span> <span class="o">|</span><span class="n">file</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">file_path</span> <span class="o">=</span> <span class="o">[</span><span class="n">s3_dir</span><span class="p">,</span><span class="n">file</span><span class="o">.</span><span class="n">key</span><span class="o">].</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="no">File</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">regexp</span><span class="p">)</span><span class="o">.</span><span class="n">nil?</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># 保存処理</span>
+</span><span class='line'><span class="n">files</span><span class="o">.</span><span class="n">each</span><span class="o">.</span><span class="n">with_index</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">file</span><span class="p">,</span> <span class="n">idx</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">file_path</span> <span class="o">=</span> <span class="o">[</span><span class="n">s3_dir</span><span class="p">,</span><span class="n">file</span><span class="o">.</span><span class="n">key</span><span class="o">].</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">dir</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+</span><span class='line'>  <span class="no">FileUtils</span><span class="o">.</span><span class="n">mkdir_p</span><span class="p">(</span><span class="n">dir</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="no">File</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">f</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">file</span><span class="o">.</span><span class="n">read</span> <span class="k">do</span> <span class="o">|</span><span class="n">chunk</span><span class="o">|</span>
+</span><span class='line'>      <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="n">extract_bol</span>
+</span><span class='line'>    <span class="sb">`gunzip </span><span class="si">#{</span><span class="n">file_path</span><span class="si">}</span><span class="sb">`</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">progress_bar</span><span class="p">((</span><span class="n">idx</span><span class="o">.</span><span class="n">to_f</span> <span class="o">/</span> <span class="n">files</span><span class="o">.</span><span class="n">length</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2014/05/09/20140509000000/">godでThe server is not available (or you do not have</a>
         </h1>
     
@@ -1094,65 +1470,6 @@ CTRL + Z
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2013/12/06/20131206131145/">複数選択のselectボックスの値をcoffeescriptで取り出してみる</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2013-12-06T13:11:00+09:00" pubdate><i class="fa fa-calendar"></i> Dec 6th, 2013</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/coffeescript/'>coffeescript</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>1行で書けてすっきり。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">values</span> <span class="o">=</span> <span class="p">(</span><span class="n">option</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">option</span> <span class="k">in</span> <span class="n">document</span><span class="o">.</span><span class="n">getElementsByName</span><span class="p">(</span><span class="s2">&quot;multi-select&quot;</span><span class="p">)</span> <span class="k">when</span> <span class="n">option</span><span class="o">.</span><span class="n">selected</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -1216,6 +1533,10 @@ CTRL + Z
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2020/09/07/camp-maki/">市川パレット流通センター 薪</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2020/08/31/hayama-boat-syogo/">葉山 ボート釣り イワシ ショゴ</a>
         </li>
         
@@ -1229,10 +1550,6 @@ CTRL + Z
         
         <li class="post">
             <a href="/blog/2020/07/27/okitsu/">勝浦方面 サバ</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2020/07/09/hayama-boat/">葉山 ボート釣り カマス</a>
         </li>
         
     </ul>
