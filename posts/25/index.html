@@ -92,6 +92,131 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2013/02/26/20130226105919/">とっとこhaml太郎</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2013-02-26T10:59:00+09:00" pubdate><i class="fa fa-calendar"></i> Feb 26th, 2013</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/haml/'>haml</a></li>
+            
+                <li><a class='category' href='/blog/categories/rails/'>rails</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>タイトルに意味はないです。<br/>
+今日はerbをhamlに一気に変換したいと思います。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1">#Gemfile</span>
+</span><span class='line'><span class="n">gem</span> <span class="s2">&quot;erb2haml&quot;</span><span class="p">,</span> <span class="ss">:group</span> <span class="o">=&gt;</span> <span class="ss">:development</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">bundle</span> <span class="n">install</span>
+</span><span class='line'><span class="n">rake</span> <span class="ss">haml</span><span class="p">:</span><span class="n">convert_erbs</span>
+</span><span class='line'>
+</span><span class='line'><span class="ss">ERROR</span><span class="p">:</span>  <span class="no">Could</span> <span class="ow">not</span> <span class="n">find</span> <span class="n">html2haml</span> <span class="k">in</span> <span class="n">your</span> <span class="no">PATH</span><span class="o">.</span> <span class="no">Aborting</span><span class="o">.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>あれ？</p>
+
+<p>追記</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1">#Gemfile</span>
+</span><span class='line'><span class="n">group</span> <span class="ss">:development</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;html2haml&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;erb2haml&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rake</span> <span class="ss">haml</span><span class="p">:</span><span class="n">convert_erbs</span>
+</span><span class='line'><span class="no">Looking</span> <span class="k">for</span> <span class="no">ERB</span> <span class="n">files</span> <span class="n">to</span> <span class="n">convert</span> <span class="n">to</span> <span class="no">Haml</span><span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'><span class="ss">Converting</span><span class="p">:</span> <span class="n">app</span><span class="o">/</span><span class="n">views</span><span class="o">/</span><span class="n">devise</span><span class="o">/</span><span class="n">confirmations</span><span class="o">/</span><span class="kp">new</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">erb</span><span class="o">.</span><span class="n">.</span><span class="o">.</span> <span class="no">Done</span><span class="o">!</span>
+</span><span class='line'><span class="ss">Converting</span><span class="p">:</span> <span class="n">app</span><span class="o">/</span><span class="n">views</span><span class="o">/</span><span class="n">devise</span><span class="o">/</span><span class="n">mailer</span><span class="o">/</span><span class="n">confirmation_instructions</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">erb</span><span class="o">.</span><span class="n">.</span><span class="o">.</span> <span class="no">Done</span><span class="o">!</span>
+</span><span class='line'><span class="ss">Converting</span><span class="p">:</span> <span class="n">app</span><span class="o">/</span><span class="n">views</span><span class="o">/</span><span class="n">devise</span><span class="o">/</span><span class="n">mailer</span><span class="o">/</span><span class="n">reset_password_instructions</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">erb</span><span class="o">.</span><span class="n">.</span><span class="o">.</span> <span class="no">Done</span><span class="o">!</span>
+</span><span class='line'><span class="ss">Converting</span><span class="p">:</span> <span class="n">app</span><span class="o">/</span><span class="n">views</span><span class="o">/</span><span class="n">devise</span><span class="o">/</span><span class="n">mailer</span><span class="o">/</span><span class="n">unlock_instructions</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">erb</span><span class="o">.</span><span class="n">.</span><span class="o">.</span> <span class="no">Done</span><span class="o">!</span>
+</span><span class='line'><span class="ss">Converting</span><span class="p">:</span> <span class="n">app</span><span class="o">/</span><span class="n">views</span><span class="o">/</span><span class="n">devise</span><span class="o">/</span><span class="n">passwords</span><span class="o">/</span><span class="n">edit</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">erb</span><span class="o">.</span><span class="n">.</span><span class="o">.</span> <span class="no">Done</span><span class="o">!</span>
+</span><span class='line'><span class="ss">Converting</span><span class="p">:</span> <span class="n">app</span><span class="o">/</span><span class="n">views</span><span class="o">/</span><span class="n">devise</span><span class="o">/</span><span class="n">passwords</span><span class="o">/</span><span class="kp">new</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">erb</span><span class="o">.</span><span class="n">.</span><span class="o">.</span> <span class="no">Done</span><span class="o">!</span>
+</span><span class='line'><span class="ss">Converting</span><span class="p">:</span> <span class="n">app</span><span class="o">/</span><span class="n">views</span><span class="o">/</span><span class="n">devise</span><span class="o">/</span><span class="n">registrations</span><span class="o">/</span><span class="n">edit</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">erb</span><span class="o">.</span><span class="n">.</span><span class="o">.</span> <span class="no">Done</span><span class="o">!</span>
+</span><span class='line'><span class="ss">Converting</span><span class="p">:</span> <span class="n">app</span><span class="o">/</span><span class="n">views</span><span class="o">/</span><span class="n">devise</span><span class="o">/</span><span class="n">registrations</span><span class="o">/</span><span class="kp">new</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">erb</span><span class="o">.</span><span class="n">.</span><span class="o">.</span> <span class="no">Done</span><span class="o">!</span>
+</span><span class='line'><span class="ss">Converting</span><span class="p">:</span> <span class="n">app</span><span class="o">/</span><span class="n">views</span><span class="o">/</span><span class="n">devise</span><span class="o">/</span><span class="n">sessions</span><span class="o">/</span><span class="kp">new</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">erb</span><span class="o">.</span><span class="n">.</span><span class="o">.</span> <span class="no">Done</span><span class="o">!</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>うんうん。</p>
+
+<p>追記<br/>
+遅れましたが、Ruby2.0おめでとうございます。<br/>
+とりあえずMacに入れてみました。それだけです。</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2013/02/25/20130225111601/">powとpowderを使おうとしたら、ずっと接続中で何も表示されなかった</a>
         </h1>
     
@@ -903,63 +1028,6 @@ app/assets/stylesheets/:public/stylesheets </code>を実行。<br/>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2012/12/20/20121220180607/">同じ内容のselectボックスを複数置いた場合に、選択項目を他のプルダウンから消す</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2012-12-20T18:06:00+09:00" pubdate><i class="fa fa-calendar"></i> Dec 20th, 2012</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/javascript/'>javascript</a></li>
-            
-                <li><a class='category' href='/blog/categories/jquery/'>jquery</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>htmlでまったく同じselectボックスを複数並べ、選択したら他のプルダウンからその要素を消すカスタムイベントを登録可能なjquery
-pluginを書きました。</p>
-
-<p>動作確認用のexample.htmlを含めgithubに公開しているので、よかったらどうぞ。</p>
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -1023,6 +1091,10 @@ pluginを書きました。</p>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2020/09/30/">9月21日(月) 金谷港 ソーダガツオ</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2020/09/29/hayama-kamasu/">9月19日 葉山 ボート釣り カマス</a>
         </li>
         
@@ -1036,10 +1108,6 @@ pluginを書きました。</p>
         
         <li class="post">
             <a href="/blog/2020/08/27/katsuura-saba/">勝浦方面 サバ</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2020/08/26/hayama-boat-saba/">葉山 ボート釣り サバ ソーダ ワカシ</a>
         </li>
         
     </ul>
