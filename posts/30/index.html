@@ -92,6 +92,101 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2012/01/31/20120131115417/">watchコマンド~ログとかファイル監視する時とかは何も考えずにtail -f ファイル名としちゃう人へ</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2012-01-31T11:54:00+09:00" pubdate><i class="fa fa-calendar"></i> Jan 31st, 2012</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/linux/'>linux</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>ログとかファイル監視する時とかは何も考えずに</p>
+
+<pre><code>tail -f debugger.txt
+</code></pre>
+
+<p>とかってしちゃう人いると思うんですが。</p>
+
+<p>表示する内容が少ない場合なら、watchってのがある。</p>
+
+<pre><code>watch cat debugger.txt
+</code></pre>
+
+<p>でデフォルトの２秒起きにcat
+debugger.txtが実行されます(表示は画面に収まるまで)</p>
+
+<p>秒数変えたければ(下記例は60秒)</p>
+
+<pre><code>watch -n 60 cat debugger.txt
+</code></pre>
+
+<p>コマンドに-dをつければ変更箇所を毎回ハイライトしてくれる。</p>
+
+<pre><code>watch -d cat debugger.txt
+</code></pre>
+
+<p>cumulativeを指定すれば、watchし始めてからの変更をハイライトしてくれる。</p>
+
+<pre><code>watch -d=cumulative cat test.txt
+</code></pre>
+
+<p>もちろんコマンドも可能</p>
+
+<pre><code>watch -d ls -la
+</code></pre>
+
+<p>ロックファイルとか、ファイルが作成されたことの確認したい時とかに便利かもしれません。</p>
+
+<p>開発中にログファイルに特定の文言が出たか知りたい場合とかにも便利。<br/>
+例えば「error」と「fatal」がログに出た場合に、watch使えばすぐ気づける。</p>
+
+<pre><code>watch grep -n -e error -e fatal app.log
+</code></pre>
+
+<p>ってやると行番号付きでerrorかfatalが発生したことがわかる。</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2012/01/30/20120130121056/">コマンドの繋ぎ方</a>
         </h1>
     
@@ -1298,47 +1393,6 @@ return link  </em>to( change  <em>value , disp  </em>path )<br/>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2012/01/18/20120118121739/">20120118121739</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2012-01-18T00:00:00+09:00" pubdate><i class="fa fa-calendar"></i> Jan 18th, 2012</time>
-
-
-
-
-            
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -1402,6 +1456,10 @@ return link  </em>to( change  <em>value , disp  </em>path )<br/>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2020/12/15/hoshizame/">11月19日(日) 12月12日(土) 葉山 ボート釣り シイラ ソウダガツオ ホシザメ</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2020/10/28/hayama-boat/">10月25日(日) 葉山 ボート釣り イナダ ソウダガツオ サバ</a>
         </li>
         
@@ -1415,10 +1473,6 @@ return link  </em>to( change  <em>value , disp  </em>path )<br/>
         
         <li class="post">
             <a href="/blog/2020/09/30/">9月21日(月) 金谷港 ソーダガツオ</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2020/09/29/hayama-kamasu/">9月19日 葉山 ボート釣り カマス</a>
         </li>
         
     </ul>

@@ -92,6 +92,70 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2018/04/18/takasu-sayori/">高須海浜公園 サヨリ</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2018-04-18T11:12:33+09:00" pubdate><i class="fa fa-calendar"></i> Apr 18th, 2018</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/diao-ri/'>釣り</a></li>
+            
+                <li><a class='category' href='/blog/categories/gao-xu-hai-bang-gong-yuan/'>高須海浜公園</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <div class="article__content clearfix">
+        <p>釣行日 2018年04月15日(日)<br/>
+天気 曇<br/>
+場所 高須海浜公園<br/>
+釣行時間: 16:00 〜 17:00</p>
+
+<p>春の嵐ですが、午後から雨と風が和らぐというニュースを見て、急遽ちらほらと釣果情報が聞こえてくる春サヨリを釣りにいきます。<br/>
+家族も引き連れてなので釣り場は高須海浜公園に決定。</p>
+
+
+        <a class="btn pull-right" href="/blog/2018/04/18/takasu-sayori/">Read on &rarr;</a>
+    </div>
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2018/04/12/china-recaptcha/">中国ではGoogle reCAPTCHAを使えません</a>
         </h1>
     
@@ -702,99 +766,6 @@ apiでcsrfって必要なの？<br/>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2018/02/09/carrierwave-expire-setting/">carrierwaveのリンクの有効期間を個別に設定</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2018-02-09T19:27:03+09:00" pubdate><i class="fa fa-calendar"></i> Feb 9th, 2018</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
-            
-                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <div class="article__content clearfix">
-        <p>全体でかける場合はこうですかね。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># config/initializers/carrierwave.rb</span>
-</span><span class='line'><span class="no">CarrierWave</span><span class="o">::</span><span class="no">SanitizedFile</span><span class="o">.</span><span class="n">sanitize_regexp</span> <span class="o">=</span> <span class="sr">/[^[:word:]\.\-\+]/</span> <span class="c1"># for Japanese</span>
-</span><span class='line'><span class="no">CarrierWave</span><span class="o">.</span><span class="n">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
-</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">fog_credentials</span> <span class="o">=</span> <span class="p">{</span>
-</span><span class='line'>    <span class="ss">provider</span><span class="p">:</span>              <span class="s1">&#39;AWS&#39;</span><span class="p">,</span>
-</span><span class='line'>    <span class="ss">aws_access_key_id</span><span class="p">:</span>     <span class="no">ENV</span><span class="o">[</span><span class="ss">:access_key</span><span class="o">]</span><span class="p">,</span>
-</span><span class='line'>    <span class="ss">aws_secret_access_key</span><span class="p">:</span> <span class="no">ENV</span><span class="o">[</span><span class="ss">:secret</span><span class="o">]</span><span class="p">,</span>
-</span><span class='line'>    <span class="ss">region</span><span class="p">:</span>                <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;s3_region&#39;</span><span class="o">]</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">fog_public</span> <span class="o">=</span> <span class="kp">false</span>
-</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">fog_directory</span> <span class="o">=</span> <span class="no">Settings</span><span class="o">.</span><span class="n">aws</span><span class="o">[</span><span class="s1">&#39;s3_bucket&#39;</span><span class="o">]</span>
-</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">cache_storage</span> <span class="o">=</span> <span class="ss">:fog</span>
-</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">fog_authenticated_url_expiration</span> <span class="o">=</span> <span class="mi">1</span><span class="o">.</span><span class="n">minutes</span><span class="o">.</span><span class="n">to_i</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-
-        <a class="btn pull-right" href="/blog/2018/02/09/carrierwave-expire-setting/">Read on &rarr;</a>
-    </div>
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -858,6 +829,10 @@ apiでcsrfって必要なの？<br/>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2020/12/15/hoshizame/">11月19日(日) 12月12日(土) 葉山 ボート釣り シイラ ソウダガツオ ホシザメ</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2020/10/28/hayama-boat/">10月25日(日) 葉山 ボート釣り イナダ ソウダガツオ サバ</a>
         </li>
         
@@ -871,10 +846,6 @@ apiでcsrfって必要なの？<br/>
         
         <li class="post">
             <a href="/blog/2020/09/30/">9月21日(月) 金谷港 ソーダガツオ</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2020/09/29/hayama-kamasu/">9月19日 葉山 ボート釣り カマス</a>
         </li>
         
     </ul>
