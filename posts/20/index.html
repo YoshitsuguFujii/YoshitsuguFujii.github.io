@@ -92,6 +92,99 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2015/02/23/20150223110642/">Axlsxでウィンドウ枠の固定</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2015-02-23T11:06:00+09:00" pubdate><i class="fa fa-calendar"></i> Feb 23rd, 2015</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
+            
+                <li><a class='category' href='/blog/categories/axlsx/'>axlsx</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>エクセルのウィンドウ枠の固定をAxlsxで行う方法</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;axlsx&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">package</span> <span class="o">=</span> <span class="no">Axlsx</span><span class="o">::</span><span class="no">Package</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">sheet</span> <span class="o">=</span> <span class="n">package</span><span class="o">.</span><span class="n">workbook</span><span class="o">.</span><span class="n">add_worksheet</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="s1">&#39;lists&#39;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="o">[</span><span class="s1">&#39;品名&#39;</span><span class="p">,</span> <span class="s1">&#39;単価&#39;</span><span class="p">,</span> <span class="s1">&#39;数量&#39;</span><span class="p">,</span> <span class="s1">&#39;計&#39;</span><span class="o">]</span> <span class="p">)</span>
+</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="o">[</span><span class="s1">&#39;にんじん&#39;</span><span class="p">,</span>    <span class="mi">80</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>      <span class="s1">&#39;=B2*C2&#39;</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">sheet</span><span class="o">.</span><span class="n">sheet_view</span><span class="o">.</span><span class="n">pane</span> <span class="k">do</span> <span class="o">|</span><span class="n">pane</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">pane</span><span class="o">.</span><span class="n">top_left_cell</span> <span class="o">=</span> <span class="s2">&quot;B2&quot;</span>
+</span><span class='line'>  <span class="n">pane</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="ss">:frozen_split</span>
+</span><span class='line'>  <span class="n">pane</span><span class="o">.</span><span class="n">y_split</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'>  <span class="n">pane</span><span class="o">.</span><span class="n">x_split</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'>  <span class="n">pane</span><span class="o">.</span><span class="n">active_pane</span> <span class="o">=</span> <span class="ss">:bottom_right</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">package</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="s1">&#39;test.xlsx&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2015/02/21/20150221171638/">Axlsxでエクセルファイル作成時に注意する点とかはまりどころとか</a>
         </h1>
     
@@ -1014,122 +1107,6 @@ after  _remove<br/>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2014/12/05/20141205115627/">Nokogiriを使って部分的にhtmlを編集する</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2014-12-05T11:56:00+09:00" pubdate><i class="fa fa-calendar"></i> Dec 5th, 2014</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/nokogiri/'>nokogiri</a></li>
-            
-                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>Nokogiriを使ってhelperメソッドで特定のinputに属性(クラス名)を追加したくなったのでやってみました。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">html</span> <span class="o">=</span> <span class="o">&lt;&lt;</span><span class="no">HTML</span>
-</span><span class='line'><span class="sh">&lt;div&gt;</span>
-</span><span class='line'><span class="sh">  &lt;input id=&quot;hoge&quot; class=&quot;field&quot;&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">HTML</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">doc</span> <span class="o">=</span> <span class="no">Nokogiri</span><span class="o">::</span><span class="no">HTML</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">html</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">doc</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s2">&quot;input#hoge&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">input</span><span class="o">|</span>
-</span><span class='line'>  <span class="n">input</span><span class="o">[</span><span class="s1">&#39;class&#39;</span><span class="o">]</span> <span class="o">+=</span> <span class="s2">&quot; has_error&quot;</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">doc</span><span class="o">.</span><span class="n">to_html</span> <span class="c1"># =&gt; &quot;&lt;!DOCTYPE html PUBLIC   &quot;-//W3C//DTD HTML 4.0 Transitional//EN  &quot;   &quot;http://www.w3.org/TR/REC-html40/loose.dtd  &quot;&gt;  n&lt;html&gt;&lt;body&gt;  n&lt;div&gt;  n  &lt;input class=  &quot;field  &quot;&gt;  n  n&lt;/body&gt;&lt;/html&gt;  n&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Nokogiri::HTML.parseだとDOCTYPEとか  <html  >とか余計なものがついてくる。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">html</span> <span class="o">=</span> <span class="o">&lt;&lt;</span><span class="no">HTML</span>
-</span><span class='line'><span class="sh">&lt;div&gt;</span>
-</span><span class='line'><span class="sh">  &lt;input id=&quot;hoge&quot; class=&quot;field&quot;&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">HTML</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">doc</span> <span class="o">=</span> <span class="no">Nokogiri</span><span class="o">::</span><span class="no">HTML</span><span class="o">::</span><span class="no">DocumentFragment</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">html</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">doc</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s2">&quot;input#hoge&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">input</span><span class="o">|</span>
-</span><span class='line'>  <span class="n">input</span><span class="o">[</span><span class="s1">&#39;class&#39;</span><span class="o">]</span> <span class="o">+=</span> <span class="s2">&quot; has_error&quot;</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">doc</span><span class="o">.</span><span class="n">to_html</span> <span class="c1"># =&gt; &quot;&lt;div&gt;  n  &lt;input id=  &quot;hoge  &quot; class=  &quot;field has_error  &quot;&gt;  n  n&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>そういう場合はDocumentFragmentを使うと部分的にhtmlを使える。</p>
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -1193,6 +1170,10 @@ after  _remove<br/>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2021/01/13/vue-hash/">vueでHashをv-forで回す</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2020/12/15/hoshizame/">11月19日(日) 12月12日(土) 葉山 ボート釣り シイラ ソウダガツオ ホシザメ</a>
         </li>
         
@@ -1206,10 +1187,6 @@ after  _remove<br/>
         
         <li class="post">
             <a href="/blog/2020/10/06/boat-kamasu/">10月3日(土) 葉山 ボート釣り カマス</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2020/09/30/">9月21日(月) 金谷港 ソーダガツオ</a>
         </li>
         
     </ul>

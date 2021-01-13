@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://yoshitsugufujii.github.io/blog/2021/01/13/vue-hash/</loc>
+<lastmod>2021-01-13T17:33:10+09:00</lastmod>
+</url>
+<url>
 <loc>http://yoshitsugufujii.github.io/blog/2020/12/15/hoshizame/</loc>
 <lastmod>2020-12-15T15:45:50+09:00</lastmod>
 </url>
@@ -1619,5 +1623,8 @@
 </url>
 <url>
 <loc>http://yoshitsugufujii.github.io/blog/categories/hosizame/</loc>
+</url>
+<url>
+<loc>http://yoshitsugufujii.github.io/blog/categories/vue/</loc>
 </url>
 </urlset>

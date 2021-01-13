@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+    <title><![CDATA[Category: vue | なんとなく日々徒然と]]></title>
+    <link href="http://yoshitsugufujii.github.io/blog/categories/vue/atom.xml" rel="self"/>
+    <link href="http://yoshitsugufujii.github.io/"/>
+    <updated>2021-01-13T17:42:54+09:00</updated>
+    <id>http://yoshitsugufujii.github.io/</id>
+    <author>
+        <name><![CDATA[Yoshitsugu Fujii]]></name>
+        
+      </author>
+    <generator uri="http://octopress.org/">Octopress</generator>
+
+    
+    <entry>
+        <title type="html"><![CDATA[vueでHashをv-forで回す]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2021/01/13/vue-hash/"/>
+        <updated>2021-01-13T17:33:10+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2021/01/13/vue-hash</id>
+        <content type="html"><![CDATA[<p>コロナも増えてきたし本格的に海上に逃げるためにカヤックを買おうか悩んでます。<br/>
+誰かやりませんか</p>
+
+<p>そして四十肩が治りません。<br/>
+酒で痛みを殺しながら日々生きています。</p>
+
+<!-- more -->
+
+
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p>
+<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-7039502723411845"
+     data-ad-slot="8206045005"></ins></p>
+
+<script>  
+     (adsbygoogle = window.adsbygoogle || []).push({});  
+</script>
+
+
+<p></p>
+
+<p>vue.jsで</p>
+
+<pre><code>[ { "id": 1, "value": "hoge" }, { "id": 2, "value": "baa" } ]
+</code></pre>
+
+<p>みたいな配列があってそれをv-forで回したい。</p>
+
+<p>```
+<template></p>
+
+<div>
+  <div v-for="idValue in idValues">
+    <label>ID</label>
+    <input type='number' v-model="idValue.id">
+
+    <label>VALUE</label>
+    <input type='text' v-model="idValue.name">
+  </div>
+</div>
+
+
+<p></template></p>
+
+<script>
+export default {
+  data: {
+    idValues: [ { "id": 1, "value": "hoge" }, { "id": 2, "value": "baa" } ]
+  }
+}
+</script>
+
+
+<p>```</p>
+
+<p>これでちゃんとinputの値をかえるとidValueのHashの値が変更あれます。</p>
+
+<p>現場からは以上です。</p>
+]]></content>
+    </entry>
+    
+</feed>
