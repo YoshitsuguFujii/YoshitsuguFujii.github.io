@@ -1,0 +1,63 @@
+---
+layout: post
+title: "vueでHashをv-forで回す"
+date: 2021-01-13 17:33:10 +0900
+comments: true
+categories: [vue]
+---
+
+コロナも増えてきたし本格的に海上に逃げるためにカヤックを買おうか悩んでます。  
+誰かやりませんか  
+  
+そして四十肩が治りません。  
+酒で痛みを殺しながら日々生きています。
+
+<!-- more -->
+  
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>  
+<ins class="adsbygoogle"  
+     style="display:block; text-align:center;"  
+     data-ad-layout="in-article"  
+     data-ad-format="fluid"  
+     data-ad-client="ca-pub-7039502723411845"  
+     data-ad-slot="8206045005"></ins>  
+<script>  
+     (adsbygoogle = window.adsbygoogle || []).push({});  
+</script>  
+
+vue.jsで
+
+
+```
+[ { "id": 1, "value": "hoge" }, { "id": 2, "value": "baa" } ]
+```
+
+みたいな配列があってそれをv-forで回したい。
+
+
+```
+<template>
+<div>
+  <div v-for="idValue in idValues">
+    <label>ID</label>
+    <input type='number' v-model="idValue.id">
+
+    <label>VALUE</label>
+    <input type='text' v-model="idValue.name">
+  </div>
+</div>
+</template>
+
+
+<script>
+export default {
+  data: {
+    idValues: [ { "id": 1, "value": "hoge" }, { "id": 2, "value": "baa" } ]
+  }
+}
+</script>
+```
+
+これでちゃんとinputの値をかえるとidValueのHashの値が変更あれます。  
+
+現場からは以上です。
