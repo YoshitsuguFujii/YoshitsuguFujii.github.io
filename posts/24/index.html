@@ -92,6 +92,73 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2013/10/18/20131018171610/">find_byのようなダイナミックファインダで例外</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2013-10-18T17:16:00+09:00" pubdate><i class="fa fa-calendar"></i> Oct 18th, 2013</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>find  _byのようなダイナミックファインダで例外<br/>
+びっくりまーくつければいいみたいです。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Prefecture</span><span class="o">.</span><span class="n">find_by_name!</span><span class="p">(</span><span class="s2">&quot;存在しない件&quot;</span> <span class="p">)</span> <span class="c1"># =&gt; ActiveRecord::RecordNotFound</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>rails4ではこうかな</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Prefecture</span><span class="o">.</span><span class="n">find_by!</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="s2">&quot;存在しない件&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2013/10/17/20131017200941/">全モデルから特定の列を持つモデルを抽出</a>
         </h1>
     
@@ -852,66 +919,6 @@ f.text  <em>field :imageable  </em>of  <em>User  </em>type  <em>name  </em>cont<
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2013/05/23/20130523155419/">padrinoでコントローラ名とアクション名</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2013-05-23T15:54:00+09:00" pubdate><i class="fa fa-calendar"></i> May 23rd, 2013</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/padrino/'>padrino</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>sinatraもよくわからないのに、padrino触ってます。</p>
-
-<p>コントローラ名とアクション名はこうやったら取れんじゃないかと</p>
-
-<p>コントローラ名<br/>
-request.controller.to  _s</p>
-
-<p>アクション名<br/>
-request.action.to  _s</p>
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -975,6 +982,10 @@ request.action.to  _s</p>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2021/11/16/render-jbuilder-text-in-grape/">grapeでrender_to_string</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2021/02/12/hfc-boat/">2月6日(土) 葉山 ボート釣り カワハギ イワシ</a>
         </li>
         
@@ -988,10 +999,6 @@ request.action.to  _s</p>
         
         <li class="post">
             <a href="/blog/2020/12/15/hoshizame/">11月19日(日) 12月12日(土) 葉山 ボート釣り シイラ ソウダガツオ ホシザメ</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2020/10/28/hayama-boat/">10月25日(日) 葉山 ボート釣り イナダ ソウダガツオ サバ</a>
         </li>
         
     </ul>

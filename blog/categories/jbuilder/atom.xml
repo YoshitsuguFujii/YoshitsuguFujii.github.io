@@ -4,7 +4,7 @@
     <title><![CDATA[Category: jbuilder | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/jbuilder/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2021-02-12T11:20:59+09:00</updated>
+    <updated>2021-11-16T14:15:29+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,67 @@
       </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[grapeでrender_to_string]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2021/11/16/render-jbuilder-text-in-grape/"/>
+        <updated>2021-11-16T14:08:41+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2021/11/16/render-jbuilder-text-in-grape</id>
+        <content type="html"><![CDATA[<p>すっかり存在を忘れていたような、あえて忘れていたような。<br/>
+お久しぶりです。藤井です。</p>
+
+<p>最近は横須賀のボートばっかり行ってます。カヤックもはじめました。<br/>
+プロフィッシュ45にのっています。<br/>
+舘山で３回浮かびました。<br/>
+出艇ポイントを知らないのでこれから勉強します。</p>
+
+<p>メモを整理していたら走り書きのようなコードがいくつかあって有意義そうなのをのせようかと</p>
+
+<!-- more -->  
+
+
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p>
+<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-7039502723411845"
+     data-ad-slot="8206045005"></ins></p>
+
+<script>  
+     (adsbygoogle = window.adsbygoogle || []).push({});  
+</script>
+
+
+<p></p>
+
+<pre><code class="ruby  ">def render_jbuilder(file_path)  
+  root_path =  Rails.root.join 'app', 'views', 'api'  
+  engine = ::Tilt.new(root_path / file_path, nil, view_path: root_path)  
+  JSON.parse(engine.render(self))  
+end  
+</code></pre>
+
+<p>root_path取得のところは</p>
+
+<pre><code class="">env['api.tilt.root'] = Rails.root.join 'app', 'views', 'api'  
+</code></pre>
+
+<p>の設定をconfig/application.rbとかでやっているのであれば</p>
+
+<pre><code class="">root_path = env['api.tilt.root']  
+</code></pre>
+
+<p>でも取れます。</p>
+
+<p>現場からは以上です。</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[jbuilderのtemplateを使ってhashを取得]]></title>
