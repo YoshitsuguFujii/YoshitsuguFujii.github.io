@@ -4,7 +4,7 @@
     <title><![CDATA[Category: axlsx | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/axlsx/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2021-11-16T14:15:29+09:00</updated>
+    <updated>2022-11-11T16:26:54+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,67 @@
       </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[Axlsxで半角英数字のみの入力を受け付けたい]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2022/11/11/axlsx-custom-validation/"/>
+        <updated>2022-11-11T16:00:07+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2022/11/11/axlsx-custom-validation</id>
+        <content type="html"><![CDATA[<p>お仕事いただいていたサービスが立て続けにcloseとなってしまいピンチの藤井です。<br/>
+お仕事ください！</p>
+
+<p>暇なので<a href="https://qiita.com/YoshitsuguFujii/items/e35ef63f3c9162babb14">Qiita</a>に記事かいたら全然いいねもらえません。<br/>
+いいねください！</p>
+
+<!-- more -->  
+
+
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p>  <br/>
+<ins class="adsbygoogle"  
+     style="display:block; text-align:center;"  
+     data-ad-layout="in-article"  
+     data-ad-format="fluid"  
+     data-ad-client="ca-pub-7039502723411845"  
+     data-ad-slot="8206045005"></ins></p>
+
+<script>    
+     (adsbygoogle = window.adsbygoogle || []).push({});    
+</script>
+
+
+<p></p>
+
+<p>Axlsxでセルに入力規則で半角英数字のみで何文字以上、何文字以内を設定したので記載</p>
+
+<pre><code class="ruby">p = Axlsx::Package.new
+p.workbook.add_worksheet do |ws|
+
+  ws.add_data_validation("A1:A1", {
+    :type =&gt; :custom,
+    :formula1 =&gt; 'AND(COUNT(INDEX(FIND(MID(UPPER(A1)&amp;amp;REPT("*",64),ROW($1:$64),1),"ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"),))=LEN(A1),LENB(A1)&amp;gt;9,LENB(A1)&amp;lt;65)',
+    :showDropDown =&gt; false,
+    :showErrorMessage =&gt; true,
+    :errorTitle =&gt; '入力エラー',
+    :error =&gt; '半角英数字10文字以上、64文字以内で入力してください',
+    :errorStyle =&gt; :stop,
+    :showInputMessage =&gt; true,
+    :prompt =&gt; '半角英数字10文字以上、64文字以内'})
+
+end
+
+p.serialize 'data_validation.xlsx'
+</code></pre>
+
+<p><img src="http://yoshitsugufujii.github.io/images/blog/20221111/image.png"></p>
+
+<p>現場からは以上です。</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[Axlsxでコメント表示]]></title>
@@ -233,37 +294,6 @@ p.serialize 'rich_text.xlsx'
 <p><img src="/images/blog/2015-07-14%2020.30.19.png" alt="完成イメージ" /></p>
 
 <p>Axlsxなんでもできますね！</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[Axlsxでエクセルのセルを折り返して全体を表示]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2015/02/24/20150224142535/"/>
-        <updated>2015-02-24T14:25:12+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2015/02/24/20150224142535</id>
-        <content type="html"><![CDATA[<pre><code class="ruby">require 'axlsx'
-
-package = Axlsx::Package.new
-sheet = package.workbook.add_worksheet(name: 'lists')
-
-wrap_text = sheet.styles.add_style(
-                              {
-                               :fg_color=&gt; "FFFFFF",                           # 文字色
-                               :b =&gt; true,                                     # 太字
-                               :bg_color =&gt; "004586",                          # 背景色
-                               :sz =&gt; 12,                                      # フォントサイズ
-                               :border =&gt; { :style =&gt; :thin, :color =&gt; "00" }, # 罫線
-                               :alignment =&gt; { :horizontal =&gt; :center,         # 配置
-                                               :vertical =&gt; :center ,
-                                               :wrap_text =&gt; true}
-                              }
-                            )
-
-sheet.add_row(['とっても長いテキスト', '短いテキスト'], style: wrap_text)
-
-sheet.column_info.first.width = 5
-package.serialize('test.xlsx')
-</code></pre>
 ]]></content>
     </entry>
     

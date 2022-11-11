@@ -4,7 +4,7 @@
     <title><![CDATA[Category: ruby on rails | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/ruby-on-rails/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2021-11-16T14:15:29+09:00</updated>
+    <updated>2022-11-11T16:26:54+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,67 @@
       </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[Axlsxで半角英数字のみの入力を受け付けたい]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2022/11/11/axlsx-custom-validation/"/>
+        <updated>2022-11-11T16:00:07+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2022/11/11/axlsx-custom-validation</id>
+        <content type="html"><![CDATA[<p>お仕事いただいていたサービスが立て続けにcloseとなってしまいピンチの藤井です。<br/>
+お仕事ください！</p>
+
+<p>暇なので<a href="https://qiita.com/YoshitsuguFujii/items/e35ef63f3c9162babb14">Qiita</a>に記事かいたら全然いいねもらえません。<br/>
+いいねください！</p>
+
+<!-- more -->  
+
+
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p>  <br/>
+<ins class="adsbygoogle"  
+     style="display:block; text-align:center;"  
+     data-ad-layout="in-article"  
+     data-ad-format="fluid"  
+     data-ad-client="ca-pub-7039502723411845"  
+     data-ad-slot="8206045005"></ins></p>
+
+<script>    
+     (adsbygoogle = window.adsbygoogle || []).push({});    
+</script>
+
+
+<p></p>
+
+<p>Axlsxでセルに入力規則で半角英数字のみで何文字以上、何文字以内を設定したので記載</p>
+
+<pre><code class="ruby">p = Axlsx::Package.new
+p.workbook.add_worksheet do |ws|
+
+  ws.add_data_validation("A1:A1", {
+    :type =&gt; :custom,
+    :formula1 =&gt; 'AND(COUNT(INDEX(FIND(MID(UPPER(A1)&amp;amp;REPT("*",64),ROW($1:$64),1),"ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"),))=LEN(A1),LENB(A1)&amp;gt;9,LENB(A1)&amp;lt;65)',
+    :showDropDown =&gt; false,
+    :showErrorMessage =&gt; true,
+    :errorTitle =&gt; '入力エラー',
+    :error =&gt; '半角英数字10文字以上、64文字以内で入力してください',
+    :errorStyle =&gt; :stop,
+    :showInputMessage =&gt; true,
+    :prompt =&gt; '半角英数字10文字以上、64文字以内'})
+
+end
+
+p.serialize 'data_validation.xlsx'
+</code></pre>
+
+<p><img src="http://yoshitsugufujii.github.io/images/blog/20221111/image.png"></p>
+
+<p>現場からは以上です。</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[grapeでrender_to_string]]></title>
@@ -249,50 +310,6 @@ gsutil cors get gs://&lt;bucket name&gt;
 </code></p>
 
 <p>で通るようになります。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[Railsでお手軽にメールを送る]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2019/07/08/simple-email-send/"/>
-        <updated>2019-07-08T11:15:30+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2019/07/08/simple-email-send</id>
-        <content type="html"><![CDATA[<p>お手軽にある特定のエラーなどの情報を簡単なワンメッセージを関係者に送りたい場合、</p>
-
-<pre><code>rails generate mailer UserMailer
-</code></pre>
-
-<p>とかやってテンプレートつかってってやると重厚すぎてつらい。</p>
-
-<!-- more -->
-
-
-
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-
-
-<p>
-<ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-layout="in-article"
-     data-ad-format="fluid"
-     data-ad-client="ca-pub-7039502723411845"
-     data-ad-slot="8206045005"></ins></p>
-
-<script>  
-     (adsbygoogle = window.adsbygoogle || []).push({});  
-</script>
-
-
-<p></p>
-
-<p>ワンライナーでメールを送るにはこうやればいい。</p>
-
-<pre><code>ActionMailer::Base.mail(from: 'error@example.com', to: 'admin@example.com', subject: '何かエラーが発生しました', body: '設定を見直してください').deliver
-</code></pre>
-
-<p>現場からは以上です。</p>
 ]]></content>
     </entry>
     

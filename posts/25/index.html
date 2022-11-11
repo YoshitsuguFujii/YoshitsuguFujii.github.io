@@ -92,6 +92,104 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2013/06/20/20130620203034/">ransackを使ったpolymorphic関連のモデルの検索処理</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2013-06-20T20:30:00+09:00" pubdate><i class="fa fa-calendar"></i> Jun 20th, 2013</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/rails/'>rails</a></li>
+            
+                <li><a class='category' href='/blog/categories/ransack/'>ransack</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>polymorphic関連のモデルの検索処理をransack使って書いていて、どうやるんだ？<br/>
+ってなった。答えはここにあった。<br/>
+<a href="http://stackoverflow.com/questions/13077954/does-ransack-support-the-same-polymorhpic-belongs-to-associations-in-its-searche">http://stackoverflow.com/questions/13077954/does-ransack-support-the-same-polymorhpic-belongs-to-associations-in-its-searche</a></p>
+
+<p>polymorphicに関してのわかりやすい説明はこちらのサイトで。</p>
+
+<p><a href="http://shirusu-ni-tarazu.hatenablog.jp/entry/2012/11/04/173742">http://shirusu-ni-tarazu.hatenablog.jp/entry/2012/11/04/173742</a></p>
+
+<p>説明にもここの情報を使わせていただきます。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Image</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:imageable</span><span class="p">,</span> <span class="ss">:polymorphic</span> <span class="o">=&gt;</span> <span class="kp">true</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Company</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">has_many</span> <span class="ss">:images</span><span class="p">,</span> <span class="ss">:as</span> <span class="o">=&gt;</span> <span class="ss">:imageable</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">has_many</span> <span class="ss">:images</span><span class="p">,</span> <span class="ss">:as</span> <span class="o">=&gt;</span> <span class="ss">:imageable</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>  #Imageからみた検索<br/>
+  # companyの名前のlike検索<br/>
+f.text  <em>field :imageable  </em>of  <em>Company  </em>type  <em>name  </em>cont</p>
+
+<p>  #Imageからみた検索<br/>
+  # userの名前のlike検索<br/>
+f.text  <em>field :imageable  </em>of  <em>User  </em>type  <em>name  </em>cont</p>
+
+<p>polymorphic名 of 検索したいクラス名 + type + 検索対象列 + 条件<br/>
+で検索できるみたい。</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2013/05/23/20130523155419/">padrinoでコントローラ名とアクション名</a>
         </h1>
     
@@ -859,75 +957,6 @@ PC起動してからの経過時間。<br/>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2013/02/25/20130225111601/">powとpowderを使おうとしたら、ずっと接続中で何も表示されなかった</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2013-02-25T11:16:00+09:00" pubdate><i class="fa fa-calendar"></i> Feb 25th, 2013</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>という現象</p>
-
-<p>powのログを見てみる。<br/>
-場所は  $HOME/Library/Logs/Pow/apps/your  _appname.log</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">[</span><span class="no">Wed</span> <span class="no">Feb</span> <span class="mi">20</span> <span class="mi">2013</span> <span class="mi">17</span><span class="p">:</span><span class="mi">35</span><span class="p">:</span><span class="mi">57</span> <span class="no">GMT</span><span class="o">+</span><span class="mi">0900</span> <span class="p">(</span><span class="no">JST</span><span class="p">)</span><span class="o">]</span> <span class="no">DEBUG</span> <span class="n">nack</span> <span class="n">worker</span> <span class="mi">2833</span> <span class="n">spawned</span>
-</span><span class='line'><span class="o">[</span><span class="no">Wed</span> <span class="no">Feb</span> <span class="mi">20</span> <span class="mi">2013</span> <span class="mi">17</span><span class="p">:</span><span class="mi">35</span><span class="p">:</span><span class="mi">57</span> <span class="no">GMT</span><span class="o">+</span><span class="mi">0900</span> <span class="p">(</span><span class="no">JST</span><span class="p">)</span><span class="o">]</span> <span class="no">WARNING</span> <span class="no">Could</span> <span class="ow">not</span> <span class="n">find</span> <span class="n">i18n</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">6</span><span class="o">.</span><span class="mi">1</span> <span class="k">in</span> <span class="n">any</span> <span class="n">of</span> <span class="n">the</span> <span class="n">sources</span>
-</span><span class='line'><span class="o">[</span><span class="no">Wed</span> <span class="no">Feb</span> <span class="mi">20</span> <span class="mi">2013</span> <span class="mi">17</span><span class="p">:</span><span class="mi">35</span><span class="p">:</span><span class="mi">57</span> <span class="no">GMT</span><span class="o">+</span><span class="mi">0900</span> <span class="p">(</span><span class="no">JST</span><span class="p">)</span><span class="o">]</span> <span class="no">WARNING</span> <span class="no">Try</span> <span class="n">running</span> <span class="sb">`bundle install`</span><span class="o">.</span>
-</span><span class='line'><span class="o">[</span><span class="no">Wed</span> <span class="no">Feb</span> <span class="mi">20</span> <span class="mi">2013</span> <span class="mi">17</span><span class="p">:</span><span class="mi">35</span><span class="p">:</span><span class="mi">57</span> <span class="no">GMT</span><span class="o">+</span><span class="mi">0900</span> <span class="p">(</span><span class="no">JST</span><span class="p">)</span><span class="o">]</span> <span class="no">DEBUG</span> <span class="n">nack</span> <span class="n">worker</span> <span class="n">exited</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>むむ？ないって言われてる。と思ってアプリのルートみたら、.rvmrcおいてなかった。<br/>
-置いてみたら直りましたというひどいミス・・・</p>
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -991,6 +1020,10 @@ PC起動してからの経過時間。<br/>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2022/11/11/axlsx-custom-validation/">Axlsxで半角英数字のみの入力を受け付けたい</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2021/11/16/render-jbuilder-text-in-grape/">grapeでrender_to_string</a>
         </li>
         
@@ -1004,10 +1037,6 @@ PC起動してからの経過時間。<br/>
         
         <li class="post">
             <a href="/blog/2021/01/13/vue-hash/">vueでHashをv-forで回す</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2020/12/15/hoshizame/">11月19日(日) 12月12日(土) 葉山 ボート釣り シイラ ソウダガツオ ホシザメ</a>
         </li>
         
     </ul>
