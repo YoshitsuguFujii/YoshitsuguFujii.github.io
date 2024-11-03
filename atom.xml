@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2022-11-11T16:26:54+09:00</updated>
+    <updated>2024-11-03T15:09:36+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,392 @@
     </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[Valueオブジェクトパターン]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2024/11/03/value-object-pattern/"/>
+        <updated>2024-11-03T14:29:30+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2024/11/03/value-object-pattern</id>
+        <content type="html"><![CDATA[<p>メリークリスマス！（はやい）。</p>
+
+<p>家族と牛丼屋さんで、</p>
+
+<p>昔は並だと物足りなかったのに、最近は持て余すよなぁ！</p>
+
+<p>と笑顔で言ったら、</p>
+
+<p>おじいちゃんになったんじゃない？</p>
+
+<p>と言われて静かにショックをうけて黙ってしまったシニアなフリーランスエンジニアの藤井です。</p>
+
+<p>この記事は、<a href="https://qiita.com/advent-calendar/2024/ruby-on-rails">Ruby on Rails Advent Calendar 2024 Advent Calendar 2024</a> の1日目です。</p>
+
+<p>すいません。偉そうな名前をつけていますが、ActiveRecordで値オブジェクトを使うことで、より見やすくわかりやすく、責務を適切に閉じ込めて疎結合にし、コードをシンプルにするにあたって有意義だったと感じた実装方法です。</p>
+
+<p>もしすでに既出だったりしたらそっと教えて下さい。</p>
+
+<!-- more -->  
+
+
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p>  <br/>
+<ins class="adsbygoogle"  
+     style="display:block; text-align:center;"  
+     data-ad-layout="in-article"  
+     data-ad-format="fluid"  
+     data-ad-client="ca-pub-7039502723411845"  
+     data-ad-slot="8206045005"></ins></p>
+
+<script>    
+     (adsbygoogle = window.adsbygoogle || []).push({});    
+</script>
+
+
+<p></p>
+
+<p>Railsの一般的なコードを見ると、どこでもhashを持ち回して、キーアクセスで欲しいデータにアクセスして取り出すという実装が多い気がしていて、hashの空中戦みたいな、ある時点でその中身がどうなっているのかコード上でわからないのがだいぶ辛いと感じる時があります(処理を全部追うか、デバッグでとめて中身を見るか)</p>
+
+<p>それを顕著に感じるのはテーブルにjson型を使っているときです。</p>
+
+<p>中身はそのままhashだったりするのですが、中身ぱぱっと想像できます？<br/>
+DBの値を見てもイマイチなんてこと多いんじゃないでしょうか。</p>
+
+<p>そんなjson型のカラムに適用すると真価を発揮するパターンなんですが、今回はよりシンプルな数量というものに適用してみたいと思います(json型はまた別の機会に)</p>
+
+<p>そもそもなんでこの実装にしようと思ったかというと、Goとかで実装すると構造体に構造体を埋めて生成するのが当たり前ですよね？</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='go'><span class='line'><span class="c1">// 住所の値オブジェクト</span>
+</span><span class='line'><span class="kd">type</span> <span class="nx">Address</span> <span class="kd">struct</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">Street</span> <span class="kt">string</span>
+</span><span class='line'>    <span class="nx">City</span>   <span class="kt">string</span>
+</span><span class='line'>    <span class="nx">Zip</span>    <span class="kt">string</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Person構造体</span>
+</span><span class='line'><span class="kd">type</span> <span class="nx">Person</span> <span class="kd">struct</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">Name</span>    <span class="kt">string</span>
+</span><span class='line'>    <span class="nx">Age</span>     <span class="kt">int</span>
+</span><span class='line'>    <span class="nx">Address</span> <span class="nx">Address</span> <span class="c1">// Address構造体を埋め込む</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Person型に住所型の責務と実装がにじみでることはないし、Personが住所にZipが必須かチェックするということも発生しません。ロジックが綺麗にカプセル化されていて、とても整理されていると感じます。住所の持ち方を変えたとしてもその影響がPersonに影響を与えることもありません。</p>
+
+<p>これRailsでも使えない？と思ったのがはじまりです。</p>
+
+<p>では実際に見ていきましょう。</p>
+
+<p>サンプルコードは以下のバージョンで動かしています。</p>
+
+<p>Ruby 3.3.5<br/>
+Rails 7.2.2</p>
+
+<p>また見やすくするために<a href="https://github.com/bootstrap-ruby/bootstrap_form">bootstrap_form</a>を使っています。</p>
+
+<p>購入モデルを作成します。購入モデルはユーザー名と数量を持ちます。</p>
+
+<p>数量はマイナス値でないこと、最大値は99というルールを持ちます。</p>
+
+<p>まずは値オブジェクトとして数量を定義します。</p>
+
+<p>DDDの世界で開発している人から見ると、数量はただの数値ではありません。数値は数値で数量は数量です。という言葉が聞こえてきそうです。<br/>
+数量がマイナス値でないこと、99を超える数値でないことを数量自身が管理できると良さそうです。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Values</span>
+</span><span class='line'>  <span class="k">class</span> <span class="nc">Quantity</span>
+</span><span class='line'>    <span class="kp">include</span> <span class="no">ActiveModel</span><span class="o">::</span><span class="no">Model</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kp">attr_reader</span> <span class="ss">:number</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">validates</span> <span class="ss">:number</span><span class="p">,</span> <span class="ss">presence</span><span class="p">:</span> <span class="kp">true</span>
+</span><span class='line'>    <span class="n">validates</span> <span class="ss">:number</span><span class="p">,</span> <span class="ss">numericality</span><span class="p">:</span> <span class="p">{</span>
+</span><span class='line'>      <span class="ss">only_integer</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span>
+</span><span class='line'>      <span class="ss">greater_than</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+</span><span class='line'>      <span class="ss">less_than_or_equal_to</span><span class="p">:</span> <span class="mi">99</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">validate</span> <span class="ss">:hogehoge</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+</span><span class='line'>      <span class="vi">@number</span> <span class="o">=</span> <span class="n">number</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">to_i</span>
+</span><span class='line'>      <span class="vi">@number</span><span class="o">.</span><span class="n">to_i</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">hogehoge</span>
+</span><span class='line'>      <span class="c1"># カスタムバリデーションも使えるぜというだけのメソッド</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>値オブジェクトの中に数量に関するロジックが閉じ込められています。</p>
+
+<p>次にmodelで値オブジェクトをつかえるようにするためのserializerの定義です。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Serializers</span>
+</span><span class='line'>  <span class="k">class</span> <span class="nc">QuantitySerializer</span>
+</span><span class='line'>    <span class="c1"># Rubyオブジェクトを変換</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">dump</span><span class="p">(</span><span class="n">quantity</span><span class="p">)</span>
+</span><span class='line'>      <span class="k">if</span> <span class="n">quantity</span><span class="o">.</span><span class="n">is_a?</span><span class="p">(</span><span class="no">Hash</span><span class="p">)</span>
+</span><span class='line'>        <span class="no">Values</span><span class="o">::</span><span class="no">Quantity</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">quantity</span><span class="o">[</span><span class="ss">:number</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>      <span class="k">else</span>
+</span><span class='line'>        <span class="n">quantity</span>
+</span><span class='line'>      <span class="k">end</span><span class="o">.</span><span class="n">to_i</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1"># Rubyオブジェクトに変換</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">load</span><span class="p">(</span><span class="n">quantity</span><span class="p">)</span>
+</span><span class='line'>      <span class="no">Values</span><span class="o">::</span><span class="no">Quantity</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">quantity</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>データベースから取り出した時に値オブジェクトに変換し、データベースに保存する時に数値に戻しています。</p>
+
+<p>最後にmodelです</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Purchase</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+</span><span class='line'>  <span class="n">serialize</span> <span class="ss">:quantity</span><span class="p">,</span> <span class="ss">coder</span><span class="p">:</span> <span class="no">Serializers</span><span class="o">::</span><span class="no">QuantitySerializer</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">validate</span> <span class="ss">:validate_quantity</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">validate_quantity</span>
+</span><span class='line'>    <span class="k">return</span> <span class="k">if</span> <span class="nb">self</span><span class="o">.</span><span class="n">quantity</span><span class="o">.</span><span class="n">valid?</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">errors</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="ss">:base</span><span class="p">,</span> <span class="s2">&quot;数量にエラーがあります&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>さすがに透過的に値オブジェクトのvalidationは実行してくれないので、マニュアルで実行する必要があります。</p>
+
+<p>上記だけで数量という値オブジェクトをPurchaseモデルに埋め込むことができます。</p>
+
+<p>見て分かる通り、数量のロジックがPurchaseモデルに現れることはありません。責務で綺麗に分割され、ロジックがカプセル化されているのがわかると思います。
+そしてserializeの行を消せば数量ロジックが完全にデタッチできます。違う数量の値オブジェクトを作って差し替えることも可能です。完全に疎結合です。</p>
+
+<p>そして他のモデルで数量を使いたい場合には、Purchaseモデルの中身をそっくりapp/models/concerns配下のmoduleに入れてそれを使いたいモデルでimportするようにすれば、他のモデルでも簡単に使い回しが可能です。</p>
+
+<p>さらにその場合、数量ロジックが変わったとしても各モデルに手をいれるのではなくて、数量クラスのロジックに手をいれるだけで自動的に全クラスに適用されます(影響範囲が閉じられている)</p>
+
+<p>では実際に動かしてみましょう。</p>
+
+<p>コントローラーとviewのformのコードものせます。</p>
+
+<p>コントローラー(新規作成だけ)</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">PurchasesController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">new</span>
+</span><span class='line'>    <span class="vi">@purchase</span> <span class="o">=</span> <span class="no">Purchase</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">create</span>
+</span><span class='line'>    <span class="vi">@purchase</span> <span class="o">=</span> <span class="no">Purchase</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">purchase_params</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="vi">@purchase</span><span class="o">.</span><span class="n">save</span>
+</span><span class='line'>      <span class="n">redirect_to</span> <span class="vi">@purchase</span><span class="p">,</span> <span class="ss">notice</span><span class="p">:</span> <span class="s2">&quot;Purchase was successfully created.&quot;</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="n">render</span> <span class="ss">:new</span><span class="p">,</span> <span class="ss">status</span><span class="p">:</span> <span class="ss">:unprocessable_entity</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kp">private</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">purchase_params</span>
+</span><span class='line'>    <span class="n">params</span><span class="o">.</span><span class="n">require</span><span class="p">(</span><span class="ss">:purchase</span><span class="p">)</span><span class="o">.</span><span class="n">permit</span><span class="p">(</span><span class="ss">:username</span><span class="p">,</span> <span class="ss">quantity</span><span class="p">:</span> <span class="ss">:number</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>form</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="sx">%= bootstrap_form_for purchase do |f| %&gt;</span>
+</span><span class='line'><span class="sx">  &lt;% if purchase.errors.any? %&gt;</span>
+</span><span class='line'><span class="sx">    &lt;div class=</span><span class="s2">&quot;alert alert-danger&quot;</span><span class="o">&gt;</span>
+</span><span class='line'>      <span class="o">&lt;</span><span class="n">h4</span><span class="o">&gt;&lt;</span><span class="sx">%= pluralize(purchase.errors.count, &quot;error&quot;) %&gt; prohibited this purchase from being saved:&lt;/h4&gt;</span>
+</span><span class='line'><span class="sx">      &lt;ul&gt;</span>
+</span><span class='line'><span class="sx">        &lt;% purchase.errors.full_messages.each do |message| %&gt;</span>
+</span><span class='line'><span class="sx">          &lt;li&gt;&lt;%=</span> <span class="n">message</span> <span class="sx">%&gt;&lt;/li&gt;</span>
+</span><span class='line'>        <span class="o">&lt;</span><span class="sx">% end %&gt;</span>
+</span><span class='line'><span class="sx">      &lt;/ul&gt;</span>
+</span><span class='line'>    <span class="o">&lt;</span><span class="sr">/div&gt;</span>
+</span><span class='line'><span class="sr">  &lt;% end %&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">  &lt;div class=&quot;row&quot;&gt;</span>
+</span><span class='line'><span class="sr">    &lt;div class=&quot;ms-3 mb-3 col-4&quot;&gt;</span>
+</span><span class='line'><span class="sr">      &lt;%= f.text_field :username, label: &quot;Username&quot;, class: &quot;form-control&quot; %&gt;</span>
+</span><span class='line'><span class="sr">    &lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="sr">/div&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">  &lt;div class=&quot;row&quot;&gt;</span>
+</span><span class='line'><span class="sr">    &lt;div class=&quot;ms-3 mb-3 col-4&quot;&gt;</span>
+</span><span class='line'><span class="sr">      &lt;%= f.fields_for :quantity, f.object.quantity do |fq| %&gt;</span>
+</span><span class='line'><span class="sr">        &lt;%= fq.number_field :number, label: &quot;Quantity&quot;, class: &quot;form-control&quot; %&gt;</span>
+</span><span class='line'><span class="sr">      &lt;% end %&gt;</span>
+</span><span class='line'><span class="sr">    &lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="sr">/div&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">  &lt;div class=&quot;mt-3&quot;&gt;</span>
+</span><span class='line'><span class="sr">    &lt;%= f.submit class: &quot;btn btn-primary&quot; %&gt;</span>
+</span><span class='line'><span class="sr">  &lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="sx">% end </span><span class="o">%&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>fields_forを使わずに書くと実はもうちょっとserializerとかパラメータの取り回しとかをシンプルに書けたりするんですが、こう書くとエラーオブジェクトを透過的に伝播させれるため使っています。</p>
+
+<p>実際にvalidationエラーをおこした画面がこちらです。</p>
+
+<p><img src="http://yoshitsugufujii.github.io/images/blog/20241103/error.png"></p>
+
+<p>値オブジェクトのエラーも特別な記述なくしっかりとformでレンダリングされています。</p>
+
+<p>validationエラーを起こさないで保存に成功した場合は、DBに数値のみが入っているはずです。</p>
+
+<p>いかがでしたでしょうか？</p>
+
+<p>ActiveRecordのモデルに値オブジェクトを適用することで、ロジックが読みやすく、わかりやすくなり、ロジックはカプセル化されて影響範囲が読みやすくなり、責務は明確になり、疎結合になることにより、よりオブジェクト指向に近づけられたのではないでしょうか？</p>
+
+<p>Valueオブジェクトパターンの紹介でした。</p>
+
+<p>次回書く気力があればこの回の焼き回しになりそうですが、json編をお届けしようと思います。</p>
+
+<p>今回作成したコードは<a href="https://github.com/YoshitsuguFujii/value_pattern">こちら</a>にあります</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[Axlsxで半角英数字のみの入力を受け付けたい]]></title>
@@ -1783,62 +2169,6 @@ includeとprependとextendを一個のmoduleで実現するサンプル。</p>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[v-strom250にリムステッカー]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2020/03/16/v-strom-250-rim-sticker/"/>
-        <updated>2020-03-16T15:58:51+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2020/03/16/v-strom-250-rim-sticker</id>
-        <content type="html"><![CDATA[<p>コロナですねー。うちには喘息の毛がある子供がいるので外出は自粛モード。<br/>
-じゃあ釣りに行くかって思ったんですが、爆風だったり寒かったり雨だったり。<br/>
-ということで愛車v-strom250を洗車したついでにリムステッカーを貼ってみました。</p>
-
-<!-- more -->  
-
-
-
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-
-
-<p>
-<ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-layout="in-article"
-     data-ad-format="fluid"
-     data-ad-client="ca-pub-7039502723411845"
-     data-ad-slot="8206045005"></ins></p>
-
-<script>  
-     (adsbygoogle = window.adsbygoogle || []).push({});  
-</script>
-
-
-<p></p>
-
-<p>貼ったリムステッカーはこれです。</p>
-
-<p>（モノクラフト）MonoCraft スズキ Vストローム250 リムステッカー SET TYPE-01 (イエロー) MC-VST_01-Y MonoCraft（モノクラフト）</p>
-
-<iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&bc1=000000&IS2=1&bg1=FFFFFF&fc1=000000&lc1=0000FF&t=gogosakura-22&language=ja_JP&o=9&p=8&l=as4&m=amazon&f=ifr&ref=as_ss_li_til&asins=B07KD7YPSJ&linkId=72c8f1af18ffcb6a9b75ab050dc823bd"></iframe>
-
-
-<p>Amazonで買った脱脂剤を使ってホイールを綺麗に。</p>
-
-<iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&bc1=000000&IS2=1&bg1=FFFFFF&fc1=000000&lc1=0000FF&t=gogosakura-22&language=ja_JP&o=9&p=8&l=as4&m=amazon&f=ifr&ref=as_ss_li_til&asins=B00363PTSG&linkId=8785c3f87ea4cf2506b353e82b42609d"></iframe>
-
-
-<p><img src="http://yoshitsugufujii.github.io/images/blog/20200316/IMG_4770.JPG"></p>
-
-<p><img src="http://yoshitsugufujii.github.io/images/blog/20200316/IMG_4769.JPG"></p>
-
-<p><img src="http://yoshitsugufujii.github.io/images/blog/20200316/IMG_4775.JPG"></p>
-
-<p><img src="http://yoshitsugufujii.github.io/images/blog/20200316/IMG_4777.JPG"></p>
-
-<p>うーん。頑張った割に思ったよりかっこよくはなかったなという印象w</p>
 ]]></content>
     </entry>
     

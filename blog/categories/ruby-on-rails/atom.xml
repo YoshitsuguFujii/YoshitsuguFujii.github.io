@@ -4,7 +4,7 @@
     <title><![CDATA[Category: ruby on rails | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/ruby-on-rails/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2022-11-11T16:26:54+09:00</updated>
+    <updated>2024-11-03T15:09:36+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,266 @@
       </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[Valueオブジェクトパターン]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2024/11/03/value-object-pattern/"/>
+        <updated>2024-11-03T14:29:30+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2024/11/03/value-object-pattern</id>
+        <content type="html"><![CDATA[<p>メリークリスマス！（はやい）。</p>
+
+<p>家族と牛丼屋さんで、</p>
+
+<p>昔は並だと物足りなかったのに、最近は持て余すよなぁ！</p>
+
+<p>と笑顔で言ったら、</p>
+
+<p>おじいちゃんになったんじゃない？</p>
+
+<p>と言われて静かにショックをうけて黙ってしまったシニアなフリーランスエンジニアの藤井です。</p>
+
+<p>この記事は、<a href="https://qiita.com/advent-calendar/2024/ruby-on-rails">Ruby on Rails Advent Calendar 2024 Advent Calendar 2024</a> の1日目です。</p>
+
+<p>すいません。偉そうな名前をつけていますが、ActiveRecordで値オブジェクトを使うことで、より見やすくわかりやすく、責務を適切に閉じ込めて疎結合にし、コードをシンプルにするにあたって有意義だったと感じた実装方法です。</p>
+
+<p>もしすでに既出だったりしたらそっと教えて下さい。</p>
+
+<!-- more -->  
+
+
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+<p>  <br/>
+<ins class="adsbygoogle"  
+     style="display:block; text-align:center;"  
+     data-ad-layout="in-article"  
+     data-ad-format="fluid"  
+     data-ad-client="ca-pub-7039502723411845"  
+     data-ad-slot="8206045005"></ins></p>
+
+<script>    
+     (adsbygoogle = window.adsbygoogle || []).push({});    
+</script>
+
+
+<p></p>
+
+<p>Railsの一般的なコードを見ると、どこでもhashを持ち回して、キーアクセスで欲しいデータにアクセスして取り出すという実装が多い気がしていて、hashの空中戦みたいな、ある時点でその中身がどうなっているのかコード上でわからないのがだいぶ辛いと感じる時があります(処理を全部追うか、デバッグでとめて中身を見るか)</p>
+
+<p>それを顕著に感じるのはテーブルにjson型を使っているときです。</p>
+
+<p>中身はそのままhashだったりするのですが、中身ぱぱっと想像できます？<br/>
+DBの値を見てもイマイチなんてこと多いんじゃないでしょうか。</p>
+
+<p>そんなjson型のカラムに適用すると真価を発揮するパターンなんですが、今回はよりシンプルな数量というものに適用してみたいと思います(json型はまた別の機会に)</p>
+
+<p>そもそもなんでこの実装にしようと思ったかというと、Goとかで実装すると構造体に構造体を埋めて生成するのが当たり前ですよね？</p>
+
+<pre><code class="go">// 住所の値オブジェクト
+type Address struct {
+    Street string
+    City   string
+    Zip    string
+}
+
+// Person構造体
+type Person struct {
+    Name    string
+    Age     int
+    Address Address // Address構造体を埋め込む
+}
+</code></pre>
+
+<p>Person型に住所型の責務と実装がにじみでることはないし、Personが住所にZipが必須かチェックするということも発生しません。ロジックが綺麗にカプセル化されていて、とても整理されていると感じます。住所の持ち方を変えたとしてもその影響がPersonに影響を与えることもありません。</p>
+
+<p>これRailsでも使えない？と思ったのがはじまりです。</p>
+
+<p>では実際に見ていきましょう。</p>
+
+<p>サンプルコードは以下のバージョンで動かしています。</p>
+
+<p>Ruby 3.3.5<br/>
+Rails 7.2.2</p>
+
+<p>また見やすくするために<a href="https://github.com/bootstrap-ruby/bootstrap_form">bootstrap_form</a>を使っています。</p>
+
+<p>購入モデルを作成します。購入モデルはユーザー名と数量を持ちます。</p>
+
+<p>数量はマイナス値でないこと、最大値は99というルールを持ちます。</p>
+
+<p>まずは値オブジェクトとして数量を定義します。</p>
+
+<p>DDDの世界で開発している人から見ると、数量はただの数値ではありません。数値は数値で数量は数量です。という言葉が聞こえてきそうです。<br/>
+数量がマイナス値でないこと、99を超える数値でないことを数量自身が管理できると良さそうです。</p>
+
+<pre><code class="ruby">module Values
+  class Quantity
+    include ActiveModel::Model
+
+    attr_reader :number
+
+    validates :number, presence: true
+    validates :number, numericality: {
+      only_integer: true,
+      greater_than: 0,
+      less_than_or_equal_to: 99
+    }
+
+    validate :hogehoge
+
+    def initialize(number)
+      @number = number
+    end
+
+    def to_i
+      @number.to_i
+    end
+
+    def hogehoge
+      # カスタムバリデーションも使えるぜというだけのメソッド
+    end
+  end
+end
+</code></pre>
+
+<p>値オブジェクトの中に数量に関するロジックが閉じ込められています。</p>
+
+<p>次にmodelで値オブジェクトをつかえるようにするためのserializerの定義です。</p>
+
+<pre><code class="ruby">module Serializers
+  class QuantitySerializer
+    # Rubyオブジェクトを変換
+    def self.dump(quantity)
+      if quantity.is_a?(Hash)
+        Values::Quantity.new(quantity[:number])
+      else
+        quantity
+      end.to_i
+    end
+
+    # Rubyオブジェクトに変換
+    def self.load(quantity)
+      Values::Quantity.new(quantity)
+    end
+  end
+end
+</code></pre>
+
+<p>データベースから取り出した時に値オブジェクトに変換し、データベースに保存する時に数値に戻しています。</p>
+
+<p>最後にmodelです</p>
+
+<pre><code class="ruby">class Purchase &lt; ApplicationRecord
+  serialize :quantity, coder: Serializers::QuantitySerializer
+
+  validate :validate_quantity
+
+  def validate_quantity
+    return if self.quantity.valid?
+
+    errors.add(:base, "数量にエラーがあります")
+  end
+end
+</code></pre>
+
+<p>さすがに透過的に値オブジェクトのvalidationは実行してくれないので、マニュアルで実行する必要があります。</p>
+
+<p>上記だけで数量という値オブジェクトをPurchaseモデルに埋め込むことができます。</p>
+
+<p>見て分かる通り、数量のロジックがPurchaseモデルに現れることはありません。責務で綺麗に分割され、ロジックがカプセル化されているのがわかると思います。
+そしてserializeの行を消せば数量ロジックが完全にデタッチできます。違う数量の値オブジェクトを作って差し替えることも可能です。完全に疎結合です。</p>
+
+<p>そして他のモデルで数量を使いたい場合には、Purchaseモデルの中身をそっくりapp/models/concerns配下のmoduleに入れてそれを使いたいモデルでimportするようにすれば、他のモデルでも簡単に使い回しが可能です。</p>
+
+<p>さらにその場合、数量ロジックが変わったとしても各モデルに手をいれるのではなくて、数量クラスのロジックに手をいれるだけで自動的に全クラスに適用されます(影響範囲が閉じられている)</p>
+
+<p>では実際に動かしてみましょう。</p>
+
+<p>コントローラーとviewのformのコードものせます。</p>
+
+<p>コントローラー(新規作成だけ)</p>
+
+<pre><code class="ruby">class PurchasesController &lt; ApplicationController
+  def new
+    @purchase = Purchase.new
+  end
+
+  def create
+    @purchase = Purchase.new(purchase_params)
+
+    if @purchase.save
+      redirect_to @purchase, notice: "Purchase was successfully created."
+    else
+      render :new, status: :unprocessable_entity 
+    end
+  end
+
+  private
+
+  def purchase_params
+    params.require(:purchase).permit(:username, quantity: :number)
+  end
+end
+</code></pre>
+
+<p>form</p>
+
+<pre><code class="ruby">&lt;%= bootstrap_form_for purchase do |f| %&gt;
+  &lt;% if purchase.errors.any? %&gt;
+    &lt;div class="alert alert-danger"&gt;
+      &lt;h4&gt;&lt;%= pluralize(purchase.errors.count, "error") %&gt; prohibited this purchase from being saved:&lt;/h4&gt;
+      &lt;ul&gt;
+        &lt;% purchase.errors.full_messages.each do |message| %&gt;
+          &lt;li&gt;&lt;%= message %&gt;&lt;/li&gt;
+        &lt;% end %&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;
+  &lt;% end %&gt;
+
+  &lt;div class="row"&gt;
+    &lt;div class="ms-3 mb-3 col-4"&gt;
+      &lt;%= f.text_field :username, label: "Username", class: "form-control" %&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div class="row"&gt;
+    &lt;div class="ms-3 mb-3 col-4"&gt;
+      &lt;%= f.fields_for :quantity, f.object.quantity do |fq| %&gt;
+        &lt;%= fq.number_field :number, label: "Quantity", class: "form-control" %&gt;
+      &lt;% end %&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div class="mt-3"&gt;
+    &lt;%= f.submit class: "btn btn-primary" %&gt;
+  &lt;/div&gt;
+&lt;% end %&gt;
+</code></pre>
+
+<p>fields_forを使わずに書くと実はもうちょっとserializerとかパラメータの取り回しとかをシンプルに書けたりするんですが、こう書くとエラーオブジェクトを透過的に伝播させれるため使っています。</p>
+
+<p>実際にvalidationエラーをおこした画面がこちらです。</p>
+
+<p><img src="http://yoshitsugufujii.github.io/images/blog/20241103/error.png"></p>
+
+<p>値オブジェクトのエラーも特別な記述なくしっかりとformでレンダリングされています。</p>
+
+<p>validationエラーを起こさないで保存に成功した場合は、DBに数値のみが入っているはずです。</p>
+
+<p>いかがでしたでしょうか？</p>
+
+<p>ActiveRecordのモデルに値オブジェクトを適用することで、ロジックが読みやすく、わかりやすくなり、ロジックはカプセル化されて影響範囲が読みやすくなり、責務は明確になり、疎結合になることにより、よりオブジェクト指向に近づけられたのではないでしょうか？</p>
+
+<p>Valueオブジェクトパターンの紹介でした。</p>
+
+<p>次回書く気力があればこの回の焼き回しになりそうですが、json編をお届けしようと思います。</p>
+
+<p>今回作成したコードは<a href="https://github.com/YoshitsuguFujii/value_pattern">こちら</a>にあります</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[Axlsxで半角英数字のみの入力を受け付けたい]]></title>
@@ -238,78 +498,6 @@ end
 engine = ::Tilt.new(request.env['api.tilt.root'] / 'users/index.jbuilder', nil, view_path: request.env['api.tilt.root'])
 hash = JSON.parse(engine.render(self))
 </code></pre>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[ActiveStorageのDirectUploadでGCSでCORS]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2019/07/12/gcs-cors/"/>
-        <updated>2019-07-12T10:55:48+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2019/07/12/gcs-cors</id>
-        <content type="html"><![CDATA[<p>GCP上で動かしたらエラーになったのでメモ。</p>
-
-<!-- more -->
-
-
-
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-
-
-<p><ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-layout="in-article"
-     data-ad-format="fluid"
-     data-ad-client="ca-pub-7039502723411845"
-     data-ad-slot="8206045005"></ins></p>
-
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-
-<p>GCSにアップしようとしたら、こんなエラーがでました。</p>
-
-<p>Access to XMLHttpRequest at &lsquo;<a href="https://storage.googleapis.com/">https://storage.googleapis.com/</a><BUCKET NAME>/&lt;ずらずらとcredentialやexpireの情報>&rsquo; from origin &lsquo;<a href="https://hogehoge.com">https://hogehoge.com</a>&rsquo; has been blocked by CORS policy: Response to preflight request doesn&rsquo;t pass access control check: No &lsquo;Access-Control-Allow-Origin&rsquo; header is present on the requested resource.</p>
-
-<p>いくつか設定の仕方があるらしいですがgsutilを使ったやり方でGCSのBucketにCORS対応します。<br/>
-(AWSみたいにWEBからは設定できないようです)</p>
-
-<p>まずjsonファイルを作ります。</p>
-
-<pre><code>[
-  {
-    "origin": ["https://hogehoge.com"],
-    "responseHeader": ["Content-Type", "Content-Md5"],
-    "method": ["*"],
-    "maxAgeSeconds": 3600
-  }
-]
-</code></pre>
-
-<p>originは全部許可する場合はアスタリスクでも可です。<br/>
-<code>
-[
-  {
-    "origin": ["*"],
-    "responseHeader": ["Content-Type", "Content-Md5"],
-    "method": ["*"],
-    "maxAgeSeconds": 3600
-  }
-]
-</code></p>
-
-<p>これを設定します。<br/>
-<code>
-gsutil cors set &lt;上記作成したjson&gt; gs://&lt;bucket name&gt;  
-</code></p>
-
-<p>確認<br/>
-<code>
-gsutil cors get gs://&lt;bucket name&gt;  
-</code></p>
-
-<p>で通るようになります。</p>
 ]]></content>
     </entry>
     
