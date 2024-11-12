@@ -26,17 +26,6 @@ categories: [ruby,ruby on rails, デザインパターン]
 
 <!-- more -->  
 
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>    
-<ins class="adsbygoogle"    
-     style="display:block; text-align:center;"    
-     data-ad-layout="in-article"    
-     data-ad-format="fluid"    
-     data-ad-client="ca-pub-7039502723411845"    
-     data-ad-slot="8206045005"></ins>    
-<script>    
-     (adsbygoogle = window.adsbygoogle || []).push({});    
-</script>   
-
 Railsの一般的なコードを見ると、どこでもhashを持ち回して、キーアクセスで欲しいデータにアクセスして取り出すという実装が多い気がしていて、hashの空中戦みたいな、ある時点でその中身がどうなっているのかコード上でわからないのがだいぶ辛いと感じる時があります(処理を全部追うか、デバッグでとめて中身を見るか)
 
 それを顕著に感じるのはテーブルにjson型を使っているときです。
