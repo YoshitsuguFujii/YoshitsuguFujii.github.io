@@ -4,7 +4,7 @@
     <title><![CDATA[なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2024-11-13T08:26:52+09:00</updated>
+    <updated>2024-11-13T15:07:59+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -235,7 +235,7 @@ Rails 7.2.2</p>
 <p>上記だけで数量という値オブジェクトをPurchaseモデルに埋め込むことができます。</p>
 
 <p>見て分かる通り、数量のロジックがPurchaseモデルに現れることはありません。責務で綺麗に分割され、ロジックがカプセル化されているのがわかると思います。
-そしてserializeの行を消せば数量ロジックが完全にデタッチできます。違う数量の値オブジェクトを作って差し替えることも可能です。完全に疎結合です。</p>
+そしてserializeの行を消せば数量ロジックが完全にデタッチできます。違う数量の値オブジェクトを作って差し替えることも可能です。データとロジックが分離しており完全に疎結合です。</p>
 
 <p>そして他のモデルで数量を使いたい場合には、Purchaseモデルの中身をそっくりapp/models/concerns配下のmoduleに入れてそれを使いたいモデルでimportするようにすれば、他のモデルでも簡単に使い回しが可能です。</p>
 
