@@ -92,6 +92,82 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2014/12/26/20141226142144/">関連を保存時に削除する</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2014-12-26T14:21:00+09:00" pubdate><i class="fa fa-calendar"></i> Dec 26th, 2014</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>saveした時に削除したいときは対象のレコードに対して</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">accepts_nested_attributes_for</span> <span class="p">:</span><span class="err">対象のアソシエーション</span><span class="p">,</span> <span class="ss">allow_destroy</span><span class="p">:</span> <span class="kp">true</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>で宣言してから、</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">parent</span><span class="o">.</span><span class="n">childs</span><span class="o">.</span><span class="n">first</span><span class="o">.</span><span class="n">mark_for_destruction</span> <span class="c1"># 削除したいレコードに削除のマークをつける</span>
+</span><span class='line'><span class="n">parent</span><span class="o">.</span><span class="n">childs</span><span class="o">.</span><span class="n">save</span> <span class="c1"># =&gt; childsのfirstのものか削除される。</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>で削除される。<br/>
+ちなみにsave時にこれを削除してねってマークしたかは</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">parent</span><span class="o">.</span><span class="n">childs</span><span class="o">.</span><span class="n">first</span><span class="o">.</span><span class="n">marked_for_destruction?</span> <span class="c1"># =&gt; true</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>で確認できる。</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2014/12/19/20141219102458/">カリー化のお話</a>
         </h1>
     
@@ -1120,106 +1196,6 @@ app/model/user  <em>auto  </em>load  _concern.rb</p>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2014/11/06/20141106202417/">コンソールでローディングを表示</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2014-11-06T20:24:00+09:00" pubdate><i class="fa fa-calendar"></i> Nov 6th, 2014</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <p>rubyXLで100以上シートのあるエクセルファイルを読み出すスクリプトを書いていて、<br/>
-現在の処理中のシート/シートの総数でプログレスバーを表示することはしたけど、<br/>
-ファイル読み込み中(5～7秒ぐらいかかる)はなんにもコンソールに表示されない状態が物足りなくて、<br/>
-ファイルの読み込み中はローディングチックなのを出すようにした。</p>
-
-<p>読み込みと別でThread生成して、そのThread内で1秒毎に  >と  >  >と  >  >  >を出している。<br/>
-読み込みが完了したらThreadをkillしてる。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">display_with_arrow</span><span class="p">(</span><span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">loading_thread</span> <span class="o">=</span> <span class="no">Thread</span><span class="o">.</span><span class="n">start</span><span class="p">{</span>
-</span><span class='line'>                              <span class="n">arrow_progress</span> <span class="o">=</span> <span class="sx">%w(&gt; &gt;&gt; &gt;&gt;&gt;)</span><span class="o">.</span><span class="n">cycle</span>
-</span><span class='line'>                              <span class="kp">loop</span><span class="p">{</span>
-</span><span class='line'>                                <span class="nb">print</span> <span class="s2">&quot;  r file reading </span><span class="si">#{</span><span class="nb">sprintf</span><span class="p">(</span><span class="s2">&quot;%-  s3s&quot;</span><span class="p">,</span><span class="n">arrow_progress</span><span class="o">.</span><span class="n">next</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
-</span><span class='line'>                                <span class="nb">sleep</span> <span class="mi">1</span>
-</span><span class='line'>                              <span class="p">}</span>
-</span><span class='line'>                            <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">rtn</span> <span class="o">=</span> <span class="n">block</span><span class="o">.</span><span class="n">call</span>
-</span><span class='line'>  <span class="no">Thread</span><span class="o">.</span><span class="n">kill</span><span class="p">(</span><span class="n">loading_thread</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">rtn</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># 読み込み</span>
-</span><span class='line'><span class="n">workbook</span> <span class="o">=</span> <span class="n">display_with_arrow</span> <span class="k">do</span>
-</span><span class='line'>             <span class="no">RubyXL</span><span class="o">::</span><span class="no">Parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s2">&quot;エクセルファイルへのパス&quot;</span><span class="p">)</span>
-</span><span class='line'>           <span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>するとこうなる。<br/>
-<a href="http://f.hatena.ne.jp/gogo_sakura/20141106201955"><img src="http://cdn-ak.f.st-hatena.com/images/fotolife/g/gogo_sakura/20141106/20141106201955.gif" title="f:id:gogo_sakura:20141106201955g:image" alt="f:id:gogo  _sakura:20141106201955g:image" /></a></p>
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -1283,6 +1259,10 @@ app/model/user  <em>auto  </em>load  _concern.rb</p>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2024/11/18/about-i18n/"> i18nについて思ったこと</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2024/11/03/value-object-pattern/">Valueオブジェクトパターン</a>
         </li>
         
@@ -1296,10 +1276,6 @@ app/model/user  <em>auto  </em>load  _concern.rb</p>
         
         <li class="post">
             <a href="/blog/2021/02/12/hfc-boat/">2月6日(土) 葉山 ボート釣り カワハギ イワシ</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2021/02/02/hgc/">1月30日(土) 葉山 ボート釣り イナダ</a>
         </li>
         
     </ul>
