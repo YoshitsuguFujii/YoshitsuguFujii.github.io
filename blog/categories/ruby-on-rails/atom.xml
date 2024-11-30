@@ -4,7 +4,7 @@
     <title><![CDATA[Category: ruby on rails | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/ruby-on-rails/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2024-11-19T11:13:32+09:00</updated>
+    <updated>2024-11-30T17:51:03+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,83 @@
       </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[冬なのに怖い話]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2024/11/29/kowaihanashi/"/>
+        <updated>2024-11-29T19:44:33+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2024/11/29/kowaihanashi</id>
+        <content type="html"><![CDATA[<p>いや～ねぇ、あるシステムの開発をベンダーに頼んだんですよ。</p>
+
+<p>発注先のベンダーも委託しているディレクターに聞いて紹介してもらってね。<br/>
+紹介なら間違いないだろうって期待してたんです。</p>
+
+<p>……ところが。</p>
+
+<p>納品されたコードを開いた瞬間ですよ。</p>
+
+<p>いやね、なんか嫌な気配がするんですよ。画面越しにね、冷たい風が吹いたような……そう、あの……山奥の廃屋に踏み込んだ時みたいな、不気味な空気を感じるんです。何かが違うっていう感じ。最初はね、『まぁ、ちょっとクセがあるだけかな』って思ったんですよ。でもね、どんどん読み進めるうちに……だんだんとゾッとしてきましたよ。</p>
+
+<p>でもね、最初はまだ楽観的だったんですよ。『まぁ、ちょっとクセのある書き方なんだろう』ってね。気にせず読み進めたんですけど……段々とね……だんだんとですよ……。</p>
+
+<p>……やだなぁ、やだなぁ……</p>
+
+<p>読み進めるうちに……あぁ、これは……って思ったんですよ。</p>
+
+<p>その時、心の中で、はっきり聞こえました。</p>
+
+<p>『これ、クソコードだ』って。</p>
+
+<!-- more -->  
+
+
+<p>テストが書かれていなかったり、テストが書かれていても中身がなかったり、<br/>
+enumで宣言しているのにenumを使わずに、なぜかIDで判定していたり、<br/>
+viewで呼ばれている参照メソッドで特定IDの時だけ更新が走ったり(しかも結構重要な更新)、</p>
+
+<pre><code class="ruby">def profile_info(user, role, profile_id = nil, group)
+</code></pre>
+
+<p>みたいなメソッドシグネチャがあったり</p>
+
+<pre><code class="ruby">profile(user, user_role.role, profile.id)
+</code></pre>
+
+<p>それを上記みたいな呼び出し方をしていたり(ちなみにprofile.idはgroupに入ります)</p>
+
+<p>rspecの最初でseedをぶちこんでいるんですが、それをテストの途中で書き換えたり(6000件あるテストのうちどこで変えているのか不明)</p>
+
+<p>リファクタリングしがいのあるコードが満載です。</p>
+
+<p>システムを受託会社にお願いする時、うまく行くかはベンダー次第で、これをベンダーガチャと自分は言っているんですが、webのベンダーガチャは名前がそれなりにある会社以外は基本的にだいたいハズレと思った方が良い気がしてきました。</p>
+
+<p>８割、9割はハズレ。同じベンダーでも人次第ではハズレになる。</p>
+
+<p>ちなみに申し訳ないことに自分自身がハズレになったこともあって、自分以外まともにコード書けない6人チームを組まされた時ですね。辞めましたけど。</p>
+
+<p>結局不確実性の高いベンダーに頼むよりも、社内の人間をたてて、そこにフリーランスで集めて作ったほうがコントロールしやすいし、結果的に安くて良いものができる気がする。大変ですけどね。</p>
+
+<p>でもそれは出来るまで大変なだけで、出来た後の地獄の方が問題だなぁと思う今日この頃。</p>
+
+<p>ベンダーにたまにいるめちゃくちゃやばい奴も、フリーランスなら普通に仕事なくなるので体感的にあまりいない気がする。</p>
+
+<p>経験積んだフリーランス集められれば管理も思ったより楽なはず。やるべきことを理解しているから。</p>
+
+<p>問題はそんなフリーランスを集められるかというところ。お金積めば集められると思うんだけど、どうなんだろうか。
+シニアエンジニア足りてないらしいしなぁ。</p>
+
+<p>生成AI誕生により誰でもコードは書ける世界が来てしまったので、コードが書けるだけのジュニアエンジニアには価値がなくなってしまって、生成AIが表現できない領域で戦えるシニアエンジニアはそりゃ貴重になるよなと。</p>
+
+<p>労力は外注できるが、能力は外注できない</p>
+
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">労力は外注できるが、能力は外注できない <a href="https://t.co/0JwYob0FyQ">https://t.co/0JwYob0FyQ</a> <a href="https://t.co/4JakgPEZzt">[pic.twitter.com/4JakgPEZzt](http://pic.twitter.com/4JakgPEZzt)</a></p>— Takuto Wada (@t_wada) <a href="[https://twitter.com/t_wada/status/1859756507115684348?ref_src=twsrc^tfw](https://twitter.com/t_wada/status/1859756507115684348?ref_src=twsrc%5Etfw)">November 22, 2024</a></blockquote>
+
+
+<p> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+
+<p>こう言うかっこいい言葉を使える大人になりたい。</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[ i18nについて思ったこと]]></title>
@@ -547,61 +624,6 @@ end
 <p>でも取れます。</p>
 
 <p>現場からは以上です。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[includeしたmoduleでextendとprepend]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2020/04/10/include-extend-prepend/"/>
-        <updated>2020-04-10T16:50:31+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2020/04/10/include-extend-prepend</id>
-        <content type="html"><![CDATA[<p>既存の処理を書き換えつつ、さらに機能追加する。
-includeとprependとextendを一個のmoduleで実現するサンプル。</p>
-
-<!-- more -->
-
-
-
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-
-
-<p>
-<ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-layout="in-article"
-     data-ad-format="fluid"
-     data-ad-client="ca-pub-7039502723411845"
-     data-ad-slot="8206045005"></ins></p>
-
-<script>  
-     (adsbygoogle = window.adsbygoogle || []).push({});  
-</script>
-
-
-<p></p>
-
-<pre><code class="ruby"># frozen_string_literal: true
-
-module Hoge
-  extend ActiveSupport::Concern
-
-  included do
-    singleton_class.send(:prepend, Module.new do
-      def override
-      end
-    end
-  end
-
-  module ClassMethods
-    def class_method
-    end
-  end
-
-  def instance_method
-  end
-end
-</code></pre>
 ]]></content>
     </entry>
     

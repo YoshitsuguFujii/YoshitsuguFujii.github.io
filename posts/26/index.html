@@ -92,6 +92,105 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2013/02/28/20130228211220/">tmuxはじめました</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2013-02-28T21:12:00+09:00" pubdate><i class="fa fa-calendar"></i> Feb 28th, 2013</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/tmux/'>tmux</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p><a href="http://f.hatena.ne.jp/gogo_sakura/20130228210855"><img src="http://cdn-ak.f.st-hatena.com/images/fotolife/g/gogo_sakura/20130228/20130228210855.png" title="f:id:gogo_sakura:20130228210855p:image" alt="f:id:gogo  _sakura:20130228210855p:image" /></a></p>
+
+<p>tmux-powerlineも入れました。</p>
+
+<p><a href="http://f.hatena.ne.jp/gogo_sakura/20130228210856"><img src="http://cdn-ak.f.st-hatena.com/images/fotolife/g/gogo_sakura/20130228/20130228210856.png" title="f:id:gogo_sakura:20130228210856p:image" alt="f:id:gogo  _sakura:20130228210856p:image" /></a></p>
+
+<p>左側には<br/>
+IPとか色々でてます。</p>
+
+<p>右側には<br/>
+地震速報<br/>
+Gmailの受信件数<br/>
+現在流れているItuneの曲名。<br/>
+PC起動してからの経過時間。<br/>
+メモリ使用率<br/>
+東京の天気<br/>
+日時</p>
+
+<p>が表示されてます。</p>
+
+<p>あらやだ、かっこいい。</p>
+
+<p>でもなんか表示変。<br/>
+あとgitのブランチがうまく表示されない</p>
+
+<p>軽くデバッグしたら、パスの取得に失敗してるっぽい。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">PROMPT</span><span class="o">=</span><span class="s2">&quot;$PROMPT&quot;</span><span class="s1">&#39;$([ -n &quot;$TMUX&quot; ] &amp;&amp; tmux setenv TMUXPWD_$(tmux display -p &quot;#D&quot; | tr -d %) &quot;$PWD&quot;)&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>って.zshrcに書いてもダメ。<br/>
+うーむ。</p>
+
+<p>そして今日はvim-powerline入れてみました。</p>
+
+<p><a href="http://f.hatena.ne.jp/gogo_sakura/20130228190240"><img src="http://cdn-ak.f.st-hatena.com/images/fotolife/g/gogo_sakura/20130228/20130228190240.png" title="f:id:gogo_sakura:20130228190240p:image" alt="f:id:gogo  _sakura:20130228190240p:image" /></a></p>
+
+<p>うん。かっこいい。</p>
+
+<p>ターミナル越しにうっすら透けている、うちの愛犬小梅さんにも使ってもらいました。</p>
+
+<p><a href="http://f.hatena.ne.jp/gogo_sakura/20130228183657"><img src="http://cdn-ak.f.st-hatena.com/images/fotolife/g/gogo_sakura/20130228/20130228183657.jpg" title="f:id:gogo_sakura:20130228183657j:image" alt="f:id:gogo  _sakura:20130228183657j:image" /></a></p>
+
+<p>・・・・・・。</p>
+
+<p>満足そうです(￣∇￣)</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2013/02/27/20130227120457/">simple_formで必須に設定した時に、必須のマークを右に出す</a>
         </h1>
     
@@ -949,77 +1048,6 @@ app/assets/stylesheets/:public/stylesheets </code>を実行。<br/>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2013/01/08/20130108134910/">文字列に二つ以上の同一指定文字が使われているかどうか？</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2013-01-08T13:49:00+09:00" pubdate><i class="fa fa-calendar"></i> Jan 8th, 2013</time>
-
-
-
-
-            
-
-    <div class="article__tags pull-left">
-        <i class="fa fa-tags"></i>
-        <ul class="unstyled">
-        
-            
-                <li><a class='category' href='/blog/categories/ruby/'>ruby</a></li>
-            
-            
-        </ul>
-    </div>
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">str</span> <span class="o">=</span> <span class="s2">&quot;@123@56&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">str</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;@&quot;</span><span class="p">)</span> <span class="c1">#=&gt; 0</span>
-</span><span class='line'><span class="n">str</span><span class="o">.</span><span class="n">rindex</span><span class="p">(</span><span class="s2">&quot;@&quot;</span><span class="p">)</span> <span class="c1">#=&gt;4</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">str</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;@&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="n">str</span><span class="o">.</span><span class="n">rindex</span><span class="p">(</span><span class="s2">&quot;@&quot;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>左からと右からの指定文字の位置を調べて違ってたら、同じ文字が二回使われているねというだけのロジック。</p>
-
-<p>僕は文系ロジックと勝手に命名しているロジックがあります。<br/>
-どういったのが文系ロジック？と聞かれると困りますが。なんかにおいです。<br/>
-上記は文系ロジックっぽいかなと思うのですが。どうでしょうか？</p>
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -1083,6 +1111,10 @@ app/assets/stylesheets/:public/stylesheets </code>を実行。<br/>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2024/11/29/kowaihanashi/">冬なのに怖い話</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2024/11/18/about-i18n/"> i18nについて思ったこと</a>
         </li>
         
@@ -1096,10 +1128,6 @@ app/assets/stylesheets/:public/stylesheets </code>を実行。<br/>
         
         <li class="post">
             <a href="/blog/2021/11/16/render-jbuilder-text-in-grape/">grapeでrender_to_string</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2021/02/12/hfc-boat/">2月6日(土) 葉山 ボート釣り カワハギ イワシ</a>
         </li>
         
     </ul>
