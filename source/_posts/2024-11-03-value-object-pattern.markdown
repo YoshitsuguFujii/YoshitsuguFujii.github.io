@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Valueオブジェクトパターン"
+title: "Valueオブジェクトパターン(プリミティブ型)"
 date: 2024-11-03 14:29:30 +0900
 comments: true
 categories: [ruby,ruby on rails, デザインパターン]
