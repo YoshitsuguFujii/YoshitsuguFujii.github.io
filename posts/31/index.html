@@ -92,6 +92,87 @@
             <header class="article__header">
     
         <h1 class="h2 article__title">
+            <a href="/blog/2012/01/30/20120130121056/">コマンドの繋ぎ方</a>
+        </h1>
+    
+
+    
+        <div class="article__meta clearfix">
+            
+
+
+
+
+
+
+    <time class="article__date pull-left" datetime="2012-01-30T12:10:00+09:00" pubdate><i class="fa fa-calendar"></i> Jan 30th, 2012</time>
+
+
+
+
+            
+
+    <div class="article__tags pull-left">
+        <i class="fa fa-tags"></i>
+        <ul class="unstyled">
+        
+            
+                <li><a class='category' href='/blog/categories/linux/'>linux</a></li>
+            
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+    
+</header>
+
+
+
+
+    <p>コマンドの繋ぎ方は</p>
+
+<p>パイプ(|)とかファイルに書き込むリダイレクション(  > もしくは   >  >
+もしくは   &lt;)が有名ですが。</p>
+
+<pre><code>ps aux | grep postfix
+</code></pre>
+
+<p>他にもあるんですね。</p>
+
+<p>下の例のコマンド自体は意味のないコマンドですが。</p>
+
+<pre><code>1 cd /var/www/app/log/ ; scp app.log 192.168.X.XX:/home/user
+2 cd /var/www/app/log/ &amp;&amp; scp app.log 192.168.X.XX:/home/user
+3 cd /var/www/app/log/ || scp app.log 192.168.X.XX:/home/user
+</code></pre>
+
+<p>1がコマンドを実行した後に次のコマンドを実行する方法。<br/>
+2が移動に成功した場合のみ次のコマンドを実行する方法。<br/>
+3が移動に失敗した場合のみ次のコマンドを実行する方法。</p>
+
+<p>cronで指定するコマンドや、postfixのエイリアスで標準入力にメールの内容渡してプログラムを起動する際に使ったり。</p>
+
+<p>例えばrailsのスクリプトランナー使いたい場合に。</p>
+
+<pre><code>cd rails appのルートディレクトリ ; rails runner "Calender.generated" RAILS_ENV=production
+</code></pre>
+
+<p>ルートに移動してからスクリプトランナー起動。<br/>
+とか。</p>
+
+
+
+        </article>
+        <hr>
+    
+        
+        <article class="article article--index">
+            <header class="article__header">
+    
+        <h1 class="h2 article__title">
             <a href="/blog/2012/01/28/20120128110647/">Ubuntu11.10にアップグレードしたらwi-fiが遅い件</a>
         </h1>
     
@@ -1258,47 +1339,6 @@ return link  </em>to( change  <em>value , disp  </em>path )<br/>
         </article>
         <hr>
     
-        
-        <article class="article article--index">
-            <header class="article__header">
-    
-        <h1 class="h2 article__title">
-            <a href="/blog/2012/01/17/20120117115432/">20120117115432</a>
-        </h1>
-    
-
-    
-        <div class="article__meta clearfix">
-            
-
-
-
-
-
-
-    <time class="article__date pull-left" datetime="2012-01-17T00:00:00+09:00" pubdate><i class="fa fa-calendar"></i> Jan 17th, 2012</time>
-
-
-
-
-            
-
-
-            
-        </div>
-    
-</header>
-
-
-
-
-    
-
-
-
-        </article>
-        <hr>
-    
 
     <div class="pagination">
     
@@ -1362,6 +1402,10 @@ return link  </em>to( change  <em>value , disp  </em>path )<br/>
     <ul class="divided">
         
         <li class="post">
+            <a href="/blog/2025/01/26/value-object-pattern-json/">Valueオブジェクトパターン(JSON)</a>
+        </li>
+        
+        <li class="post">
             <a href="/blog/2024/11/29/kowaihanashi/">冬なのに怖い話</a>
         </li>
         
@@ -1370,15 +1414,11 @@ return link  </em>to( change  <em>value , disp  </em>path )<br/>
         </li>
         
         <li class="post">
-            <a href="/blog/2024/11/03/value-object-pattern/">Valueオブジェクトパターン</a>
+            <a href="/blog/2024/11/03/value-object-pattern/">Valueオブジェクトパターン(プリミティブ型)</a>
         </li>
         
         <li class="post">
             <a href="/blog/2022/11/11/axlsx-custom-validation/">Axlsxで半角英数字のみの入力を受け付けたい</a>
-        </li>
-        
-        <li class="post">
-            <a href="/blog/2021/11/16/render-jbuilder-text-in-grape/">grapeでrender_to_string</a>
         </li>
         
     </ul>

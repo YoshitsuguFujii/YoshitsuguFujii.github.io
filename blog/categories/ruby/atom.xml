@@ -4,7 +4,7 @@
     <title><![CDATA[Category: ruby | なんとなく日々徒然と]]></title>
     <link href="http://yoshitsugufujii.github.io/blog/categories/ruby/atom.xml" rel="self"/>
     <link href="http://yoshitsugufujii.github.io/"/>
-    <updated>2024-11-30T18:08:01+09:00</updated>
+    <updated>2025-01-26T13:50:17+09:00</updated>
     <id>http://yoshitsugufujii.github.io/</id>
     <author>
         <name><![CDATA[Yoshitsugu Fujii]]></name>
@@ -12,6 +12,15 @@
       </author>
     <generator uri="http://octopress.org/">Octopress</generator>
 
+    
+    <entry>
+        <title type="html"><![CDATA[Valueオブジェクトパターン(JSON)]]></title>
+        <link href="http://yoshitsugufujii.github.io/blog/2025/01/26/value-object-pattern-json/"/>
+        <updated>2025-01-26T13:46:37+09:00</updated>
+        <id>http://yoshitsugufujii.github.io/blog/2025/01/26/value-object-pattern-json</id>
+        <content type="html"><![CDATA[<p>前回の続きを<a href="https://qiita.com/YoshitsuguFujii/items/d0c5d4474c910da11b43">Qiita</a>に投稿しました。</p>
+]]></content>
+    </entry>
     
     <entry>
         <title type="html"><![CDATA[冬なのに怖い話]]></title>
@@ -262,7 +271,7 @@ I18nの設定はひと手間かかるし、何が書かれているか設定を�
     </entry>
     
     <entry>
-        <title type="html"><![CDATA[Valueオブジェクトパターン]]></title>
+        <title type="html"><![CDATA[Valueオブジェクトパターン(プリミティブ型)]]></title>
         <link href="http://yoshitsugufujii.github.io/blog/2024/11/03/value-object-pattern/"/>
         <updated>2024-11-03T14:29:30+09:00</updated>
         <id>http://yoshitsugufujii.github.io/blog/2024/11/03/value-object-pattern</id>
@@ -557,67 +566,6 @@ p.serialize 'data_validation.xlsx'
 </code></pre>
 
 <p><img src="http://yoshitsugufujii.github.io/images/blog/20221111/image.png"></p>
-
-<p>現場からは以上です。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-        <title type="html"><![CDATA[grapeでrender_to_string]]></title>
-        <link href="http://yoshitsugufujii.github.io/blog/2021/11/16/render-jbuilder-text-in-grape/"/>
-        <updated>2021-11-16T14:08:41+09:00</updated>
-        <id>http://yoshitsugufujii.github.io/blog/2021/11/16/render-jbuilder-text-in-grape</id>
-        <content type="html"><![CDATA[<p>すっかり存在を忘れていたような、あえて忘れていたような。<br/>
-お久しぶりです。藤井です。</p>
-
-<p>最近は横須賀のボートばっかり行ってます。カヤックもはじめました。<br/>
-プロフィッシュ45にのっています。<br/>
-舘山で３回浮かびました。<br/>
-出艇ポイントを知らないのでこれから勉強します。</p>
-
-<p>メモを整理していたら走り書きのようなコードがいくつかあって有意義そうなのをのせようかと</p>
-
-<!-- more -->  
-
-
-
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-
-
-<p>
-<ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-layout="in-article"
-     data-ad-format="fluid"
-     data-ad-client="ca-pub-7039502723411845"
-     data-ad-slot="8206045005"></ins></p>
-
-<script>  
-     (adsbygoogle = window.adsbygoogle || []).push({});  
-</script>
-
-
-<p></p>
-
-<pre><code class="ruby  ">def render_jbuilder(file_path)  
-  root_path =  Rails.root.join 'app', 'views', 'api'  
-  engine = ::Tilt.new(root_path / file_path, nil, view_path: root_path)  
-  JSON.parse(engine.render(self))  
-end  
-</code></pre>
-
-<p>root_path取得のところは</p>
-
-<pre><code class="">env['api.tilt.root'] = Rails.root.join 'app', 'views', 'api'  
-</code></pre>
-
-<p>の設定をconfig/application.rbとかでやっているのであれば</p>
-
-<pre><code class="">root_path = env['api.tilt.root']  
-</code></pre>
-
-<p>でも取れます。</p>
 
 <p>現場からは以上です。</p>
 ]]></content>
