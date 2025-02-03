@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1">
+
+  
+    
+    
+      <link href="/css/fonts.css" rel="stylesheet" type="text/css">
+    
+  
+
+  
+  <title>なんとなく日々徒然と</title>
+
+  
+  
+  <link rel="stylesheet" href="/css/hugo-octopress.css">
+
+  
+  
+    <link rel="stylesheet" href="https://yoshitsugufujii.github.io/css/custom.css">
+  
+
+  
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+  
+
+  
+  
+    <link href="https://yoshitsugufujii.github.io/favicon.png" rel="icon">
+  
+
+  
+  <link href="/index.xml" rel="alternate" type="application/rss+xml" title="なんとなく日々徒然と" />
+
+  <meta name="description" content="" />
+  <meta name="keywords" content="">
+  <meta name="author" content="YoshitsuguFujii">
+
+  
+  <meta name="generator" content="Hugo 0.142.0">
+
+  
+  
+
+  
+  
+
+
+
+  
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-7BQ8559REB"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-7BQ8559REB');
+</script>
+
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7039502723411845"
+     crossorigin="anonymous"></script>
+
+</head>
+<body>
+
+
+<header role="banner">
+<hgroup>
+  
+  <h1><a href="https://yoshitsugufujii.github.io/">なんとなく日々徒然と</a></h1>
+    <h2></h2>
+</hgroup></header>
+
+
+<nav role="navigation">
+<fieldset class="mobile-nav">
+  
+  <select onchange="location = this.value;">
+    <option value="">Navigate…</option>
+      
+        <option value="https://www.google.com/">» Google</option>
+      
+        <option value="https://yoshitsugufujii.github.io/">» Site&#39;s Home Page</option>
+      
+        <option value="https://www.github.com/parsiya/hugo-octopress">» This theme on Github</option>
+      
+  </select>
+</fieldset>
+
+
+<ul class="main-navigation">
+  
+  
+    
+      <li><a href="https://www.google.com/" title="Google"  target="_blank"  rel="noopener noreferrer">Google</a></li>
+    
+  
+    
+      <li><a href="https://yoshitsugufujii.github.io/" title="Site&#39;s Home Page">Site&#39;s Home Page</a></li>
+    
+  
+    
+      <li><a href="https://www.github.com/parsiya/hugo-octopress" title="This theme on Github"  target="_blank"  rel="noopener noreferrer">This theme on Github</a></li>
+    
+  
+</ul>
+
+<ul class="subscription">
+  
+    
+        <a href="https://yoshitsugufujii.github.io/index.xml" target="_blank" type="application/rss+xml" title="RSS" rel="noopener noreferrer"><i class="fa fa-rss-square fa-lg"></i></a>
+    
+  
+</ul>
+
+
+  <form action="https://www.google.com/search" method="get" target="_blank" rel="noopener noreferrer">
+    <fieldset role="search">
+      <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+      <input type="hidden" name="q" value="site:https://yoshitsugufujii.github.io/" />
+    </fieldset>
+  </form>
+
+</nav>
+
+
+
+
+  
+
+<div id="main">
+  <div id="content">
+    <div class="blog-index">
+      
+      
+        
+        <article>
+          
+          
+
+<header>
+  <h1 class="entry-title">
+    <a href="https://yoshitsugufujii.github.io/blog/2013-04-02-applicatoncontroller%E3%81%A7%E3%82%A4%E3%83%83%E3%83%86%E3%81%AB%E4%BE%8B%E5%A4%96%E3%82%92%E5%BC%95%E3%81%8D%E5%8F%97%E3%81%91%E3%82%8B/">applicatonControllerでイッテに例外を引き受ける</a>
+  </h1>
+  <p class="meta"><span class="articleDate">Apr 2th, 2013</span>
+    
+    
+      <span class="tags">
+        
+      </span>
+    
+
+    
+  </p>
+</header>
+
+          
+            <p><p>とりあえずエラー起こっても、なんとなくぼんやりとどうにかして欲しい時がある。<br>
+たとえばAPIでなんらかのエラーがあったらとりあえずステータスコードに500を返すようにしたりとか。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">ApiController</span> <span class="o">&lt;</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span>
+</span></span><span class="line"><span class="cl">  <span class="n">rescue_from</span> <span class="no">Exception</span><span class="p">,</span> <span class="ss">with</span><span class="p">:</span> <span class="ss">:system_error</span> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">def</span> <span class="nf">system_error</span><span class="p">(</span><span class="n">ex</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">ex</span><span class="o">.</span><span class="n">message</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">ex</span><span class="o">.</span><span class="n">backtrace</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">render</span> <span class="ss">json</span><span class="p">:</span> <span class="vi">@data</span> <span class="p">,</span> <span class="ss">:status</span> <span class="o">=&gt;</span> <span class="mi">500</span>
+</span></span><span class="line"><span class="cl">  <span class="k">end</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Exceptionを指定して、なんでもかんでもエラーが起きたらsystem  _errorに投げちゃう。みたいな</p></p>
+            
+          
+        </article>
+        
+        <article>
+          
+          
+
+<header>
+  <h1 class="entry-title">
+    <a href="https://yoshitsugufujii.github.io/blog/2013-03-21-%E4%BB%8A%E6%97%A5%E3%81%AE%E4%B8%80%E8%A8%80/">今日の一言</a>
+  </h1>
+  <p class="meta"><span class="articleDate">Mar 21th, 2013</span>
+    
+    
+      <span class="tags">
+        
+      </span>
+    
+
+    
+  </p>
+</header>
+
+          
+            <p><p>
+<a href="http://f.hatena.ne.jp/gogo_sakura/20130228184702" target="_blank" rel="noopener"><img src="http://cdn-ak.f.st-hatena.com/images/fotolife/g/gogo_sakura/20130228/20130228184702.jpg" alt="f:id:gogo  _sakura:20130228184702j:image" title="f:id:gogo_sakura:20130228184702j:image"></a></p>
+<p>このコード動かないよ？</p></p>
+            
+          
+        </article>
+        
+        <article>
+          
+          
+
+<header>
+  <h1 class="entry-title">
+    <a href="https://yoshitsugufujii.github.io/blog/2013-02-28-tmux%E3%81%AF%E3%81%98%E3%82%81%E3%81%BE%E3%81%97%E3%81%9F/">tmuxはじめました</a>
+  </h1>
+  <p class="meta"><span class="articleDate">Feb 28th, 2013</span>
+    
+    
+      <span class="tags">
+        
+      </span>
+    
+
+    
+  </p>
+</header>
+
+          
+            <p><p>
+<a href="http://f.hatena.ne.jp/gogo_sakura/20130228210855" target="_blank" rel="noopener"><img src="http://cdn-ak.f.st-hatena.com/images/fotolife/g/gogo_sakura/20130228/20130228210855.png" alt="f:id:gogo  _sakura:20130228210855p:image" title="f:id:gogo_sakura:20130228210855p:image"></a></p>
+<p>tmux-powerlineも入れました。</p>
+<p>
+<a href="http://f.hatena.ne.jp/gogo_sakura/20130228210856" target="_blank" rel="noopener"><img src="http://cdn-ak.f.st-hatena.com/images/fotolife/g/gogo_sakura/20130228/20130228210856.png" alt="f:id:gogo  _sakura:20130228210856p:image" title="f:id:gogo_sakura:20130228210856p:image"></a></p>
+<p>左側には<br>
+IPとか色々でてます。</p>
+<p>右側には<br>
+地震速報<br>
+Gmailの受信件数<br>
+現在流れているItuneの曲名。<br>
+PC起動してからの経過時間。<br>
+メモリ使用率<br>
+東京の天気<br>
+日時</p>
+<p>が表示されてます。</p>
+<p>あらやだ、かっこいい。</p>
+<p>でもなんか表示変。<br>
+あとgitのブランチがうまく表示されない</p>
+<p>軽くデバッグしたら、パスの取得に失敗してるっぽい。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="no">PROMPT</span><span class="o">=</span><span class="s2">&#34;$PROMPT&#34;</span><span class="s1">&#39;$([ -n &#34;$TMUX&#34; ] &amp;&amp; tmux setenv TMUXPWD_$(tmux display -p &#34;#D&#34; | tr -d %) &#34;$PWD&#34;)&#39;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>って.zshrcに書いてもダメ。<br>
+うーむ。</p>
+<p>そして今日はvim-powerline入れてみました。</p>
+<p>
+<a href="http://f.hatena.ne.jp/gogo_sakura/20130228190240" target="_blank" rel="noopener"><img src="http://cdn-ak.f.st-hatena.com/images/fotolife/g/gogo_sakura/20130228/20130228190240.png" alt="f:id:gogo  _sakura:20130228190240p:image" title="f:id:gogo_sakura:20130228190240p:image"></a></p>
+<p>うん。かっこいい。</p>
+<p>ターミナル越しにうっすら透けている、うちの愛犬小梅さんにも使ってもらいました。</p>
+<p>
+<a href="http://f.hatena.ne.jp/gogo_sakura/20130228183657" target="_blank" rel="noopener"><img src="http://cdn-ak.f.st-hatena.com/images/fotolife/g/gogo_sakura/20130228/20130228183657.jpg" alt="f:id:gogo  _sakura:20130228183657j:image" title="f:id:gogo_sakura:20130228183657j:image"></a></p>
+<p>・・・・・・。</p>
+<p>満足そうです(￣∇￣)</p></p>
+            
+          
+        </article>
+        
+        <article>
+          
+          
+
+<header>
+  <h1 class="entry-title">
+    <a href="https://yoshitsugufujii.github.io/blog/2013-02-27-simple_form%E3%81%A7%E5%BF%85%E9%A0%88%E3%81%AB%E8%A8%AD%E5%AE%9A%E3%81%97%E3%81%9F%E6%99%82%E3%81%AB%E5%BF%85%E9%A0%88%E3%81%AE%E3%83%9E%E3%83%BC%E3%82%AF%E3%82%92%E5%8F%B3%E3%81%AB%E5%87%BA%E3%81%99/">simple_formで必須に設定した時に、必須のマークを右に出す</a>
+  </h1>
+  <p class="meta"><span class="articleDate">Feb 27th, 2013</span>
+    
+    
+      <span class="tags">
+        
+      </span>
+    
+
+    
+  </p>
+</header>
+
+          
+            <p><p>{RAILS  _ROOT}/config/initializers/simple  _form.rbの</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="c1"># config.label_text = lambda { |label, required| &#34;#{required} #{label}&#34; }</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>のコメントアウトを外して、左右を入れ替える。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="n">config</span><span class="o">.</span><span class="n">label_text</span> <span class="o">=</span> <span class="nb">lambda</span> <span class="p">{</span> <span class="o">|</span><span class="n">label</span><span class="p">,</span> <span class="n">required</span><span class="o">|</span> <span class="s2">&#34;</span><span class="si">#{</span><span class="n">label</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">required</span><span class="si">}</span><span class="s2">&#34;</span> <span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>文言はlocaleで設定する。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="ss">ja</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">  <span class="ss">simple_form</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;yes&#34;</span><span class="p">:</span> <span class="s1">&#39;Yes&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;no&#34;</span><span class="p">:</span> <span class="s1">&#39;No&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="ss">required</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="ss">html</span><span class="p">:</span> <span class="s1">&#39;&lt;abbr title=&#34;required&#34;&gt;[必須]&lt;/abbr&gt;&#39;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></p>
+            
+          
+        </article>
+        
+        <article>
+          
+          
+
+<header>
+  <h1 class="entry-title">
+    <a href="https://yoshitsugufujii.github.io/blog/2013-02-26-%E3%81%A8%E3%81%A3%E3%81%A8%E3%81%93haml%E5%A4%AA%E9%83%8E/">とっとこhaml太郎</a>
+  </h1>
+  <p class="meta"><span class="articleDate">Feb 26th, 2013</span>
+    
+    
+      <span class="tags">
+        
+      </span>
+    
+
+    
+  </p>
+</header>
+
+          
+            <p><p>タイトルに意味はないです。<br>
+今日はerbをhamlに一気に変換したいと思います。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="c1">#Gemfile</span>
+</span></span><span class="line"><span class="cl"><span class="n">gem</span> <span class="s2">&#34;erb2haml&#34;</span><span class="p">,</span> <span class="ss">:group</span> <span class="o">=&gt;</span> <span class="ss">:development</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="n">bundle</span> <span class="n">install</span>   
+</span></span><span class="line"><span class="cl"><span class="n">rake</span> <span class="ss">haml</span><span class="p">:</span><span class="n">convert_erbs</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="ss">ERROR</span><span class="p">:</span>  <span class="no">Could</span> <span class="ow">not</span> <span class="n">find</span> <span class="n">html2haml</span> <span class="k">in</span> <span class="n">your</span> <span class="no">PATH</span><span class="o">.</span> <span class="no">Aborting</span><span class="o">.</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>あれ？</p>
+<p>追記</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="c1">#Gemfile</span>
+</span></span><span class="line"><span class="cl"><span class="n">group</span> <span class="ss">:development</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="n">gem</span> <span class="s1">&#39;html2haml&#39;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">gem</span> <span class="s1">&#39;erb2haml&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="n">rake</span> <span class="ss">haml</span><span class="p">:</span><span class="n">convert_erbs</span>
+</span></span><span class="line"><span class="cl"><span class="no">Looking</span> <span class="k">for</span> <span class="no">ERB</span> <span class="n">files</span> <span class="n">to</span> <span class="n">convert</span> <span class="n">to</span> <span class="no">Haml</span><span class="o">...</span>
+</span></span><span class="line"><span class="cl"><span class="ss">Converting</span><span class="p">:</span> <span class="n">app</span><span class="o">/</span><span class="n">views</span><span class="o">/</span><span class="n">devise</span><span class="o">/</span><span class="n">confirmations</span><span class="o">/</span><span class="kp">new</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">erb</span><span class="o">...</span> <span class="no">Done</span><span class="o">!</span>
+</span></span><span class="line"><span class="cl"><span class="ss">Converting</span><span class="p">:</span> <span class="n">app</span><span class="o">/</span><span class="n">views</span><span class="o">/</span><span class="n">devise</span><span class="o">/</span><span class="n">mailer</span><span class="o">/</span><span class="n">confirmation_instructions</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">erb</span><span class="o">...</span> <span class="no">Done</span><span class="o">!</span>
+</span></span><span class="line"><span class="cl"><span class="ss">Converting</span><span class="p">:</span> <span class="n">app</span><span class="o">/</span><span class="n">views</span><span class="o">/</span><span class="n">devise</span><span class="o">/</span><span class="n">mailer</span><span class="o">/</span><span class="n">reset_password_instructions</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">erb</span><span class="o">...</span> <span class="no">Done</span><span class="o">!</span>
+</span></span><span class="line"><span class="cl"><span class="ss">Converting</span><span class="p">:</span> <span class="n">app</span><span class="o">/</span><span class="n">views</span><span class="o">/</span><span class="n">devise</span><span class="o">/</span><span class="n">mailer</span><span class="o">/</span><span class="n">unlock_instructions</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">erb</span><span class="o">...</span> <span class="no">Done</span><span class="o">!</span>
+</span></span><span class="line"><span class="cl"><span class="ss">Converting</span><span class="p">:</span> <span class="n">app</span><span class="o">/</span><span class="n">views</span><span class="o">/</span><span class="n">devise</span><span class="o">/</span><span class="n">passwords</span><span class="o">/</span><span class="n">edit</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">erb</span><span class="o">...</span> <span class="no">Done</span><span class="o">!</span>
+</span></span><span class="line"><span class="cl"><span class="ss">Converting</span><span class="p">:</span> <span class="n">app</span><span class="o">/</span><span class="n">views</span><span class="o">/</span><span class="n">devise</span><span class="o">/</span><span class="n">passwords</span><span class="o">/</span><span class="kp">new</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">erb</span><span class="o">...</span> <span class="no">Done</span><span class="o">!</span>
+</span></span><span class="line"><span class="cl"><span class="ss">Converting</span><span class="p">:</span> <span class="n">app</span><span class="o">/</span><span class="n">views</span><span class="o">/</span><span class="n">devise</span><span class="o">/</span><span class="n">registrations</span><span class="o">/</span><span class="n">edit</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">erb</span><span class="o">...</span> <span class="no">Done</span><span class="o">!</span>
+</span></span><span class="line"><span class="cl"><span class="ss">Converting</span><span class="p">:</span> <span class="n">app</span><span class="o">/</span><span class="n">views</span><span class="o">/</span><span class="n">devise</span><span class="o">/</span><span class="n">registrations</span><span class="o">/</span><span class="kp">new</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">erb</span><span class="o">...</span> <span class="no">Done</span><span class="o">!</span>
+</span></span><span class="line"><span class="cl"><span class="ss">Converting</span><span class="p">:</span> <span class="n">app</span><span class="o">/</span><span class="n">views</span><span class="o">/</span><span class="n">devise</span><span class="o">/</span><span class="n">sessions</span><span class="o">/</span><span class="kp">new</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">erb</span><span class="o">...</span> <span class="no">Done</span><span class="o">!</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>うんうん。</p>
+<p>追記<br>
+遅れましたが、Ruby2.0おめでとうございます。<br>
+とりあえずMacに入れてみました。それだけです。</p></p>
+            
+          
+        </article>
+        
+        <article>
+          
+          
+
+<header>
+  <h1 class="entry-title">
+    <a href="https://yoshitsugufujii.github.io/blog/2013-02-25-pow%E3%81%A8powder%E3%82%92%E4%BD%BF%E3%81%8A%E3%81%86%E3%81%A8%E3%81%97%E3%81%9F%E3%82%89%E3%81%9A%E3%81%A3%E3%81%A8%E6%8E%A5%E7%B6%9A%E4%B8%AD%E3%81%A7%E4%BD%95%E3%82%82%E8%A1%A8%E7%A4%BA%E3%81%95%E3%82%8C%E3%81%AA%E3%81%8B%E3%81%A3%E3%81%9F/">powとpowderを使おうとしたら、ずっと接続中で何も表示されなかった</a>
+  </h1>
+  <p class="meta"><span class="articleDate">Feb 25th, 2013</span>
+    
+    
+      <span class="tags">
+        
+      </span>
+    
+
+    
+  </p>
+</header>
+
+          
+            <p><p>という現象</p>
+<p>powのログを見てみる。<br>
+場所は  $HOME/Library/Logs/Pow/apps/your  _appname.log</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="o">[</span><span class="no">Wed</span> <span class="no">Feb</span> <span class="mi">20</span> <span class="mi">2013</span> <span class="mi">17</span><span class="p">:</span><span class="mi">35</span><span class="p">:</span><span class="mi">57</span> <span class="no">GMT</span><span class="o">+</span><span class="mi">0900</span> <span class="p">(</span><span class="no">JST</span><span class="p">)</span><span class="o">]</span> <span class="no">DEBUG</span> <span class="n">nack</span> <span class="n">worker</span> <span class="mi">2833</span> <span class="n">spawned</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span><span class="no">Wed</span> <span class="no">Feb</span> <span class="mi">20</span> <span class="mi">2013</span> <span class="mi">17</span><span class="p">:</span><span class="mi">35</span><span class="p">:</span><span class="mi">57</span> <span class="no">GMT</span><span class="o">+</span><span class="mi">0900</span> <span class="p">(</span><span class="no">JST</span><span class="p">)</span><span class="o">]</span> <span class="no">WARNING</span> <span class="no">Could</span> <span class="ow">not</span> <span class="n">find</span> <span class="n">i18n</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">6</span><span class="o">.</span><span class="mi">1</span> <span class="k">in</span> <span class="n">any</span> <span class="n">of</span> <span class="n">the</span> <span class="n">sources</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span><span class="no">Wed</span> <span class="no">Feb</span> <span class="mi">20</span> <span class="mi">2013</span> <span class="mi">17</span><span class="p">:</span><span class="mi">35</span><span class="p">:</span><span class="mi">57</span> <span class="no">GMT</span><span class="o">+</span><span class="mi">0900</span> <span class="p">(</span><span class="no">JST</span><span class="p">)</span><span class="o">]</span> <span class="no">WARNING</span> <span class="no">Try</span> <span class="n">running</span> <span class="sb">`bundle install`</span><span class="o">.</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span><span class="no">Wed</span> <span class="no">Feb</span> <span class="mi">20</span> <span class="mi">2013</span> <span class="mi">17</span><span class="p">:</span><span class="mi">35</span><span class="p">:</span><span class="mi">57</span> <span class="no">GMT</span><span class="o">+</span><span class="mi">0900</span> <span class="p">(</span><span class="no">JST</span><span class="p">)</span><span class="o">]</span> <span class="no">DEBUG</span> <span class="n">nack</span> <span class="n">worker</span> <span class="n">exited</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>むむ？ないって言われてる。と思ってアプリのルートみたら、.rvmrcおいてなかった。<br>
+置いてみたら直りましたというひどいミス・・・</p></p>
+            
+          
+        </article>
+        
+        <article>
+          
+          
+
+<header>
+  <h1 class="entry-title">
+    <a href="https://yoshitsugufujii.github.io/blog/2013-02-22-ruby-1.9.3-p385%E5%85%A5%E3%82%8C%E3%81%9F%E3%82%89libyaml%E5%85%A5%E3%82%8C%E3%81%A6%E3%81%A8%E8%A8%80%E3%82%8F%E3%82%8C%E3%81%A6%E3%81%97%E3%81%BE%E3%81%A3%E3%81%9F/">ruby-1.9.3-p385入れたら、libyaml入れてと言われてしまった。</a>
+  </h1>
+  <p class="meta"><span class="articleDate">Feb 22th, 2013</span>
+    
+    
+      <span class="tags">
+        
+      </span>
+    
+
+    
+  </p>
+</header>
+
+          
+            <p><p>ruby-1.9.3-p385入れた。<br>
+なんかしたら以下のwarningが出た。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="sr">/Users/use</span><span class="n">r_name</span><span class="o">/.</span><span class="n">rvm</span><span class="o">/</span><span class="n">rubies</span><span class="o">/</span><span class="n">ruby</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="o">-</span><span class="n">p385</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">ruby</span><span class="o">/</span><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">1</span><span class="o">/</span><span class="n">yaml</span><span class="o">.</span><span class="n">rb</span><span class="p">:</span><span class="mi">56</span><span class="ss">:in</span> <span class="sb">`&lt;top (required)&gt;&#39;:
+</span></span></span><span class="line"><span class="cl"><span class="sb">It seems your ruby installation is missing psych (for YAML output).
+</span></span></span><span class="line"><span class="cl"><span class="sb">To eliminate this warning, please install libyaml and reinstall your ruby.
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>むむむ。<br>
+素直に入れる</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="n">rvm</span> <span class="n">pkg</span> <span class="n">install</span> <span class="n">libyaml</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="no">Fetching</span> <span class="n">yaml</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">1</span><span class="o">.</span><span class="mi">4</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span> <span class="n">to</span> <span class="sr">/Users/use</span><span class="n">r_name</span><span class="o">/.</span><span class="n">rvm</span><span class="o">/</span><span class="n">archives</span>
+</span></span><span class="line"><span class="cl"><span class="no">Extracting</span> <span class="n">yaml</span> <span class="n">to</span> <span class="sr">/Users/use</span><span class="n">r_name</span><span class="o">/.</span><span class="n">rvm</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">yaml</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">1</span><span class="o">.</span><span class="mi">4</span>
+</span></span><span class="line"><span class="cl"><span class="no">Configuring</span> <span class="n">yaml</span> <span class="k">in</span> <span class="sr">/Users/use</span><span class="n">r_name</span><span class="o">/.</span><span class="n">rvm</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">yaml</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">1</span><span class="o">.</span><span class="mi">4</span><span class="o">.</span>
+</span></span><span class="line"><span class="cl"><span class="no">Compiling</span> <span class="n">yaml</span> <span class="k">in</span> <span class="sr">/Users/use</span><span class="n">r_name</span><span class="o">/.</span><span class="n">rvm</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">yaml</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">1</span><span class="o">.</span><span class="mi">4</span><span class="o">.</span>
+</span></span><span class="line"><span class="cl"><span class="no">Installing</span> <span class="n">yaml</span> <span class="n">to</span> <span class="sr">/Users/use</span><span class="n">r_name</span><span class="o">/.</span><span class="n">rvm</span><span class="o">/</span><span class="n">usr</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="no">Please</span> <span class="n">note</span> <span class="n">that</span> <span class="n">it</span><span class="err">&#39;</span><span class="n">s</span> <span class="n">required</span> <span class="n">to</span> <span class="n">reinstall</span> <span class="n">all</span> <span class="ss">rubies</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">  <span class="n">rvm</span> <span class="n">reinstall</span> <span class="n">all</span> <span class="o">--</span><span class="n">force</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>む？<br>
+個別指定できそうだけど、時間あったので言われた通りにやる</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="n">rvm</span> <span class="n">reinstall</span> <span class="n">all</span> <span class="o">--</span><span class="n">force</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>結構な時間がかかる。<br>
+個別にやった方が良さそう。<br>
+ちなみに調べたらこれで行ける。</p></p>
+            
+              <footer>
+                <a href="https://yoshitsugufujii.github.io/blog/2013-02-22-ruby-1.9.3-p385%E5%85%A5%E3%82%8C%E3%81%9F%E3%82%89libyaml%E5%85%A5%E3%82%8C%E3%81%A6%E3%81%A8%E8%A8%80%E3%82%8F%E3%82%8C%E3%81%A6%E3%81%97%E3%81%BE%E3%81%A3%E3%81%9F/" rel="full-article">続き →</a>
+              </footer>
+            
+          
+        </article>
+        
+        <article>
+          
+          
+
+<header>
+  <h1 class="entry-title">
+    <a href="https://yoshitsugufujii.github.io/blog/2013-02-20-%E3%81%84%E3%82%8D%E3%81%84%E3%82%8D%E3%81%AAgitignore/">いろいろなgitignore</a>
+  </h1>
+  <p class="meta"><span class="articleDate">Feb 20th, 2013</span>
+    
+    
+      <span class="tags">
+        
+      </span>
+    
+
+    
+  </p>
+</header>
+
+          
+            <p><p>色々な言語やフレームワークのgitignoreのテンプレート</p>
+<p>とりあえず新規でプロジェクト作ったなら、適用してみると少しだけハッピーになれる気がしますね。<br>
+
+<a href="https://github.com/github/gitignore" target="_blank" rel="noopener">https://github.com/github/gitignore</a></p>
+<p>色々あるもんです。</p></p>
+            
+          
+        </article>
+        
+        <article>
+          
+          
+
+<header>
+  <h1 class="entry-title">
+    <a href="https://yoshitsugufujii.github.io/blog/2013-02-12-http%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88%E3%82%92%E6%8A%95%E3%81%92%E3%81%BE%E3%81%8F%E3%82%8C%E3%82%8Bruby%E8%A3%BD%E3%81%AEcli%E3%83%84%E3%83%BC%E3%83%AB%E4%BD%9C%E3%81%A3%E3%81%A6%E3%81%BF%E3%81%BE%E3%81%97%E3%81%9F/">httpリクエストを投げまくれるRuby製のCLIツール作ってみました</a>
+  </h1>
+  <p class="meta"><span class="articleDate">Feb 12th, 2013</span>
+    
+    
+      <span class="tags">
+        
+      </span>
+    
+
+    
+  </p>
+</header>
+
+          
+            <p><p>
+<a href="http://qiita.com/items/96f2c57111b1162f80f1" target="_blank" rel="noopener">Rubyでサブコマンド付きのコマンドを簡単に書けるThor</a>を見て勉強がてらに作ってみました。</p>
+<p>コマンドラインから指定したURLやPORTに任意のデータをつけてGET POST PUT
+DELETEを指定回数分投げることができるGemを作りました。<br>
+負荷をかけたい時とか、APIで同一のコンテンツを複数作成する時とかというニッチなユースケースに使うといいんではないでしょうか。</p>
+<p>rubyはthreadプログラムを書いても、ネイティブスレッドの実行は一つという状態になってしまうようなので。<br>
+いい感じに並列処理を実行してくれるparallelというGemを使っています。</p>
+<p>
+<a href="http://subtech.g.hatena.ne.jp/secondlife/20110927/1317123109" target="_blank" rel="noopener">Rubyで並列実行処理を簡単に書く</a></p>
+<p>使い方です。</p>
+<p>インストール</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="n">gem</span> <span class="n">install</span> <span class="n">http_machinegun</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>使ってみる</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="c1"># 一回だけgetリクエスト発行</span>
+</span></span><span class="line"><span class="cl"><span class="n">http_machinegun</span> <span class="n">fire</span> <span class="o">-</span><span class="n">u</span> <span class="ss">http</span><span class="p">:</span><span class="sr">//</span><span class="n">localhost</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 80番ポートにabcdeという文字列のpostリクエストを10回とばす</span>
+</span></span><span class="line"><span class="cl"><span class="n">http_machinegun</span> <span class="n">fire</span> <span class="o">-</span><span class="n">u</span> <span class="ss">http</span><span class="p">:</span><span class="sr">//</span><span class="n">localhost</span> <span class="o">-</span><span class="nb">p</span> <span class="mi">80</span> <span class="o">-</span><span class="n">t</span> <span class="mi">10</span>  <span class="o">-</span><span class="n">d</span> <span class="n">abcde</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>特に実際に使う場面があって作ったわけではないので、抜けとか多いかもしれません。<br>
+改善ポイントとか教えてもらえると嬉しいです。<br>
+あと出力される内容に微妙に変な改行が入ってしまうのは何故だろうorz</p>
+<p>ソースはこちら<br>
+
+<a href="https://github.com/YoshitsuguFujii/http_machinegun" target="_blank" rel="noopener">YoshitsuguFujii/http  _machinegun ?
+GitHub</a></p></p>
+            
+          
+        </article>
+        
+        <article>
+          
+          
+
+<header>
+  <h1 class="entry-title">
+    <a href="https://yoshitsugufujii.github.io/blog/2013-01-11-compass%E3%82%92%E3%81%93%E3%81%A3%E3%81%9D%E3%82%8A%E3%81%A8%E8%87%AA%E7%A4%BE%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9%E3%81%A7%E4%BD%BF%E3%81%A3%E3%81%A6%E3%81%BF%E3%82%8B/">compassをこっそりと自社サービスで使ってみる</a>
+  </h1>
+  <p class="meta"><span class="articleDate">Jan 11th, 2013</span>
+    
+    
+      <span class="tags">
+        
+      </span>
+    
+
+    
+  </p>
+</header>
+
+          
+            <p><p>昨日のエントリの続きになります。<br>
+やっぱりcompassも使いたいということで、こっそりと入れてみました。<br>
+compassはsassのfunctionやmixinなどが便利につまったフレームワークですね。</p>
+<p>rails3.0.5のプロジェクトで使用します。<br>
+#{RAILS  _ROOT}はrailsのアプリケーションルートに適宜読み替えてください。</p>
+<p>まずは  #{RAILS  _ROOT}/app/assets/stylesheets下に環境を作ってみたいと思います。</p>
+<p>まずはGemfileにgem &lsquo;compass&rsquo;を追記して  <code>bundle install  </code><br>
+compassはsassに依存しているので、昨日のGemfileに記述したsassの行を削除してもいいかもしれません。</p>
+<p>compassの環境を作ります。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="n">cd</span> <span class="c1">#{RAILS_ROOT}/app/assets/stylesheets</span>
+</span></span><span class="line"><span class="cl"><span class="n">compass</span> <span class="n">create</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>コンソールに色々ファイルが出来たと思います。<br>
+デフォルトのファイル達は使わないので消しちゃいます。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="n">rm</span> <span class="o">-</span><span class="n">r</span> <span class="n">sass</span>
+</span></span><span class="line"><span class="cl"><span class="n">rm</span> <span class="o">-</span><span class="n">r</span> <span class="n">stylesheets</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>config.rbを開いて修正します。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="c1"># Set this to the root of your project when deployed:</span>
+</span></span><span class="line"><span class="cl"><span class="n">http_path</span> <span class="o">=</span> <span class="s2">&#34;/&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">css_dir</span> <span class="o">=</span> <span class="s2">&#34;../../../public/stylesheets&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">sass_dir</span> <span class="o">=</span> <span class="s2">&#34;.&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">images_dir</span> <span class="o">=</span> <span class="s2">&#34;../images&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">generated_images_dir</span> <span class="o">=</span> <span class="s2">&#34;../../../public/images&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">javascripts_dir</span> <span class="o">=</span> <span class="s2">&#34;../../../public/javascripts&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>sass  _dirがコンパイル対象のscssが置かれているパス。<br>
+css  _dirがコンパイル後のcssの出力先ですね。</p>
+<p>変更を監視して自動で変換してくれるようにコンソール上でwatchスタートします。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="n">cd</span> <span class="c1">#{RAILS_ROOT}/app/assets/stylesheets</span>
+</span></span><span class="line"><span class="cl"><span class="n">compass</span> <span class="n">watch</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>#{RAILS  _ROOT}/app/assets/stylesheets/test.scssを作成してみます。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="vi">@import</span> <span class="s2">&#34;compass/css3&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">.</span><span class="n">sample</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="vi">@include</span> <span class="n">border</span><span class="o">-</span><span class="n">radius</span><span class="p">(</span><span class="mi">25</span><span class="n">px</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>#{RAILS  _ROOT}/public/stylesheets/test.cssを開いてみます。</p></p>
+            
+              <footer>
+                <a href="https://yoshitsugufujii.github.io/blog/2013-01-11-compass%E3%82%92%E3%81%93%E3%81%A3%E3%81%9D%E3%82%8A%E3%81%A8%E8%87%AA%E7%A4%BE%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9%E3%81%A7%E4%BD%BF%E3%81%A3%E3%81%A6%E3%81%BF%E3%82%8B/" rel="full-article">続き →</a>
+              </footer>
+            
+          
+        </article>
+        
+      
+      
+      
+
+
+
+
+
+
+<div class="pagination">
+
+    
+        
+        
+        
+        <a href="/" aria-label="First" class="label-pagination"><i class="fa fa-angle-double-left fa-lg"></i></a>
+    
+
+    
+    
+        <a href="/page/25/" aria-label="Previous" class="label-pagination"><i class="fa fa-angle-left fa-lg"></i></a>
+    
+
+    
+        <a href="/" class="label-pagination">1</a>
+    
+        <a href="/page/2/" class="label-pagination">2</a>
+    
+        <a href="/page/3/" class="label-pagination">3</a>
+    
+        <a href="/page/4/" class="label-pagination">4</a>
+    
+        <a href="/page/5/" class="label-pagination">5</a>
+    
+        <a href="/page/6/" class="label-pagination">6</a>
+    
+        <a href="/page/7/" class="label-pagination">7</a>
+    
+        <a href="/page/8/" class="label-pagination">8</a>
+    
+        <a href="/page/9/" class="label-pagination">9</a>
+    
+        <a href="/page/10/" class="label-pagination">10</a>
+    
+        <a href="/page/11/" class="label-pagination">11</a>
+    
+        <a href="/page/12/" class="label-pagination">12</a>
+    
+        <a href="/page/13/" class="label-pagination">13</a>
+    
+        <a href="/page/14/" class="label-pagination">14</a>
+    
+        <a href="/page/15/" class="label-pagination">15</a>
+    
+        <a href="/page/16/" class="label-pagination">16</a>
+    
+        <a href="/page/17/" class="label-pagination">17</a>
+    
+        <a href="/page/18/" class="label-pagination">18</a>
+    
+        <a href="/page/19/" class="label-pagination">19</a>
+    
+        <a href="/page/20/" class="label-pagination">20</a>
+    
+        <a href="/page/21/" class="label-pagination">21</a>
+    
+        <a href="/page/22/" class="label-pagination">22</a>
+    
+        <a href="/page/23/" class="label-pagination">23</a>
+    
+        <a href="/page/24/" class="label-pagination">24</a>
+    
+        <a href="/page/25/" class="label-pagination">25</a>
+    
+        <a href="/page/26/" class="label-pagination">26</a>
+    
+        <a href="/page/27/" class="label-pagination">27</a>
+    
+        <a href="/page/28/" class="label-pagination">28</a>
+    
+        <a href="/page/29/" class="label-pagination">29</a>
+    
+        <a href="/page/30/" class="label-pagination">30</a>
+    
+        <a href="/page/31/" class="label-pagination">31</a>
+    
+        <a href="/page/32/" class="label-pagination">32</a>
+    
+
+    
+    
+        <a href="/page/27/" aria-label="Next" class="label-pagination"><i class="fa fa-angle-right fa-lg"></i></a>
+    
+
+    
+    
+        <a href="/page/32/" aria-label="Last"><i class="fa fa-angle-double-right fa-lg"></i></a>
+    
+
+</div>
+
+  
+    </div>
+    
+
+<aside class="sidebar thirds">
+  <section class="first odd">
+
+    
+      <h1>About me</h1>
+    
+
+    <p>
+      
+        <p>よくrubyのコードを書いています。</p>
+<p>娘がいます。フレンチブルドックの小梅と小春もいます。黒猫の小夏がいます。 熱帯魚もいます。</p>
+<p>低山ハイク、手漕ぎボート釣り、シーカヤック、サーフィン、バイクとかやります。</p>
+
+      
+    </p>
+  </section>
+
+  
+  
+
+
+
+<ul class="sidebar-nav">
+  <li class="sidebar-nav-item">
+    <a target="_blank" rel="noopener noreferrer" href="https://github.com/yoshitsugufujii" title="https://github.com/yoshitsugufujii"><i class="fa fa-github fa-3x"></i></a>
+    
+    
+    <a target="_blank" rel="noopener noreferrer" href="https://x.com/YoshitsuguFujii" title="https://x.com/YoshitsuguFujii"><i class="fa fa-twitter fa-3x"></i></a>
+    
+    
+    
+    
+    <a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/fujiiyoshitsugu" title="https://www.facebook.com/fujiiyoshitsugu"><i class="fa fa-facebook fa-3x"></i></a>
+    
+    
+    
+
+  
+  
+  </li>
+</ul>
+
+  
+
+  
+    
+      <section class="odd">
+        
+        
+          <li>
+            <a href="https://yoshitsugufujii.github.io/tags" title="Tags" >Tags</a>
+          </li>
+        
+          <li>
+            <a href="https://yoshitsugufujii.github.io/categories" title="Category" >Category</a>
+          </li>
+        
+      </section>
+    
+  
+
+  
+  
+  
+    
+      <section class="even">
+        <h1>Recent Posts</h1>
+        <ul id="recent_posts">
+          
+          
+            
+              <li class="post">
+                <a href="/blog/2025-02-03-jekyll%E3%82%92%E3%82%84%E3%82%81%E3%81%A6hugo%E3%81%AB%E3%81%97%E3%81%BE%E3%81%97%E3%81%9F/">JekyllをやめてHugoにしました</a>
+              </li>
+            
+          
+            
+          
+            
+              <li class="post">
+                <a href="/blog/2025-01-26-value%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3json/">Valueオブジェクトパターン(JSON)</a>
+              </li>
+            
+          
+            
+              <li class="post">
+                <a href="/blog/2024-11-29-%E5%86%AC%E3%81%AA%E3%81%AE%E3%81%AB%E6%80%96%E3%81%84%E8%A9%B1/">冬なのに怖い話</a>
+              </li>
+            
+          
+            
+              <li class="post">
+                <a href="/blog/2024-11-18-i18n%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%E6%80%9D%E3%81%A3%E3%81%9F%E3%81%93%E3%81%A8/"> i18nについて思ったこと</a>
+              </li>
+            
+          
+        </ul>
+      </section>
+    
+  
+</aside>
+    
+  </div>
+</div>
+    <footer role="contentinfo">
+      <p>Copyright &copy; 2025 YoshitsuguFujii - <a href="https://yoshitsugufujii.github.io/license/">License</a> -
+        <span class="credit">Powered by <a target="_blank" href="https://gohugo.io" rel="noopener noreferrer">Hugo</a> and <a target="_blank" href="https://github.com/parsiya/hugo-octopress/" rel="noopener noreferrer">Hugo-Octopress</a> theme.
+      </p>
+    </footer>
+
+    
+    
+
+
+
+    
+    
+    
+
+    
+  </body>
+</html>
+   
+
+

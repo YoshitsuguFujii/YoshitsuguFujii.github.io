@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Vue on なんとなく日々徒然と</title>
+    <link>https://yoshitsugufujii.github.io/categories/vue/</link>
+    <description>Recent content in Vue on なんとなく日々徒然と</description>
+    <generator>Hugo</generator>
+    <language>ja</language>
+    <lastBuildDate>Wed, 13 Jan 2021 17:33:10 +0900</lastBuildDate>
+    <atom:link href="https://yoshitsugufujii.github.io/categories/vue/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>vueでHashをv-forで回す</title>
+      <link>https://yoshitsugufujii.github.io/blog/2021-01-13-vue%E3%81%A7hash%E3%82%92v-for%E3%81%A7%E5%9B%9E%E3%81%99/</link>
+      <pubDate>Wed, 13 Jan 2021 17:33:10 +0900</pubDate>
+      <guid>https://yoshitsugufujii.github.io/blog/2021-01-13-vue%E3%81%A7hash%E3%82%92v-for%E3%81%A7%E5%9B%9E%E3%81%99/</guid>
+      <description>&lt;p&gt;コロナも増えてきたし本格的に海上に逃げるためにカヤックを買おうか悩んでます。&lt;br&gt;&#xA;誰かやりませんか&lt;/p&gt;&#xA;&lt;p&gt;そして四十肩が治りません。&lt;br&gt;&#xA;酒で痛みを殺しながら日々生きています。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

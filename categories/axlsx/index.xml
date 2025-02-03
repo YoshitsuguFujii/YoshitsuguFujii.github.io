@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Axlsx on なんとなく日々徒然と</title>
+    <link>https://yoshitsugufujii.github.io/categories/axlsx/</link>
+    <description>Recent content in Axlsx on なんとなく日々徒然と</description>
+    <generator>Hugo</generator>
+    <language>ja</language>
+    <lastBuildDate>Fri, 11 Nov 2022 16:00:07 +0900</lastBuildDate>
+    <atom:link href="https://yoshitsugufujii.github.io/categories/axlsx/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Axlsxで半角英数字のみの入力を受け付けたい</title>
+      <link>https://yoshitsugufujii.github.io/blog/2022-11-11-axlsx%E3%81%A7%E5%8D%8A%E8%A7%92%E8%8B%B1%E6%95%B0%E5%AD%97%E3%81%AE%E3%81%BF%E3%81%AE%E5%85%A5%E5%8A%9B%E3%82%92%E5%8F%97%E3%81%91%E4%BB%98%E3%81%91%E3%81%9F%E3%81%84/</link>
+      <pubDate>Fri, 11 Nov 2022 16:00:07 +0900</pubDate>
+      <guid>https://yoshitsugufujii.github.io/blog/2022-11-11-axlsx%E3%81%A7%E5%8D%8A%E8%A7%92%E8%8B%B1%E6%95%B0%E5%AD%97%E3%81%AE%E3%81%BF%E3%81%AE%E5%85%A5%E5%8A%9B%E3%82%92%E5%8F%97%E3%81%91%E4%BB%98%E3%81%91%E3%81%9F%E3%81%84/</guid>
+      <description>&lt;p&gt;お仕事いただいていたサービスが立て続けにcloseとなってしまいピンチの藤井です。&lt;br&gt;&#xA;お仕事ください！&lt;/p&gt;&#xA;&lt;p&gt;暇なので&#xA;&lt;a href=&#34;https://qiita.com/YoshitsuguFujii/items/e35ef63f3c9162babb14&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Qiita&lt;/a&gt;に記事かいたら全然いいねもらえません。&lt;br&gt;&#xA;いいねください！&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

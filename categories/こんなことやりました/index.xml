@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>こんなことやりました on なんとなく日々徒然と</title>
+    <link>https://yoshitsugufujii.github.io/categories/%E3%81%93%E3%82%93%E3%81%AA%E3%81%93%E3%81%A8%E3%82%84%E3%82%8A%E3%81%BE%E3%81%97%E3%81%9F/</link>
+    <description>Recent content in こんなことやりました on なんとなく日々徒然と</description>
+    <generator>Hugo</generator>
+    <language>ja</language>
+    <lastBuildDate>Fri, 28 Jun 2019 13:50:12 +0900</lastBuildDate>
+    <atom:link href="https://yoshitsugufujii.github.io/categories/%E3%81%93%E3%82%93%E3%81%AA%E3%81%93%E3%81%A8%E3%82%84%E3%82%8A%E3%81%BE%E3%81%97%E3%81%9F/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>飲食店向けオーダーシステムを作った話</title>
+      <link>https://yoshitsugufujii.github.io/blog/2019-06-28-%E9%A3%B2%E9%A3%9F%E5%BA%97%E5%90%91%E3%81%91%E3%82%AA%E3%83%BC%E3%83%80%E3%83%BC%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0%E3%82%92%E4%BD%9C%E3%81%A3%E3%81%9F%E8%A9%B1/</link>
+      <pubDate>Fri, 28 Jun 2019 13:50:12 +0900</pubDate>
+      <guid>https://yoshitsugufujii.github.io/blog/2019-06-28-%E9%A3%B2%E9%A3%9F%E5%BA%97%E5%90%91%E3%81%91%E3%82%AA%E3%83%BC%E3%83%80%E3%83%BC%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0%E3%82%92%E4%BD%9C%E3%81%A3%E3%81%9F%E8%A9%B1/</guid>
+      <description>&lt;h2 id=&#34;要件&#34;&gt;要件&lt;/h2&gt;&#xA;&lt;p&gt;飲食店向けレジジステム&lt;/p&gt;&#xA;&lt;p&gt;いくつかの特殊な要件を含む飲食店向けのオーダーシステムの新規開発。&lt;br&gt;&#xA;細かいものもいくつかありますが、大きなカスタマイズ要件としては&lt;/p&gt;&#xA;&lt;p&gt;・１回目のチャージと２回目以降のチャージで料金が違う&lt;br&gt;&#xA;・独自のポイント体系。&lt;br&gt;&#xA;・チャージごとにドリンクの注文が必要&lt;br&gt;&#xA;・お会計時に会計情報を別システムへFTP + CSV連携(かつAPIでも情報を取りたい)&lt;br&gt;&#xA;・特定の注文が入った場合にアクションを起こしたい。&lt;/p&gt;&#xA;&lt;p&gt;またレジは自動釣銭機に対応していなければなりません。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

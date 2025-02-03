@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1">
+
+  
+    
+    
+      <link href="/css/fonts.css" rel="stylesheet" type="text/css">
+    
+  
+
+  
+  <title>Doorkeeperの認証で使われるtokenを取得</title>
+
+  
+  
+  <link rel="stylesheet" href="/css/hugo-octopress.css">
+
+  
+  
+    <link rel="stylesheet" href="https://yoshitsugufujii.github.io/css/custom.css">
+  
+
+  
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+  
+
+  
+  
+    <link href="https://yoshitsugufujii.github.io/favicon.png" rel="icon">
+  
+
+  
+  
+
+  <meta name="description" content="" />
+  <meta name="keywords" content="">
+  <meta name="author" content="YoshitsuguFujii">
+
+  
+  <meta name="generator" content="Hugo 0.142.0">
+
+  
+  
+
+  
+  
+
+
+
+  
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-7BQ8559REB"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-7BQ8559REB');
+</script>
+
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7039502723411845"
+     crossorigin="anonymous"></script>
+
+</head>
+<body>
+
+
+<header role="banner">
+<hgroup>
+  
+  <h1><a href="https://yoshitsugufujii.github.io/">なんとなく日々徒然と</a></h1>
+    <h2></h2>
+</hgroup></header>
+
+
+<nav role="navigation">
+<fieldset class="mobile-nav">
+  
+  <select onchange="location = this.value;">
+    <option value="">Navigate…</option>
+      
+        <option value="https://www.google.com/">» Google</option>
+      
+        <option value="https://yoshitsugufujii.github.io/">» Site&#39;s Home Page</option>
+      
+        <option value="https://www.github.com/parsiya/hugo-octopress">» This theme on Github</option>
+      
+  </select>
+</fieldset>
+
+
+<ul class="main-navigation">
+  
+  
+    
+      <li><a href="https://www.google.com/" title="Google"  target="_blank"  rel="noopener noreferrer">Google</a></li>
+    
+  
+    
+      <li><a href="https://yoshitsugufujii.github.io/" title="Site&#39;s Home Page">Site&#39;s Home Page</a></li>
+    
+  
+    
+      <li><a href="https://www.github.com/parsiya/hugo-octopress" title="This theme on Github"  target="_blank"  rel="noopener noreferrer">This theme on Github</a></li>
+    
+  
+</ul>
+
+<ul class="subscription">
+  
+    
+        <a href="https://yoshitsugufujii.github.io/index.xml" target="_blank" type="application/rss+xml" title="RSS" rel="noopener noreferrer"><i class="fa fa-rss-square fa-lg"></i></a>
+    
+  
+</ul>
+
+
+  <form action="https://www.google.com/search" method="get" target="_blank" rel="noopener noreferrer">
+    <fieldset role="search">
+      <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+      <input type="hidden" name="q" value="site:https://yoshitsugufujii.github.io/" />
+    </fieldset>
+  </form>
+
+</nav>
+
+
+<div id="main">
+  <div id="content">
+    <div>
+      <article class="hentry" role="article">
+
+        
+        
+
+<header>
+  <h1 class="entry-title">
+     Doorkeeperの認証で使われるtokenを取得 
+  </h1>
+  <p class="meta"><span class="articleDate">Feb 15th, 2018</span>
+    
+    
+      <span class="tags">
+        
+      </span>
+    
+
+    
+  </p>
+</header>
+
+
+        <div class="entry-content">
+          
+          
+          
+          <p>doorkeeprの処理のなかで削除済のユーザのステータスが取りたくて、tokenを取得できるかやってみました。</p>
+<p>イレギュラーアクセス -&gt; tokenが取れない。<br>
+通常のアクセス -&gt; tokenが取れる。ユーザがひける。<br>
+削除済または退会済みユーザへのアクセス -&gt; tokenが取れる。ユーザがひけない。</p>
+<p>って感じでしょうか？</p>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>    
+<p><ins class="adsbygoogle"    
+style="display:block; text-align:center;"    
+data-ad-layout="in-article"    
+data-ad-format="fluid"    
+data-ad-client="ca-pub-7039502723411845"    
+data-ad-slot="8206045005"></ins></p>
+<script>    
+     (adsbygoogle = window.adsbygoogle || []).push({});    
+</script>  
+<p>下記のようにしたら取れました。<br>
+あとはこれをうまくつかってerrorとかで削除済のレスポンスを返す感じですね。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="c1"># frozen_string_literal: true</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">require</span> <span class="s1">&#39;doorkeeper/grape/helpers&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">module</span> <span class="nn">V1</span>
+</span></span><span class="line"><span class="cl">  <span class="k">class</span> <span class="nc">Root</span> <span class="o">&lt;</span> <span class="no">Grape</span><span class="o">::</span><span class="no">API</span>
+</span></span><span class="line"><span class="cl">    <span class="n">helpers</span> <span class="no">Doorkeeper</span><span class="o">::</span><span class="no">Grape</span><span class="o">::</span><span class="no">Helpers</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">before</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">      <span class="n">authorization_request</span> <span class="o">=</span> <span class="no">Doorkeeper</span><span class="o">::</span><span class="no">Grape</span><span class="o">::</span><span class="no">AuthorizationDecorator</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="c1"># これでrequestからtokenが取れる</span>
+</span></span><span class="line"><span class="cl">      <span class="n">token</span> <span class="o">=</span> <span class="no">Doorkeeper</span><span class="o">::</span><span class="no">OAuth</span><span class="o">::</span><span class="no">Token</span><span class="o">.</span><span class="n">from_request</span><span class="p">(</span><span class="n">authorization_request</span><span class="p">,</span> <span class="o">*</span><span class="no">Doorkeeper</span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">access_token_methods</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="c1"># そのトークンを使ってユーザのトークンが取れる。</span>
+</span></span><span class="line"><span class="cl">      <span class="n">access_token</span> <span class="o">=</span> <span class="no">Doorkeeper</span><span class="o">::</span><span class="no">AccessToken</span><span class="o">.</span><span class="n">by_token</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="n">doorkeeper_authorize!</span>
+</span></span><span class="line"><span class="cl">    <span class="k">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">mount</span> <span class="no">Users</span>
+</span></span><span class="line"><span class="cl">  <span class="k">end</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div>
+        </div>
+        
+
+<footer>
+  <p class="meta">
+    <span class="byline author vcard">Posted by <span class="fn">YoshitsuguFujii</span></span>
+    
+    <time>Feb 15, 2018</time>
+    
+      <span class="categories">
+        Tags:
+        
+          
+    
+    </span>
+  </p>
+
+  
+
+  <p class="meta">
+    
+        <a class="basic-alignment left" href="https://yoshitsugufujii.github.io/blog/2018-02-14-s3%E3%81%AB%E7%9B%B4%E6%8E%A5%E3%81%AB%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%82%A2%E3%83%83%E3%83%97%E3%83%AD%E3%83%BC%E3%83%89/" title="S3に直接にファイルアップロード">S3に直接にファイルアップロード</a>
+    
+
+    
+      <a class="basic-alignment right" href="https://yoshitsugufujii.github.io/blog/2018-02-26-grape%E3%81%A7csrf%E5%AF%BE%E7%AD%96/" title="GrapeでCSRF対策">GrapeでCSRF対策</a>
+    
+  </p>
+  
+    
+      <div id="disqus_thread"></div>
+<script>
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "yoshitsugufujii" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+  
+</footer>
+
+
+      </article>
+    </div>
+    
+
+<aside class="sidebar thirds">
+  <section class="first odd">
+
+    
+      <h1>About me</h1>
+    
+
+    <p>
+      
+        <p>よくrubyのコードを書いています。</p>
+<p>娘がいます。フレンチブルドックの小梅と小春もいます。黒猫の小夏がいます。 熱帯魚もいます。</p>
+<p>低山ハイク、手漕ぎボート釣り、シーカヤック、サーフィン、バイクとかやります。</p>
+
+      
+    </p>
+  </section>
+
+  
+  
+
+
+
+<ul class="sidebar-nav">
+  <li class="sidebar-nav-item">
+    <a target="_blank" rel="noopener noreferrer" href="https://github.com/yoshitsugufujii" title="https://github.com/yoshitsugufujii"><i class="fa fa-github fa-3x"></i></a>
+    
+    
+    <a target="_blank" rel="noopener noreferrer" href="https://x.com/YoshitsuguFujii" title="https://x.com/YoshitsuguFujii"><i class="fa fa-twitter fa-3x"></i></a>
+    
+    
+    
+    
+    <a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/fujiiyoshitsugu" title="https://www.facebook.com/fujiiyoshitsugu"><i class="fa fa-facebook fa-3x"></i></a>
+    
+    
+    
+
+  
+  
+  </li>
+</ul>
+
+  
+
+  
+    
+      <section class="odd">
+        
+        
+          <li>
+            <a href="https://yoshitsugufujii.github.io/tags" title="Tags" >Tags</a>
+          </li>
+        
+          <li>
+            <a href="https://yoshitsugufujii.github.io/categories" title="Category" >Category</a>
+          </li>
+        
+      </section>
+    
+  
+
+  
+  
+  
+    
+      <section class="even">
+        <h1>Recent Posts</h1>
+        <ul id="recent_posts">
+          
+          
+            
+              <li class="post">
+                <a href="/blog/2025-02-03-jekyll%E3%82%92%E3%82%84%E3%82%81%E3%81%A6hugo%E3%81%AB%E3%81%97%E3%81%BE%E3%81%97%E3%81%9F/">JekyllをやめてHugoにしました</a>
+              </li>
+            
+          
+            
+          
+            
+              <li class="post">
+                <a href="/blog/2025-01-26-value%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3json/">Valueオブジェクトパターン(JSON)</a>
+              </li>
+            
+          
+            
+              <li class="post">
+                <a href="/blog/2024-11-29-%E5%86%AC%E3%81%AA%E3%81%AE%E3%81%AB%E6%80%96%E3%81%84%E8%A9%B1/">冬なのに怖い話</a>
+              </li>
+            
+          
+            
+              <li class="post">
+                <a href="/blog/2024-11-18-i18n%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%E6%80%9D%E3%81%A3%E3%81%9F%E3%81%93%E3%81%A8/"> i18nについて思ったこと</a>
+              </li>
+            
+          
+        </ul>
+      </section>
+    
+  
+</aside>
+
+  </div>
+</div>
+
+    <footer role="contentinfo">
+      <p>Copyright &copy; 2025 YoshitsuguFujii - <a href="https://yoshitsugufujii.github.io/license/">License</a> -
+        <span class="credit">Powered by <a target="_blank" href="https://gohugo.io" rel="noopener noreferrer">Hugo</a> and <a target="_blank" href="https://github.com/parsiya/hugo-octopress/" rel="noopener noreferrer">Hugo-Octopress</a> theme.
+      </p>
+    </footer>
+
+    
+    
+
+
+
+    
+    
+    
+
+    
+  </body>
+</html>
+

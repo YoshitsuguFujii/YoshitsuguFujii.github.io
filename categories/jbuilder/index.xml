@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Jbuilder on なんとなく日々徒然と</title>
+    <link>https://yoshitsugufujii.github.io/categories/jbuilder/</link>
+    <description>Recent content in Jbuilder on なんとなく日々徒然と</description>
+    <generator>Hugo</generator>
+    <language>ja</language>
+    <lastBuildDate>Thu, 19 Dec 2019 12:26:18 +0900</lastBuildDate>
+    <atom:link href="https://yoshitsugufujii.github.io/categories/jbuilder/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>jbuilderのtemplateを使ってhashを取得</title>
+      <link>https://yoshitsugufujii.github.io/blog/2019-12-19-jbuilder%E3%81%AEtemplate%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6hash%E3%82%92%E5%8F%96%E5%BE%97/</link>
+      <pubDate>Thu, 19 Dec 2019 12:26:18 +0900</pubDate>
+      <guid>https://yoshitsugufujii.github.io/blog/2019-12-19-jbuilder%E3%81%AEtemplate%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6hash%E3%82%92%E5%8F%96%E5%BE%97/</guid>
+      <description>&lt;p&gt;grape-jbuilderの環境でapi/view/api/users/index.jbuilderを使ってjsonを返しているエンドポイントがある。&lt;br&gt;&#xA;これをcontrollerでhashで取得したい場合。&lt;/p&gt;&#xA;&lt;p&gt;またapi/view/api/users/index.jbuilderでは@usersを使って値を取り出している。&lt;/p&gt;&#xA;&lt;p&gt;config/application.rbに以下の設定を想定&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;&#xA;&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;&#xA;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1&#xA;&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2&#xA;&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3&#xA;&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4&#xA;&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5&#xA;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&#xA;&lt;td class=&#34;lntd&#34;&gt;&#xA;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;class Application &amp;lt; Rails::Application&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  config.middleware.use(Rack::Config) do |env|&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    env[&amp;#39;api.tilt.root&amp;#39;] = Rails.root.join &amp;#39;app&amp;#39;, &amp;#39;views&amp;#39;, &amp;#39;api&amp;#39;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  end&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;end&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&#xA;&lt;/div&gt;&#xA;&lt;/div&gt;</description>
+    </item>
+  </channel>
+</rss>

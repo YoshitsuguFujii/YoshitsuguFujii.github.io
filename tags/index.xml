@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on なんとなく日々徒然と</title>
+    <link>https://yoshitsugufujii.github.io/tags/</link>
+    <description>Recent content in Tags on なんとなく日々徒然と</description>
+    <generator>Hugo</generator>
+    <language>ja</language>
+    <lastBuildDate>Sun, 26 Jan 2025 13:46:37 +0900</lastBuildDate>
+    <atom:link href="https://yoshitsugufujii.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Ruby</title>
+      <link>https://yoshitsugufujii.github.io/tags/ruby/</link>
+      <pubDate>Sun, 26 Jan 2025 13:46:37 +0900</pubDate>
+      <guid>https://yoshitsugufujii.github.io/tags/ruby/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Ruby on Rails</title>
+      <link>https://yoshitsugufujii.github.io/tags/ruby-on-rails/</link>
+      <pubDate>Sun, 26 Jan 2025 13:46:37 +0900</pubDate>
+      <guid>https://yoshitsugufujii.github.io/tags/ruby-on-rails/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Axlsx</title>
+      <link>https://yoshitsugufujii.github.io/tags/axlsx/</link>
+      <pubDate>Fri, 11 Nov 2022 16:00:07 +0900</pubDate>
+      <guid>https://yoshitsugufujii.github.io/tags/axlsx/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Grape</title>
+      <link>https://yoshitsugufujii.github.io/tags/grape/</link>
+      <pubDate>Tue, 16 Nov 2021 14:08:41 +0900</pubDate>
+      <guid>https://yoshitsugufujii.github.io/tags/grape/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>

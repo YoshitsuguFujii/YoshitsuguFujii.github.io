@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>デザインパターン on なんとなく日々徒然と</title>
+    <link>https://yoshitsugufujii.github.io/categories/%E3%83%87%E3%82%B6%E3%82%A4%E3%83%B3%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3/</link>
+    <description>Recent content in デザインパターン on なんとなく日々徒然と</description>
+    <generator>Hugo</generator>
+    <language>ja</language>
+    <lastBuildDate>Sun, 26 Jan 2025 13:46:37 +0900</lastBuildDate>
+    <atom:link href="https://yoshitsugufujii.github.io/categories/%E3%83%87%E3%82%B6%E3%82%A4%E3%83%B3%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Valueオブジェクトパターン(JSON)</title>
+      <link>https://yoshitsugufujii.github.io/blog/2025-01-26-value%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3json/</link>
+      <pubDate>Sun, 26 Jan 2025 13:46:37 +0900</pubDate>
+      <guid>https://yoshitsugufujii.github.io/blog/2025-01-26-value%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3json/</guid>
+      <description>&lt;p&gt;前回の続きを&#xA;&lt;a href=&#34;https://qiita.com/YoshitsuguFujii/items/d0c5d4474c910da11b43&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Qiita&lt;/a&gt;に投稿しました。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Valueオブジェクトパターン(プリミティブ型)</title>
+      <link>https://yoshitsugufujii.github.io/blog/2024-11-03-value%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3%E3%83%97%E3%83%AA%E3%83%9F%E3%83%86%E3%82%A3%E3%83%96%E5%9E%8B/</link>
+      <pubDate>Sun, 03 Nov 2024 14:29:30 +0900</pubDate>
+      <guid>https://yoshitsugufujii.github.io/blog/2024-11-03-value%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3%E3%83%97%E3%83%AA%E3%83%9F%E3%83%86%E3%82%A3%E3%83%96%E5%9E%8B/</guid>
+      <description>&lt;p&gt;メリークリスマス！（はやい）。&lt;/p&gt;&#xA;&lt;p&gt;家族と牛丼屋さんで、&lt;/p&gt;&#xA;&lt;p&gt;昔は並だと物足りなかったのに、最近は持て余すよなぁ！&lt;/p&gt;&#xA;&lt;p&gt;と笑顔で言ったら、&lt;/p&gt;&#xA;&lt;p&gt;おじいちゃんになったんじゃない？&lt;/p&gt;&#xA;&lt;p&gt;と言われて静かにショックをうけて黙ってしまったシニアなフリーランスエンジニアの藤井です。&lt;/p&gt;&#xA;&lt;p&gt;この記事は、&#xA;&lt;a href=&#34;https://qiita.com/advent-calendar/2024/ruby-on-rails&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Ruby on Rails Advent Calendar 2024 Advent Calendar 2024&lt;/a&gt; の1日目です。&lt;/p&gt;&#xA;&lt;p&gt;すいません。偉そうな名前をつけていますが、ActiveRecordで値オブジェクトを使うことで、より見やすくわかりやすく、責務を適切に閉じ込めて疎結合にし、コードをシンプルにするにあたって有意義だったと感じた実装方法です。&lt;/p&gt;&#xA;&lt;p&gt;もしすでに既出だったりしたらそっと教えて下さい。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

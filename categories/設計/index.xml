@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>設計 on なんとなく日々徒然と</title>
+    <link>https://yoshitsugufujii.github.io/categories/%E8%A8%AD%E8%A8%88/</link>
+    <description>Recent content in 設計 on なんとなく日々徒然と</description>
+    <generator>Hugo</generator>
+    <language>ja</language>
+    <lastBuildDate>Mon, 18 Nov 2024 20:20:18 +0900</lastBuildDate>
+    <atom:link href="https://yoshitsugufujii.github.io/categories/%E8%A8%AD%E8%A8%88/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title> i18nについて思ったこと</title>
+      <link>https://yoshitsugufujii.github.io/blog/2024-11-18-i18n%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%E6%80%9D%E3%81%A3%E3%81%9F%E3%81%93%E3%81%A8/</link>
+      <pubDate>Mon, 18 Nov 2024 20:20:18 +0900</pubDate>
+      <guid>https://yoshitsugufujii.github.io/blog/2024-11-18-i18n%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%E6%80%9D%E3%81%A3%E3%81%9F%E3%81%93%E3%81%A8/</guid>
+      <description>&lt;p&gt;ランニング用のLサイズのパンツを楽天で買ったんです。&lt;br&gt;&#xA;届いて気がつきました。&lt;br&gt;&#xA;レディースを買っていたことに。&lt;/p&gt;&#xA;&lt;p&gt;しょうがないのでお尻をプリプリさせながら、朝から40過ぎのおっさんが街中を走っていたんですが、ついに先日少し破れまして、躊躇なく捨てることができました！&lt;/p&gt;&#xA;&lt;p&gt;めちゃくちゃ嬉しかった！&lt;/p&gt;&#xA;&lt;p&gt;嬉しくて近所のまいばすけっとでシャンパン買ってきて夜は乾杯しました。&lt;/p&gt;&#xA;&lt;p&gt;さて本題。&lt;/p&gt;&#xA;&lt;p&gt;ある現場でi18nは直感的に見えづらい、国際化対応はまずやらないし、不必要なi18nの使用はアンチパターンだ。ということでi18nをつかった変換が文字列リテラルに書き換えられてました。&lt;/p&gt;&#xA;&lt;p&gt;そういえばi18nを使うことについて言語化していなかったなと思ったので、言語化ついでに記事にしてみました。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

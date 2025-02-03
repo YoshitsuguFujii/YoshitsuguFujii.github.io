@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Grape on なんとなく日々徒然と</title>
+    <link>https://yoshitsugufujii.github.io/categories/grape/</link>
+    <description>Recent content in Grape on なんとなく日々徒然と</description>
+    <generator>Hugo</generator>
+    <language>ja</language>
+    <lastBuildDate>Tue, 16 Nov 2021 14:08:41 +0900</lastBuildDate>
+    <atom:link href="https://yoshitsugufujii.github.io/categories/grape/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>grapeでrender_to_string</title>
+      <link>https://yoshitsugufujii.github.io/blog/2021-11-16-grape%E3%81%A7render_to_string/</link>
+      <pubDate>Tue, 16 Nov 2021 14:08:41 +0900</pubDate>
+      <guid>https://yoshitsugufujii.github.io/blog/2021-11-16-grape%E3%81%A7render_to_string/</guid>
+      <description>&lt;p&gt;すっかり存在を忘れていたような、あえて忘れていたような。&lt;br&gt;&#xA;お久しぶりです。藤井です。&lt;/p&gt;&#xA;&lt;p&gt;最近は横須賀のボートばっかり行ってます。カヤックもはじめました。&lt;br&gt;&#xA;プロフィッシュ45にのっています。&lt;br&gt;&#xA;舘山で３回浮かびました。&lt;br&gt;&#xA;出艇ポイントを知らないのでこれから勉強します。&lt;/p&gt;&#xA;&lt;p&gt;メモを整理していたら走り書きのようなコードがいくつかあって有意義そうなのをのせようかと&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,133 @@
+@import url('https://fonts.googleapis.com/css2?family=Droid+Sans:wght@400;700&display=swap');
+@import url('/css/syntax.css');
+
+html, body {
+  background: rgb(242, 242, 242) !important;
+}
+
+body>div>div {
+  background: rgb(242, 242, 242) !important;
+  border-right: none;
+}
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  font-family: 'Droid Sans', "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+body>header {
+  background: #fff;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.25);
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+body>header h1 a, body>header h1 a:visited, body>header h1 {
+  color: #222;
+  font-size: 1.7rem;
+  font-weight: bold;
+  line-height: 2.5;
+}
+
+body>header h1 a:hover {
+  text-decoration: underline;
+}
+
+body>nav {
+  position: relative;
+  background-color: #007ACC;
+  background: linear-gradient(#1E90FF, #007ACC, #005A9C);
+  border-top: 1px solid #ADD8E6;
+  border-bottom: 1px solid #003366;
+  padding-top: .35em;
+  padding-bottom: .35em;
+}
+
+body>nav a {
+  color: #fff;
+  text-shadow: #ebebeb 0 1px;
+  font-family: 'Droid Sans', "Helvetica Neue", Helvetica, Arial, sans-serif;
+  float: left;
+  text-decoration: none;
+  font-size: 1.1em;
+  padding: .1em 0;
+  line-height: 1.5em
+}
+body>nav a:visited {
+  color: #fff;
+}
+body>nav a:hover {
+  color: #fff;
+}
+
+
+#content .blog-index article h1 a {
+  color: #049CDB;
+}
+
+
+
+div.highlight > pre > code, pre > code {
+    padding: .5rem;
+}
+
+.label {
+    background-color: #a7970f;
+}
+
+
+header p.meta {
+  border-bottom: 1px solid #049CDB;
+  padding: 0.4rem 0;
+  color: rgb(34, 34, 34);
+  font-size: 13px;
+}
+
+header p.meta span.articleDate {
+  margin-right: 1rem;
+}
+
+header p.meta span.articleDate::before {
+  content: "\f073"; /* FontAwesomeのカレンダーアイコン */
+  font-family: FontAwesome;
+  font-weight: 900; /* 太字（Solid アイコン） */
+  margin-right: 8px; /* 日付との間隔調整 */
+  display: inline-block; /* インラインブロックで表示 */
+}
+
+header p.meta span.tags::before {
+  content: "\f02c"; /* FontAwesomeのタグアイコン */
+  font-family: FontAwesome;
+  font-weight: normal;
+  display: inline-block;
+}
+
+
+.basic-alignment {
+    display: inline-block;
+    padding: 8px 12px;
+    border-radius: 5px;
+    text-decoration: underline;
+    font-weight: bold;
+    transition: all 0.3s ease-in-out;
+    font-family: FontAwesome; /* Font Awesomeを適用 */
+}
+
+/* アイコンを追加 */
+.basic-alignment.left::before {
+    content: "\f104"; /* FontAwesomeの左矢印（←） */
+    font-family: FontAwesome;
+    margin-right: 8px;
+}
+
+.basic-alignment.right::after {
+    content: "\f105"; /* FontAwesomeの右矢印（→） */
+    font-family: FontAwesome;
+    margin-left: 8px;
+}
+
+.basic-alignment:hover {
+    opacity: 0.8;
+    transform: translateY(-2px);
+}
+
+
