@@ -2,25 +2,34 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://yoshitsugufujii.github.io/post/</loc>
+    <lastmod>2025-02-09T11:20:53+09:00</lastmod>
+  </url><url>
+    <loc>https://yoshitsugufujii.github.io/tags/rspec/</loc>
+    <lastmod>2025-02-09T11:20:53+09:00</lastmod>
+  </url><url>
+    <loc>https://yoshitsugufujii.github.io/blog/2025-02-09-rspec%E3%81%A7seed%E3%83%87%E3%83%BC%E3%82%BF%E3%82%92%E4%BD%BF%E3%81%86%E3%81%93%E3%81%A8/</loc>
+    <lastmod>2025-02-09T11:20:53+09:00</lastmod>
+  </url><url>
+    <loc>https://yoshitsugufujii.github.io/tags/ruby/</loc>
+    <lastmod>2025-02-09T11:20:53+09:00</lastmod>
+  </url><url>
+    <loc>https://yoshitsugufujii.github.io/tags/ruby-on-rails/</loc>
+    <lastmod>2025-02-09T11:20:53+09:00</lastmod>
+  </url><url>
+    <loc>https://yoshitsugufujii.github.io/tags/seed/</loc>
+    <lastmod>2025-02-09T11:20:53+09:00</lastmod>
+  </url><url>
+    <loc>https://yoshitsugufujii.github.io/tags/</loc>
+    <lastmod>2025-02-09T11:20:53+09:00</lastmod>
+  </url><url>
+    <loc>https://yoshitsugufujii.github.io/</loc>
+    <lastmod>2025-02-09T11:20:53+09:00</lastmod>
+  </url><url>
     <loc>https://yoshitsugufujii.github.io/blog/2025-02-03-jekyll%E3%82%92%E3%82%84%E3%82%81%E3%81%A6hugo%E3%81%AB%E3%81%97%E3%81%BE%E3%81%97%E3%81%9F/</loc>
     <lastmod>2025-02-03T11:01:23+09:00</lastmod>
   </url><url>
-    <loc>https://yoshitsugufujii.github.io/post/</loc>
-    <lastmod>2025-02-03T11:01:23+09:00</lastmod>
-  </url><url>
-    <loc>https://yoshitsugufujii.github.io/</loc>
-    <lastmod>2025-02-03T11:01:23+09:00</lastmod>
-  </url><url>
     <loc>https://yoshitsugufujii.github.io/categories/</loc>
-    <lastmod>2025-01-26T13:46:37+09:00</lastmod>
-  </url><url>
-    <loc>https://yoshitsugufujii.github.io/tags/ruby/</loc>
-    <lastmod>2025-01-26T13:46:37+09:00</lastmod>
-  </url><url>
-    <loc>https://yoshitsugufujii.github.io/tags/ruby-on-rails/</loc>
-    <lastmod>2025-01-26T13:46:37+09:00</lastmod>
-  </url><url>
-    <loc>https://yoshitsugufujii.github.io/tags/</loc>
     <lastmod>2025-01-26T13:46:37+09:00</lastmod>
   </url><url>
     <loc>https://yoshitsugufujii.github.io/blog/2025-01-26-value%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3json/</loc>

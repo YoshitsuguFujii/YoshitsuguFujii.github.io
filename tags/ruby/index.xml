@@ -6,8 +6,15 @@
     <description>Recent content in Ruby on なんとなく日々徒然と</description>
     <generator>Hugo</generator>
     <language>ja</language>
-    <lastBuildDate>Sun, 26 Jan 2025 13:46:37 +0900</lastBuildDate>
+    <lastBuildDate>Sun, 09 Feb 2025 11:20:53 +0900</lastBuildDate>
     <atom:link href="https://yoshitsugufujii.github.io/tags/ruby/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Rspecでseedデータを使うこと</title>
+      <link>https://yoshitsugufujii.github.io/blog/2025-02-09-rspec%E3%81%A7seed%E3%83%87%E3%83%BC%E3%82%BF%E3%82%92%E4%BD%BF%E3%81%86%E3%81%93%E3%81%A8/</link>
+      <pubDate>Sun, 09 Feb 2025 11:20:53 +0900</pubDate>
+      <guid>https://yoshitsugufujii.github.io/blog/2025-02-09-rspec%E3%81%A7seed%E3%83%87%E3%83%BC%E3%82%BF%E3%82%92%E4%BD%BF%E3%81%86%E3%81%93%E3%81%A8/</guid>
+      <description>&lt;p&gt;rspecでseedデータに依存しているテストコードを使わないように修正していました。&lt;/p&gt;&#xA;&lt;p&gt;その理由をPRに書いたんですが、ちゃんと書いてみたら思ったことが言葉にできて良かったのでこちらにも転記。&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Valueオブジェクトパターン(JSON)</title>
       <link>https://yoshitsugufujii.github.io/blog/2025-01-26-value%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3json/</link>

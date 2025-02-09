@@ -146,6 +146,38 @@
 
 <header>
   <h1 class="entry-title">
+    <a href="https://yoshitsugufujii.github.io/blog/2018-04-23-%E6%BD%AE%E5%B9%B2%E7%8B%A9%E3%82%8A-%E6%B1%9F%E6%88%B8%E5%B7%9D%E6%94%BE%E6%B0%B4%E8%B7%AF/">潮干狩り 江戸川放水路</a>
+  </h1>
+  <p class="meta"><span class="articleDate">Apr 23th, 2018</span>
+    
+    
+
+    
+    
+      - <a class="label" href="https://yoshitsugufujii.github.io/categories/%e6%bd%ae%e5%b9%b2%e7%8b%a9%e3%82%8a/">潮干狩り </a>
+    
+  </p>
+</header>
+
+          
+            <p><p>午前中は市川コルトンプラザの住宅展示場でプリキュアの握手会があったので大ファンの娘をつれて行ってきました。<br>
+そして午後からは
+<a href="http://www.sambanze.jp/facility/park/shell_gathering2018/" target="_blank" rel="noopener">ふなばし 三番瀬海浜公園</a>の潮干狩り始まったようなので、<br>
+うちも潮干狩りするかってことで江戸川放水路に行きました。</p></p>
+            
+              <footer>
+                <a href="https://yoshitsugufujii.github.io/blog/2018-04-23-%E6%BD%AE%E5%B9%B2%E7%8B%A9%E3%82%8A-%E6%B1%9F%E6%88%B8%E5%B7%9D%E6%94%BE%E6%B0%B4%E8%B7%AF/" rel="full-article">続き →</a>
+              </footer>
+            
+          
+        </article>
+        
+        <article>
+          
+          
+
+<header>
+  <h1 class="entry-title">
     <a href="https://yoshitsugufujii.github.io/blog/2018-04-18-%E9%AB%98%E9%A0%88%E6%B5%B7%E6%B5%9C%E5%85%AC%E5%9C%92-%E3%82%B5%E3%83%A8%E3%83%AA/">高須海浜公園 サヨリ</a>
   </h1>
   <p class="meta"><span class="articleDate">Apr 18th, 2018</span>
@@ -481,51 +513,6 @@ apiでcsrfって必要なの？<br>
           
         </article>
         
-        <article>
-          
-          
-
-<header>
-  <h1 class="entry-title">
-    <a href="https://yoshitsugufujii.github.io/blog/2018-02-14-s3%E3%81%AB%E7%9B%B4%E6%8E%A5%E3%81%AB%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%82%A2%E3%83%83%E3%83%97%E3%83%AD%E3%83%BC%E3%83%89/">S3に直接にファイルアップロード</a>
-  </h1>
-  <p class="meta"><span class="articleDate">Feb 14th, 2018</span>
-    
-    
-      <span class="tags">
-        
-      </span>
-    
-
-    
-  </p>
-</header>
-
-          
-            <p><p>Herokuでの大きいファイルアップロードはリクエストタイムアウトが30秒に設定されているのでやっかいです。</p>
-<p>Herokuの公式でも4MBを超えるファイルをあげる場合はS3に直接あげてねって書いてあります。<br>
-
-<a href="https://devcenter.heroku.com/articles/s3#direct-upload" target="_blank" rel="noopener">https://devcenter.heroku.com/articles/s3#direct-upload</a></p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="n">This</span> <span class="n">is</span> <span class="n">the</span> <span class="n">preferred</span> <span class="n">approach</span> <span class="k">if</span> <span class="n">you</span><span class="err">’</span><span class="n">re</span> <span class="n">working</span> <span class="n">with</span> <span class="n">file</span> <span class="n">uploads</span> <span class="n">bigger</span> <span class="n">than</span> <span class="mi">4</span><span class="n">MB</span><span class="o">.</span> <span class="n">The</span> <span class="n">idea</span> <span class="n">is</span> <span class="n">to</span> <span class="n">skip</span> <span class="n">the</span> <span class="n">hop</span> <span class="n">to</span> <span class="n">your</span> <span class="n">dyno</span><span class="p">,</span> <span class="n">making</span> <span class="n">a</span> <span class="n">direct</span> <span class="n">connection</span> <span class="n">from</span> <span class="n">the</span> <span class="n">end</span> <span class="n">user</span> <span class="n">browser</span> <span class="n">to</span> <span class="n">S3</span><span class="o">.</span> <span class="n">While</span> <span class="n">this</span> <span class="n">reduces</span> <span class="n">the</span> <span class="n">processing</span> <span class="n">required</span> <span class="n">by</span> <span class="n">your</span> <span class="n">application</span> <span class="n">it</span> <span class="n">is</span> <span class="n">a</span> <span class="n">more</span> <span class="n">complex</span> <span class="n">implementation</span> <span class="ow">and</span> <span class="n">limits</span> <span class="n">the</span> <span class="n">ability</span> <span class="n">to</span> <span class="n">modify</span> <span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="n">filter</span><span class="p">,</span> <span class="n">resize</span> <span class="n">etc</span><span class="err">…</span><span class="p">)</span> <span class="n">the</span> <span class="n">file</span> <span class="n">before</span> <span class="n">storing</span> <span class="ow">in</span> <span class="n">S3</span><span class="o">.</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>carriwaveを使っているのでcarriwave_directいいなと思いましたが、<br>
-
-<a href="https://github.com/dwilkie/carrierwave_direct" target="_blank" rel="noopener">carrierwave_direct</a></p>
-<p>最終更新日が結構前でメンテされていないのかな？ってのとgemを使いすぎるとわけわかめになるので自力でやることにしました。</p></p>
-            
-              <footer>
-                <a href="https://yoshitsugufujii.github.io/blog/2018-02-14-s3%E3%81%AB%E7%9B%B4%E6%8E%A5%E3%81%AB%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%82%A2%E3%83%83%E3%83%97%E3%83%AD%E3%83%BC%E3%83%89/" rel="full-article">続き →</a>
-              </footer>
-            
-          
-        </article>
-        
       
       
       
@@ -702,11 +689,17 @@ apiでcsrfって必要なの？<br>
           
           
             
+          
+            
               <li class="post">
-                <a href="/blog/2025-02-03-jekyll%E3%82%92%E3%82%84%E3%82%81%E3%81%A6hugo%E3%81%AB%E3%81%97%E3%81%BE%E3%81%97%E3%81%9F/">JekyllをやめてHugoにしました</a>
+                <a href="/blog/2025-02-09-rspec%E3%81%A7seed%E3%83%87%E3%83%BC%E3%82%BF%E3%82%92%E4%BD%BF%E3%81%86%E3%81%93%E3%81%A8/">Rspecでseedデータを使うこと</a>
               </li>
             
           
+            
+              <li class="post">
+                <a href="/blog/2025-02-03-jekyll%E3%82%92%E3%82%84%E3%82%81%E3%81%A6hugo%E3%81%AB%E3%81%97%E3%81%BE%E3%81%97%E3%81%9F/">JekyllをやめてHugoにしました</a>
+              </li>
             
           
             
@@ -718,12 +711,6 @@ apiでcsrfって必要なの？<br>
             
               <li class="post">
                 <a href="/blog/2024-11-29-%E5%86%AC%E3%81%AA%E3%81%AE%E3%81%AB%E6%80%96%E3%81%84%E8%A9%B1/">冬なのに怖い話</a>
-              </li>
-            
-          
-            
-              <li class="post">
-                <a href="/blog/2024-11-18-i18n%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%E6%80%9D%E3%81%A3%E3%81%9F%E3%81%93%E3%81%A8/"> i18nについて思ったこと</a>
               </li>
             
           
