@@ -130,4 +130,14 @@ header p.meta span.tags::before {
     transform: translateY(-2px);
 }
 
+.callout {
+    padding: 10px;
+    border-radius: 5px;
+    margin: 20px 0;
+    border-left: 5px solid;
+}
 
+.callout-note { background-color: #e7f3fe; border-color: #2196F3; }
+.callout-warning { background-color: #fff3cd; border-color: #ff9800; }
+.callout-error { background-color: #fdecea; border-color: #f44336; }
+.callout-success { background-color: #e6f9e6; border-color: #4CAF50; }
