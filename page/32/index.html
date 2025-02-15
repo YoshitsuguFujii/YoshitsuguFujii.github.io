@@ -146,126 +146,6 @@
 
 <header>
   <h1 class="entry-title">
-    <a href="https://yoshitsugufujii.github.io/blog/2012-01-19-ruby%E3%81%AF%E3%83%96%E3%83%AD%E3%83%83%E3%82%AF%E3%82%92%E5%BC%95%E6%95%B0%E3%81%AB%E5%8F%96%E3%82%8C%E3%82%8B/">rubyはブロックを引数に取れる</a>
-  </h1>
-  <p class="meta"><span class="articleDate">Jan 19th, 2012</span>
-    
-    
-      <span class="tags">
-        
-      </span>
-    
-
-    
-  </p>
-</header>
-
-          
-            <p><p>わかりやすく書けるだろうか。</p>
-<p>railsのviewでログの出力を出し分けする以下のメソッドがあります。</p>
-<p>user  _profile  _log<br>
-use  _favorite  _log</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
-</span><span class="lnt">35
-</span><span class="lnt">36
-</span><span class="lnt">37
-</span><span class="lnt">38
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">genarate_link_path</span><span class="p">(</span><span class="n">log_type</span><span class="p">,</span><span class="n">log</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  <span class="k">case</span> <span class="n">log_type</span>
-</span></span><span class="line"><span class="cl">  <span class="k">when</span> <span class="ss">:warm</span>
-</span></span><span class="line"><span class="cl">    <span class="s2">&#34;http://&#34;</span> <span class="o">+</span> <span class="n">config</span><span class="o">[</span><span class="ss">:host</span><span class="o">]</span> <span class="o">+</span> <span class="s2">&#34;/info/&#34;</span> <span class="o">+</span> <span class="s2">&#34;warm&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="k">when</span> <span class="ss">:error</span>
-</span></span><span class="line"><span class="cl">    <span class="s2">&#34;http://&#34;</span> <span class="o">+</span> <span class="n">config</span><span class="o">[</span><span class="ss">:host</span><span class="o">]</span> <span class="o">+</span> <span class="s2">&#34;/info/&#34;</span> <span class="o">+</span> <span class="s2">&#34;error&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="k">end</span>
-</span></span><span class="line"><span class="cl"><span class="k">end</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">user_profile_log</span><span class="p">(</span><span class="n">log</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  <span class="n">disp_path</span> <span class="o">=</span> <span class="n">genarate_link_path</span><span class="p">(</span><span class="ss">:warn</span><span class="p">,</span><span class="n">log</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  <span class="k">case</span> <span class="n">log</span><span class="o">.</span><span class="n">operation_type</span>
-</span></span><span class="line"><span class="cl">  <span class="k">when</span> <span class="s2">&#34;insert&#34;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">change_value</span> <span class="o">=</span> <span class="n">log</span><span class="o">.</span><span class="n">inspect</span> <span class="o">+</span> <span class="s2">&#34;ログを新規登録しました。&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="k">when</span> <span class="s2">&#34;update&#34;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">change_value</span> <span class="o">=</span> <span class="n">log</span><span class="o">.</span><span class="n">inspect</span> <span class="o">+</span> <span class="s2">&#34;ログを更新しました。&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="k">else</span>
-</span></span><span class="line"><span class="cl">    <span class="s2">&#34;解析に失敗しました&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="k">end</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">link_to</span><span class="p">(</span> <span class="n">change_value</span> <span class="p">,</span> <span class="n">disp_path</span> <span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="k">end</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">use_favorite_log</span><span class="p">(</span><span class="n">log</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  <span class="n">disp_path</span> <span class="o">=</span> <span class="n">genarate_link_path</span><span class="p">(</span><span class="ss">:warn</span><span class="p">,</span><span class="n">log</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  <span class="k">case</span> <span class="n">log</span><span class="o">.</span><span class="n">operation_type</span>
-</span></span><span class="line"><span class="cl">  <span class="k">when</span> <span class="s2">&#34;insert&#34;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">change_value</span> <span class="o">=</span> <span class="n">log</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&#34;をお気に入りに追加しました。&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="k">when</span> <span class="s2">&#34;update&#34;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">change_value</span> <span class="o">=</span> <span class="n">log</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&#34;を更新しました。&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="k">else</span>
-</span></span><span class="line"><span class="cl">    <span class="s2">&#34;解析に失敗しました&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="k">end</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">link_to</span><span class="p">(</span> <span class="n">change_value</span> <span class="p">,</span> <span class="n">disp_path</span> <span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="k">end</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>DRYじゃないですよね。<br>
-それぞれのメソッドでは<br>
-disp  _path = genarate  _link  _path(:warn,log)<br>
-return link  _to( change  _value , disp  _path )<br>
-が二つのメソッドでかぶっております。</p></p>
-            
-              <footer>
-                <a href="https://yoshitsugufujii.github.io/blog/2012-01-19-ruby%E3%81%AF%E3%83%96%E3%83%AD%E3%83%83%E3%82%AF%E3%82%92%E5%BC%95%E6%95%B0%E3%81%AB%E5%8F%96%E3%82%8C%E3%82%8B/" rel="full-article">続き →</a>
-              </footer>
-            
-          
-        </article>
-        
-        <article>
-          
-          
-
-<header>
-  <h1 class="entry-title">
     <a href="https://yoshitsugufujii.github.io/blog/1-01-01-/"></a>
   </h1>
   <p class="meta"><span class="articleDate">Jan 1th, 0001</span>
@@ -520,7 +400,7 @@ return link  _to( change  _value , disp  _path )<br>
           
             
               <li class="post">
-                <a href="/blog/2024-11-29-%E5%86%AC%E3%81%AA%E3%81%AE%E3%81%AB%E6%80%96%E3%81%84%E8%A9%B1/">冬なのに怖い話</a>
+                <a href="/blog/2024-11-18-i18n%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%E6%80%9D%E3%81%A3%E3%81%9F%E3%81%93%E3%81%A8/"> i18nについて思ったこと</a>
               </li>
             
           

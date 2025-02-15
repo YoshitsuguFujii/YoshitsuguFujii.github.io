@@ -23,13 +23,6 @@
       <description>&lt;p&gt;前回の続きを&#xA;&lt;a href=&#34;https://qiita.com/YoshitsuguFujii/items/d0c5d4474c910da11b43&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Qiita&lt;/a&gt;に投稿しました。&lt;/p&gt;</description>
     </item>
     <item>
-      <title>冬なのに怖い話</title>
-      <link>https://yoshitsugufujii.github.io/blog/2024-11-29-%E5%86%AC%E3%81%AA%E3%81%AE%E3%81%AB%E6%80%96%E3%81%84%E8%A9%B1/</link>
-      <pubDate>Fri, 29 Nov 2024 19:44:33 +0900</pubDate>
-      <guid>https://yoshitsugufujii.github.io/blog/2024-11-29-%E5%86%AC%E3%81%AA%E3%81%AE%E3%81%AB%E6%80%96%E3%81%84%E8%A9%B1/</guid>
-      <description>&lt;p&gt;いや～ねぇ、あるシステムの開発をベンダーに頼んだんですよ。&lt;/p&gt;&#xA;&lt;p&gt;発注先のベンダーも委託しているディレクターに聞いて紹介してもらってね。&lt;br&gt;&#xA;紹介なら間違いないだろうって期待してたんです。&lt;/p&gt;&#xA;&lt;p&gt;……ところが。&lt;/p&gt;&#xA;&lt;p&gt;納品されたコードを開いた瞬間ですよ。&lt;/p&gt;&#xA;&lt;p&gt;いやね、なんか嫌な気配がするんですよ。画面越しにね、冷たい風が吹いたような……そう、あの……山奥の廃屋に踏み込んだ時みたいな、不気味な空気を感じるんです。何かが違うっていう感じ。最初はね、『まぁ、ちょっとクセがあるだけかな』って思ったんですよ。でもね、どんどん読み進めるうちに……だんだんとゾッとしてきましたよ。&lt;/p&gt;&#xA;&lt;p&gt;読み進めるうちに……あぁ、これは……って思ったんですよ。&lt;/p&gt;&#xA;&lt;p&gt;その時、心の中で、はっきり聞こえました。&lt;/p&gt;&#xA;&lt;p&gt;『これ、クソコードだ』って。&lt;/p&gt;</description>
-    </item>
-    <item>
       <title> i18nについて思ったこと</title>
       <link>https://yoshitsugufujii.github.io/blog/2024-11-18-i18n%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%E6%80%9D%E3%81%A3%E3%81%9F%E3%81%93%E3%81%A8/</link>
       <pubDate>Mon, 18 Nov 2024 20:20:18 +0900</pubDate>

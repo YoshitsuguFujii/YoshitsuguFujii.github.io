@@ -146,73 +146,6 @@
 
 <header>
   <h1 class="entry-title">
-    <a href="https://yoshitsugufujii.github.io/blog/2015-02-23-axlsx%E3%81%A7%E3%82%A6%E3%82%A3%E3%83%B3%E3%83%89%E3%82%A6%E6%9E%A0%E3%81%AE%E5%9B%BA%E5%AE%9A/">Axlsxでウィンドウ枠の固定</a>
-  </h1>
-  <p class="meta"><span class="articleDate">Feb 23th, 2015</span>
-    
-    
-      <span class="tags">
-        
-      </span>
-    
-
-    
-  </p>
-</header>
-
-          
-            <p><p>エクセルのウィンドウ枠の固定をAxlsxで行う方法</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="nb">require</span> <span class="s1">&#39;axlsx&#39;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">package</span> <span class="o">=</span> <span class="no">Axlsx</span><span class="o">::</span><span class="no">Package</span><span class="o">.</span><span class="n">new</span>
-</span></span><span class="line"><span class="cl"><span class="n">sheet</span> <span class="o">=</span> <span class="n">package</span><span class="o">.</span><span class="n">workbook</span><span class="o">.</span><span class="n">add_worksheet</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="s1">&#39;lists&#39;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">sheet</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="o">[</span><span class="s1">&#39;品名&#39;</span><span class="p">,</span> <span class="s1">&#39;単価&#39;</span><span class="p">,</span> <span class="s1">&#39;数量&#39;</span><span class="p">,</span> <span class="s1">&#39;計&#39;</span><span class="o">]</span> <span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">sheet</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="o">[</span><span class="s1">&#39;にんじん&#39;</span><span class="p">,</span>    <span class="mi">80</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>      <span class="s1">&#39;=B2*C2&#39;</span><span class="o">]</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">sheet</span><span class="o">.</span><span class="n">sheet_view</span><span class="o">.</span><span class="n">pane</span> <span class="k">do</span> <span class="o">|</span><span class="n">pane</span><span class="o">|</span>
-</span></span><span class="line"><span class="cl">  <span class="n">pane</span><span class="o">.</span><span class="n">top_left_cell</span> <span class="o">=</span> <span class="s2">&#34;B2&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="n">pane</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="ss">:frozen_split</span>
-</span></span><span class="line"><span class="cl">  <span class="n">pane</span><span class="o">.</span><span class="n">y_split</span> <span class="o">=</span> <span class="mi">1</span>
-</span></span><span class="line"><span class="cl">  <span class="n">pane</span><span class="o">.</span><span class="n">x_split</span> <span class="o">=</span> <span class="mi">1</span>
-</span></span><span class="line"><span class="cl">  <span class="n">pane</span><span class="o">.</span><span class="n">active_pane</span> <span class="o">=</span> <span class="ss">:bottom_right</span>
-</span></span><span class="line"><span class="cl"><span class="k">end</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">package</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="s1">&#39;test.xlsx&#39;</span><span class="p">)</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div></p>
-            
-          
-        </article>
-        
-        <article>
-          
-          
-
-<header>
-  <h1 class="entry-title">
     <a href="https://yoshitsugufujii.github.io/blog/2015-02-21-axlsx%E3%81%A7%E3%82%A8%E3%82%AF%E3%82%BB%E3%83%AB%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E4%BD%9C%E6%88%90%E6%99%82%E3%81%AB%E6%B3%A8%E6%84%8F%E3%81%99%E3%82%8B%E7%82%B9%E3%81%A8%E3%81%8B%E3%81%AF%E3%81%BE%E3%82%8A%E3%81%A9%E3%81%93%E3%82%8D%E3%81%A8%E3%81%8B/">Axlsxでエクセルファイル作成時に注意する点とかはまりどころとか</a>
   </h1>
   <p class="meta"><span class="articleDate">Feb 21th, 2015</span>
@@ -776,6 +709,102 @@ delete  _recordsメソッドはlib/active  _record/associations/collection  _ass
           
         </article>
         
+        <article>
+          
+          
+
+<header>
+  <h1 class="entry-title">
+    <a href="https://yoshitsugufujii.github.io/blog/2014-12-05-nokogiri%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6%E9%83%A8%E5%88%86%E7%9A%84%E3%81%ABhtml%E3%82%92%E7%B7%A8%E9%9B%86%E3%81%99%E3%82%8B/">Nokogiriを使って部分的にhtmlを編集する</a>
+  </h1>
+  <p class="meta"><span class="articleDate">Dec 5th, 2014</span>
+    
+    
+      <span class="tags">
+        
+      </span>
+    
+
+    
+  </p>
+</header>
+
+          
+            <p><p>Nokogiriを使ってhelperメソッドで特定のinputに属性(クラス名)を追加したくなったのでやってみました。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="n">html</span> <span class="o">=</span> <span class="s">&lt;&lt;HTML
+</span></span></span><span class="line"><span class="cl"><span class="s"></span><span class="o">&lt;</span><span class="n">div</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">&lt;</span><span class="n">input</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&#34;hoge&#34;</span> <span class="n">class</span><span class="o">=</span><span class="s2">&#34;field&#34;</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="no">HTML</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">doc</span> <span class="o">=</span> <span class="no">Nokogiri</span><span class="o">::</span><span class="no">HTML</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">html</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">doc</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s2">&#34;input#hoge&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">input</span><span class="o">|</span>
+</span></span><span class="line"><span class="cl">  <span class="n">input</span><span class="o">[</span><span class="s1">&#39;class&#39;</span><span class="o">]</span> <span class="o">+=</span> <span class="s2">&#34; has_error&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">doc</span><span class="o">.</span><span class="n">to_html</span> <span class="c1"># =&gt; &#34;&lt;!DOCTYPE html PUBLIC   &#34;-//W3C//DTD HTML 4.0 Transitional//EN  &#34;   &#34;http://www.w3.org/TR/REC-html40/loose.dtd  &#34;&gt;  n&lt;html&gt;&lt;body&gt;  n&lt;div&gt;  n  &lt;input class=  &#34;field  &#34;&gt;  n  n&lt;/body&gt;&lt;/html&gt;  n&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Nokogiri::HTML.parseだとDOCTYPEとか  <html  >とか余計なものがついてくる。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="n">html</span> <span class="o">=</span> <span class="s">&lt;&lt;HTML
+</span></span></span><span class="line"><span class="cl"><span class="s"></span><span class="o">&lt;</span><span class="n">div</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">&lt;</span><span class="n">input</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&#34;hoge&#34;</span> <span class="n">class</span><span class="o">=</span><span class="s2">&#34;field&#34;</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="no">HTML</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">doc</span> <span class="o">=</span> <span class="no">Nokogiri</span><span class="o">::</span><span class="no">HTML</span><span class="o">::</span><span class="no">DocumentFragment</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">html</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">doc</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s2">&#34;input#hoge&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">input</span><span class="o">|</span>
+</span></span><span class="line"><span class="cl">  <span class="n">input</span><span class="o">[</span><span class="s1">&#39;class&#39;</span><span class="o">]</span> <span class="o">+=</span> <span class="s2">&#34; has_error&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">doc</span><span class="o">.</span><span class="n">to_html</span> <span class="c1"># =&gt; &#34;&lt;div&gt;  n  &lt;input id=  &#34;hoge  &#34; class=  &#34;field has_error  &#34;&gt;  n  n&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>そういう場合はDocumentFragmentを使うと部分的にhtmlを使える。</p></p>
+            
+              <footer>
+                <a href="https://yoshitsugufujii.github.io/blog/2014-12-05-nokogiri%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6%E9%83%A8%E5%88%86%E7%9A%84%E3%81%ABhtml%E3%82%92%E7%B7%A8%E9%9B%86%E3%81%99%E3%82%8B/" rel="full-article">続き →</a>
+              </footer>
+            
+          
+        </article>
+        
       
       
       
@@ -973,7 +1002,7 @@ delete  _recordsメソッドはlib/active  _record/associations/collection  _ass
           
             
               <li class="post">
-                <a href="/blog/2024-11-29-%E5%86%AC%E3%81%AA%E3%81%AE%E3%81%AB%E6%80%96%E3%81%84%E8%A9%B1/">冬なのに怖い話</a>
+                <a href="/blog/2024-11-18-i18n%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%E6%80%9D%E3%81%A3%E3%81%9F%E3%81%93%E3%81%A8/"> i18nについて思ったこと</a>
               </li>
             
           

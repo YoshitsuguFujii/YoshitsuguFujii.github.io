@@ -146,55 +146,6 @@
 
 <header>
   <h1 class="entry-title">
-    <a href="https://yoshitsugufujii.github.io/blog/2014-03-14-knex%E3%81%A7%E5%A4%96%E9%83%A8%E3%82%AD%E3%83%BC%E5%88%B6%E7%B4%84%E3%81%AE%E3%83%9E%E3%82%A4%E3%82%B0%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3/">knexで外部キー制約のマイグレーション</a>
-  </h1>
-  <p class="meta"><span class="articleDate">Mar 14th, 2014</span>
-    
-    
-      <span class="tags">
-        
-      </span>
-    
-
-    
-  </p>
-</header>
-
-          
-            <p><p>
-<a href="http://tajimajunpei-blog.blogspot.jp/2013/12/nodejsorm-bookshelf.html" target="_blank" rel="noopener">Node.js向けORM
-Bookshelfの紹介</a>を参照させていただきながら、Bookshelf触ってみている。</p>
-<p>ページではsqlite3だけど、自分はmysqlで使っている。</p>
-<p>外部キー制約の部分。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"> <span class="n">t</span><span class="o">.</span><span class="n">integer</span><span class="p">(</span><span class="s1">&#39;post_id&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">notNull</span><span class="p">()</span><span class="o">.</span><span class="n">references</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">inTable</span><span class="p">(</span><span class="s1">&#39;posts&#39;</span><span class="p">);</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>がmysqlではCannot add foreign key constraintが出て動かなかった。</p>
-<p>これで動いた。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="n">t</span><span class="o">.</span><span class="n">integer</span><span class="p">(</span><span class="s1">&#39;post_id&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">unsigned</span><span class="p">()</span><span class="o">.</span><span class="n">notNullable</span><span class="p">()</span><span class="o">.</span><span class="n">references</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">inTable</span><span class="p">(</span><span class="s1">&#39;posts&#39;</span><span class="p">);</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div></p>
-            
-          
-        </article>
-        
-        <article>
-          
-          
-
-<header>
-  <h1 class="entry-title">
     <a href="https://yoshitsugufujii.github.io/blog/2014-02-03-csv%E3%81%8B%E3%82%89user%E3%82%92%E6%A4%9C%E7%B4%A2%E3%81%97%E3%81%A6%E3%83%87%E3%83%BC%E3%82%BF%E6%9B%B4%E6%96%B0%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AB/">csvからuserを検索して、データ更新サンプル</a>
   </h1>
   <p class="meta"><span class="articleDate">Feb 3th, 2014</span>
@@ -892,6 +843,72 @@ StoreのjsファイルではmJ</p>
           
         </article>
         
+        <article>
+          
+          
+
+<header>
+  <h1 class="entry-title">
+    <a href="https://yoshitsugufujii.github.io/blog/2013-11-19-fields_for%E3%81%AB%E6%B8%A1%E3%81%99relation%E3%82%92%E7%B5%9E%E3%82%8B/">fields_forに渡すrelationを絞る</a>
+  </h1>
+  <p class="meta"><span class="articleDate">Nov 19th, 2013</span>
+    
+    
+      <span class="tags">
+        
+      </span>
+    
+
+    
+  </p>
+</header>
+
+          
+            <p><p>contentモデルの下にcontent  _detailモデルがあって、
+accepts  _nested  _attributes  _forしていて、fields  _forを使う場合。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="n">f</span><span class="o">.</span><span class="n">fields_for</span> <span class="ss">:content_details</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>って書くと、contentに紐付く全部のcontent  _detailsがformとして表示されちゃう。</p>
+<p>第二引数にインスタンスを渡せばいいみたい。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="n">f</span><span class="o">.</span><span class="n">fields_for</span> <span class="ss">:content_details</span><span class="p">,</span> <span class="vi">@content</span><span class="o">.</span><span class="n">content_details</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">state</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>ちなみに第二引数はnilがデフォルト引数なので</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="n">f</span><span class="o">.</span><span class="n">fields_for</span> <span class="ss">:content_details</span>
+</span></span><span class="line"><span class="cl"><span class="n">f</span><span class="o">.</span><span class="n">fields_for</span> <span class="ss">:content_details</span><span class="p">,</span> <span class="kp">nil</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>は同じ意味になるので、インスタンス変数は値を入れなければnilなので</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="n">fields_for</span> <span class="ss">:content_details</span><span class="p">,</span> <span class="vi">@details</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>ってやって、editの時だけ@detailsに値を入れるとうまく変更したいレコードのみ抽出できて、処理を切り分けられる気がします。</p></p>
+            
+          
+        </article>
+        
       
       
       
@@ -1089,7 +1106,7 @@ StoreのjsファイルではmJ</p>
           
             
               <li class="post">
-                <a href="/blog/2024-11-29-%E5%86%AC%E3%81%AA%E3%81%AE%E3%81%AB%E6%80%96%E3%81%84%E8%A9%B1/">冬なのに怖い話</a>
+                <a href="/blog/2024-11-18-i18n%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%E6%80%9D%E3%81%A3%E3%81%9F%E3%81%93%E3%81%A8/"> i18nについて思ったこと</a>
               </li>
             
           

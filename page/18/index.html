@@ -146,38 +146,6 @@
 
 <header>
   <h1 class="entry-title">
-    <a href="https://yoshitsugufujii.github.io/blog/2015-08-27-vagrant%E3%81%A8itamae%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A65%E5%88%86%E3%81%A7mysql%E3%82%B5%E3%83%BC%E3%83%90%E3%83%BC%E6%A7%8B%E7%AF%89/">VagrantとItamaeを使って5分でmysqlサーバー構築</a>
-  </h1>
-  <p class="meta"><span class="articleDate">Aug 27th, 2015</span>
-    
-    
-      <span class="tags">
-        
-      </span>
-    
-
-    
-  </p>
-</header>
-
-          
-            <p><p>普段はほぼモノシリックなサービスしか開発していないんだけど、去年の暮れぐらいからちょくちょく関わらせている案件がマイクロサービスで、新しい人が入るということで構築手順のまとめがてらVagrant + Itamaeで環境構築してみた。</p>
-<p>複数サーバーインスタンスを立ち上げて、各サーバーから一つのmysqlに接続できたらいいな。 (この構成ならdockerでやれという話もあるけど。先にvagrantを勉強してみたかったので）</p>
-<p>とりあえず192.168.55.55で接続可能なmysqlのvagrant(なんていうんだろう。dockerだとコンテナに相当するやつ)を作成してみます。</p></p>
-            
-              <footer>
-                <a href="https://yoshitsugufujii.github.io/blog/2015-08-27-vagrant%E3%81%A8itamae%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A65%E5%88%86%E3%81%A7mysql%E3%82%B5%E3%83%BC%E3%83%90%E3%83%BC%E6%A7%8B%E7%AF%89/" rel="full-article">続き →</a>
-              </footer>
-            
-          
-        </article>
-        
-        <article>
-          
-          
-
-<header>
-  <h1 class="entry-title">
     <a href="https://yoshitsugufujii.github.io/blog/2015-07-28-axlsx%E3%81%A7%E3%82%BB%E3%83%AB%E3%81%AE%E4%B8%AD%E3%81%AE%E6%96%9C%E7%B7%9A%E3%82%92%E5%BC%95%E3%81%8F/">Axlsxでセルの中の斜線を引く</a>
   </h1>
   <p class="meta"><span class="articleDate">Jul 28th, 2015</span>
@@ -493,6 +461,51 @@ WYSIWYGエディタの
           
         </article>
         
+        <article>
+          
+          
+
+<header>
+  <h1 class="entry-title">
+    <a href="https://yoshitsugufujii.github.io/blog/2015-06-11-simple_form%E3%81%A7%E8%A1%A8%E7%A4%BA%E3%81%95%E3%82%8C%E3%82%8B%E3%82%A8%E3%83%A9%E3%83%BC%E3%82%92full_messages%E3%81%AE%E3%82%82%E3%81%AE%E3%81%AB%E3%81%99%E3%82%8B/">simple_formで表示されるエラーをfull_messagesのものにする</a>
+  </h1>
+  <p class="meta"><span class="articleDate">Jun 11th, 2015</span>
+    
+    
+      <span class="tags">
+        
+      </span>
+    
+
+    
+  </p>
+</header>
+
+          
+            <p><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="c1">#開発環境</span>
+</span></span><span class="line"><span class="cl"><span class="n">rails</span> <span class="p">(</span><span class="mi">4</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">simple_form</span> <span class="p">(</span><span class="mi">3</span><span class="o">.</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>simple_formをそのまま使うとエラー発生時のエラーの表示がfull_messageではなく、object.errors[:name]みたいにした時の値しか表示してくれない。</p>
+<p>こんな感じ。<br>
+<img src="/images/blog/simple_form_error2015-06-10.png" alt="normal error"></p>
+<p>ちょっとこれだとあんまりなのでfull_messageでメッセージを表示したい</p></p>
+            
+              <footer>
+                <a href="https://yoshitsugufujii.github.io/blog/2015-06-11-simple_form%E3%81%A7%E8%A1%A8%E7%A4%BA%E3%81%95%E3%82%8C%E3%82%8B%E3%82%A8%E3%83%A9%E3%83%BC%E3%82%92full_messages%E3%81%AE%E3%82%82%E3%81%AE%E3%81%AB%E3%81%99%E3%82%8B/" rel="full-article">続き →</a>
+              </footer>
+            
+          
+        </article>
+        
       
       
       
@@ -690,7 +703,7 @@ WYSIWYGエディタの
           
             
               <li class="post">
-                <a href="/blog/2024-11-29-%E5%86%AC%E3%81%AA%E3%81%AE%E3%81%AB%E6%80%96%E3%81%84%E8%A9%B1/">冬なのに怖い話</a>
+                <a href="/blog/2024-11-18-i18n%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%E6%80%9D%E3%81%A3%E3%81%9F%E3%81%93%E3%81%A8/"> i18nについて思ったこと</a>
               </li>
             
           
