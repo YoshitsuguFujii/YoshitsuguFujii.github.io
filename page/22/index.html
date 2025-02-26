@@ -146,6 +146,102 @@
 
 <header>
   <h1 class="entry-title">
+    <a href="https://yoshitsugufujii.github.io/blog/2014-12-05-nokogiri%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6%E9%83%A8%E5%88%86%E7%9A%84%E3%81%ABhtml%E3%82%92%E7%B7%A8%E9%9B%86%E3%81%99%E3%82%8B/">Nokogiriを使って部分的にhtmlを編集する</a>
+  </h1>
+  <p class="meta"><span class="articleDate">Dec 5th, 2014</span>
+    
+    
+      <span class="tags">
+        
+      </span>
+    
+
+    
+  </p>
+</header>
+
+          
+            <p><p>Nokogiriを使ってhelperメソッドで特定のinputに属性(クラス名)を追加したくなったのでやってみました。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="n">html</span> <span class="o">=</span> <span class="s">&lt;&lt;HTML
+</span></span></span><span class="line"><span class="cl"><span class="s"></span><span class="o">&lt;</span><span class="n">div</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">&lt;</span><span class="n">input</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&#34;hoge&#34;</span> <span class="n">class</span><span class="o">=</span><span class="s2">&#34;field&#34;</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="no">HTML</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">doc</span> <span class="o">=</span> <span class="no">Nokogiri</span><span class="o">::</span><span class="no">HTML</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">html</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">doc</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s2">&#34;input#hoge&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">input</span><span class="o">|</span>
+</span></span><span class="line"><span class="cl">  <span class="n">input</span><span class="o">[</span><span class="s1">&#39;class&#39;</span><span class="o">]</span> <span class="o">+=</span> <span class="s2">&#34; has_error&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">doc</span><span class="o">.</span><span class="n">to_html</span> <span class="c1"># =&gt; &#34;&lt;!DOCTYPE html PUBLIC   &#34;-//W3C//DTD HTML 4.0 Transitional//EN  &#34;   &#34;http://www.w3.org/TR/REC-html40/loose.dtd  &#34;&gt;  n&lt;html&gt;&lt;body&gt;  n&lt;div&gt;  n  &lt;input class=  &#34;field  &#34;&gt;  n  n&lt;/body&gt;&lt;/html&gt;  n&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Nokogiri::HTML.parseだとDOCTYPEとか  <html  >とか余計なものがついてくる。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="n">html</span> <span class="o">=</span> <span class="s">&lt;&lt;HTML
+</span></span></span><span class="line"><span class="cl"><span class="s"></span><span class="o">&lt;</span><span class="n">div</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">&lt;</span><span class="n">input</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&#34;hoge&#34;</span> <span class="n">class</span><span class="o">=</span><span class="s2">&#34;field&#34;</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="no">HTML</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">doc</span> <span class="o">=</span> <span class="no">Nokogiri</span><span class="o">::</span><span class="no">HTML</span><span class="o">::</span><span class="no">DocumentFragment</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">html</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">doc</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s2">&#34;input#hoge&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">input</span><span class="o">|</span>
+</span></span><span class="line"><span class="cl">  <span class="n">input</span><span class="o">[</span><span class="s1">&#39;class&#39;</span><span class="o">]</span> <span class="o">+=</span> <span class="s2">&#34; has_error&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">doc</span><span class="o">.</span><span class="n">to_html</span> <span class="c1"># =&gt; &#34;&lt;div&gt;  n  &lt;input id=  &#34;hoge  &#34; class=  &#34;field has_error  &#34;&gt;  n  n&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>そういう場合はDocumentFragmentを使うと部分的にhtmlを使える。</p></p>
+            
+              <footer>
+                <a href="https://yoshitsugufujii.github.io/blog/2014-12-05-nokogiri%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6%E9%83%A8%E5%88%86%E7%9A%84%E3%81%ABhtml%E3%82%92%E7%B7%A8%E9%9B%86%E3%81%99%E3%82%8B/" rel="full-article">続き →</a>
+              </footer>
+            
+          
+        </article>
+        
+        <article>
+          
+          
+
+<header>
+  <h1 class="entry-title">
     <a href="https://yoshitsugufujii.github.io/blog/2014-11-28-handlerbars%E3%81%A7%E7%8F%BE%E5%9C%A8%E3%81%AE%E3%83%AB%E3%83%BC%E3%83%97%E5%9B%9E%E6%95%B0%E3%82%92%E7%9F%A5%E3%82%8B/">handlerbarsで現在のループ回数を知る</a>
   </h1>
   <p class="meta"><span class="articleDate">Nov 28th, 2014</span>
@@ -1083,55 +1179,6 @@ gz圧縮以外にも対応したいとかあれば、ご自由に改変してお
           
         </article>
         
-        <article>
-          
-          
-
-<header>
-  <h1 class="entry-title">
-    <a href="https://yoshitsugufujii.github.io/blog/2014-03-14-knex%E3%81%A7%E5%A4%96%E9%83%A8%E3%82%AD%E3%83%BC%E5%88%B6%E7%B4%84%E3%81%AE%E3%83%9E%E3%82%A4%E3%82%B0%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3/">knexで外部キー制約のマイグレーション</a>
-  </h1>
-  <p class="meta"><span class="articleDate">Mar 14th, 2014</span>
-    
-    
-      <span class="tags">
-        
-      </span>
-    
-
-    
-  </p>
-</header>
-
-          
-            <p><p>
-<a href="http://tajimajunpei-blog.blogspot.jp/2013/12/nodejsorm-bookshelf.html" target="_blank" rel="noopener">Node.js向けORM
-Bookshelfの紹介</a>を参照させていただきながら、Bookshelf触ってみている。</p>
-<p>ページではsqlite3だけど、自分はmysqlで使っている。</p>
-<p>外部キー制約の部分。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"> <span class="n">t</span><span class="o">.</span><span class="n">integer</span><span class="p">(</span><span class="s1">&#39;post_id&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">notNull</span><span class="p">()</span><span class="o">.</span><span class="n">references</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">inTable</span><span class="p">(</span><span class="s1">&#39;posts&#39;</span><span class="p">);</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>がmysqlではCannot add foreign key constraintが出て動かなかった。</p>
-<p>これで動いた。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="n">t</span><span class="o">.</span><span class="n">integer</span><span class="p">(</span><span class="s1">&#39;post_id&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">unsigned</span><span class="p">()</span><span class="o">.</span><span class="n">notNullable</span><span class="p">()</span><span class="o">.</span><span class="n">references</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">inTable</span><span class="p">(</span><span class="s1">&#39;posts&#39;</span><span class="p">);</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div></p>
-            
-          
-        </article>
-        
       
       
       
@@ -1311,6 +1358,12 @@ Bookshelfの紹介</a>を参照させていただきながら、Bookshelf触っ�
           
             
               <li class="post">
+                <a href="/blog/2025-02-26-%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%8B%E3%82%A2%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E7%9F%A5%E8%AD%98%E3%81%A8%E7%B5%8C%E9%A8%93%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6/">エンジニアにおける知識と経験について</a>
+              </li>
+            
+          
+            
+              <li class="post">
                 <a href="/blog/2025-02-09-rspec%E3%81%A7seed%E3%83%87%E3%83%BC%E3%82%BF%E3%82%92%E4%BD%BF%E3%81%86%E3%81%93%E3%81%A8/">Rspecでseedデータを使うこと</a>
               </li>
             
@@ -1324,12 +1377,6 @@ Bookshelfの紹介</a>を参照させていただきながら、Bookshelf触っ�
             
               <li class="post">
                 <a href="/blog/2025-01-26-value%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3json/">Valueオブジェクトパターン(JSON)</a>
-              </li>
-            
-          
-            
-              <li class="post">
-                <a href="/blog/2024-11-18-i18n%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%E6%80%9D%E3%81%A3%E3%81%9F%E3%81%93%E3%81%A8/"> i18nについて思ったこと</a>
               </li>
             
           

@@ -146,6 +146,40 @@
 
 <header>
   <h1 class="entry-title">
+    <a href="https://yoshitsugufujii.github.io/blog/2012-02-20-%E8%A4%87%E6%95%B0%E3%81%AE%E5%A4%89%E6%95%B0%E3%82%92%E4%B8%80%E6%B0%97%E3%81%AB%E5%88%9D%E6%9C%9F%E5%8C%96/">複数の変数を一気に初期化</a>
+  </h1>
+  <p class="meta"><span class="articleDate">Feb 20th, 2012</span>
+    
+    
+      <span class="tags">
+        
+      </span>
+    
+
+    
+  </p>
+</header>
+
+          
+            <p><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="n">str1</span> <span class="o">=</span> <span class="n">str2</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>他にありますでしょうか。</p></p>
+            
+          
+        </article>
+        
+        <article>
+          
+          
+
+<header>
+  <h1 class="entry-title">
     <a href="https://yoshitsugufujii.github.io/blog/2012-02-14-ruby%E3%81%AE%E5%AF%BE%E5%BF%9C%E3%81%99%E3%82%8Bdef-end%E3%81%A8%E3%81%8Bdo-end%E3%82%92%E3%81%A7%E9%A3%9B%E3%81%B3%E3%81%9F%E3%81%84/">rubyの対応するdef endとかdo endを%で飛びたい</a>
   </h1>
   <p class="meta"><span class="articleDate">Feb 14th, 2012</span>
@@ -704,59 +738,6 @@ sqlとか SI Object Browserとか)っていうんでしょうか<br>
           
         </article>
         
-        <article>
-          
-          
-
-<header>
-  <h1 class="entry-title">
-    <a href="https://yoshitsugufujii.github.io/blog/2012-02-01-if%E6%96%87%E3%82%92%E3%81%9A%E3%82%89%E3%81%9A%E3%82%89%E6%9B%B8%E3%81%8B%E3%81%AA%E3%81%84%E3%81%9F%E3%82%81%E3%81%AB/">if文をずらずら書かないために</a>
-  </h1>
-  <p class="meta"><span class="articleDate">Feb 1th, 2012</span>
-    
-    
-      <span class="tags">
-        
-      </span>
-    
-
-    
-  </p>
-</header>
-
-          
-            <p><p>rubyだけじゃないんだけど。<br>
-変数の値を繰り替えしif文の条件にする場合</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="k">if</span> <span class="n">crud</span> <span class="o">==</span> <span class="s1">&#39;insert&#39;</span> <span class="o">||</span> <span class="n">crud</span> <span class="o">==</span> <span class="s1">&#39;update&#39;</span> <span class="o">||</span> <span class="n">crud</span> <span class="o">==</span> <span class="s1">&#39;delete&#39;</span>
-</span></span><span class="line"><span class="cl">  <span class="c1">#do somtehing</span>
-</span></span><span class="line"><span class="cl"><span class="k">end</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>だったらこう書いた方がいいよね。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="k">if</span> <span class="o">[</span><span class="s1">&#39;insert&#39;</span><span class="p">,</span><span class="s1">&#39;update&#39;</span><span class="p">,</span><span class="s1">&#39;delete&#39;</span><span class="o">].</span><span class="n">include?</span><span class="p">(</span><span class="n">crud</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  <span class="c1">#do somtehing</span>
-</span></span><span class="line"><span class="cl"><span class="k">end</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>他に良い案ありますか？</p></p>
-            
-          
-        </article>
-        
       
       
       
@@ -936,6 +917,12 @@ sqlとか SI Object Browserとか)っていうんでしょうか<br>
           
             
               <li class="post">
+                <a href="/blog/2025-02-26-%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%8B%E3%82%A2%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E7%9F%A5%E8%AD%98%E3%81%A8%E7%B5%8C%E9%A8%93%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6/">エンジニアにおける知識と経験について</a>
+              </li>
+            
+          
+            
+              <li class="post">
                 <a href="/blog/2025-02-09-rspec%E3%81%A7seed%E3%83%87%E3%83%BC%E3%82%BF%E3%82%92%E4%BD%BF%E3%81%86%E3%81%93%E3%81%A8/">Rspecでseedデータを使うこと</a>
               </li>
             
@@ -949,12 +936,6 @@ sqlとか SI Object Browserとか)っていうんでしょうか<br>
             
               <li class="post">
                 <a href="/blog/2025-01-26-value%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3json/">Valueオブジェクトパターン(JSON)</a>
-              </li>
-            
-          
-            
-              <li class="post">
-                <a href="/blog/2024-11-18-i18n%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%E6%80%9D%E3%81%A3%E3%81%9F%E3%81%93%E3%81%A8/"> i18nについて思ったこと</a>
               </li>
             
           

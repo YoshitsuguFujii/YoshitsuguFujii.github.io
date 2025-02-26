@@ -6,8 +6,15 @@
     <description>Recent content in Posts on なんとなく日々徒然と</description>
     <generator>Hugo</generator>
     <language>ja</language>
-    <lastBuildDate>Sun, 09 Feb 2025 11:20:53 +0900</lastBuildDate>
+    <lastBuildDate>Wed, 26 Feb 2025 10:44:25 +0900</lastBuildDate>
     <atom:link href="https://yoshitsugufujii.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>エンジニアにおける知識と経験について</title>
+      <link>https://yoshitsugufujii.github.io/blog/2025-02-26-%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%8B%E3%82%A2%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E7%9F%A5%E8%AD%98%E3%81%A8%E7%B5%8C%E9%A8%93%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6/</link>
+      <pubDate>Wed, 26 Feb 2025 10:44:25 +0900</pubDate>
+      <guid>https://yoshitsugufujii.github.io/blog/2025-02-26-%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%8B%E3%82%A2%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E7%9F%A5%E8%AD%98%E3%81%A8%E7%B5%8C%E9%A8%93%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6/</guid>
+      <description>&lt;p&gt;2月はお休みいただいていましたが、3月から働けそうです。&lt;br&gt;&#xA;お仕事募集中です。&lt;/p&gt;&#xA;&lt;p&gt;ruby案件なら週5稼働で80〜90で、go案件もやってみたいんですが、経験不足が否めないのでお仕事あればそれよりも低い単価で働きたいです。&#xA;受託案件だとさらに嬉しいです。&lt;/p&gt;&#xA;&lt;p&gt;子どものお迎えがあるため基本フルリモートで探しています。&lt;br&gt;&#xA;出社は相談とさせてください。&lt;/p&gt;&#xA;&lt;p&gt;もし興味ある方がいらっしゃったら。twitterなどで気軽にDMしていただけますと嬉しいです。&lt;/p&gt;&#xA;&lt;p&gt;そして今日の記事はポエムです。&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Rspecでseedデータを使うこと</title>
       <link>https://yoshitsugufujii.github.io/blog/2025-02-09-rspec%E3%81%A7seed%E3%83%87%E3%83%BC%E3%82%BF%E3%82%92%E4%BD%BF%E3%81%86%E3%81%93%E3%81%A8/</link>

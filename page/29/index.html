@@ -146,6 +146,73 @@
 
 <header>
   <h1 class="entry-title">
+    <a href="https://yoshitsugufujii.github.io/blog/2012-03-09-%E3%82%A2%E3%82%BD%E3%82%B7%E3%82%A8%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E5%8F%82%E7%85%A7%E6%99%82%E3%81%AErails%E3%81%A7%E7%99%BA%E8%A1%8C%E3%81%95%E3%82%8C%E3%82%8Bsql%E3%82%92%E5%8F%96%E5%BE%97/">アソシエーション参照時のrailsで発行されるSQLを取得</a>
+  </h1>
+  <p class="meta"><span class="articleDate">Mar 9th, 2012</span>
+    
+    
+      <span class="tags">
+        
+      </span>
+    
+
+    
+  </p>
+</header>
+
+          
+            <p><p>まぁ、ログ見りゃいいんだけど。デバッグで止めてちょっとずつ条件変えながらSQL見たい時とかデフォルトスコープを確認したいけどモデル見るの面倒な時とか。</p>
+<p>環境は引き続き<br>
+ruby 1.9.2<br>
+rails 3.0.5</p>
+<p>まず、ActiveRecordにto  _sqlってのがあります。<br>
+これ使うとSQL文を確認できる。</p>
+<p>ちなみにモデルにはact  _as  _paranoid使ってdestroyは全て論理削除状態。<br>
+デフォルトのスコープでdeleted  _at is nullの条件がつく状態。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="no">User</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="s2">&#34;created_at &gt; ?&#34;</span><span class="p">,</span><span class="no">Date</span><span class="o">.</span><span class="n">yesterday</span><span class="p">)</span><span class="o">.</span><span class="n">to_sql</span>　<span class="c1"># =&gt; &#34;SELECT `users`.* FROM `users` WHERE (users.deleted_at IS NULL) AND (created_at &gt; &#39;2012-03-08&#39;)&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>whereの後に使えば、とりあえずは使えるみたい。<br>
+んでuserクラスにimagesがhas  _manyで宣言されている場合。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">user</span><span class="o">.</span><span class="n">images</span><span class="o">.</span><span class="n">to_sql</span>　<span class="c1">#=&gt; NoMethodError: undefined method `to_sql&#39;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>whereを付ければto  _sql使えたのでwhereつける。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="n">user</span><span class="o">.</span><span class="n">images</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="s2">&#34;&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">to_sql</span>　<span class="c1">#=&gt; &#34;SELECT `user_images`.* FROM `user_images` WHERE (user_images.deleted_at IS NULL) AND (`user_images`.user_id = 1) ORDER BY position ASC, `sequence` ASC&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>とれた。</p></p>
+            
+              <footer>
+                <a href="https://yoshitsugufujii.github.io/blog/2012-03-09-%E3%82%A2%E3%82%BD%E3%82%B7%E3%82%A8%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E5%8F%82%E7%85%A7%E6%99%82%E3%81%AErails%E3%81%A7%E7%99%BA%E8%A1%8C%E3%81%95%E3%82%8C%E3%82%8Bsql%E3%82%92%E5%8F%96%E5%BE%97/" rel="full-article">続き →</a>
+              </footer>
+            
+          
+        </article>
+        
+        <article>
+          
+          
+
+<header>
+  <h1 class="entry-title">
     <a href="https://yoshitsugufujii.github.io/blog/2012-03-05-radio_button_tag%E3%81%A8radio_button/">radio_button_tagとradio_button</a>
   </h1>
   <p class="meta"><span class="articleDate">Mar 5th, 2012</span>
@@ -717,40 +784,6 @@ def</p>
           
         </article>
         
-        <article>
-          
-          
-
-<header>
-  <h1 class="entry-title">
-    <a href="https://yoshitsugufujii.github.io/blog/2012-02-20-%E8%A4%87%E6%95%B0%E3%81%AE%E5%A4%89%E6%95%B0%E3%82%92%E4%B8%80%E6%B0%97%E3%81%AB%E5%88%9D%E6%9C%9F%E5%8C%96/">複数の変数を一気に初期化</a>
-  </h1>
-  <p class="meta"><span class="articleDate">Feb 20th, 2012</span>
-    
-    
-      <span class="tags">
-        
-      </span>
-    
-
-    
-  </p>
-</header>
-
-          
-            <p><div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="n">str1</span> <span class="o">=</span> <span class="n">str2</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>他にありますでしょうか。</p></p>
-            
-          
-        </article>
-        
       
       
       
@@ -930,6 +963,12 @@ def</p>
           
             
               <li class="post">
+                <a href="/blog/2025-02-26-%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%8B%E3%82%A2%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E7%9F%A5%E8%AD%98%E3%81%A8%E7%B5%8C%E9%A8%93%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6/">エンジニアにおける知識と経験について</a>
+              </li>
+            
+          
+            
+              <li class="post">
                 <a href="/blog/2025-02-09-rspec%E3%81%A7seed%E3%83%87%E3%83%BC%E3%82%BF%E3%82%92%E4%BD%BF%E3%81%86%E3%81%93%E3%81%A8/">Rspecでseedデータを使うこと</a>
               </li>
             
@@ -943,12 +982,6 @@ def</p>
             
               <li class="post">
                 <a href="/blog/2025-01-26-value%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3json/">Valueオブジェクトパターン(JSON)</a>
-              </li>
-            
-          
-            
-              <li class="post">
-                <a href="/blog/2024-11-18-i18n%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%E6%80%9D%E3%81%A3%E3%81%9F%E3%81%93%E3%81%A8/"> i18nについて思ったこと</a>
               </li>
             
           

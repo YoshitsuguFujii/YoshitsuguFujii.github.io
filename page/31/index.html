@@ -146,6 +146,59 @@
 
 <header>
   <h1 class="entry-title">
+    <a href="https://yoshitsugufujii.github.io/blog/2012-02-01-if%E6%96%87%E3%82%92%E3%81%9A%E3%82%89%E3%81%9A%E3%82%89%E6%9B%B8%E3%81%8B%E3%81%AA%E3%81%84%E3%81%9F%E3%82%81%E3%81%AB/">if文をずらずら書かないために</a>
+  </h1>
+  <p class="meta"><span class="articleDate">Feb 1th, 2012</span>
+    
+    
+      <span class="tags">
+        
+      </span>
+    
+
+    
+  </p>
+</header>
+
+          
+            <p><p>rubyだけじゃないんだけど。<br>
+変数の値を繰り替えしif文の条件にする場合</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="k">if</span> <span class="n">crud</span> <span class="o">==</span> <span class="s1">&#39;insert&#39;</span> <span class="o">||</span> <span class="n">crud</span> <span class="o">==</span> <span class="s1">&#39;update&#39;</span> <span class="o">||</span> <span class="n">crud</span> <span class="o">==</span> <span class="s1">&#39;delete&#39;</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">#do somtehing</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>だったらこう書いた方がいいよね。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="k">if</span> <span class="o">[</span><span class="s1">&#39;insert&#39;</span><span class="p">,</span><span class="s1">&#39;update&#39;</span><span class="p">,</span><span class="s1">&#39;delete&#39;</span><span class="o">].</span><span class="n">include?</span><span class="p">(</span><span class="n">crud</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">#do somtehing</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>他に良い案ありますか？</p></p>
+            
+          
+        </article>
+        
+        <article>
+          
+          
+
+<header>
+  <h1 class="entry-title">
     <a href="https://yoshitsugufujii.github.io/blog/2012-01-31-watch%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89~%E3%83%AD%E3%82%B0%E3%81%A8%E3%81%8B%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E7%9B%A3%E8%A6%96%E3%81%99%E3%82%8B%E6%99%82%E3%81%A8%E3%81%8B%E3%81%AF%E4%BD%95%E3%82%82%E8%80%83%E3%81%88%E3%81%9A%E3%81%ABtail-f-%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E5%90%8D%E3%81%A8%E3%81%97%E3%81%A1%E3%82%83%E3%81%86%E4%BA%BA%E3%81%B8/">watchコマンド~ログとかファイル監視する時とかは何も考えずにtail -f ファイル名としちゃう人へ</a>
   </h1>
   <p class="meta"><span class="articleDate">Jan 31th, 2012</span>
@@ -830,126 +883,6 @@ REPL最高。</p>
           
         </article>
         
-        <article>
-          
-          
-
-<header>
-  <h1 class="entry-title">
-    <a href="https://yoshitsugufujii.github.io/blog/2012-01-19-ruby%E3%81%AF%E3%83%96%E3%83%AD%E3%83%83%E3%82%AF%E3%82%92%E5%BC%95%E6%95%B0%E3%81%AB%E5%8F%96%E3%82%8C%E3%82%8B/">rubyはブロックを引数に取れる</a>
-  </h1>
-  <p class="meta"><span class="articleDate">Jan 19th, 2012</span>
-    
-    
-      <span class="tags">
-        
-      </span>
-    
-
-    
-  </p>
-</header>
-
-          
-            <p><p>わかりやすく書けるだろうか。</p>
-<p>railsのviewでログの出力を出し分けする以下のメソッドがあります。</p>
-<p>user  _profile  _log<br>
-use  _favorite  _log</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
-</span><span class="lnt">35
-</span><span class="lnt">36
-</span><span class="lnt">37
-</span><span class="lnt">38
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">genarate_link_path</span><span class="p">(</span><span class="n">log_type</span><span class="p">,</span><span class="n">log</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  <span class="k">case</span> <span class="n">log_type</span>
-</span></span><span class="line"><span class="cl">  <span class="k">when</span> <span class="ss">:warm</span>
-</span></span><span class="line"><span class="cl">    <span class="s2">&#34;http://&#34;</span> <span class="o">+</span> <span class="n">config</span><span class="o">[</span><span class="ss">:host</span><span class="o">]</span> <span class="o">+</span> <span class="s2">&#34;/info/&#34;</span> <span class="o">+</span> <span class="s2">&#34;warm&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="k">when</span> <span class="ss">:error</span>
-</span></span><span class="line"><span class="cl">    <span class="s2">&#34;http://&#34;</span> <span class="o">+</span> <span class="n">config</span><span class="o">[</span><span class="ss">:host</span><span class="o">]</span> <span class="o">+</span> <span class="s2">&#34;/info/&#34;</span> <span class="o">+</span> <span class="s2">&#34;error&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="k">end</span>
-</span></span><span class="line"><span class="cl"><span class="k">end</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">user_profile_log</span><span class="p">(</span><span class="n">log</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  <span class="n">disp_path</span> <span class="o">=</span> <span class="n">genarate_link_path</span><span class="p">(</span><span class="ss">:warn</span><span class="p">,</span><span class="n">log</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  <span class="k">case</span> <span class="n">log</span><span class="o">.</span><span class="n">operation_type</span>
-</span></span><span class="line"><span class="cl">  <span class="k">when</span> <span class="s2">&#34;insert&#34;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">change_value</span> <span class="o">=</span> <span class="n">log</span><span class="o">.</span><span class="n">inspect</span> <span class="o">+</span> <span class="s2">&#34;ログを新規登録しました。&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="k">when</span> <span class="s2">&#34;update&#34;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">change_value</span> <span class="o">=</span> <span class="n">log</span><span class="o">.</span><span class="n">inspect</span> <span class="o">+</span> <span class="s2">&#34;ログを更新しました。&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="k">else</span>
-</span></span><span class="line"><span class="cl">    <span class="s2">&#34;解析に失敗しました&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="k">end</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">link_to</span><span class="p">(</span> <span class="n">change_value</span> <span class="p">,</span> <span class="n">disp_path</span> <span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="k">end</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">use_favorite_log</span><span class="p">(</span><span class="n">log</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  <span class="n">disp_path</span> <span class="o">=</span> <span class="n">genarate_link_path</span><span class="p">(</span><span class="ss">:warn</span><span class="p">,</span><span class="n">log</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  <span class="k">case</span> <span class="n">log</span><span class="o">.</span><span class="n">operation_type</span>
-</span></span><span class="line"><span class="cl">  <span class="k">when</span> <span class="s2">&#34;insert&#34;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">change_value</span> <span class="o">=</span> <span class="n">log</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&#34;をお気に入りに追加しました。&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="k">when</span> <span class="s2">&#34;update&#34;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">change_value</span> <span class="o">=</span> <span class="n">log</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&#34;を更新しました。&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="k">else</span>
-</span></span><span class="line"><span class="cl">    <span class="s2">&#34;解析に失敗しました&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="k">end</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">link_to</span><span class="p">(</span> <span class="n">change_value</span> <span class="p">,</span> <span class="n">disp_path</span> <span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="k">end</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>DRYじゃないですよね。<br>
-それぞれのメソッドでは<br>
-disp  _path = genarate  _link  _path(:warn,log)<br>
-return link  _to( change  _value , disp  _path )<br>
-が二つのメソッドでかぶっております。</p></p>
-            
-              <footer>
-                <a href="https://yoshitsugufujii.github.io/blog/2012-01-19-ruby%E3%81%AF%E3%83%96%E3%83%AD%E3%83%83%E3%82%AF%E3%82%92%E5%BC%95%E6%95%B0%E3%81%AB%E5%8F%96%E3%82%8C%E3%82%8B/" rel="full-article">続き →</a>
-              </footer>
-            
-          
-        </article>
-        
       
       
       
@@ -1129,6 +1062,12 @@ return link  _to( change  _value , disp  _path )<br>
           
             
               <li class="post">
+                <a href="/blog/2025-02-26-%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%8B%E3%82%A2%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E7%9F%A5%E8%AD%98%E3%81%A8%E7%B5%8C%E9%A8%93%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6/">エンジニアにおける知識と経験について</a>
+              </li>
+            
+          
+            
+              <li class="post">
                 <a href="/blog/2025-02-09-rspec%E3%81%A7seed%E3%83%87%E3%83%BC%E3%82%BF%E3%82%92%E4%BD%BF%E3%81%86%E3%81%93%E3%81%A8/">Rspecでseedデータを使うこと</a>
               </li>
             
@@ -1142,12 +1081,6 @@ return link  _to( change  _value , disp  _path )<br>
             
               <li class="post">
                 <a href="/blog/2025-01-26-value%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3json/">Valueオブジェクトパターン(JSON)</a>
-              </li>
-            
-          
-            
-              <li class="post">
-                <a href="/blog/2024-11-18-i18n%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%E6%80%9D%E3%81%A3%E3%81%9F%E3%81%93%E3%81%A8/"> i18nについて思ったこと</a>
               </li>
             
           
