@@ -1,3 +1,6 @@
+
+
+
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
@@ -14,7 +17,7 @@
   
 
   
-  <title>CSVで文字列だけダブルクォートで囲みたい場合</title>
+  <title>Ruby on Rails</title>
 
   
   
@@ -35,7 +38,7 @@
   
 
   
-  
+  <link href="/categories/ruby-on-rails/index.xml" rel="alternate" type="application/rss+xml" title="なんとなく日々徒然と" />
 
   <meta name="description" content="" />
   <meta name="keywords" content="">
@@ -133,120 +136,105 @@
 <div id="main">
   <div id="content">
     <div>
-      <article class="hentry" role="article">
-
-        
-        
-
-<header>
-  <h1 class="entry-title">
-     CSVで文字列だけダブルクォートで囲みたい場合 
-  </h1>
-  <p class="meta"><span class="articleDate">May 17th, 2019</span>
-    
-    
-      <span class="tags">
-        <a class="category" href="https://yoshitsugufujii.github.io/tags/ruby">ruby</a>  <a class="category" href="https://yoshitsugufujii.github.io/tags/ruby-on-rails">Ruby on Rails</a>  
-      </span>
-    
-
-    
-    
-      - <a class="label" href="https://yoshitsugufujii.github.io/categories/ruby-on-rails/">Ruby on Rails </a>
-    
-  </p>
-</header>
-
-
-        <div class="entry-content">
+      <article role="article">
+        <header>
+          <h1 class="entry-title">
+            Category: Ruby on Rails
+          </h1>
+        </header>
+        <div id="blog-archives" class="category">
           
-          
-          
-          <p>数値は囲わず、文字列はダブルクォートで囲みたい。<br>
-<code>force_quotes: true</code>だと数値もクォートされる。</p>
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<p><ins class="adsbygoogle"  
-style="display:block; text-align:center;"  
-data-ad-layout="in-article"  
-data-ad-format="fluid"  
-data-ad-client="ca-pub-7039502723411845"  
-data-ad-slot="8206045005"></ins></p>
-<script>  
-     (adsbygoogle = window.adsbygoogle || []).push({});  
-</script>
-<h3 id="結論">結論</h3>
-<p><code>quote_char: ''</code>をオプションに指定して、渡す文字列の前後をダブルクォートで囲む。</p>
-<h3 id="解説">解説</h3>
-<p>ここで<code>force_quotes:true</code>の分岐</p>
-<p>
-<a href="https://github.com/ruby/csv/blob/master/lib/csv/writer.rb#L139" target="_blank" rel="noopener">https://github.com/ruby/csv/blob/master/lib/csv/writer.rb#L139</a></p>
-<p>ここで<code>force_quotes:false</code>だった場合の分岐</p>
-<p>
-<a href="https://github.com/ruby/csv/blob/master/lib/csv/writer.rb#L147" target="_blank" rel="noopener">https://github.com/ruby/csv/blob/master/lib/csv/writer.rb#L147</a></p>
-<p>&ldquo;&ldquo;hoge&rdquo;&rdquo;</p>
-<p>のような文字列を作っていると@quotable_patternに一致してしまい、</p>
-<p>&ldquo;&ldquo;&ldquo;hoge&rdquo;&rdquo;&rdquo;</p>
-<p>のような文字になってしまう。</p>
-<p>のでquate_fieldで囲まれても問題ないようにから文字を設定してあげる。<br>
+          <h2>
+            2020
+          </h2>
+          <article>
+            <h1>
+              <a href="https://yoshitsugufujii.github.io/blog/2020-04-10-include%E3%81%97%E3%81%9Fmodule%E3%81%A7extend%E3%81%A8prepend/" title="includeしたmoduleでextendとprepend">includeしたmoduleでextendとprepend</a>
+            </h1>
+            <time>
+              <span class="month">Apr</span>
+              <span class="day">10</span>
+            </time>
+            <footer>
+              <span class="categories"> 
+                
+                
+                posted in:
+                 <a class="category" href="https://yoshitsugufujii.github.io/categories/ruby-on-rails">Ruby on Rails</a>
+              </br>
+                
 
-<a href="https://github.com/ruby/csv/blob/master/lib/csv/writer.rb#L129-L136" target="_blank" rel="noopener">https://github.com/ruby/csv/blob/master/lib/csv/writer.rb#L129-L136</a></p>
+                
+                
+                tags:
+                 <a class="category" href="https://yoshitsugufujii.github.io/tags/ruby">ruby</a> <a class="category" href="https://yoshitsugufujii.github.io/tags/ruby-on-rails">Ruby on Rails</a>
+                
+              </span>
+            </footer>
+          </article>
+          
+          <h2>
+            2019
+          </h2>
+          <article>
+            <h1>
+              <a href="https://yoshitsugufujii.github.io/blog/2019-07-08-rails%E3%81%A7%E3%81%8A%E6%89%8B%E8%BB%BD%E3%81%AB%E3%83%A1%E3%83%BC%E3%83%AB%E3%82%92%E9%80%81%E3%82%8B/" title="Railsでお手軽にメールを送る">Railsでお手軽にメールを送る</a>
+            </h1>
+            <time>
+              <span class="month">Jul</span>
+              <span class="day">8</span>
+            </time>
+            <footer>
+              <span class="categories"> 
+                
+                
+                posted in:
+                 <a class="category" href="https://yoshitsugufujii.github.io/categories/ruby-on-rails">Ruby on Rails</a>
+              </br>
+                
+
+                
+                
+                tags:
+                 <a class="category" href="https://yoshitsugufujii.github.io/tags/ruby">ruby</a> <a class="category" href="https://yoshitsugufujii.github.io/tags/ruby-on-rails">Ruby on Rails</a>
+                
+              </span>
+            </footer>
+          </article>
+          
+          <h2>
+            2019
+          </h2>
+          <article>
+            <h1>
+              <a href="https://yoshitsugufujii.github.io/blog/2019-05-17-csv%E3%81%A7%E6%96%87%E5%AD%97%E5%88%97%E3%81%A0%E3%81%91%E3%83%80%E3%83%96%E3%83%AB%E3%82%AF%E3%82%A9%E3%83%BC%E3%83%88%E3%81%A7%E5%9B%B2%E3%81%BF%E3%81%9F%E3%81%84%E5%A0%B4%E5%90%88/" title="CSVで文字列だけダブルクォートで囲みたい場合">CSVで文字列だけダブルクォートで囲みたい場合</a>
+            </h1>
+            <time>
+              <span class="month">May</span>
+              <span class="day">17</span>
+            </time>
+            <footer>
+              <span class="categories"> 
+                
+                
+                posted in:
+                 <a class="category" href="https://yoshitsugufujii.github.io/categories/ruby-on-rails">Ruby on Rails</a>
+              </br>
+                
+
+                
+                
+                tags:
+                 <a class="category" href="https://yoshitsugufujii.github.io/tags/ruby">ruby</a> <a class="category" href="https://yoshitsugufujii.github.io/tags/ruby-on-rails">Ruby on Rails</a>
+                
+              </span>
+            </footer>
+          </article>
+          
         </div>
-        
-
-<footer>
-  <p class="meta">
-    <span class="byline author vcard">Posted by <span class="fn">YoshitsuguFujii</span></span>
-    
-    <time>May 17, 2019</time>
-    
-      <span class="categories">
-        Tags:
-        
-          <a class="category" href="https://yoshitsugufujii.github.io/tags/ruby">ruby</a>  <a class="category" href="https://yoshitsugufujii.github.io/tags/ruby-on-rails">Ruby on Rails</a>  
-    
-    </span>
-  </p>
-
-  
-
-  <p class="meta">
-    
-        <a class="basic-alignment left" href="https://yoshitsugufujii.github.io/blog/2019-05-13-%E6%A4%9C%E8%A6%8B%E5%B7%9D%E6%B5%9C%E7%AA%81%E5%A0%A4-%E3%82%A4%E3%83%AF%E3%82%B7/" title="検見川浜突堤 イワシ">検見川浜突堤 イワシ</a>
-    
-
-    
-      <a class="basic-alignment right" href="https://yoshitsugufujii.github.io/blog/2019-05-22-%E8%88%B9%E6%A9%8B%E4%B8%89%E7%95%AA%E7%80%AC-%E6%BD%AE%E5%B9%B2%E7%8B%A9%E3%82%8A%E6%94%BB%E7%95%A5/" title="船橋三番瀬 潮干狩り攻略">船橋三番瀬 潮干狩り攻略</a>
-    
-  </p>
-  
-    
-      <div id="disqus_thread"></div>
-<script>
-    window.disqus_config = function () {
-    
-    
-    
-    };
-    (function() {
-        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
-            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
-            return;
-        }
-        var d = document, s = d.createElement('script'); s.async = true;
-        s.src = '//' + "yoshitsugufujii" + '.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-    
-  
-</footer>
-
-
       </article>
     </div>
+
     
 
 <aside class="sidebar thirds">
