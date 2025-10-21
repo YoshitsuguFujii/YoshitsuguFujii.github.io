@@ -146,6 +146,85 @@
 
 <header>
   <h1 class="entry-title">
+    <a href="https://yoshitsugufujii.github.io/blog/2014-03-24-jquery%E3%81%AEappend%E3%81%8C%E9%87%8D%E3%81%8B%E3%81%A3%E3%81%9F%E3%81%AE%E3%81%A7%E5%AF%BE%E5%BF%9C%E3%81%97%E3%81%9F%E3%81%93%E3%81%A8/">jQueryのappendが重かったので対応したこと</a>
+  </h1>
+  <p class="meta"><span class="articleDate">Mar 24th, 2014</span>
+    
+    
+      <span class="tags">
+        
+      </span>
+    
+
+    
+  </p>
+</header>
+
+          
+            <p><p>railsでチェックボックスで会社を選択して、ajax通信で返すjsの内容がこんな感じだった。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl">  <span class="o">&lt;</span><span class="sx">% @company.each </span> <span class="k">do</span> <span class="o">|</span><span class="n">company</span><span class="o">|</span> <span class="s">%&gt;
+</span></span></span><span class="line"><span class="cl"><span class="s">    &lt;% company.member.each do |customer| %&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="err">$</span><span class="p">(</span><span class="s2">&#34;#customer_area&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&#34;&lt;%= escape_javascript(render(&#34;</span><span class="n">make_customer_area</span><span class="s2">&#34;, cid: customer.id)) %&gt;&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">&lt;</span><span class="sx">% end </span> <span class="s">%&gt;
+</span></span></span><span class="line"><span class="cl"><span class="s">  &lt;% end %&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>重い。console.time仕込んで計測したらappendがめちゃめちゃ重い。<br>
+一回のappendで1秒ぐらいかかってた。</p>
+<p>毎回appendじゃなくて、一回でappendしてみる</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl">  <span class="n">var</span> <span class="n">html</span> <span class="o">=</span> <span class="o">[]</span>
+</span></span><span class="line"><span class="cl">  <span class="n">var</span> <span class="n">customer_area</span> <span class="o">=</span> <span class="err">$</span><span class="p">(</span><span class="s2">&#34;#customer_area&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">&lt;</span><span class="sx">% @company.each </span> <span class="k">do</span> <span class="o">|</span><span class="n">company</span><span class="o">|</span> <span class="s">%&gt;
+</span></span></span><span class="line"><span class="cl"><span class="s">    &lt;% company.member.each do |customer| %&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">html</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="s2">&#34;&lt;%= escape_javascript(render(&#34;</span><span class="n">make_customer_area</span><span class="s2">&#34;, cid: customer.id)) %&gt;&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">&lt;</span><span class="sx">% end </span> <span class="s">%&gt;
+</span></span></span><span class="line"><span class="cl"><span class="s">  &lt;% end %&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span> <span class="n">html</span><span class="o">.</span><span class="n">length</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">){</span>
+</span></span><span class="line"><span class="cl">    <span class="n">customer_area</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">html</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>あんまり変わらないなぁ。<br>
+というかappendやめよ。もうやめよ。</p></p>
+            
+              <footer>
+                <a href="https://yoshitsugufujii.github.io/blog/2014-03-24-jquery%E3%81%AEappend%E3%81%8C%E9%87%8D%E3%81%8B%E3%81%A3%E3%81%9F%E3%81%AE%E3%81%A7%E5%AF%BE%E5%BF%9C%E3%81%97%E3%81%9F%E3%81%93%E3%81%A8/" rel="full-article">続き →</a>
+              </footer>
+            
+          
+        </article>
+        
+        <article>
+          
+          
+
+<header>
+  <h1 class="entry-title">
     <a href="https://yoshitsugufujii.github.io/blog/2014-03-14-knex%E3%81%A7%E5%A4%96%E9%83%A8%E3%82%AD%E3%83%BC%E5%88%B6%E7%B4%84%E3%81%AE%E3%83%9E%E3%82%A4%E3%82%B0%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3/">knexで外部キー制約のマイグレーション</a>
   </h1>
   <p class="meta"><span class="articleDate">Mar 14th, 2014</span>
@@ -847,51 +926,6 @@ hamlの場合は- binding.pryを打ち込みます。</p>
           
         </article>
         
-        <article>
-          
-          
-
-<header>
-  <h1 class="entry-title">
-    <a href="https://yoshitsugufujii.github.io/blog/2013-11-20-vim%E3%81%A7%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%81%AE%E3%83%96%E3%83%83%E3%82%AF%E3%83%9E%E3%83%BC%E3%82%AF/">vimでファイルのブックマーク</a>
-  </h1>
-  <p class="meta"><span class="articleDate">Nov 20th, 2013</span>
-    
-    
-      <span class="tags">
-        
-      </span>
-    
-
-    
-  </p>
-</header>
-
-          
-            <p><p>vimを使っていて。<br>
-ディレクトリはUniteBookmarkAdd使ってブックマークしてましたが。</p>
-<p>集中的にある機能のみを重点的に編集する時に、ファイルのブックマークしたくて調べたらあった。<br>
-しかもデフォルトの機能っぽい。</p>
-<p>Hack   #16: 任意のファイルをブックマークする<br>
-
-<a href="http://vim-users.jp/2009/05/hack16/" target="_blank" rel="noopener">http://vim-users.jp/2009/05/hack16/</a></p>
-<p>例えば店舗とかっていう機能開発していて。</p>
-<p>StoreControllerのコントロールファイルではmC<br>
-StoreのformのビューファイルではmF<br>
-StoreのindexファイルではmS<br>
-StoreのjsファイルではmJ</p>
-<p>しとくと編集していて、すぐにコントローラ開きたい時は<br>
-`C</p>
-<p>って押せばすぐ開く。<br>
-簡単に設定できて、即応性があるのでいい感じですね。<br>
-しかもブックマークとかにしちゃうと、設定後その機能の開発が終わったらブックマークを消さなきゃいけないと思いますが。<br>
-今なにが設定されているとか気にせずに、常に上書きで使う感じもいいです。<br>
-他にも色々便利機能ってあるのかな。</p>
-<p>vimの本ちゃんと読まないとなー</p></p>
-            
-          
-        </article>
-        
       
       
       
@@ -1071,6 +1105,12 @@ StoreのjsファイルではmJ</p>
           
             
               <li class="post">
+                <a href="/blog/2025-10-21-rails%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%9F%E9%96%8B%E7%99%BA%E3%81%A7%E6%9C%AC%E5%BD%93%E3%81%AB%E5%A4%A7%E4%BA%8B%E3%81%AA%E3%82%82%E3%81%AE/">Railsを使った開発で本当に大事なもの</a>
+              </li>
+            
+          
+            
+              <li class="post">
                 <a href="/blog/2025-02-26-%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%8B%E3%82%A2%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E7%9F%A5%E8%AD%98%E3%81%A8%E7%B5%8C%E9%A8%93%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6/">エンジニアにおける知識と経験について</a>
               </li>
             
@@ -1084,12 +1124,6 @@ StoreのjsファイルではmJ</p>
             
               <li class="post">
                 <a href="/blog/2025-02-03-jekyll%E3%82%92%E3%82%84%E3%82%81%E3%81%A6hugo%E3%81%AB%E3%81%97%E3%81%BE%E3%81%97%E3%81%9F/">JekyllをやめてHugoにしました</a>
-              </li>
-            
-          
-            
-              <li class="post">
-                <a href="/blog/2025-01-26-value%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3json/">Valueオブジェクトパターン(JSON)</a>
               </li>
             
           

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>技術 on なんとなく日々徒然と</title>
+    <link>https://yoshitsugufujii.github.io/categories/%E6%8A%80%E8%A1%93/</link>
+    <description>Recent content in 技術 on なんとなく日々徒然と</description>
+    <generator>Hugo</generator>
+    <language>ja</language>
+    <lastBuildDate>Tue, 21 Oct 2025 18:02:07 +0900</lastBuildDate>
+    <atom:link href="https://yoshitsugufujii.github.io/categories/%E6%8A%80%E8%A1%93/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Railsを使った開発で本当に大事なもの</title>
+      <link>https://yoshitsugufujii.github.io/blog/2025-10-21-rails%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%9F%E9%96%8B%E7%99%BA%E3%81%A7%E6%9C%AC%E5%BD%93%E3%81%AB%E5%A4%A7%E4%BA%8B%E3%81%AA%E3%82%82%E3%81%AE/</link>
+      <pubDate>Tue, 21 Oct 2025 18:02:07 +0900</pubDate>
+      <guid>https://yoshitsugufujii.github.io/blog/2025-10-21-rails%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%9F%E9%96%8B%E7%99%BA%E3%81%A7%E6%9C%AC%E5%BD%93%E3%81%AB%E5%A4%A7%E4%BA%8B%E3%81%AA%E3%82%82%E3%81%AE/</guid>
+      <description>&lt;p&gt;&#xA;&lt;a href=&#34;https://www.youtube.com/watch?v=gcwzWzC7gUA&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Rails World 2025 Opening Keynote - David Heinemeier Hansson&lt;/a&gt;を見て、ちょうどHotwireの話を職場でしたのでからめてスライドを書きました。&lt;/p&gt;&#xA;&lt;p&gt;せっかくなので公開。&lt;/p&gt;&#xA;&lt;p&gt;1個のパンを食べたいだけなのに、10キロ離れたコンビニに買いにいってませんか？&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

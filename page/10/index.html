@@ -146,6 +146,63 @@
 
 <header>
   <h1 class="entry-title">
+    <a href="https://yoshitsugufujii.github.io/blog/2018-04-24-grape%E3%81%A7skip_before_action/">Grapeでskip_before_action</a>
+  </h1>
+  <p class="meta"><span class="articleDate">Apr 24th, 2018</span>
+    
+    
+      <span class="tags">
+        
+      </span>
+    
+
+    
+  </p>
+</header>
+
+          
+            <p><p>Deviseとか使っていて、ApplicationControllerに認証の仕組みを設ける時。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">ApplicationController</span> <span class="o">&lt;</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span>
+</span></span><span class="line"><span class="cl">  <span class="n">before_action</span> <span class="ss">:authenticate_user!</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>こう書きますね。<br>
+ログイン前のページではログイン判定は不要なのでskip_before_actionでskipさせるのが定石だと思います</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">HogeController</span> <span class="o">&lt;</span>  <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span>
+</span></span><span class="line"><span class="cl">  <span class="n">skip_before_action</span> <span class="ss">:authenticate_user!</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Grapeではどうやんのよっていう話し。</p></p>
+            
+              <footer>
+                <a href="https://yoshitsugufujii.github.io/blog/2018-04-24-grape%E3%81%A7skip_before_action/" rel="full-article">続き →</a>
+              </footer>
+            
+          
+        </article>
+        
+        <article>
+          
+          
+
+<header>
+  <h1 class="entry-title">
     <a href="https://yoshitsugufujii.github.io/blog/2018-04-23-%E6%BD%AE%E5%B9%B2%E7%8B%A9%E3%82%8A-%E6%B1%9F%E6%88%B8%E5%B7%9D%E6%94%BE%E6%B0%B4%E8%B7%AF/">潮干狩り 江戸川放水路</a>
   </h1>
   <p class="meta"><span class="articleDate">Apr 23th, 2018</span>
@@ -479,40 +536,6 @@ apiでcsrfって必要なの？<br>
           
         </article>
         
-        <article>
-          
-          
-
-<header>
-  <h1 class="entry-title">
-    <a href="https://yoshitsugufujii.github.io/blog/2018-02-15-doorkeeper%E3%81%AE%E8%AA%8D%E8%A8%BC%E3%81%A7%E4%BD%BF%E3%82%8F%E3%82%8C%E3%82%8Btoken%E3%82%92%E5%8F%96%E5%BE%97/">Doorkeeperの認証で使われるtokenを取得</a>
-  </h1>
-  <p class="meta"><span class="articleDate">Feb 15th, 2018</span>
-    
-    
-      <span class="tags">
-        
-      </span>
-    
-
-    
-  </p>
-</header>
-
-          
-            <p><p>doorkeeprの処理のなかで削除済のユーザのステータスが取りたくて、tokenを取得できるかやってみました。</p>
-<p>イレギュラーアクセス -&gt; tokenが取れない。<br>
-通常のアクセス -&gt; tokenが取れる。ユーザがひける。<br>
-削除済または退会済みユーザへのアクセス -&gt; tokenが取れる。ユーザがひけない。</p>
-<p>って感じでしょうか？</p></p>
-            
-              <footer>
-                <a href="https://yoshitsugufujii.github.io/blog/2018-02-15-doorkeeper%E3%81%AE%E8%AA%8D%E8%A8%BC%E3%81%A7%E4%BD%BF%E3%82%8F%E3%82%8C%E3%82%8Btoken%E3%82%92%E5%8F%96%E5%BE%97/" rel="full-article">続き →</a>
-              </footer>
-            
-          
-        </article>
-        
       
       
       
@@ -692,6 +715,12 @@ apiでcsrfって必要なの？<br>
           
             
               <li class="post">
+                <a href="/blog/2025-10-21-rails%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%9F%E9%96%8B%E7%99%BA%E3%81%A7%E6%9C%AC%E5%BD%93%E3%81%AB%E5%A4%A7%E4%BA%8B%E3%81%AA%E3%82%82%E3%81%AE/">Railsを使った開発で本当に大事なもの</a>
+              </li>
+            
+          
+            
+              <li class="post">
                 <a href="/blog/2025-02-26-%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%8B%E3%82%A2%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E7%9F%A5%E8%AD%98%E3%81%A8%E7%B5%8C%E9%A8%93%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6/">エンジニアにおける知識と経験について</a>
               </li>
             
@@ -705,12 +734,6 @@ apiでcsrfって必要なの？<br>
             
               <li class="post">
                 <a href="/blog/2025-02-03-jekyll%E3%82%92%E3%82%84%E3%82%81%E3%81%A6hugo%E3%81%AB%E3%81%97%E3%81%BE%E3%81%97%E3%81%9F/">JekyllをやめてHugoにしました</a>
-              </li>
-            
-          
-            
-              <li class="post">
-                <a href="/blog/2025-01-26-value%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3json/">Valueオブジェクトパターン(JSON)</a>
               </li>
             
           
