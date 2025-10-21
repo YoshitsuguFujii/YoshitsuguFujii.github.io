@@ -146,107 +146,6 @@
 
 <header>
   <h1 class="entry-title">
-    <a href="https://yoshitsugufujii.github.io/blog/2014-12-07-%E8%AB%96%E7%90%86%E5%89%8A%E9%99%A4%E6%8C%87%E5%AE%9A%E3%81%AE%E3%83%A2%E3%83%87%E3%83%AB%E3%82%92has_many%E3%81%A7%E5%8F%82%E7%85%A7%E3%81%97%E3%81%8B%E3%81%A4nested_attributes_for%E3%81%ABallow_destroy%E3%82%92%E6%8C%87%E5%AE%9A%E3%81%99%E3%82%8B%E3%82%82%E7%89%A9%E7%90%86%E5%89%8A%E9%99%A4%E3%81%AB%E3%81%AA%E3%82%8B/">論理削除指定のモデルをhas_manyで参照し、かつnested_attributes_forにallow_destroyを指定するも物理削除になる。</a>
-  </h1>
-  <p class="meta"><span class="articleDate">Dec 7th, 2014</span>
-    
-    
-      <span class="tags">
-        
-      </span>
-    
-
-    
-  </p>
-</header>
-
-          
-            <p><p>環境はこちら<br>
-activerecord(4.1.6)<br>
-rails4  _acts  _as  _paranoid (0.1.4)</p>
-<p>has  _manyのリレーション先でacts  _as  _paranoid指定しているのですが、<br>
-nested  _attributes  _for リレーション先, allow  _destroy : true<br>
-で何故か物理削除になっていまったので調べてみました。</p>
-<p>結論としては</p>
-<p>lib/active  _record/associations/has  _many  _association.rb<br>
-の112行目で<br>
-records.each(&amp;:destroy!)<br>
-とdestroy!で消していて、acts  _as  _paranoidのdestroy!は物理削除になるためでした。</p>
-<p>何故destroyに!がついているのか
-上記が定義されているdelete  _recordsメソッドを遡ってみます。<br>
-delete  _recordsメソッドはlib/active  _record/associations/collection  _association.rb<br>
-のremove  _recordsの中で呼ばれています(ソースでは492行目)</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
-</span><span class="lnt">9
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl">  <span class="c1"># lib/active_record/associations/collection_association.rb</span>
-</span></span><span class="line"><span class="cl">  <span class="k">def</span> <span class="nf">remove_records</span><span class="p">(</span><span class="n">existing_records</span><span class="p">,</span> <span class="n">records</span><span class="p">,</span> <span class="nb">method</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="n">records</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">record</span><span class="o">|</span> <span class="n">callback</span><span class="p">(</span><span class="ss">:before_remove</span><span class="p">,</span> <span class="n">record</span><span class="p">)</span> <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="n">delete_records</span><span class="p">(</span><span class="n">existing_records</span><span class="p">,</span> <span class="nb">method</span><span class="p">)</span> <span class="k">if</span> <span class="n">existing_records</span><span class="o">.</span><span class="n">any?</span>
-</span></span><span class="line"><span class="cl">    <span class="n">records</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">record</span><span class="o">|</span> <span class="n">target</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">record</span><span class="p">)</span> <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="n">records</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">record</span><span class="o">|</span> <span class="n">callback</span><span class="p">(</span><span class="ss">:after_remove</span><span class="p">,</span> <span class="n">record</span><span class="p">)</span> <span class="p">}</span>
-</span></span><span class="line"><span class="cl">  <span class="k">end</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>んでこれはどこで呼ばれるかというとここで呼ばれています(ソースでは485行目)</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl">  <span class="c1"># lib/active_record/associations/collection_association.rb</span>
-</span></span><span class="line"><span class="cl">  <span class="k">def</span> <span class="nf">delete_or_destroy</span><span class="p">(</span><span class="n">records</span><span class="p">,</span> <span class="nb">method</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="n">records</span> <span class="o">=</span> <span class="n">records</span><span class="o">.</span><span class="n">flatten</span>
-</span></span><span class="line"><span class="cl">    <span class="n">records</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">record</span><span class="o">|</span> <span class="n">raise_on_type_mismatch!</span><span class="p">(</span><span class="n">record</span><span class="p">)</span> <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="n">existing_records</span> <span class="o">=</span> <span class="n">records</span><span class="o">.</span><span class="n">reject</span> <span class="p">{</span> <span class="o">|</span><span class="n">r</span><span class="o">|</span> <span class="n">r</span><span class="o">.</span><span class="n">new_record?</span> <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">existing_records</span><span class="o">.</span><span class="n">empty?</span>
-</span></span><span class="line"><span class="cl">      <span class="n">remove_records</span><span class="p">(</span><span class="n">existing_records</span><span class="p">,</span> <span class="n">records</span><span class="p">,</span> <span class="nb">method</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="k">else</span>
-</span></span><span class="line"><span class="cl">      <span class="n">transaction</span> <span class="p">{</span> <span class="n">remove_records</span><span class="p">(</span><span class="n">existing_records</span><span class="p">,</span> <span class="n">records</span><span class="p">,</span> <span class="nb">method</span><span class="p">)</span> <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="k">end</span>
-</span></span><span class="line"><span class="cl">  <span class="k">end</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>transactionで囲まれています。<br>
-ということでdestroyに失敗した時にロールバックするために!をつけているようです。</p></p>
-            
-              <footer>
-                <a href="https://yoshitsugufujii.github.io/blog/2014-12-07-%E8%AB%96%E7%90%86%E5%89%8A%E9%99%A4%E6%8C%87%E5%AE%9A%E3%81%AE%E3%83%A2%E3%83%87%E3%83%AB%E3%82%92has_many%E3%81%A7%E5%8F%82%E7%85%A7%E3%81%97%E3%81%8B%E3%81%A4nested_attributes_for%E3%81%ABallow_destroy%E3%82%92%E6%8C%87%E5%AE%9A%E3%81%99%E3%82%8B%E3%82%82%E7%89%A9%E7%90%86%E5%89%8A%E9%99%A4%E3%81%AB%E3%81%AA%E3%82%8B/" rel="full-article">続き →</a>
-              </footer>
-            
-          
-        </article>
-        
-        <article>
-          
-          
-
-<header>
-  <h1 class="entry-title">
     <a href="https://yoshitsugufujii.github.io/blog/2014-12-05-nokogiri%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6%E9%83%A8%E5%88%86%E7%9A%84%E3%81%ABhtml%E3%82%92%E7%B7%A8%E9%9B%86%E3%81%99%E3%82%8B/">Nokogiriを使って部分的にhtmlを編集する</a>
   </h1>
   <p class="meta"><span class="articleDate">Dec 5th, 2014</span>
@@ -1201,6 +1100,85 @@ gz圧縮以外にも対応したいとかあれば、ご自由に改変してお
           
         </article>
         
+        <article>
+          
+          
+
+<header>
+  <h1 class="entry-title">
+    <a href="https://yoshitsugufujii.github.io/blog/2014-03-24-jquery%E3%81%AEappend%E3%81%8C%E9%87%8D%E3%81%8B%E3%81%A3%E3%81%9F%E3%81%AE%E3%81%A7%E5%AF%BE%E5%BF%9C%E3%81%97%E3%81%9F%E3%81%93%E3%81%A8/">jQueryのappendが重かったので対応したこと</a>
+  </h1>
+  <p class="meta"><span class="articleDate">Mar 24th, 2014</span>
+    
+    
+      <span class="tags">
+        
+      </span>
+    
+
+    
+  </p>
+</header>
+
+          
+            <p><p>railsでチェックボックスで会社を選択して、ajax通信で返すjsの内容がこんな感じだった。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl">  <span class="o">&lt;</span><span class="sx">% @company.each </span> <span class="k">do</span> <span class="o">|</span><span class="n">company</span><span class="o">|</span> <span class="s">%&gt;
+</span></span></span><span class="line"><span class="cl"><span class="s">    &lt;% company.member.each do |customer| %&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="err">$</span><span class="p">(</span><span class="s2">&#34;#customer_area&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&#34;&lt;%= escape_javascript(render(&#34;</span><span class="n">make_customer_area</span><span class="s2">&#34;, cid: customer.id)) %&gt;&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">&lt;</span><span class="sx">% end </span> <span class="s">%&gt;
+</span></span></span><span class="line"><span class="cl"><span class="s">  &lt;% end %&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>重い。console.time仕込んで計測したらappendがめちゃめちゃ重い。<br>
+一回のappendで1秒ぐらいかかってた。</p>
+<p>毎回appendじゃなくて、一回でappendしてみる</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl">  <span class="n">var</span> <span class="n">html</span> <span class="o">=</span> <span class="o">[]</span>
+</span></span><span class="line"><span class="cl">  <span class="n">var</span> <span class="n">customer_area</span> <span class="o">=</span> <span class="err">$</span><span class="p">(</span><span class="s2">&#34;#customer_area&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">&lt;</span><span class="sx">% @company.each </span> <span class="k">do</span> <span class="o">|</span><span class="n">company</span><span class="o">|</span> <span class="s">%&gt;
+</span></span></span><span class="line"><span class="cl"><span class="s">    &lt;% company.member.each do |customer| %&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">html</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="s2">&#34;&lt;%= escape_javascript(render(&#34;</span><span class="n">make_customer_area</span><span class="s2">&#34;, cid: customer.id)) %&gt;&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">&lt;</span><span class="sx">% end </span> <span class="s">%&gt;
+</span></span></span><span class="line"><span class="cl"><span class="s">  &lt;% end %&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span> <span class="n">html</span><span class="o">.</span><span class="n">length</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">){</span>
+</span></span><span class="line"><span class="cl">    <span class="n">customer_area</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">html</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>あんまり変わらないなぁ。<br>
+というかappendやめよ。もうやめよ。</p></p>
+            
+              <footer>
+                <a href="https://yoshitsugufujii.github.io/blog/2014-03-24-jquery%E3%81%AEappend%E3%81%8C%E9%87%8D%E3%81%8B%E3%81%A3%E3%81%9F%E3%81%AE%E3%81%A7%E5%AF%BE%E5%BF%9C%E3%81%97%E3%81%9F%E3%81%93%E3%81%A8/" rel="full-article">続き →</a>
+              </footer>
+            
+          
+        </article>
+        
       
       
       
@@ -1386,12 +1364,6 @@ gz圧縮以外にも対応したいとかあれば、ご自由に改変してお
           
             
               <li class="post">
-                <a href="/blog/2025-02-26-%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%8B%E3%82%A2%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E7%9F%A5%E8%AD%98%E3%81%A8%E7%B5%8C%E9%A8%93%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6/">エンジニアにおける知識と経験について</a>
-              </li>
-            
-          
-            
-              <li class="post">
                 <a href="/blog/2025-02-09-rspec%E3%81%A7seed%E3%83%87%E3%83%BC%E3%82%BF%E3%82%92%E4%BD%BF%E3%81%86%E3%81%93%E3%81%A8/">Rspecでseedデータを使うこと</a>
               </li>
             
@@ -1399,6 +1371,12 @@ gz圧縮以外にも対応したいとかあれば、ご自由に改変してお
             
               <li class="post">
                 <a href="/blog/2025-02-03-jekyll%E3%82%92%E3%82%84%E3%82%81%E3%81%A6hugo%E3%81%AB%E3%81%97%E3%81%BE%E3%81%97%E3%81%9F/">JekyllをやめてHugoにしました</a>
+              </li>
+            
+          
+            
+              <li class="post">
+                <a href="/blog/2025-01-26-value%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3json/">Valueオブジェクトパターン(JSON)</a>
               </li>
             
           

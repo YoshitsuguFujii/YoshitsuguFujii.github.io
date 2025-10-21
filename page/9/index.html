@@ -146,40 +146,6 @@
 
 <header>
   <h1 class="entry-title">
-    <a href="https://yoshitsugufujii.github.io/blog/2018-05-31-%E8%8A%9D%E6%B5%A6%E9%81%8B%E6%B2%B3-%E6%9D%B1%E8%8A%9D%E3%83%93%E3%83%AB%E5%89%8D-%E5%81%B5%E5%AF%9F/">芝浦運河 東芝ビル前 偵察</a>
-  </h1>
-  <p class="meta"><span class="articleDate">May 31th, 2018</span>
-    
-    
-      <span class="tags">
-        
-      </span>
-    
-
-    
-  </p>
-</header>
-
-          
-            <p><p>
-<a href="https://tabelog.com/tokyo/A1314/A131401/13101928/" target="_blank" rel="noopener">タイ国専門食堂</a>でランチ。</p>
-<img src="/images/blog/20180531/IMG_5011.JPG">  
-<p>ここ美味しいですよー。タイ料理好きな人は芝公園なんですが近くまで来たら是非食べてください。</p>
-<p>お昼食べたあと釣りができると噂の芝浦運河まで散歩です。</p></p>
-            
-              <footer>
-                <a href="https://yoshitsugufujii.github.io/blog/2018-05-31-%E8%8A%9D%E6%B5%A6%E9%81%8B%E6%B2%B3-%E6%9D%B1%E8%8A%9D%E3%83%93%E3%83%AB%E5%89%8D-%E5%81%B5%E5%AF%9F/" rel="full-article">続き →</a>
-              </footer>
-            
-          
-        </article>
-        
-        <article>
-          
-          
-
-<header>
-  <h1 class="entry-title">
     <a href="https://yoshitsugufujii.github.io/blog/2018-05-29-%E9%95%B7%E6%B5%A6%E6%B8%AF-%E3%82%A4%E3%83%AF%E3%82%B7-%E5%B0%8F%E3%82%A2%E3%82%B8-%E5%B0%8F%E3%82%B5%E3%83%90/">長浦港 イワシ 小アジ 小サバ</a>
   </h1>
   <p class="meta"><span class="articleDate">May 29th, 2018</span>
@@ -520,6 +486,63 @@ FilocoのManilaはちょっと気になってます。</p>
           
         </article>
         
+        <article>
+          
+          
+
+<header>
+  <h1 class="entry-title">
+    <a href="https://yoshitsugufujii.github.io/blog/2018-04-24-grape%E3%81%A7skip_before_action/">Grapeでskip_before_action</a>
+  </h1>
+  <p class="meta"><span class="articleDate">Apr 24th, 2018</span>
+    
+    
+      <span class="tags">
+        
+      </span>
+    
+
+    
+  </p>
+</header>
+
+          
+            <p><p>Deviseとか使っていて、ApplicationControllerに認証の仕組みを設ける時。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">ApplicationController</span> <span class="o">&lt;</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span>
+</span></span><span class="line"><span class="cl">  <span class="n">before_action</span> <span class="ss">:authenticate_user!</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>こう書きますね。<br>
+ログイン前のページではログイン判定は不要なのでskip_before_actionでskipさせるのが定石だと思います</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">HogeController</span> <span class="o">&lt;</span>  <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span>
+</span></span><span class="line"><span class="cl">  <span class="n">skip_before_action</span> <span class="ss">:authenticate_user!</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Grapeではどうやんのよっていう話し。</p></p>
+            
+              <footer>
+                <a href="https://yoshitsugufujii.github.io/blog/2018-04-24-grape%E3%81%A7skip_before_action/" rel="full-article">続き →</a>
+              </footer>
+            
+          
+        </article>
+        
       
       
       
@@ -705,12 +728,6 @@ FilocoのManilaはちょっと気になってます。</p>
           
             
               <li class="post">
-                <a href="/blog/2025-02-26-%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%8B%E3%82%A2%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E7%9F%A5%E8%AD%98%E3%81%A8%E7%B5%8C%E9%A8%93%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6/">エンジニアにおける知識と経験について</a>
-              </li>
-            
-          
-            
-              <li class="post">
                 <a href="/blog/2025-02-09-rspec%E3%81%A7seed%E3%83%87%E3%83%BC%E3%82%BF%E3%82%92%E4%BD%BF%E3%81%86%E3%81%93%E3%81%A8/">Rspecでseedデータを使うこと</a>
               </li>
             
@@ -718,6 +735,12 @@ FilocoのManilaはちょっと気になってます。</p>
             
               <li class="post">
                 <a href="/blog/2025-02-03-jekyll%E3%82%92%E3%82%84%E3%82%81%E3%81%A6hugo%E3%81%AB%E3%81%97%E3%81%BE%E3%81%97%E3%81%9F/">JekyllをやめてHugoにしました</a>
+              </li>
+            
+          
+            
+              <li class="post">
+                <a href="/blog/2025-01-26-value%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3json/">Valueオブジェクトパターン(JSON)</a>
               </li>
             
           

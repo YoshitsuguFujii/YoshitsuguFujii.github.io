@@ -146,41 +146,6 @@
 
 <header>
   <h1 class="entry-title">
-    <a href="https://yoshitsugufujii.github.io/blog/2012-07-25-rails%E3%81%A7%E3%82%A2%E3%83%97%E3%83%AA%E3%82%B1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E5%90%8D%E3%81%8C%E5%8F%96%E3%82%8A%E3%81%9F%E3%81%84%E5%A0%B4%E5%90%88/">Railsでアプリケーション名が取りたい場合</a>
-  </h1>
-  <p class="meta"><span class="articleDate">Jul 25th, 2012</span>
-    
-    
-      <span class="tags">
-        
-      </span>
-    
-
-    
-  </p>
-</header>
-
-          
-            <p><p>こうすると取れる</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="no">Rails</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">parent_name</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div></p>
-            
-          
-        </article>
-        
-        <article>
-          
-          
-
-<header>
-  <h1 class="entry-title">
     <a href="https://yoshitsugufujii.github.io/blog/2012-07-24-%E3%81%84%E3%81%A3%E3%81%A4%E3%82%82%E5%BF%98%E3%82%8C%E3%82%8Bsanitize%E3%83%A1%E3%82%BD%E3%83%83%E3%83%89/">いっつも忘れるsanitizeメソッド</a>
   </h1>
   <p class="meta"><span class="articleDate">Jul 24th, 2012</span>
@@ -622,6 +587,42 @@ jpmobile 1.0.0</p>
           
         </article>
         
+        <article>
+          
+          
+
+<header>
+  <h1 class="entry-title">
+    <a href="https://yoshitsugufujii.github.io/blog/2012-03-09-2012%E5%B9%B44%E6%9C%882%E6%97%A5%E8%BF%BD%E8%A8%98/">2012年4月2日追記。</a>
+  </h1>
+  <p class="meta"><span class="articleDate">Mar 9th, 2012</span>
+    
+    
+      <span class="tags">
+        
+      </span>
+    
+
+    
+  </p>
+</header>
+
+          
+            <p><p>whereつけると戻り値がrelationになるから、to  _sqlが使える。<br>
+scoped使うとrelation取れる。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="no">User</span><span class="o">.</span><span class="n">unscoped</span><span class="o">.</span><span class="n">to_sql</span>　<span class="c1">#=&gt;　&#34;SELECT `users`.* FROM `users`&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></p>
+            
+          
+        </article>
+        
       
       
       
@@ -807,12 +808,6 @@ jpmobile 1.0.0</p>
           
             
               <li class="post">
-                <a href="/blog/2025-02-26-%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%8B%E3%82%A2%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E7%9F%A5%E8%AD%98%E3%81%A8%E7%B5%8C%E9%A8%93%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6/">エンジニアにおける知識と経験について</a>
-              </li>
-            
-          
-            
-              <li class="post">
                 <a href="/blog/2025-02-09-rspec%E3%81%A7seed%E3%83%87%E3%83%BC%E3%82%BF%E3%82%92%E4%BD%BF%E3%81%86%E3%81%93%E3%81%A8/">Rspecでseedデータを使うこと</a>
               </li>
             
@@ -820,6 +815,12 @@ jpmobile 1.0.0</p>
             
               <li class="post">
                 <a href="/blog/2025-02-03-jekyll%E3%82%92%E3%82%84%E3%82%81%E3%81%A6hugo%E3%81%AB%E3%81%97%E3%81%BE%E3%81%97%E3%81%9F/">JekyllをやめてHugoにしました</a>
+              </li>
+            
+          
+            
+              <li class="post">
+                <a href="/blog/2025-01-26-value%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3json/">Valueオブジェクトパターン(JSON)</a>
               </li>
             
           

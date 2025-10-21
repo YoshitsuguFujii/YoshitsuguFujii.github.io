@@ -146,82 +146,6 @@
 
 <header>
   <h1 class="entry-title">
-    <a href="https://yoshitsugufujii.github.io/blog/2015-02-24-axlsx%E3%81%A7%E3%82%A8%E3%82%AF%E3%82%BB%E3%83%AB%E3%81%AE%E3%82%BB%E3%83%AB%E3%82%92%E6%8A%98%E3%82%8A%E8%BF%94%E3%81%97%E3%81%A6%E5%85%A8%E4%BD%93%E3%82%92%E8%A1%A8%E7%A4%BA/">Axlsxでエクセルのセルを折り返して全体を表示</a>
-  </h1>
-  <p class="meta"><span class="articleDate">Feb 24th, 2015</span>
-    
-    
-      <span class="tags">
-        
-      </span>
-    
-
-    
-  </p>
-</header>
-
-          
-            <p><div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="nb">require</span> <span class="s1">&#39;axlsx&#39;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">package</span> <span class="o">=</span> <span class="no">Axlsx</span><span class="o">::</span><span class="no">Package</span><span class="o">.</span><span class="n">new</span>
-</span></span><span class="line"><span class="cl"><span class="n">sheet</span> <span class="o">=</span> <span class="n">package</span><span class="o">.</span><span class="n">workbook</span><span class="o">.</span><span class="n">add_worksheet</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="s1">&#39;lists&#39;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">wrap_text</span> <span class="o">=</span> <span class="n">sheet</span><span class="o">.</span><span class="n">styles</span><span class="o">.</span><span class="n">add_style</span><span class="p">(</span>
-</span></span><span class="line"><span class="cl">                              <span class="p">{</span>
-</span></span><span class="line"><span class="cl">                               <span class="ss">:fg_color</span><span class="o">=&gt;</span> <span class="s2">&#34;FFFFFF&#34;</span><span class="p">,</span>                           <span class="c1"># 文字色</span>
-</span></span><span class="line"><span class="cl">                               <span class="ss">:b</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">,</span>                                     <span class="c1"># 太字</span>
-</span></span><span class="line"><span class="cl">                               <span class="ss">:bg_color</span> <span class="o">=&gt;</span> <span class="s2">&#34;004586&#34;</span><span class="p">,</span>                          <span class="c1"># 背景色</span>
-</span></span><span class="line"><span class="cl">                               <span class="ss">:sz</span> <span class="o">=&gt;</span> <span class="mi">12</span><span class="p">,</span>                                      <span class="c1"># フォントサイズ</span>
-</span></span><span class="line"><span class="cl">                               <span class="ss">:border</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">:style</span> <span class="o">=&gt;</span> <span class="ss">:thin</span><span class="p">,</span> <span class="ss">:color</span> <span class="o">=&gt;</span> <span class="s2">&#34;00&#34;</span> <span class="p">},</span> <span class="c1"># 罫線</span>
-</span></span><span class="line"><span class="cl">                               <span class="ss">:alignment</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">:horizontal</span> <span class="o">=&gt;</span> <span class="ss">:center</span><span class="p">,</span>         <span class="c1"># 配置</span>
-</span></span><span class="line"><span class="cl">                                               <span class="ss">:vertical</span> <span class="o">=&gt;</span> <span class="ss">:center</span> <span class="p">,</span>
-</span></span><span class="line"><span class="cl">                                               <span class="ss">:wrap_text</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">}</span>
-</span></span><span class="line"><span class="cl">                              <span class="p">}</span>
-</span></span><span class="line"><span class="cl">                            <span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">sheet</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="o">[</span><span class="s1">&#39;とっても長いテキスト&#39;</span><span class="p">,</span> <span class="s1">&#39;短いテキスト&#39;</span><span class="o">]</span><span class="p">,</span> <span class="ss">style</span><span class="p">:</span> <span class="n">wrap_text</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">sheet</span><span class="o">.</span><span class="n">column_info</span><span class="o">.</span><span class="n">first</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="mi">5</span>
-</span></span><span class="line"><span class="cl"><span class="n">package</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="s1">&#39;test.xlsx&#39;</span><span class="p">)</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div></p>
-            
-          
-        </article>
-        
-        <article>
-          
-          
-
-<header>
-  <h1 class="entry-title">
     <a href="https://yoshitsugufujii.github.io/blog/2015-02-23-axlsx%E3%81%A7%E3%82%A6%E3%82%A3%E3%83%B3%E3%83%89%E3%82%A6%E6%9E%A0%E3%81%AE%E5%9B%BA%E5%AE%9A/">Axlsxでウィンドウ枠の固定</a>
   </h1>
   <p class="meta"><span class="articleDate">Feb 23th, 2015</span>
@@ -751,6 +675,107 @@ Overflow</a></p></p>
           
         </article>
         
+        <article>
+          
+          
+
+<header>
+  <h1 class="entry-title">
+    <a href="https://yoshitsugufujii.github.io/blog/2014-12-07-%E8%AB%96%E7%90%86%E5%89%8A%E9%99%A4%E6%8C%87%E5%AE%9A%E3%81%AE%E3%83%A2%E3%83%87%E3%83%AB%E3%82%92has_many%E3%81%A7%E5%8F%82%E7%85%A7%E3%81%97%E3%81%8B%E3%81%A4nested_attributes_for%E3%81%ABallow_destroy%E3%82%92%E6%8C%87%E5%AE%9A%E3%81%99%E3%82%8B%E3%82%82%E7%89%A9%E7%90%86%E5%89%8A%E9%99%A4%E3%81%AB%E3%81%AA%E3%82%8B/">論理削除指定のモデルをhas_manyで参照し、かつnested_attributes_forにallow_destroyを指定するも物理削除になる。</a>
+  </h1>
+  <p class="meta"><span class="articleDate">Dec 7th, 2014</span>
+    
+    
+      <span class="tags">
+        
+      </span>
+    
+
+    
+  </p>
+</header>
+
+          
+            <p><p>環境はこちら<br>
+activerecord(4.1.6)<br>
+rails4  _acts  _as  _paranoid (0.1.4)</p>
+<p>has  _manyのリレーション先でacts  _as  _paranoid指定しているのですが、<br>
+nested  _attributes  _for リレーション先, allow  _destroy : true<br>
+で何故か物理削除になっていまったので調べてみました。</p>
+<p>結論としては</p>
+<p>lib/active  _record/associations/has  _many  _association.rb<br>
+の112行目で<br>
+records.each(&amp;:destroy!)<br>
+とdestroy!で消していて、acts  _as  _paranoidのdestroy!は物理削除になるためでした。</p>
+<p>何故destroyに!がついているのか
+上記が定義されているdelete  _recordsメソッドを遡ってみます。<br>
+delete  _recordsメソッドはlib/active  _record/associations/collection  _association.rb<br>
+のremove  _recordsの中で呼ばれています(ソースでは492行目)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl">  <span class="c1"># lib/active_record/associations/collection_association.rb</span>
+</span></span><span class="line"><span class="cl">  <span class="k">def</span> <span class="nf">remove_records</span><span class="p">(</span><span class="n">existing_records</span><span class="p">,</span> <span class="n">records</span><span class="p">,</span> <span class="nb">method</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">records</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">record</span><span class="o">|</span> <span class="n">callback</span><span class="p">(</span><span class="ss">:before_remove</span><span class="p">,</span> <span class="n">record</span><span class="p">)</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">delete_records</span><span class="p">(</span><span class="n">existing_records</span><span class="p">,</span> <span class="nb">method</span><span class="p">)</span> <span class="k">if</span> <span class="n">existing_records</span><span class="o">.</span><span class="n">any?</span>
+</span></span><span class="line"><span class="cl">    <span class="n">records</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">record</span><span class="o">|</span> <span class="n">target</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">record</span><span class="p">)</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">records</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">record</span><span class="o">|</span> <span class="n">callback</span><span class="p">(</span><span class="ss">:after_remove</span><span class="p">,</span> <span class="n">record</span><span class="p">)</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>んでこれはどこで呼ばれるかというとここで呼ばれています(ソースでは485行目)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl">  <span class="c1"># lib/active_record/associations/collection_association.rb</span>
+</span></span><span class="line"><span class="cl">  <span class="k">def</span> <span class="nf">delete_or_destroy</span><span class="p">(</span><span class="n">records</span><span class="p">,</span> <span class="nb">method</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">records</span> <span class="o">=</span> <span class="n">records</span><span class="o">.</span><span class="n">flatten</span>
+</span></span><span class="line"><span class="cl">    <span class="n">records</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">record</span><span class="o">|</span> <span class="n">raise_on_type_mismatch!</span><span class="p">(</span><span class="n">record</span><span class="p">)</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">existing_records</span> <span class="o">=</span> <span class="n">records</span><span class="o">.</span><span class="n">reject</span> <span class="p">{</span> <span class="o">|</span><span class="n">r</span><span class="o">|</span> <span class="n">r</span><span class="o">.</span><span class="n">new_record?</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">existing_records</span><span class="o">.</span><span class="n">empty?</span>
+</span></span><span class="line"><span class="cl">      <span class="n">remove_records</span><span class="p">(</span><span class="n">existing_records</span><span class="p">,</span> <span class="n">records</span><span class="p">,</span> <span class="nb">method</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span>
+</span></span><span class="line"><span class="cl">      <span class="n">transaction</span> <span class="p">{</span> <span class="n">remove_records</span><span class="p">(</span><span class="n">existing_records</span><span class="p">,</span> <span class="n">records</span><span class="p">,</span> <span class="nb">method</span><span class="p">)</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">end</span>
+</span></span><span class="line"><span class="cl">  <span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>transactionで囲まれています。<br>
+ということでdestroyに失敗した時にロールバックするために!をつけているようです。</p></p>
+            
+              <footer>
+                <a href="https://yoshitsugufujii.github.io/blog/2014-12-07-%E8%AB%96%E7%90%86%E5%89%8A%E9%99%A4%E6%8C%87%E5%AE%9A%E3%81%AE%E3%83%A2%E3%83%87%E3%83%AB%E3%82%92has_many%E3%81%A7%E5%8F%82%E7%85%A7%E3%81%97%E3%81%8B%E3%81%A4nested_attributes_for%E3%81%ABallow_destroy%E3%82%92%E6%8C%87%E5%AE%9A%E3%81%99%E3%82%8B%E3%82%82%E7%89%A9%E7%90%86%E5%89%8A%E9%99%A4%E3%81%AB%E3%81%AA%E3%82%8B/" rel="full-article">続き →</a>
+              </footer>
+            
+          
+        </article>
+        
       
       
       
@@ -936,12 +961,6 @@ Overflow</a></p></p>
           
             
               <li class="post">
-                <a href="/blog/2025-02-26-%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%8B%E3%82%A2%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E7%9F%A5%E8%AD%98%E3%81%A8%E7%B5%8C%E9%A8%93%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6/">エンジニアにおける知識と経験について</a>
-              </li>
-            
-          
-            
-              <li class="post">
                 <a href="/blog/2025-02-09-rspec%E3%81%A7seed%E3%83%87%E3%83%BC%E3%82%BF%E3%82%92%E4%BD%BF%E3%81%86%E3%81%93%E3%81%A8/">Rspecでseedデータを使うこと</a>
               </li>
             
@@ -949,6 +968,12 @@ Overflow</a></p></p>
             
               <li class="post">
                 <a href="/blog/2025-02-03-jekyll%E3%82%92%E3%82%84%E3%82%81%E3%81%A6hugo%E3%81%AB%E3%81%97%E3%81%BE%E3%81%97%E3%81%9F/">JekyllをやめてHugoにしました</a>
+              </li>
+            
+          
+            
+              <li class="post">
+                <a href="/blog/2025-01-26-value%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3json/">Valueオブジェクトパターン(JSON)</a>
               </li>
             
           

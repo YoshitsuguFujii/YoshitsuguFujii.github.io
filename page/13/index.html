@@ -146,49 +146,6 @@
 
 <header>
   <h1 class="entry-title">
-    <a href="https://yoshitsugufujii.github.io/blog/2017-10-31-rails5%E3%81%A7after_commit%E3%81%8C%E5%8B%95%E3%81%8B%E3%81%AA%E3%81%8F%E3%81%AA%E3%81%A3%E3%81%A6%E3%81%97%E3%81%BE%E3%81%A3%E3%81%9F/">rails5でafter_commitが動かなくなってしまった</a>
-  </h1>
-  <p class="meta"><span class="articleDate">Oct 31th, 2017</span>
-    
-    
-      <span class="tags">
-        
-      </span>
-    
-
-    
-  </p>
-</header>
-
-          
-            <p><p>ITネタです。すいません。<br>
-railsのモデルデータに変更が加えられたらelasticsearchのデータをafter_commitで更新するようにしているのですが。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="n">after_commit</span> <span class="ss">:index_elasticsearch_document</span><span class="p">,</span> <span class="ss">on</span><span class="p">:</span> <span class="o">[</span><span class="ss">:create</span><span class="p">,</span> <span class="ss">:update</span><span class="o">]</span>  
-</span></span><span class="line"><span class="cl"><span class="n">after_commit</span> <span class="ss">:delete_elasticsearch_document</span><span class="p">,</span> <span class="ss">on</span><span class="p">:</span> <span class="o">[</span><span class="ss">:destroy</span><span class="o">]</span>  
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>Rails5.1.4にしたら設定したcallbackが走らなくなってしまいました。<br>
-困っている人結構いるような気がするんですがどうなんでしょうかね。</p></p>
-            
-              <footer>
-                <a href="https://yoshitsugufujii.github.io/blog/2017-10-31-rails5%E3%81%A7after_commit%E3%81%8C%E5%8B%95%E3%81%8B%E3%81%AA%E3%81%8F%E3%81%AA%E3%81%A3%E3%81%A6%E3%81%97%E3%81%BE%E3%81%A3%E3%81%9F/" rel="full-article">続き →</a>
-              </footer>
-            
-          
-        </article>
-        
-        <article>
-          
-          
-
-<header>
-  <h1 class="entry-title">
     <a href="https://yoshitsugufujii.github.io/blog/2017-10-30-%E5%B8%82%E5%B7%9D-%E3%82%B5%E3%83%A8%E3%83%AA%E7%8B%99%E3%81%86%E3%82%82%E3%81%93%E3%82%8A%E3%81%9A%E3%81%AB%E3%83%9C%E3%82%A6%E3%82%BA/">市川 サヨリ狙うもこりずにボウズ</a>
   </h1>
   <p class="meta"><span class="articleDate">Oct 30th, 2017</span>
@@ -494,6 +451,44 @@ IT技術ネタです。</p></p>
           
         </article>
         
+        <article>
+          
+          
+
+<header>
+  <h1 class="entry-title">
+    <a href="https://yoshitsugufujii.github.io/blog/2017-10-11-%E8%A2%96%E3%83%B6%E6%B5%A6%E6%B8%AF-%E3%82%A2%E3%82%B8-%E3%83%9C%E3%83%A9/">袖ヶ浦港 アジ ボラ</a>
+  </h1>
+  <p class="meta"><span class="articleDate">Oct 11th, 2017</span>
+    
+    
+      <span class="tags">
+        
+      </span>
+    
+
+    
+  </p>
+</header>
+
+          
+            <p><p>釣行日 2017年10月9日(月)<br>
+天気 晴<br>
+場所 袖ヶ浦港<br>
+釣行時間: 12:00 〜 17:30</p>
+<p>アジが釣れているという情報を信じて袖ヶ浦港にはじめてきてみました。<br>
+久しぶりにファミリーでフィッシングです(釣りは私しかしないですが)</p>
+<img src="/images/blog/20171011/IMG_2583.jpg" style="width: 80%;">    
+<p>いい天気です。というか暑い。<br>
+なんなんだこの暑さは。</p></p>
+            
+              <footer>
+                <a href="https://yoshitsugufujii.github.io/blog/2017-10-11-%E8%A2%96%E3%83%B6%E6%B5%A6%E6%B8%AF-%E3%82%A2%E3%82%B8-%E3%83%9C%E3%83%A9/" rel="full-article">続き →</a>
+              </footer>
+            
+          
+        </article>
+        
       
       
       
@@ -679,12 +674,6 @@ IT技術ネタです。</p></p>
           
             
               <li class="post">
-                <a href="/blog/2025-02-26-%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%8B%E3%82%A2%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E7%9F%A5%E8%AD%98%E3%81%A8%E7%B5%8C%E9%A8%93%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6/">エンジニアにおける知識と経験について</a>
-              </li>
-            
-          
-            
-              <li class="post">
                 <a href="/blog/2025-02-09-rspec%E3%81%A7seed%E3%83%87%E3%83%BC%E3%82%BF%E3%82%92%E4%BD%BF%E3%81%86%E3%81%93%E3%81%A8/">Rspecでseedデータを使うこと</a>
               </li>
             
@@ -692,6 +681,12 @@ IT技術ネタです。</p></p>
             
               <li class="post">
                 <a href="/blog/2025-02-03-jekyll%E3%82%92%E3%82%84%E3%82%81%E3%81%A6hugo%E3%81%AB%E3%81%97%E3%81%BE%E3%81%97%E3%81%9F/">JekyllをやめてHugoにしました</a>
+              </li>
+            
+          
+            
+              <li class="post">
+                <a href="/blog/2025-01-26-value%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3json/">Valueオブジェクトパターン(JSON)</a>
               </li>
             
           
